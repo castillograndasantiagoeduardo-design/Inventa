@@ -1,6 +1,6 @@
-# Infraestructura y Arquitectura Técnica de Warengine
+# Infraestructura y Arquitectura Técnica de Inventa
 
-Este directorio documenta la arquitectura de capas, componentes técnicos, paquetes de infraestructura y contratos que dan soporte a los módulos de negocio de Warengine.
+Este directorio documenta la arquitectura de capas, componentes técnicos, paquetes de infraestructura y contratos que dan soporte a los módulos de negocio de Inventa.
 
 ---
 
@@ -31,7 +31,7 @@ graph TD
     end
 
     subgraph Capa Compartida
-        CONTRACTS["Shared/contracts (@warengine/contracts)"]
+        CONTRACTS["Shared/contracts (@inventa/contracts)"]
     end
 
     subgraph Capa de Ensamblado
@@ -92,9 +92,9 @@ A continuación se detalla cada una de las variables de entorno reconocidas y co
 | `JWT_SECRET` | **SÍ** | *(Ninguno)* | [`Backend/packages/platform/src/config/jwt.config.ts`](../../Backend/packages/platform/src/config/jwt.config.ts) | Secreto criptográfico para firma de JWT (HS256). Debe tener al menos 32 caracteres; de lo contrario el arranque falla inmediatamente (RF-SA-D1). |
 | `DB_HOST` | No | `'localhost'` | [`Backend/packages/database/src/client.ts`](../../Backend/packages/database/src/client.ts) | Host del servidor MySQL 8. |
 | `DB_PORT` | No | `3306` | [`Backend/packages/database/src/client.ts`](../../Backend/packages/database/src/client.ts) | Puerto TCP de MySQL. |
-| `DB_USER` | No | `'warengine_user'` | [`Backend/packages/database/src/client.ts`](../../Backend/packages/database/src/client.ts) | Nombre de usuario de MySQL. |
+| `DB_USER` | No | `'inventa_user'` | [`Backend/packages/database/src/client.ts`](../../Backend/packages/database/src/client.ts) | Nombre de usuario de MySQL. |
 | `DB_PASSWORD` | No | `''` | [`Backend/packages/database/src/client.ts`](../../Backend/packages/database/src/client.ts) | Contraseña de acceso a MySQL. |
-| `DB_NAME` | No | `'warengine'` | [`Backend/packages/database/src/client.ts`](../../Backend/packages/database/src/client.ts) | Nombre de la base de datos MySQL. |
+| `DB_NAME` | No | `'inventa'` | [`Backend/packages/database/src/client.ts`](../../Backend/packages/database/src/client.ts) | Nombre de la base de datos MySQL. |
 | `NODE_ENV` | No | `'production'` | [`Backend/apps/api/src/utils/cookie.ts`](../../Backend/apps/api/src/utils/cookie.ts), [`seeds/run.ts`](../../Backend/packages/database/src/seeds/run.ts) | Si es `'development'`, relaja la directiva `secure` en cookies de sesión y habilita seeds de desarrollo. |
 | `SEED_SUPERADMIN_PASSWORD` | Condicional | *(Ninguno)* | [`Backend/packages/database/src/seeds/super-admin.seed.ts`](../../Backend/packages/database/src/seeds/super-admin.seed.ts) | Contraseña inicial para el usuario super-admin al ejecutar `seed:dev`. Requiere mínimo 12 caracteres. |
 | `CORS_ORIGENES` | No | `'http://localhost:3000'` | [`Backend/apps/api/src/main.ts`](../../Backend/apps/api/src/main.ts) | Lista de dominios permitidos separada por comas para habilitar credenciales CORS (RF-SA-D3). |

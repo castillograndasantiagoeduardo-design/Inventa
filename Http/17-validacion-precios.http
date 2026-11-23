@@ -1,5 +1,5 @@
 ### ==============================================================================
-### WARENGINE - REQUERIMIENTO RF-ADM-B13: VALIDACIÓN DE PRECIOS DEL PRODUCTO
+### INVENTA - REQUERIMIENTO RF-ADM-B13: VALIDACIÓN DE PRECIOS DEL PRODUCTO
 ### ==============================================================================
 ### Descripción de negocio:
 ### El sistema debe validar que los precios de compra y de venta sean valores numéricos
@@ -21,8 +21,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ### Guardar Token

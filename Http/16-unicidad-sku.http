@@ -1,5 +1,5 @@
 ### ==============================================================================
-### WARENGINE - REQUERIMIENTO RF-ADM-B12: UNICIDAD DEL SKU
+### INVENTA - REQUERIMIENTO RF-ADM-B12: UNICIDAD DEL SKU
 ### ==============================================================================
 ### Descripción de negocio:
 ### El sistema debe validar que el SKU de cada producto sea único en el catálogo,
@@ -19,8 +19,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ### Guardar Token

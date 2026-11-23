@@ -1,4 +1,4 @@
-# Infraestructura: Contratos Compartidos (`@warengine/contracts`)
+# Infraestructura: Contratos Compartidos (`@inventa/contracts`)
 
 > **Paquete:** `Shared/contracts`  
 > **Dependencias externas:** Exclusivamente `zod` (`^3.24.1`). Cero dependencias de Node.js, Deno, React o bases de datos.  
@@ -8,7 +8,7 @@
 
 ## 1. Propósito y Reglas de Arquitectura
 
-El paquete `@warengine/contracts` es el único punto de contacto en tiempo de compilación entre el Backend y el Frontend. 
+El paquete `@inventa/contracts` es el único punto de contacto en tiempo de compilación entre el Backend y el Frontend. 
 
 ### Reglas estrictas:
 1. **Solo esquemas y constantes:** Contiene exclusivamente esquemas de validación Zod, tipos inferidos de TypeScript (`z.infer<typeof schema>`) y diccionarios de constantes inmutables (`as const`).

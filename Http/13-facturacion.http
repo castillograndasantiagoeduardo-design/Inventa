@@ -1,5 +1,5 @@
 # ==============================================================================
-# MÓDULO: FACTURACIÓN Y POS (Warengine v2.0)
+# MÓDULO: FACTURACIÓN Y POS (Inventa v2.0)
 # Archivo: 13-facturacion.http
 #
 # Requisitos del SRS cubiertos:
@@ -44,8 +44,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ### Extraer token de autenticación
@@ -185,7 +185,7 @@ Content-Type: application/json
 @productoId = {{crearProductoPrueba.response.body.id}}
 
 ### 4.2 Ingresar existencias de inventario a la Sucursal 1 (Entrada de Kardex)
-# REGLA CLAVE DE WARENGINE: El catálogo maestro es global, pero el inventario reside en inventario_sucursal.
+# REGLA CLAVE DE INVENTA: El catálogo maestro es global, pero el inventario reside en inventario_sucursal.
 # El trigger trg_factura_items_check_stock bloquea cualquier venta con 409 si la sucursal no tiene stock disponible.
 # Esta entrada registra el movimiento en kardex y aprovisiona el stock de la sucursal 1 (RF-ADM-B7).
 # Resultado esperado: 201 Created con stock_actual inicial = 50 en sucursal 1

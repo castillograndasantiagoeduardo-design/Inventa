@@ -1,4 +1,4 @@
-# Módulo de Inventario — Warengine
+# Módulo de Inventario — Inventa
 
 > **Propósito y estado:** **PARCIAL** (Categorías, Proveedores y Productos implementados; Stock,
 > Movimientos y Kardex pendientes)\
@@ -28,7 +28,7 @@
 ## 1. Propósito y Estado
 
 El módulo de **Inventario** administra el catálogo maestro de artículos, categorías taxonómicas,
-proveedores comerciales y el control de existencias de Warengine. Su núcleo conceptual se basa en la
+proveedores comerciales y el control de existencias de Inventa. Su núcleo conceptual se basa en la
 **Regla de Oro del Stock**: la tabla `movimientos_inventario` (el kardex) es la única fuente de
 verdad sobre las existencias, y es la propia base de datos mediante triggers la encargada de
 mantener `inventario_sucursal.stock_actual` e impedir saldos negativos.
@@ -235,7 +235,7 @@ Value Object inmutable que encapsula el código de referencia de un producto:
 
 #### Diferencia entre `Inactivar`, `Reactivar` y `CambiarEstado`:
 
-En el Core de Warengine coexisten tres casos de uso para la gestión del ciclo de vida de entidades
+En el Core de Inventa coexisten tres casos de uso para la gestión del ciclo de vida de entidades
 maestras:
 
 1. **`InactivarCategoriaUseCase` / `InactivarProveedorUseCase`**: Fija explícitamente

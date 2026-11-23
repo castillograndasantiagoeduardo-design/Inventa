@@ -1,5 +1,5 @@
 ### ==============================================================================
-### WARENGINE - REQUERIMIENTO RF-ADM-B11: CONFIGURACIÓN DE STOCK MÍNIMO POR SUCURSAL
+### INVENTA - REQUERIMIENTO RF-ADM-B11: CONFIGURACIÓN DE STOCK MÍNIMO POR SUCURSAL
 ### ==============================================================================
 ### Flujo integral paso a paso:
 ### 1. Iniciar sesión y autenticarse como SuperAdmin.
@@ -22,8 +22,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ### Guardar Token de Super Admin

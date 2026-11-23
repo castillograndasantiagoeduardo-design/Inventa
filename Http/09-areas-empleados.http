@@ -44,8 +44,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ###
@@ -326,7 +326,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "admin.norte@warengine.local",
+  "email": "admin.norte@inventa.local",
   "password": "{{$processEnv SEED_DEMO_PASSWORD}}"
 }
 

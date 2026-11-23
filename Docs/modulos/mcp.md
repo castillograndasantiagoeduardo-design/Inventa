@@ -1,4 +1,4 @@
-# Servidor MCP y Asistente IA — Warengine
+# Servidor MCP y Asistente IA — Inventa
 
 > **Propósito y estado:** **ESQUELETO / PENDIENTE** (Estructura arquitectónica y catálogo de herramientas definidos; servidor en esqueleto)  
 > **Stack:** Deno · Model Context Protocol (MCP) · TypeScript  
@@ -26,9 +26,9 @@
 
 ## 1. Propósito y Estado
 
-El servidor **MCP (Model Context Protocol)** de Warengine está concebido como el punto de integración estandarizado entre modelos de inteligencia artificial (asistente conversacional / chatbot) y la plataforma operativa. Su responsabilidad consiste en exponer herramientas especializadas (**Tools**) que permiten consultar el inventario, verificar el estado de comprobantes de pago, evaluar ventas por período y generar reportes analíticos consolidados.
+El servidor **MCP (Model Context Protocol)** de Inventa está concebido como el punto de integración estandarizado entre modelos de inteligencia artificial (asistente conversacional / chatbot) y la plataforma operativa. Su responsabilidad consiste en exponer herramientas especializadas (**Tools**) que permiten consultar el inventario, verificar el estado de comprobantes de pago, evaluar ventas por período y generar reportes analíticos consolidados.
 
-Siguiendo la **Regla 6 del ADR 0001**, las Tools del servidor MCP **no contienen lógica de negocio ni de autorización propia**: delegan siempre a un Gateway de Autorización que comprueba la identidad y los permisos del usuario autenticado, invocando directamente los mismos casos de uso de `@warengine/core` que consume la API REST.
+Siguiendo la **Regla 6 del ADR 0001**, las Tools del servidor MCP **no contienen lógica de negocio ni de autorización propia**: delegan siempre a un Gateway de Autorización que comprueba la identidad y los permisos del usuario autenticado, invocando directamente los mismos casos de uso de `@inventa/core` que consume la API REST.
 
 **Estado actual:** **ESQUELETO / PENDIENTE**  
 El catálogo de nombres de herramientas y los permisos RBAC correspondientes están tipados en `Shared/contracts`. Sin embargo, la aplicación `Backend/apps/mcp-server/src/main.ts` es un esqueleto pendiente de integración con el SDK oficial de MCP. Las carpetas internas de Tools y el submódulo de auditoría `mcp-audit` en `core` contienen archivos `.gitkeep`.
@@ -101,7 +101,7 @@ Frontend/src/features/asistente/
 ## 5. Casos de Uso
 
 *Estado actual:* No existen casos de uso codificados en `packages/core/src/modules/mcp-audit/`.  
-Las Tools del MCP no crearán casos de uso duplicados: consumirán los casos de uso ya existentes en `@warengine/core` (`ListarProductosUseCase`, `BuscarClientesUseCase`, etc.).
+Las Tools del MCP no crearán casos de uso duplicados: consumirán los casos de uso ya existentes en `@inventa/core` (`ListarProductosUseCase`, `BuscarClientesUseCase`, etc.).
 
 ---
 
@@ -126,7 +126,7 @@ La tabla ya se encuentra definida en el esquema Drizzle y en MySQL:
 El archivo de entrada [Backend/apps/mcp-server/src/main.ts](../../Backend/apps/mcp-server/src/main.ts) cuenta actualmente con la siguiente definición estructural:
 ```typescript
 /**
- * main.ts — Punto de entrada del servidor MCP de Warengine.
+ * main.ts — Punto de entrada del servidor MCP de Inventa.
  *
  * Responsabilidades de este archivo:
  *  1. Leer la configuración del entorno.

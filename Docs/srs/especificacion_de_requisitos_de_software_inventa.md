@@ -1,6 +1,6 @@
 # Especificación de Requisitos de Software (SRS)
 
-**Proyecto:** Warengine\
+**Proyecto:** Inventa\
 **Estándar:** IEEE Std 830-1998\
 **Revisión:** Rev. 99.99\
 **Fecha:** Septiembre 2026
@@ -53,15 +53,15 @@
 
 ## 1. Introducción
 
-Este documento constituye la Especificación de Requisitos de Software (SRS) del proyecto **Warengine**, una plataforma integral de gestión de inventario, facturación y control de personal que incorpora un servidor intermedio basado en el **Model Context Protocol (MCP)** para permitir consultas en lenguaje natural sobre la información operativa del negocio. El documento se elabora conforme al estándar **IEEE Std 830-1998**.
+Este documento constituye la Especificación de Requisitos de Software (SRS) del proyecto **Inventa**, una plataforma integral de gestión de inventario, facturación y control de personal que incorpora un servidor intermedio basado en el **Model Context Protocol (MCP)** para permitir consultas en lenguaje natural sobre la información operativa del negocio. El documento se elabora conforme al estándar **IEEE Std 830-1998**.
 
 ### 1.1 Propósito
 
-Definir de forma completa, clara y verificable los requisitos funcionales y no funcionales del sistema Warengine, de manera que sirva como acuerdo entre el equipo de desarrollo y el cliente, y como base para el diseño, la construcción y las pruebas del software. Está dirigido al equipo de desarrollo, a los instructores evaluadores del programa ADSO del SENA y a los usuarios finales y propietarios del negocio que validarán el producto.
+Definir de forma completa, clara y verificable los requisitos funcionales y no funcionales del sistema Inventa, de manera que sirva como acuerdo entre el equipo de desarrollo y el cliente, y como base para el diseño, la construcción y las pruebas del software. Está dirigido al equipo de desarrollo, a los instructores evaluadores del programa ADSO del SENA y a los usuarios finales y propietarios del negocio que validarán el producto.
 
 ### 1.2 Alcance
 
-El producto a desarrollar se denomina Warengine. Comprende la gestión de productos, categorías, proveedores, entradas y salidas de mercancía en inventario, transferencias, ajustes, facturación de mostrador POS y facturación comercial B2B a crédito corporativo, gestión de clientes, administración de personal, asignación de áreas organizativas, histórico de salarios de empleados, control de usuarios y roles RBAC multisede, junto con un asistente conversacional conectado mediante un servidor MCP que consulta la base de datos a través de herramientas (Tools) controladas. Queda fuera del alcance de esta versión la integración con facturación electrónica tributaria directa ante la DIAN y la contabilidad general formal externa.
+El producto a desarrollar se denomina Inventa. Comprende la gestión de productos, categorías, proveedores, entradas y salidas de mercancía en inventario, transferencias, ajustes, facturación de mostrador POS y facturación comercial B2B a crédito corporativo, gestión de clientes, administración de personal, asignación de áreas organizativas, histórico de salarios de empleados, control de usuarios y roles RBAC multisede, junto con un asistente conversacional conectado mediante un servidor MCP que consulta la base de datos a través de herramientas (Tools) controladas. Queda fuera del alcance de esta versión la integración con facturación electrónica tributaria directa ante la DIAN y la contabilidad general formal externa.
 
 ### 1.3 Personal Involucrado
 
@@ -90,7 +90,7 @@ El producto a desarrollar se denomina Warengine. Comprende la gestión de produc
 - IEEE Std 830-1998, IEEE Recommended Practice for Software Requirements Specifications.
 - Clean Architecture: A Craftsman's Guide to Software Structure and Design (Robert C. Martin).
 - Model Context Protocol (MCP) Specification (Anthropic / ModelContextProtocol.io).
-- Documentación de arquitectura modular interna de Warengine (`Docs/modulos/`).
+- Documentación de arquitectura modular interna de Inventa (`Docs/modulos/`).
 
 ### 1.6 Resumen
 
@@ -102,7 +102,7 @@ El capítulo 2 presenta una descripción general del producto: su perspectiva, f
 
 ### 2.1 Perspectiva del Producto
 
-Warengine es un producto independiente de tipo plataforma web, compuesto por tres piezas arquitectónicas desacopladas:
+Inventa es un producto independiente de tipo plataforma web, compuesto por tres piezas arquitectónicas desacopladas:
 1. Backend: Desarrollado en Deno con TypeScript y Drizzle ORM sobre MySQL 8 aplicando Clean Architecture, arquitectura hexagonal (Ports & Adapters) y principios SOLID.
 2. Frontend: Desarrollado en React y Next.js con diseño responsivo para escritorio y tablet.
 3. Servidor MCP: Capa de presentación intermedia que expone Tools parametrizadas al asistente de IA, reutilizando los mismos casos de uso del Core de la aplicación sin ejecutar consultas SQL directas.

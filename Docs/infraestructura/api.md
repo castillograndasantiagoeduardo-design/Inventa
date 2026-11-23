@@ -3,15 +3,15 @@
 > **Aplicación:** `Backend/apps/api`  
 > **Framework:** [Hono v4](https://hono.dev/) sobre Deno runtime.  
 > **Puerto:** `8017` (hardcoded en `Deno.serve`).  
-> **Dependencias:** `@warengine/composition`, `@warengine/shared-kernel`, `@warengine/contracts`, `hono`.
+> **Dependencias:** `@inventa/composition`, `@inventa/shared-kernel`, `@inventa/contracts`, `hono`.
 
 ---
 
 ## 1. Propósito y Estructura
 
-La API REST actúa como la capa de entrega HTTP de Warengine. Su responsabilidad es estrictamente de transporte:
+La API REST actúa como la capa de entrega HTTP de Inventa. Su responsabilidad es estrictamente de transporte:
 - Enrutamiento de peticiones HTTP.
-- Validación sintáctica de payloads entrantes con esquemas Zod (de `@warengine/contracts`).
+- Validación sintáctica de payloads entrantes con esquemas Zod (de `@inventa/contracts`).
 - Autenticación y autorización basada en cookies y permisos granulares.
 - Invocación de casos de uso y traducción de resultados de dominio (`Result<T, DomainError>`) a códigos de estado HTTP estándar mediante un presenter unificado.
 - Manejo de excepciones no controladas mediante manejadores seguros (`safeHandler`).
@@ -40,7 +40,7 @@ Backend/apps/api/
   - Comprobación dinámica: solo orígenes exactos en la lista son aceptados con `credentials: true`.
   - Métodos permitidos: `['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']`.
   - Cabeceras permitidas: `['Content-Type', 'Authorization']`.
-- **Ruta de Diagnóstico:** `GET /health` responde con texto plano `'Warengine API - OK'`.
+- **Ruta de Diagnóstico:** `GET /health` responde con texto plano `'Inventa API - OK'`.
 - **Montaje de Prefijos de Módulos:**
   - `/auth` -> [`createAutenticacionRoutes(container)`](../../Backend/apps/api/src/routes/autenticacion.routes.ts)
   - `/administracion` -> [`createAdministracionRoutes(container)`](../../Backend/apps/api/src/routes/administracion.routes.ts)

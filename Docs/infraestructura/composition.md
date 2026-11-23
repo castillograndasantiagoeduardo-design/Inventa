@@ -1,14 +1,14 @@
-# Infraestructura: Composition Root (`@warengine/composition`)
+# Infraestructura: Composition Root (`@inventa/composition`)
 
 > **Paquete:** `Backend/packages/composition`  
-> **Dependencias:** `@warengine/core`, `Backend/packages/database`, `Backend/packages/platform`  
+> **Dependencias:** `@inventa/core`, `Backend/packages/database`, `Backend/packages/platform`  
 > **Regla de oro:** Es el **ÚNICO** lugar de todo el monorepo donde `core`, `database` y `platform` se conocen mutuamente. Aquí se cablea la inyección de dependencias manual.
 
 ---
 
 ## 1. Propósito y Filosofía de Diseño
 
-Warengine no utiliza un contenedor de inyección de dependencias dinámico o basado en decoradores pesados (como NestJS o InversifyJS). En su lugar, utiliza el patrón **Pure DI / Composition Root** explícito en TypeScript:
+Inventa no utiliza un contenedor de inyección de dependencias dinámico o basado en decoradores pesados (como NestJS o InversifyJS). En su lugar, utiliza el patrón **Pure DI / Composition Root** explícito en TypeScript:
 1. Todas las dependencias son fuertemente tipadas y resueltas en tiempo de compilación.
 2. La inicialización es determinista y no depende de reflexión o magia de runtime.
 3. Se facilita el testing unitario y de integración al no existir estados globales ocultos.

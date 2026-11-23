@@ -1,4 +1,4 @@
-# Módulo Transversal de Auditoría — Warengine
+# Módulo Transversal de Auditoría — Inventa
 
 > **Propósito y estado:** **IMPLEMENTADO** (Módulo transversal de trazabilidad inmutable y forense)  
 > **Stack:** Deno · TypeScript · Drizzle ORM · MySQL 8 · Triggers de solo inserción · Hono  
@@ -26,7 +26,7 @@
 
 ## 1. Propósito y Estado
 
-El módulo de **Auditoría** provee la infraestructura transversal y el contrato unificado para el registro forense e inmutable de todas las mutaciones del sistema, eventos de seguridad y accesos denegados en Warengine. Su diseño responde al [ADR 0002](../../Docs/adr/0002-auditoria.md): opera bajo una política **best-effort** (la falla de inserción del log nunca aborta la transacción de negocio principal), garantiza inmutabilidad estricta a nivel de motor de base de datos (triggers de solo inserción) y aplica sanitización recursiva automática de credenciales y secretos en memoria antes de persistir.
+El módulo de **Auditoría** provee la infraestructura transversal y el contrato unificado para el registro forense e inmutable de todas las mutaciones del sistema, eventos de seguridad y accesos denegados en Inventa. Su diseño responde al [ADR 0002](../../Docs/adr/0002-auditoria.md): opera bajo una política **best-effort** (la falla de inserción del log nunca aborta la transacción de negocio principal), garantiza inmutabilidad estricta a nivel de motor de base de datos (triggers de solo inserción) y aplica sanitización recursiva automática de credenciales y secretos en memoria antes de persistir.
 
 **Estado actual:** **IMPLEMENTADO**  
 El puerto `IAuditor` está inyectado en todos los casos de uso que mutan datos en Administración, Inventario y Facturación. La bitácora cuenta con consulta paginada vía API REST y protección contra manipulación.

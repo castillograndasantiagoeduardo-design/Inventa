@@ -48,11 +48,11 @@ shared-kernel ← core ← database
                     apps/api  apps/mcp-server
 ```
 
-Ver `Docs/adr/0001-architecture-rules.md` y `Docs/context/proyecto-warengine.md` para las reglas completas.
+Ver `Docs/adr/0001-architecture-rules.md` y `Docs/context/proyecto-inventa.md` para las reglas completas.
 
 ## Documentación
 
 - `Docs/srs/` — Documento de Requisitos del Sistema (SRS)
 - `Docs/database/` — Script SQL completo de la base de datos
 - `Docs/adr/` — Decisiones de arquitectura (Architecture Decision Records)
-- `Docs/context/proyecto-warengine.md` — Contexto vivo para desarrolladores y asistente IA
+- `Docs/context/proyecto-inventa.md` — Contexto vivo para desarrolladores y asistente IA

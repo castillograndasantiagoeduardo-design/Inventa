@@ -1,4 +1,4 @@
-# Infraestructura — Shared Kernel (`@warengine/shared-kernel`)
+# Infraestructura — Shared Kernel (`@inventa/shared-kernel`)
 
 > **Propósito y estado:** **IMPLEMENTADO** (Cimientos funcionales puros de TypeScript sin dependencias)  
 > **Ubicación:** `Backend/packages/shared-kernel/`  
@@ -8,7 +8,7 @@
 
 ## 1. Propósito
 
-El paquete `@warengine/shared-kernel` provee los tipos primitivos y patrones funcionales transversales que constituyen la base de Clean Architecture en Warengine. Permite manejar el flujo de control de operaciones de negocio mediante retornos explícitos de éxito/falla sin recurrir al lanzamiento descontrolado de excepciones en tiempo de ejecución.
+El paquete `@inventa/shared-kernel` provee los tipos primitivos y patrones funcionales transversales que constituyen la base de Clean Architecture en Inventa. Permite manejar el flujo de control de operaciones de negocio mediante retornos explícitos de éxito/falla sin recurrir al lanzamiento descontrolado de excepciones en tiempo de ejecución.
 
 ---
 
@@ -65,10 +65,10 @@ export interface ResultadoPaginado<T> {
 2. **Verificación de importaciones reales:**
    - La inspección del árbol demuestra que ningún archivo de `shared-kernel` importa paquetes de `node_modules`, Drizzle, Hono, Zod ni módulos de Deno stdlib.
    - Todo el paquete es TypeScript puro compilable en cualquier entorno (Node.js, Deno, navegadores).
-3. **Quién lo consume:** Es consumido por `@warengine/core`, adaptadores de `@warengine/database` y presenters de `apps/api`.
+3. **Quién lo consume:** Es consumido por `@inventa/core`, adaptadores de `@inventa/database` y presenters de `apps/api`.
 
 ---
 
 ## 5. Pendientes y Deuda Técnica
 
-1. **Tipos de Dominio Pendientes:** El documento de contexto (`Docs/context/proyecto-warengine.md`, sección 1.1) menciona abstracciones base como `Entity`, `ValueObject`, `Money`, `Clock` e identificadores tipados `ids`. Actualmente las entidades de `core` se definen directamente como clases sin heredar de una clase base `Entity` de `shared-kernel`.
+1. **Tipos de Dominio Pendientes:** El documento de contexto (`Docs/context/proyecto-inventa.md`, sección 1.1) menciona abstracciones base como `Entity`, `ValueObject`, `Money`, `Clock` e identificadores tipados `ids`. Actualmente las entidades de `core` se definen directamente como clases sin heredar de una clase base `Entity` de `shared-kernel`.

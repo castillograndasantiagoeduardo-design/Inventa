@@ -1,5 +1,5 @@
 ### ==============================================================================
-### WARENGINE - REQUERIMIENTO RF-ADM-B18: TRANSFERENCIA DE MERCANCÍA ENTRE SUCURSALES
+### INVENTA - REQUERIMIENTO RF-ADM-B18: TRANSFERENCIA DE MERCANCÍA ENTRE SUCURSALES
 ### ==============================================================================
 ### Descripción de negocio:
 ### Permite a los administradores registrar la transferencia de stock entre dos sucursales:
@@ -25,8 +25,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ###

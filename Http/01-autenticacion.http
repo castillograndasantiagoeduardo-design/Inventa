@@ -18,8 +18,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ###
@@ -66,7 +66,7 @@ Authorization: Bearer {{login.response.body.accessToken}}
 
 # ------------------------------------------------------------------------------
 # UC-AUTH-05: Health Check del servidor
-# Resultado esperado: 200 OK con texto "Warengine API - OK"
+# Resultado esperado: 200 OK con texto "Inventa API - OK"
 # ------------------------------------------------------------------------------
 
 ### Health Check
@@ -87,7 +87,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local",
+  "email": "superadmin@inventa.local",
   "password": "ContrasenaIncorrecta!"
 }
 
@@ -102,8 +102,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "noexiste@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "noexiste@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ###
@@ -127,7 +127,7 @@ Content-Type: application/json
 
 {
   "email": "no-es-un-email",
-  "password": "Warengine.Admin.2026!"
+  "password": "Inventa.Admin.2026!"
 }
 
 ###
@@ -147,7 +147,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "bloqueo-test@warengine.local",
+  "email": "bloqueo-test@inventa.local",
   "password": "ClaveIncorrecta1!"
 }
 
@@ -158,7 +158,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "bloqueo-test@warengine.local",
+  "email": "bloqueo-test@inventa.local",
   "password": "ClaveIncorrecta2!"
 }
 
@@ -169,7 +169,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "bloqueo-test@warengine.local",
+  "email": "bloqueo-test@inventa.local",
   "password": "ClaveIncorrecta3!"
 }
 
@@ -180,7 +180,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "bloqueo-test@warengine.local",
+  "email": "bloqueo-test@inventa.local",
   "password": "ClaveIncorrecta4!"
 }
 
@@ -191,7 +191,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "bloqueo-test@warengine.local",
+  "email": "bloqueo-test@inventa.local",
   "password": "ClaveIncorrecta5!"
 }
 
@@ -202,7 +202,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "bloqueo-test@warengine.local",
+  "email": "bloqueo-test@inventa.local",
   "password": "ClaveIncorrecta6!"
 }
 
@@ -218,8 +218,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "bloqueo-test@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "bloqueo-test@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ###
@@ -246,8 +246,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!",
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!",
   "recordarme": true
 }
 
@@ -290,7 +290,7 @@ Authorization: Bearer {{login.response.body.accessToken}}
 Content-Type: application/json
 
 {
-  "password": "Warengine.Admin.2026!"
+  "password": "Inventa.Admin.2026!"
 }
 
 ###
@@ -305,7 +305,7 @@ POST {{baseUrl}}/auth/recuperar-password/solicitar
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local"
+  "email": "superadmin@inventa.local"
 }
 
 ###
@@ -342,7 +342,7 @@ POST {{baseUrl}}/auth/forgot-password
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local"
+  "email": "superadmin@inventa.local"
 }
 
 ###
@@ -356,7 +356,7 @@ POST {{baseUrl}}/auth/verify-code
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local",
+  "email": "superadmin@inventa.local",
   "code": "1234"
 }
 

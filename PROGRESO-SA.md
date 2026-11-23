@@ -1,4 +1,4 @@
-# PROGRESO-SA.md — Panel del Super Admin (Warengine)
+# PROGRESO-SA.md — Panel del Super Admin (Inventa)
 
 > Demo: lunes 26 de octubre de 2026 · Rama: `feat/sa-base` (sin push)
 > Última actualización: domingo 25/10/2026 — Fases A, B y C terminadas y probadas en vivo; Fase D no iniciada.
@@ -55,7 +55,7 @@ Verificación tras cada paso: `deno task check` ✅ · `lint` sin problemas nuev
 
 ## Dudas y riesgos abiertos
 
-1. **Variables en el `.env` de la raíz:** `WARENGINE_SA_PASSWORD` y `SEED_DEMO_PASSWORD` están en `Warengine/.env`, que ninguna tarea carga. Para repetir el seed: `deno run -A --env-file=.env --env-file=../.env packages/database/src/seeds/demo.seed.ts` desde `Backend/` (o moverlas a `Backend/.env` y usar `deno task seed:demo`).
+1. **Variables en el `.env` de la raíz:** `INVENTA_SA_PASSWORD` y `SEED_DEMO_PASSWORD` están en `Inventa/.env`, que ninguna tarea carga. Para repetir el seed: `deno run -A --env-file=.env --env-file=../.env packages/database/src/seeds/demo.seed.ts` desde `Backend/` (o moverlas a `Backend/.env` y usar `deno task seed:demo`).
 2. **Impacto en la vista del admin de sucursal (A3):** el admin de sucursal ya no puede pedir `/dashboard/metricas`, `/rendimiento`, `/ranking` ni `/inventario` (403). Su vista debe usar `/dashboard/tendencias` u otras fuentes. Avisar a quien construye esa vista.
 3. **GEMINI.md** pide `Result.err(...)`; la API real de `Result` es `Result.fail(...)`. Se usa `fail`.
 4. **Códigos 400 vs 422:** `SEDE_PRINCIPAL_NO_INACTIVABLE`, `SUCURSAL_TIENE_USUARIOS_ACTIVOS`, `AREA_TIENE_EMPLEADOS`, `ULTIMO_SUPER_ADMIN` llegan como 400 (no están en el presenter). El frontend decide por código.
@@ -70,7 +70,7 @@ Verificación tras cada paso: `deno task check` ✅ · `lint` sin problemas nuev
 
 Avance para la exposición: flujo super admin → admin de sucursal → cajero → dashboards → vendedor B2B con datos reales. No es el producto terminado; solo se tocaron las rutas de ese flujo y la tipografía.
 
-**Estado inicial limpio:** desde `Backend/`, `deno task seed:expo` (pide escribir el nombre de la BD) o `deno task seed:expo --yes --db=<DB_NAME>`. Deja roles/permisos, la Sede Principal (id=1) y `superadmin@warengine.local` sin 2FA (clave = `SEED_SUPERADMIN_PASSWORD`). **Borra todos los datos de negocio.**
+**Estado inicial limpio:** desde `Backend/`, `deno task seed:expo` (pide escribir el nombre de la BD) o `deno task seed:expo --yes --db=<DB_NAME>`. Deja roles/permisos, la Sede Principal (id=1) y `superadmin@inventa.local` sin 2FA (clave = `SEED_SUPERADMIN_PASSWORD`). **Borra todos los datos de negocio.**
 
 **Prueba E2E:** con la API en 8017 y la BD recién sembrada, `deno run -A --env-file=.env scripts/e2e-expo.ts` (57 comprobaciones). Deja datos de prueba: volver a correr `seed:expo` después.
 

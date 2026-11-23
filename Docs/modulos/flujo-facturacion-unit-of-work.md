@@ -1,14 +1,14 @@
-# Flujo Completo de Facturación y Unit of Work en Warengine
+# Flujo Completo de Facturación y Unit of Work en Inventa
 
 > **Módulo:** Facturación y Punto de Venta (POS)  
 > **Patrones:** Clean Architecture · Domain-Driven Design (DDD) · Unit of Work · Hexagonal Ports & Adapters · Database-Driven Triggers  
-> **Fecha de Elaboración:** Octubre 2026 · Warengine v2.0  
+> **Fecha de Elaboración:** Octubre 2026 · Inventa v2.0  
 
 ---
 
 ## 1. Introducción y Fundamentos Arquitecturales
 
-El proceso de facturación en **Warengine** es el núcleo transaccional más sensible del sistema: involucra la emisión de comprobantes fiscales, la asignación de consecutivos por sucursal, la deducción física y lógica de inventario, el registro de múltiples medios de pago (divididos o a crédito) y la trazabilidad de auditoría inmutable.
+El proceso de facturación en **Inventa** es el núcleo transaccional más sensible del sistema: involucra la emisión de comprobantes fiscales, la asignación de consecutivos por sucursal, la deducción física y lógica de inventario, el registro de múltiples medios de pago (divididos o a crédito) y la trazabilidad de auditoría inmutable.
 
 Para garantizar robustez absoluta ante concurrencia, evitar estados inconsistentes (huérfanos) y proteger la pureza del dominio, la solución se diseñó bajo tres pilares inquebrantables:
 

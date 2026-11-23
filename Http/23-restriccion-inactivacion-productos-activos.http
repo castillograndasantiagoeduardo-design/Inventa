@@ -1,5 +1,5 @@
 ### ==============================================================================
-### WARENGINE - REQUERIMIENTO RF-ADM-B19: RESTRICCIÓN DE INACTIVACIÓN DE CATEGORÍAS
+### INVENTA - REQUERIMIENTO RF-ADM-B19: RESTRICCIÓN DE INACTIVACIÓN DE CATEGORÍAS
 ###             Y PROVEEDORES CON PRODUCTOS ACTIVOS VINCULADOS
 ### ==============================================================================
 ### Descripción de negocio:
@@ -27,8 +27,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ###

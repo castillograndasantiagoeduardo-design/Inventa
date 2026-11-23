@@ -1,4 +1,4 @@
-# Módulo de Autenticación y Autorización — Warengine
+# Módulo de Autenticación y Autorización — Inventa
 
 > **Propósito y estado:** **IMPLEMENTADO** (Fases 0–8 + Endurecimiento de Seguridad)  
 > **Stack:** Deno · TypeScript · Drizzle ORM · MySQL 8 · Hono · Jose (JWT) · Argon2  
@@ -26,7 +26,7 @@
 
 ## 1. Propósito y Estado
 
-El módulo de Autenticación y Autorización de Warengine gestiona la identidad, el acceso y la seguridad perimetral de la plataforma mediante un esquema de doble token (**Access Token JWT de 15 minutos** y **Refresh Token rotativo de 7 días con hash SHA-256**) transmitidos en cookies `HttpOnly` y cabeceras `Authorization`. El control de acceso está sustentado en un modelo **RBAC granular por permisos**, donde los roles agrupan permisos directos sobre acciones específicas.
+El módulo de Autenticación y Autorización de Inventa gestiona la identidad, el acceso y la seguridad perimetral de la plataforma mediante un esquema de doble token (**Access Token JWT de 15 minutos** y **Refresh Token rotativo de 7 días con hash SHA-256**) transmitidos en cookies `HttpOnly` y cabeceras `Authorization`. El control de acceso está sustentado en un modelo **RBAC granular por permisos**, donde los roles agrupan permisos directos sobre acciones específicas.
 
 **Estado actual:** **IMPLEMENTADO**  
 Cubre el ciclo de vida completo de autenticación de usuario (login con política de mitigación de fuerza bruta por cuenta e IP, renovación de tokens con rotación estricta, logout idempotente con revocación en base de datos, validación centralizada de credenciales revocadas en tiempo real y autorización por permisos).

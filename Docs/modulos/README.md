@@ -1,6 +1,6 @@
-# Módulos de Negocio — Warengine
+# Módulos de Negocio — Inventa
 
-Este directorio contiene la documentación técnica detallada de cada módulo de negocio de Warengine. Cada documento ha sido verificado al 100% contra el código fuente en el working tree actual y sigue la plantilla estándar de Clean Architecture.
+Este directorio contiene la documentación técnica detallada de cada módulo de negocio de Inventa. Cada documento ha sido verificado al 100% contra el código fuente en el working tree actual y sigue la plantilla estándar de Clean Architecture.
 
 ---
 

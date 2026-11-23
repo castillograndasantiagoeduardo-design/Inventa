@@ -1,6 +1,6 @@
 # Regla de Sincronización Continua de Contexto (CLAUDE.md)
 
-Siempre que se realice una modificación estructural en el proyecto Warengine, es **obligatorio actualizar `CLAUDE.md`** para mantenerlo siempre al día.
+Siempre que se realice una modificación estructural en el proyecto Inventa, es **obligatorio actualizar `CLAUDE.md`** para mantenerlo siempre al día.
 
 ### Cuándo debes actualizar `CLAUDE.md`:
 1. **Nuevos módulos o bounded contexts:** Si se crea una nueva carpeta en `Backend/packages/core/src/` o `Frontend/src/features/`.
