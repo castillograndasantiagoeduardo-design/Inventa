@@ -3,6 +3,7 @@
 import React from 'react';
 import { Button3D } from './Button3D';
 import { InventaLogo } from '@/components/panel/InventaLogo';
+import { InventaWordmark } from '@/components/panel/InventaWordmark';
 
 export type TabType = 'inicio' | 'alcance' | 'planes' | 'nosotros';
 
@@ -22,10 +23,14 @@ export function Navbar({ activeTab, onNavigate }: NavbarProps) {
           e.preventDefault();
           onNavigate('inicio');
         }}
-        className="w-[clamp(32px,3.4vw,64px)] block select-none"
+        className="flex items-center gap-[clamp(8px,0.8vw,14px)] select-none"
         aria-label="Inventa Inicio"
       >
-        <InventaLogo className="w-full rounded-lg" />
+        <InventaLogo className="w-[clamp(32px,3.4vw,56px)] rounded-lg" />
+        {/* En móvil solo el isotipo: la palabra no cabe junto al menú */}
+        <span className="hidden md:inline-flex">
+          <InventaWordmark className="text-[clamp(22px,2.2vw,38px)] text-white" />
+        </span>
       </a>
 
       {/* Navegación */}

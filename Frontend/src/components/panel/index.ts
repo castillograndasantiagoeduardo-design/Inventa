@@ -8,3 +8,4 @@ export * from './Sidebar';
 export * from './usePanelMenu';
 export * from './InventaLogo';
 export * from './InventaWordmark';
+export * from './EstrellaInventa';

@@ -18,6 +18,8 @@
   --color-luz-2: var(--p-luz-2);
   --color-luz-3: var(--p-luz-3);
   --color-btn-primario-texto: var(--p-btn-texto);
+  /* Ámbar del logo de Inventa (fijo, no depende de la paleta). Solo para acentos sutiles. */
+  --color-ambar: #f59e0b;
 
   --color-navy-900: #0f1b33;
   --color-navy-950: #070d1a;
@@ -691,4 +693,11 @@ body {
 }
 .light .custom-scrollbar::-webkit-scrollbar-thumb {
   background: rgba(15, 23, 42, 0.15);
+}
+
+/* Landing: desplazamiento suave entre secciones (#inicio, #modulos, ...) solo en esa página */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.landing-raiz) {
+    scroll-behavior: smooth;
+  }
 }

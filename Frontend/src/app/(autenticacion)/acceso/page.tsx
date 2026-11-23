@@ -1,49 +1,35 @@
-'use client';
+/**
+ * page.tsx — Inicio de sesión de Inventa.
+ *
+ * Misma estética que la landing y el panel: fondo ambiental con retícula, menú de vidrio con
+ * botón claro/oscuro y la tarjeta animada AuthCard (login, solicitud de cuenta y 2FA).
+ */
 
-import React from 'react';
-import { useRouter } from 'next/navigation';
-import { Navbar, TabType } from '@/components/ui/Navbar';
-import { NoiseOverlay } from '@/components/ui/NoiseOverlay';
+import { FondoAmbiental } from '@/components/FondoAmbiental';
+import { LandingNavbar } from '@/features/landing';
 import { AuthCard } from '@/features/autenticacion/components/AuthCard';
 
 export default function AccesoPage() {
-  const router = useRouter();
-
-  const handleNavigate = (tab: TabType) => {
-    // Al navegar a cualquiera de las pestañas principales, redirige a la landing
-    router.push(`/?tab=${tab}`);
-  };
-
   return (
-    <main
-      style={
-        {
-          '--ac': '#e9b949',
-          '--ac-dk': '#b88a1f',
-          '--ac-t': '#e9b949',
-          '--ac-fg': '#14213D',
-        } as React.CSSProperties
-      }
-      className="relative min-h-[100dvh] w-full flex items-center justify-center overflow-x-hidden bg-[radial-gradient(75vw_75vh_at_50%_50%,#162544_0%,#101a30_60%,#090f1d_100%)] select-none px-4"
-    >
-      {/* Grano analógico de fondo */}
-      <NoiseOverlay />
+    <div className="min-h-dvh bg-bg text-text font-sans relative isolate overflow-x-clip flex flex-col">
+      <FondoAmbiental />
+      {/* Brillo ámbar del logo, muy tenue */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-[12%] right-[10%] w-[420px] h-[320px] rounded-full bg-ambar/[0.09] dark:bg-ambar/[0.07] blur-[120px]" />
+      </div>
 
-      {/* Navbar Superior Fijo Estándar Inventa */}
-      <Navbar activeTab="inicio" onNavigate={handleNavigate} />
+      <LandingNavbar fueraDeLanding />
 
-      {/* Tarjeta de Autenticación Neumórfica Centrada exactamente en X e Y */}
-      <section
-        className="w-full flex items-center justify-center z-10 my-auto py-12"
+      <main
+        className="flex-1 w-full flex items-center justify-center px-4 py-12"
         aria-label="Panel de autenticación Inventa"
       >
         <AuthCard />
-      </section>
+      </main>
 
-      {/* Pie de página sutil con marca Inventa anclado abajo sin desplazar el centro */}
-      <footer className="absolute bottom-2.5 left-0 right-0 text-center text-[clamp(10px,0.9vw,12px)] text-white/30 font-[family-name:var(--font-archivo)] z-10 pointer-events-none">
-        Inventa &copy; {new Date().getFullYear()} &mdash; Sistema Integral de Gestión Comercial & Logística
+      <footer className="pb-5 text-center font-sans text-xs text-text-muted tabular-nums">
+        Inventa &copy; {new Date().getFullYear()} &mdash; Sistema Integral de Gestión Comercial &amp; Logística
       </footer>
-    </main>
+    </div>
   );
 }

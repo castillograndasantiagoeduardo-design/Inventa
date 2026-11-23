@@ -1,2 +1,2 @@
-export * from './alcance.data';
+export * from './modulos.data';
 export * from './planes.data';
