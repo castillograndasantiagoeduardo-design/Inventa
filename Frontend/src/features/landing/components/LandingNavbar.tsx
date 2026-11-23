@@ -21,10 +21,16 @@ const ENLACES: { id: SeccionLanding; etiqueta: string }[] = [
   { id: 'nosotros', etiqueta: 'Nosotros' },
 ];
 
-export function LandingNavbar() {
-  const [activa, setActiva] = useState<SeccionLanding>('inicio');
+/**
+ * @param fueraDeLanding true en otras páginas (ej. /acceso): los enlaces apuntan a "/#seccion",
+ *                       no se marca sección activa y se oculta el botón "Iniciar sesión".
+ */
+export function LandingNavbar({ fueraDeLanding = false }: { fueraDeLanding?: boolean }) {
+  const [activa, setActiva] = useState<SeccionLanding | null>(fueraDeLanding ? null : 'inicio');
+  const base = fueraDeLanding ? '/' : '';
 
   useEffect(() => {
+    if (fueraDeLanding) return;
     const observador = new IntersectionObserver(
       (entradas) => {
         const visible = entradas
@@ -39,7 +45,7 @@ export function LandingNavbar() {
       if (el) observador.observe(el);
     });
     return () => observador.disconnect();
-  }, []);
+  }, [fueraDeLanding]);
 
   return (
     <header className="sticky top-0 z-40 px-4 sm:px-8 lg:px-16 pt-4 sm:pt-5">
@@ -47,7 +53,7 @@ export function LandingNavbar() {
         aria-label="Navegación principal"
         className="vidrio-fuerte flex items-center justify-between gap-4 rounded-2xl pl-4 pr-3 sm:pl-5 py-2.5"
       >
-        <Link href="#inicio" aria-label="Inventa, ir al inicio" className="flex items-center gap-2.5 shrink-0">
+        <Link href={`${base}#inicio`} aria-label="Inventa, ir al inicio" className="flex items-center gap-2.5 shrink-0">
           <InventaLogo className="w-9 rounded-lg" />
           <InventaWordmark className="text-[26px] text-text" />
         </Link>
@@ -56,7 +62,7 @@ export function LandingNavbar() {
           {ENLACES.map(({ id, etiqueta }) => (
             <li key={id}>
               <a
-                href={`#${id}`}
+                href={`${base}#${id}`}
                 aria-current={activa === id ? 'true' : undefined}
                 className={`block rounded-[10px] px-3.5 py-2 font-sans text-sm font-medium transition-colors ${
                   activa === id ? 'superficie-control text-text' : 'text-text-muted hover:text-text'
@@ -70,11 +76,13 @@ export function LandingNavbar() {
 
         <div className="flex items-center gap-2">
           <BotonTema />
-          <BotonLanding href="/acceso" variante="secundario" className="!px-4 !py-2.5">
-            Iniciar sesión
-          </BotonLanding>
+          {!fueraDeLanding && (
+            <BotonLanding href="/acceso" variante="secundario" className="!px-4 !py-2.5">
+              Iniciar sesión
+            </BotonLanding>
+          )}
           <span className="hidden sm:inline-flex">
-            <BotonLanding href="#nosotros" className="!px-4 !py-2.5">
+            <BotonLanding href={`${base}#nosotros`} className="!px-4 !py-2.5">
               Solicitar demo
             </BotonLanding>
           </span>

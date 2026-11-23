@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { EstrellaInventa } from './EstrellaInventa';
+import { EstrellaInventa } from '@/components/panel/EstrellaInventa';
 
 export function EncabezadoSeccion({
   id,

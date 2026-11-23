@@ -7,7 +7,7 @@ import { ArrowRight, Check } from 'lucide-react';
 import { Insignia } from '@/components/Insignia';
 import { BotonLanding } from '../BotonLanding';
 import { VistaPreviaPanel } from './VistaPreviaPanel';
-import { EstrellaInventa } from '../EstrellaInventa';
+import { EstrellaInventa } from '@/components/panel/EstrellaInventa';
 
 const GARANTIAS = ['Multi-sucursal', 'Auditoría inmutable', 'Roles y permisos'];
 

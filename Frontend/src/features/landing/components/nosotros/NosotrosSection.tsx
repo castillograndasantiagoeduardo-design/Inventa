@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { BotonLanding } from '../BotonLanding';
-import { EstrellaInventa } from '../EstrellaInventa';
+import { EstrellaInventa } from '@/components/panel/EstrellaInventa';
 
 export function NosotrosSection() {
   return (

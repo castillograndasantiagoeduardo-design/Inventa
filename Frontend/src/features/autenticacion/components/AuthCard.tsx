@@ -9,7 +9,7 @@
  * - Open/Closed Principle (OCP): Permite extender nuevos métodos de autenticación sin modificar
  *   el árbol estructural de la tarjeta.
  *
- * Mantiene intacto el 100% del diseño neumórfico original, colores corporativos y animaciones.
+ * Misma estructura y animaciones; estilo de vidrio + paleta activa, como el panel y la landing.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -20,6 +20,7 @@ import { TwoFactorStep } from './TwoFactorStep';
 import { RegisterNotice } from './RegisterNotice';
 import { AuthOverlay } from './AuthOverlay';
 import type { LoginResult } from '../types/auth.types';
+import { BOTON_SECUNDARIO } from './auth.estilos';
 
 type AuthMode = 'login' | 'registro';
 
@@ -74,18 +75,18 @@ export function AuthCard() {
       {rolError && (
         <div
           role="alert"
-          className="mb-4 p-4 rounded-2xl bg-amber-950/80 border border-amber-500/40 text-amber-200 text-xs font-[family-name:var(--font-archivo)] shadow-2xl flex items-start gap-3 backdrop-blur-md animate-in fade-in duration-300"
+          className="mb-4 p-4 rounded-[10px] bg-amber-50 text-amber-800 dark:bg-amber-500/12 dark:text-amber-300 ring-1 ring-inset ring-amber-600/25 font-sans text-[13px] flex items-start gap-3 animate-in fade-in duration-300"
         >
           <span className="text-xl leading-none">⚠️</span>
           <div className="flex-1">
-            <h4 className="font-semibold text-amber-400 uppercase tracking-wider text-xs font-[family-name:var(--font-ui)] mb-1">
-              Restricción de Perfil y Acceso
+            <h4 className="font-semibold mb-1">
+              Restricción de perfil y acceso
             </h4>
-            <p className="leading-relaxed text-amber-200/90">{rolError}</p>
+            <p className="leading-relaxed text-text-muted">{rolError}</p>
           </div>
           <button type="button"
             onClick={() => setRolError(null)}
-            className="text-amber-400 hover:text-white transition-colors text-xs font-mono px-1.5 py-0.5 rounded cursor-pointer"
+            className="text-current hover:text-text transition-colors text-xs font-mono px-1.5 py-0.5 rounded cursor-pointer"
             aria-label="Cerrar aviso"
           >
             ✕
@@ -102,38 +103,12 @@ export function AuthCard() {
           : 'Modo actual: Crear cuenta'}
       </div>
 
-      {/* Tarjeta Neumórfica Principal */}
-      <div
-        className="relative w-full rounded-[22px] sm:rounded-[26px] overflow-hidden bg-[#14213D] border border-white/[0.06] transition-all duration-300"
-        style={{
-          boxShadow:
-            '16px 16px 36px rgba(5, 10, 20, 0.8), -10px -10px 28px rgba(255, 255, 255, 0.035), inset 0 1px 1px rgba(255, 255, 255, 0.08)',
-        }}
-      >
-        {/* Curvas orgánicas vectoriales abstractas de fondo */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-25 select-none">
-          <svg
-            className="absolute -top-20 -left-20 w-80 h-80 text-[#e9b949]/10"
-            viewBox="0 0 400 400"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M50 150 C 120 40, 280 60, 320 180 C 360 300, 220 380, 100 340 C -20 300, -20 260, 50 150 Z"
-              fill="currentColor"
-            />
-          </svg>
-          <svg
-            className="absolute -bottom-24 -right-24 w-88 h-88 text-white/[0.03]"
-            viewBox="0 0 500 500"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M100 200 C 180 80, 380 90, 420 220 C 460 350, 350 450, 200 440 C 50 430, 20 320, 100 200 Z"
-              fill="currentColor"
-            />
-          </svg>
+      {/* Tarjeta principal de vidrio */}
+      <div className="vidrio relative w-full rounded-2xl overflow-hidden transition-all duration-300">
+        {/* Brillos sutiles de fondo (marca + ámbar del logo) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden select-none" aria-hidden="true">
+          <div className="absolute -top-24 -left-20 size-72 rounded-full bg-brand-500/15 blur-3xl" />
+          <div className="absolute -bottom-24 left-1/3 size-64 rounded-full bg-ambar/[0.08] blur-3xl" />
         </div>
 
         {/* ============================================================== */}
@@ -179,14 +154,14 @@ export function AuthCard() {
               <LoginForm isMobile onSuccess={handleAuthSuccess} />
 
               {/* Toggle a Solicitar Acceso en Móvil */}
-              <div className="mt-5 pt-4 border-t border-white/[0.08] text-center">
-                <p className="font-[family-name:var(--font-archivo)] text-[11px] text-white/60 mb-1.5">
+              <div className="mt-5 pt-4 border-t border-border text-center">
+                <p className="font-sans text-[13px] text-text-muted mb-2">
                   ¿Necesitas una cuenta institucional?
                 </p>
                 <button
                   type="button"
                   onClick={toggleMode}
-                  className="min-h-[40px] px-5 py-1.5 rounded-full border border-white/40 text-white font-[family-name:var(--font-ui)] text-[11px] uppercase tracking-wider cursor-pointer hover:border-[#E9B949] hover:text-[#E9B949] transition-colors"
+                  className={BOTON_SECUNDARIO}
                 >
                   Solicitar acceso
                 </button>
@@ -197,14 +172,14 @@ export function AuthCard() {
               <RegisterNotice isMobile onSwitchToLogin={() => setMode('login')} />
 
               {/* Switch Móvil a Iniciar Sesión */}
-              <div className="mt-5 pt-4 border-t border-white/[0.08] text-center">
-                <p className="font-[family-name:var(--font-archivo)] text-[11px] text-white/60 mb-1.5">
+              <div className="mt-5 pt-4 border-t border-border text-center">
+                <p className="font-sans text-[13px] text-text-muted mb-2">
                   ¿Ya tienes una cuenta activa en Inventa?
                 </p>
                 <button
                   type="button"
                   onClick={toggleMode}
-                  className="min-h-[40px] px-5 py-1.5 rounded-full border border-white/40 text-white font-[family-name:var(--font-ui)] text-[11px] uppercase tracking-wider cursor-pointer hover:border-[#E9B949] hover:text-[#E9B949] transition-colors"
+                  className={BOTON_SECUNDARIO}
                 >
                   Iniciar sesión
                 </button>

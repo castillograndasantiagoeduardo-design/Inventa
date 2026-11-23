@@ -8,7 +8,7 @@ import { Insignia } from '@/components/Insignia';
 import { PLANES } from '../../data/planes.data';
 import { BotonLanding } from '../BotonLanding';
 import { EncabezadoSeccion } from '../EncabezadoSeccion';
-import { EstrellaInventa } from '../EstrellaInventa';
+import { EstrellaInventa } from '@/components/panel/EstrellaInventa';
 
 export function PlanesSection() {
   return (
