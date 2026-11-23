@@ -1,4 +1,4 @@
-// Nombres de las Tools expuestas por el servidor MCP de Warengine.
+// Nombres de las Tools expuestas por el servidor MCP de Inventa.
 // Úsalos como identificadores únicos en el catálogo y en el gateway.
 
 export const TOOL_NAMES = {

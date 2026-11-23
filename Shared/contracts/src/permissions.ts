@@ -1,4 +1,4 @@
-// Constantes de permisos del sistema Warengine.
+// Constantes de permisos del sistema Inventa.
 // Deben coincidir con los valores de la columna `codigo` en la tabla `permisos` de la BD (seed).
 // El campo `codigo` usa COLLATE utf8mb4_bin → comparación exacta, sensible a mayúsculas.
 

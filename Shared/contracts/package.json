@@ -1,5 +1,5 @@
 {
-  "name": "@warengine/contracts",
+  "name": "@inventa/contracts",
   "version": "0.1.0",
   "description": "Esquemas Zod y tipos DTO compartidos entre BACK y FRONT",
   "main": "src/index.ts",

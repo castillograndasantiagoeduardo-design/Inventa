@@ -1,4 +1,4 @@
-// Roles del sistema Warengine.
+// Roles del sistema Inventa.
 // Estos valores deben coincidir exactamente con los registrados en la tabla `roles` de la BD.
 
 export const ROLES = {
