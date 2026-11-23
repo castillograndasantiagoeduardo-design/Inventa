@@ -1,19 +1,38 @@
 'use client';
 
 /**
- * GlassyOtpCard.tsx — Tarjeta de Recuperación de Contraseña Glassy OTP V4
+ * GlassyOtpCard.tsx — Tarjeta de recuperación de contraseña con código OTP.
  *
- * Implementa con precisión la interfaz de video de referencia:
- * - Tarjeta glassmorphism con esquinas recortadas en diagonal y bordes luminosos.
+ * Estilo de vidrio + paleta activa (como el panel, la landing y el inicio de sesión):
+ * - Tarjeta .vidrio con brillos sutiles de marca y ámbar del logo.
  * - 4 casillas de un dígito con auto-foco, auto-avance, soporte para pegar y auto-verificación al 4to dígito.
  * - Enlace "Reenviar" con temporizador de 60s.
- * - Pantalla de éxito con escudo verde, confeti de partículas flotantes y "Verificado y Seguro".
+ * - Pantalla de éxito con escudo verde, partículas y "Verificado y seguro".
  * - Paso final de nueva contraseña con revocación de sesiones.
  */
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Check, Eye, EyeOff, KeyRound, Loader2, Lock, Mail, ShieldCheck, Smartphone } from 'lucide-react';
 import { apiClient, ApiError } from '@/lib/api';
+import { EstrellaInventa } from '@/components/panel/EstrellaInventa';
+import {
+  ALERTA_ERROR,
+  BOTON_PRIMARIO,
+  CAMPO,
+  ENLACE,
+  ETIQUETA,
+  INPUT,
+  TITULO,
+  TITULO_ACENTO,
+} from './auth.estilos';
+
+/** Ícono de cabecera de cada paso. */
+const ICONO_PASO =
+  'size-14 mx-auto mb-4 rounded-[14px] bg-brand-500/15 border border-border grid place-items-center text-brand-600 dark:text-brand-300';
+
+/** Subtítulo bajo el título de cada paso. */
+const SUBTITULO = 'font-sans text-[13px] text-text-muted leading-relaxed max-w-[330px] mx-auto';
 
 type PasoRecuperacion = 'EMAIL' | 'OTP' | 'VERIFICADO_EXITO' | 'NUEVA_PASSWORD' | 'COMPLETADO';
 
@@ -278,22 +297,13 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
 
   return (
     <div className="relative w-full max-w-[440px] mx-auto p-1 sm:p-2">
-      {/* Estilo Glassmorphism con esquinas recortadas (Chamfered HUD) */}
-      <div
-        className="relative overflow-hidden backdrop-blur-2xl bg-[#091124]/80 border border-cyan-500/30 text-white shadow-[0_0_50px_rgba(6,182,212,0.15)] transition-all duration-500"
-        style={{
-          clipPath:
-            'polygon(28px 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%, 0 28px)',
-        }}
-      >
-        {/* Bordes decorativos brillantes en esquinas */}
-        <div className="absolute top-0 left-0 w-8 h-[2px] bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
-        <div className="absolute top-0 left-0 w-[2px] h-8 bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
-        <div className="absolute bottom-0 right-0 w-8 h-[2px] bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
-        <div className="absolute bottom-0 right-0 w-[2px] h-8 bg-cyan-400 shadow-[0_0_8px_#22d3ee]" />
-
-        {/* Gradiente sutil interno */}
-        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/[0.07] via-transparent to-blue-600/[0.05] pointer-events-none" />
+      <div className="vidrio relative overflow-hidden rounded-2xl transition-all duration-500">
+        {/* Brillos sutiles de fondo (marca + ámbar del logo) y filo dorado superior */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+          <div className="absolute -top-24 -left-20 size-64 rounded-full bg-brand-500/15 blur-3xl" />
+          <div className="absolute -bottom-24 -right-16 size-56 rounded-full bg-ambar/[0.08] blur-3xl" />
+          <span className="absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-ambar/60 to-transparent" />
+        </div>
 
         <div className="relative p-7 sm:p-8 z-10">
           {/* ═══════════════════════════════════════════════════════════════════
@@ -301,51 +311,50 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
              ═══════════════════════════════════════════════════════════════════ */}
           {paso === 'EMAIL' && (
             <div className="text-center animate-in fade-in zoom-in-95 duration-300">
-              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-cyan-950/60 border border-cyan-500/40 grid place-items-center text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.25)]">
-                <svg className="w-7 h-7 fill-none stroke-current" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.75"
-                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
+              <div className={ICONO_PASO}>
+                <Mail className="size-7" aria-hidden="true" />
               </div>
 
-              <h2 className="font-[family-name:var(--font-anton)] text-3xl uppercase tracking-wider text-white mb-2">
-                Recuperar <span className="text-cyan-400">Acceso</span>
+              <h2 className={`${TITULO} mb-2`}>
+                Recuperar <span className={TITULO_ACENTO}>acceso</span>
               </h2>
-              <p className="font-[family-name:var(--font-archivo)] text-xs text-white/70 leading-relaxed max-w-[320px] mx-auto mb-6">
+              <p className={`${SUBTITULO} mb-6`}>
                 Ingresa tu correo institucional o asociado a Inventa. Te enviaremos un código OTP de 4 dígitos.
               </p>
 
               {errorMsg && (
-                <div className="rounded-xl px-3.5 py-2.5 mb-4 bg-red-950/70 border border-red-500/40 text-red-300 text-xs">
+                <div role="alert" className={`${ALERTA_ERROR} text-left`}>
                   {errorMsg}
                 </div>
               )}
 
-              <form onSubmit={handleSolicitarCodigo} className="space-y-4">
-                <div className="rounded-xl px-4 py-3 bg-[#070d1d] border border-white/10 focus-within:border-cyan-400 focus-within:ring-2 focus-within:ring-cyan-500/30 transition-all text-left">
-                  <label className="block text-[10px] uppercase font-bold tracking-widest text-white/60 mb-1">
-                    Correo Electrónico
+              <form onSubmit={handleSolicitarCodigo} className="space-y-4 text-left">
+                <div>
+                  <label htmlFor="recuperar-email" className={`${ETIQUETA} mb-1.5`}>
+                    Correo electrónico
                   </label>
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="usuario@inventa.local"
-                    className="w-full bg-transparent text-sm text-white placeholder-white/20 focus:outline-none"
-                  />
+                  <div className={CAMPO}>
+                    <input
+                      id="recuperar-email"
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="usuario@inventa.local"
+                      className={INPUT}
+                    />
+                  </div>
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full py-3 px-5 rounded-full font-[family-name:var(--font-ui)] font-bold text-xs uppercase tracking-wider bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
-                >
-                  {isLoading ? 'Enviando código...' : 'Continuar con Código OTP'}
+                <button type="submit" disabled={isLoading} className={BOTON_PRIMARIO}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                      Enviando código...
+                    </>
+                  ) : (
+                    'Continuar con código OTP'
+                  )}
                 </button>
               </form>
 
@@ -353,57 +362,44 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
                 <button
                   type="button"
                   onClick={() => router.push('/acceso')}
-                  className="text-xs text-white/50 hover:text-cyan-400 transition-colors cursor-pointer"
+                  className="font-sans text-[13px] text-text-muted hover:text-text transition-colors cursor-pointer"
                 >
-                  &larr; Volver a Iniciar Sesión
+                  &larr; Volver a iniciar sesión
                 </button>
               </div>
             </div>
           )}
 
           {/* ═══════════════════════════════════════════════════════════════════
-              ESTADO 1 Y 2: GLASSY OTP V4 (Casillas, Auto-verificación y Resend)
+              ESTADO 1 Y 2: OTP (Casillas, auto-verificación y reenvío)
              ═══════════════════════════════════════════════════════════════════ */}
           {paso === 'OTP' && (
             <div className="text-center animate-in fade-in duration-300" onPaste={handlePaste}>
-              {/* Ícono de Email / Teléfono en recuadro luminoso */}
-              <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-cyan-950/60 border border-cyan-500/40 grid place-items-center text-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.3)]">
-                <svg className="w-7 h-7 fill-none stroke-current" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.75"
-                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                  />
-                </svg>
+              <div className={ICONO_PASO}>
+                <Smartphone className="size-7" aria-hidden="true" />
               </div>
 
-              {/* Título: "Verify Your Email" con palabra en azul/cyan */}
-              <h2 className="font-[family-name:var(--font-anton)] text-3xl uppercase tracking-wider text-white mb-2">
-                Verifica tu <span className="text-cyan-400">Correo</span>
+              <h2 className={`${TITULO} mb-2`}>
+                Verifica tu <span className={TITULO_ACENTO}>correo</span>
               </h2>
 
               {/* Subtítulo con correo enmascarado */}
-              <p className="font-[family-name:var(--font-archivo)] text-xs text-white/70 leading-relaxed max-w-[320px] mx-auto mb-6">
+              <p className={`${SUBTITULO} mb-6`}>
                 Enviamos un código de 4 dígitos a{' '}
-                <strong className="text-cyan-300 font-mono">{enmascararEmail(email)}</strong>. Se
+                <strong className="font-mono font-medium text-brand-600 dark:text-brand-300">{enmascararEmail(email)}</strong>. Se
                 verificará automáticamente al completarlo.
               </p>
 
               {/* Aviso de error o intentos */}
               {errorMsg && (
-                <div
-                  role="alert"
-                  className="rounded-xl px-3.5 py-2 mb-4 bg-red-950/70 border border-red-500/50 text-red-300 text-xs animate-in fade-in duration-200"
-                >
+                <div role="alert" className={ALERTA_ERROR}>
                   {errorMsg}
                 </div>
               )}
 
-              {/* 4 Casillas de Dígitos Conectadas con Líneas Luminosas */}
+              {/* 4 casillas de dígitos unidas por una línea sutil */}
               <div className="relative flex justify-center items-center gap-3 sm:gap-4 my-6">
-                {/* Línea luminosa decorativa detrás que conecta las casillas */}
-                <div className="absolute h-[2px] left-6 right-6 bg-gradient-to-r from-transparent via-cyan-500/30 to-transparent pointer-events-none" />
+                <div className="absolute h-px left-6 right-6 bg-gradient-to-r from-transparent via-brand-500/40 to-transparent pointer-events-none" />
 
                 {digits.map((digit, idx) => {
                   const tieneValor = Boolean(digit);
@@ -420,10 +416,10 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
                         onKeyDown={(e) => handleKeyDown(idx, e)}
                         disabled={isLoading}
                         aria-label={`Dígito ${idx + 1}`}
-                        className={`w-14 h-16 sm:w-16 sm:h-18 rounded-xl text-center text-2xl sm:text-3xl font-mono font-bold transition-all duration-200 outline-none select-all ${
+                        className={`w-14 h-16 sm:w-16 sm:h-[72px] rounded-xl text-center text-2xl sm:text-3xl font-mono font-semibold transition-all duration-200 outline-none select-all ${
                           tieneValor
-                            ? 'bg-cyan-950/80 text-cyan-300 border-2 border-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.45)]'
-                            : 'bg-[#070d1d] text-white border border-white/15 focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/30 focus:shadow-[0_0_15px_rgba(6,182,212,0.3)]'
+                            ? 'bg-brand-500/15 text-brand-600 dark:text-brand-300 border-2 border-brand-500 shadow-lg shadow-brand-500/20'
+                            : 'superficie-control text-text border border-border focus:border-brand-500 focus:ring-2 focus:ring-brand-500/25'
                         } ${isLoading ? 'opacity-60 animate-pulse' : ''}`}
                       />
                     </div>
@@ -431,19 +427,17 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
                 })}
               </div>
 
-              {/* Enlace "Didn't receive the code? Resend" con cuenta regresiva */}
-              <div className="mt-6 text-xs text-white/60 font-[family-name:var(--font-archivo)]">
+              {/* Reenviar con cuenta regresiva */}
+              <div className="mt-6 font-sans text-[13px] text-text-muted">
                 <span>¿No recibiste el código? </span>
                 {cooldown > 0 ? (
-                  <span className="text-cyan-400 font-semibold font-mono">
-                    Reenviar en {cooldown}s
-                  </span>
+                  <span className="font-medium text-brand-600 dark:text-brand-300 tabular-nums">Reenviar en {cooldown}s</span>
                 ) : (
                   <button
                     type="button"
                     onClick={() => handleSolicitarCodigo()}
                     disabled={isLoading}
-                    className="text-cyan-400 hover:text-cyan-300 underline font-semibold transition-colors cursor-pointer disabled:opacity-50"
+                    className={`${ENLACE} font-medium underline cursor-pointer disabled:opacity-50`}
                   >
                     Reenviar
                   </button>
@@ -459,7 +453,7 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
                     setDigits(['', '', '', '']);
                     setErrorMsg(null);
                   }}
-                  className="text-[11px] text-white/40 hover:text-white/80 transition-colors"
+                  className="font-sans text-xs text-text-muted hover:text-text transition-colors cursor-pointer"
                 >
                   Cambiar correo electrónico
                 </button>
@@ -468,56 +462,41 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
           )}
 
           {/* ═══════════════════════════════════════════════════════════════════
-              ESTADO 3: ÉXITO ("Verified Successfully" + Confeti)
+              ESTADO 3: ÉXITO ("Verificado correctamente" + partículas)
              ═══════════════════════════════════════════════════════════════════ */}
           {paso === 'VERIFICADO_EXITO' && (
             <div className="relative text-center py-4 animate-in fade-in zoom-in-95 duration-500 overflow-hidden">
-              {/* Partículas de confeti flotando */}
-              <div className="absolute inset-0 pointer-events-none">
-                <span className="absolute top-2 left-8 w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-                <span className="absolute top-8 right-10 w-2.5 h-2.5 bg-cyan-400 rotate-45 animate-bounce" />
-                <span className="absolute bottom-6 left-12 w-2 h-2 bg-amber-400 rounded-sm animate-pulse" />
-                <span className="absolute top-1/2 right-6 w-3 h-1.5 bg-emerald-300 rotate-12" />
-                <span className="absolute bottom-10 right-14 w-2 h-2 rounded-full bg-white/80" />
+              {/* Partículas flotando (incluye la estrella ámbar del logo) */}
+              <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+                <span className="absolute top-2 left-8 size-2 rounded-full bg-green-400 animate-ping" />
+                <span className="absolute top-8 right-10 size-2.5 bg-brand-400 rotate-45 animate-bounce" />
+                <span className="absolute bottom-6 left-12 animate-pulse">
+                  <EstrellaInventa className="size-3" />
+                </span>
+                <span className="absolute top-1/2 right-6 w-3 h-1.5 bg-green-300 rotate-12" />
+                <span className="absolute bottom-10 right-14 size-2 rounded-full bg-text-muted/60" />
               </div>
 
-              {/* Ícono de Escudo Verde con Check */}
-              <div className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-emerald-950/80 border-2 border-emerald-400 grid place-items-center text-emerald-400 shadow-[0_0_35px_rgba(52,211,153,0.5)] animate-in zoom-in-50 duration-300">
-                <svg className="w-9 h-9 fill-none stroke-current" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2.5"
-                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                  />
-                </svg>
+              {/* Escudo verde con check */}
+              <div className="size-16 mx-auto mb-4 rounded-[14px] bg-green-500/12 border-2 border-green-500 grid place-items-center text-green-600 dark:text-green-300 shadow-lg shadow-green-500/25 animate-in zoom-in-50 duration-300">
+                <ShieldCheck className="size-9" aria-hidden="true" />
               </div>
 
-              <h2 className="font-[family-name:var(--font-anton)] text-3xl uppercase tracking-wider text-white mb-2">
-                Verificado <span className="text-emerald-400">Correctamente</span>
+              <h2 className={`${TITULO} mb-2`}>
+                Verificado <span className="text-green-600 dark:text-green-300">correctamente</span>
               </h2>
 
-              <p className="font-[family-name:var(--font-archivo)] text-xs text-white/80 leading-relaxed max-w-[300px] mx-auto mb-6">
+              <p className={`${SUBTITULO} mb-6`}>
                 Tu identidad ha sido confirmada. Todo listo para restablecer tu contraseña.
               </p>
 
-              {/* Botón o recuadro verde con check */}
-              <div className="w-20 h-12 mx-auto rounded-xl bg-emerald-500/20 border border-emerald-400/50 flex items-center justify-center text-emerald-300 mb-6 shadow-[0_0_20px_rgba(16,185,129,0.3)]">
-                <svg className="w-6 h-6 stroke-current fill-none" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
-                </svg>
+              <div className="w-20 h-12 mx-auto rounded-xl bg-green-500/12 border border-green-500/40 flex items-center justify-center text-green-600 dark:text-green-300 mb-6">
+                <Check className="size-6" strokeWidth={3} aria-hidden="true" />
               </div>
 
-              {/* Candado: "Verified and Secure" */}
-              <div className="flex items-center justify-center gap-1.5 text-xs text-emerald-400 font-semibold tracking-wider uppercase">
-                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
-                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-                <span>Verificado y Seguro</span>
+              <div className="flex items-center justify-center gap-1.5 font-sans text-[13px] font-medium text-green-600 dark:text-green-300">
+                <Lock className="size-3.5" aria-hidden="true" />
+                <span>Verificado y seguro</span>
               </div>
             </div>
           )}
@@ -527,37 +506,31 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
              ═══════════════════════════════════════════════════════════════════ */}
           {paso === 'NUEVA_PASSWORD' && (
             <div className="animate-in fade-in zoom-in-95 duration-300 text-left">
-              <div className="w-12 h-12 mx-auto mb-3 rounded-2xl bg-cyan-950/60 border border-cyan-500/40 grid place-items-center text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.25)]">
-                <svg className="w-6 h-6 fill-none stroke-current" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
-                  />
-                </svg>
+              <div className={`${ICONO_PASO} !size-12 !mb-3`}>
+                <KeyRound className="size-6" aria-hidden="true" />
               </div>
 
-              <h2 className="font-[family-name:var(--font-anton)] text-2xl uppercase tracking-wider text-white text-center mb-1">
-                Nueva <span className="text-cyan-400">Contraseña</span>
+              <h2 className={`${TITULO} mb-1`}>
+                Nueva <span className={TITULO_ACENTO}>contraseña</span>
               </h2>
-              <p className="font-[family-name:var(--font-archivo)] text-[11px] text-white/60 text-center mb-5">
+              <p className={`${SUBTITULO} text-center mb-5`}>
                 Ingresa y confirma tu nueva clave. Al cambiarla, todas tus sesiones activas se cerrarán.
               </p>
 
               {errorMsg && (
-                <div className="rounded-xl px-3.5 py-2.5 mb-4 bg-red-950/70 border border-red-500/50 text-red-300 text-xs">
+                <div role="alert" className={ALERTA_ERROR}>
                   {errorMsg}
                 </div>
               )}
 
               <form onSubmit={handleResetPassword} className="space-y-4">
-                <div className="rounded-xl px-4 py-2.5 bg-[#070d1d] border border-white/10 focus-within:border-cyan-400 focus-within:ring-2 focus-within:ring-cyan-500/30 transition-all">
-                  <label className="block text-[10px] uppercase font-bold tracking-widest text-white/60 mb-1">
-                    Nueva Contraseña
+                <div>
+                  <label htmlFor="nueva-password" className={`${ETIQUETA} mb-1.5`}>
+                    Nueva contraseña
                   </label>
-                  <div className="flex items-center justify-between">
+                  <div className={`flex items-center ${CAMPO}`}>
                     <input
+                      id="nueva-password"
                       type={showPassword ? 'text' : 'password'}
                       required
                       minLength={8}
@@ -565,40 +538,47 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                       placeholder="Mínimo 8 caracteres"
-                      className="w-full bg-transparent text-sm text-white focus:outline-none"
+                      className={INPUT}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword((p) => !p)}
-                      className="text-white/40 hover:text-cyan-400 text-xs ml-2"
+                      aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
+                      className="text-text-muted hover:text-brand-500 ml-2 transition-colors cursor-pointer"
                     >
-                      {showPassword ? 'Ocultar' : 'Ver'}
+                      {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
                     </button>
                   </div>
                 </div>
 
-                <div className="rounded-xl px-4 py-2.5 bg-[#070d1d] border border-white/10 focus-within:border-cyan-400 focus-within:ring-2 focus-within:ring-cyan-500/30 transition-all">
-                  <label className="block text-[10px] uppercase font-bold tracking-widest text-white/60 mb-1">
-                    Confirmar Contraseña
+                <div>
+                  <label htmlFor="confirmar-password" className={`${ETIQUETA} mb-1.5`}>
+                    Confirmar contraseña
                   </label>
-                  <input
-                    type={showPassword ? 'text' : 'password'}
-                    required
-                    minLength={8}
-                    maxLength={128}
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Repite tu contraseña"
-                    className="w-full bg-transparent text-sm text-white focus:outline-none"
-                  />
+                  <div className={CAMPO}>
+                    <input
+                      id="confirmar-password"
+                      type={showPassword ? 'text' : 'password'}
+                      required
+                      minLength={8}
+                      maxLength={128}
+                      value={confirmPassword}
+                      onChange={(e) => setConfirmPassword(e.target.value)}
+                      placeholder="Repite tu contraseña"
+                      className={INPUT}
+                    />
+                  </div>
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full py-3 px-5 mt-2 rounded-full font-[family-name:var(--font-ui)] font-bold text-xs uppercase tracking-wider bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black shadow-[0_0_20px_rgba(6,182,212,0.4)] transition-all cursor-pointer disabled:opacity-50"
-                >
-                  {isLoading ? 'Actualizando contraseña...' : 'Guardar y Cerrar Sesiones'}
+                <button type="submit" disabled={isLoading} className={`${BOTON_PRIMARIO} mt-2`}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="size-4 animate-spin" aria-hidden="true" />
+                      Actualizando contraseña...
+                    </>
+                  ) : (
+                    'Guardar y cerrar sesiones'
+                  )}
                 </button>
               </form>
             </div>
@@ -609,13 +589,13 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
              ═══════════════════════════════════════════════════════════════════ */}
           {paso === 'COMPLETADO' && (
             <div className="text-center py-6 animate-in zoom-in-95 duration-400">
-              <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-emerald-500/20 text-emerald-400 grid place-items-center text-2xl shadow-[0_0_25px_rgba(16,185,129,0.4)]">
-                ✓
+              <div className="size-14 mx-auto mb-3 rounded-full bg-green-500/15 text-green-600 dark:text-green-300 grid place-items-center">
+                <Check className="size-7" strokeWidth={3} aria-hidden="true" />
               </div>
-              <h3 className="font-[family-name:var(--font-anton)] text-2xl uppercase tracking-wider text-white mb-2">
-                ¡Contraseña <span className="text-emerald-400">Restablecida!</span>
+              <h3 className={`${TITULO} !text-2xl mb-2`}>
+                ¡Contraseña <span className="text-green-600 dark:text-green-300">restablecida!</span>
               </h3>
-              <p className="font-[family-name:var(--font-archivo)] text-xs text-white/70 max-w-[280px] mx-auto">
+              <p className={SUBTITULO}>
                 Tu contraseña ha sido actualizada y tus sesiones previas revocadas. Redirigiendo al inicio de sesión...
               </p>
             </div>
