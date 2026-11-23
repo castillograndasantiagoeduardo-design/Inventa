@@ -1,5 +1,5 @@
 /**
- * auth.service.ts — Implementación del servicio de autenticación para Warengine.
+ * auth.service.ts — Implementación del servicio de autenticación para Inventa.
  *
  * Principios SOLID aplicados:
  * - Single Responsibility Principle (SRP): Centraliza todas las llamadas a la API de autenticación.

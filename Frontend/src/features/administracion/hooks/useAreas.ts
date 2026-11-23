@@ -5,7 +5,7 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
-import { crearAreaSchema } from '@warengine/contracts';
+import { crearAreaSchema } from '@inventa/contracts';
 import { useRecurso } from '@/lib/hooks/useRecurso';
 import { useFormulario } from '@/lib/hooks/useFormulario';
 import { mensajeDeError } from '@/lib/forms/validacion';

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * TarjetaKpi.tsx — Tarjeta métrica ejecutiva translúcida (.vidrio) para WarEngine.
+ * TarjetaKpi.tsx — Tarjeta métrica ejecutiva translúcida (.vidrio) para Inventa.
  *
  * Implementación alineada con prueba-diseno-warengine (localhost:3005):
  * 1. Envuelve directamente al componente base <Tarjeta className="h-full">.
@@ -16,7 +16,7 @@ import { Tarjeta } from './Tarjeta';
 import { Insignia, type VarianteInsignia } from './Insignia';
 
 export interface TarjetaKpiProps {
-  // Soporta nomenclatura de WarEngine y de la prueba de diseño
+  // Soporta nomenclatura de Inventa y de la prueba de diseño
   titulo?: string;
   etiqueta?: string;
   valor: string | number;

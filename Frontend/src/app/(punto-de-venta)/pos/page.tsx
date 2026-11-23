@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * page.tsx — Terminal Punto de Venta (POS) para Cajeros de WarEngine.
+ * page.tsx — Terminal Punto de Venta (POS) para Cajeros de Inventa.
  *
  * Implementación completa de punta a punta:
  * - Ciclo de vida de turnos de caja (apertura con fondo inicial, estado activo, arqueo y cierre con diferencia).

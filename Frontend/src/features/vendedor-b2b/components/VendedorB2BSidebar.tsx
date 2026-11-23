@@ -7,6 +7,8 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { InventaLogo } from '@/components/panel/InventaLogo';
+import { InventaWordmark } from '@/components/panel/InventaWordmark';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/features/autenticacion';
 import { Insignia } from '@/components/Insignia';
@@ -166,18 +168,14 @@ export function VendedorB2BSidebar({
             }`}
           >
             <div className="flex items-center gap-3 min-w-0">
-              <div
-                className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center text-btn-primario-texto font-sans font-semibold text-sm shrink-0 shadow-sm shadow-brand-600/30 transition-colors duration-300"
-                title="WarEngine — Vendedor B2B"
-                aria-label="Logo de WarEngine"
-              >
-                W
-              </div>
+              <span className="shrink-0" title="Inventa — Vendedor B2B">
+                <InventaLogo className="w-8 rounded-lg shadow-sm" />
+              </span>
 
               {!isCollapsed && (
                 <div className="min-w-0">
-                  <span className="font-titulos font-semibold text-sm tracking-normal text-text block leading-tight">
-                    WarEngine
+                  <span className="block leading-tight">
+                    <InventaWordmark className="text-base text-text" />
                   </span>
                   <span className="font-sans text-xs font-medium text-text-muted block leading-tight mt-0.5 whitespace-nowrap">
                     Ventas B2B

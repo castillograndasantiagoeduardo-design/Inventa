@@ -9,7 +9,7 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
-import { cambiarRolSchema, restablecerPasswordSchema } from '@warengine/contracts';
+import { cambiarRolSchema, restablecerPasswordSchema } from '@inventa/contracts';
 import { useToast } from '@/components/ui/Toast';
 import { mensajeDeError } from '@/lib/forms/validacion';
 import { useFormulario } from '@/lib/hooks/useFormulario';

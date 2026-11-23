@@ -1,5 +1,5 @@
 /**
- * http-client.ts — Cliente HTTP centralizado y tipado para Warengine.
+ * http-client.ts — Cliente HTTP centralizado y tipado para Inventa.
  *
  * Principios SOLID aplicados:
  * - Single Responsibility (SRP): Único responsable de la comunicación por red,

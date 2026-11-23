@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * BranchOverviewView.tsx — Vista principal del Dashboard de Administrador de Sucursal (WarEngine).
+ * BranchOverviewView.tsx — Vista principal del Dashboard de Administrador de Sucursal (Inventa).
  *
  * Implementa estrictamente la especificación maestra:
  * 1. Encabezado con Título, Fecha y botones Exportar / Ver inventario (sin "Nueva factura").

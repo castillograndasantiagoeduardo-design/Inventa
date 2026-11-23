@@ -6,7 +6,7 @@ import type {
   ActualizarClienteInput,
   FiltrosClientesState,
 } from '../types/branch-clients.types';
-import type { FacturaDto } from '@warengine/contracts';
+import type { FacturaDto } from '@inventa/contracts';
 
 export interface IBranchClientsService {
   listarClientes(filtros: FiltrosClientesState): Promise<ClientesPaginadosDto>;

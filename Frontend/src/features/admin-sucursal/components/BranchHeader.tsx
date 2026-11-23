@@ -11,6 +11,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { STORAGE_KEYS } from '@/lib/storage-keys';
 import { Search, Sun, Moon, Building2, Menu } from 'lucide-react';
 import { useAuth } from '@/features/autenticacion';
 import { SelectorPaleta } from './SelectorPaleta';
@@ -52,7 +53,7 @@ export function BranchHeader({
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const m = (localStorage.getItem('warengine-tema') as 'dark' | 'light') || 'dark';
+    const m = (localStorage.getItem(STORAGE_KEYS.tema) as 'dark' | 'light') || 'dark';
     setModo(m);
   }, []);
 
@@ -67,7 +68,7 @@ export function BranchHeader({
       d.classList.add('dark');
       d.classList.remove('light');
     }
-    localStorage.setItem('warengine-tema', nuevo);
+    localStorage.setItem(STORAGE_KEYS.tema, nuevo);
   };
 
   // Cálculo de nombre e iniciales del usuario para la cápsula ejecutiva

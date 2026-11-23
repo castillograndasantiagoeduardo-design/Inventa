@@ -4,7 +4,7 @@
  * /dashboard/empleados — Directorio de personal y salarios.
  */
 
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 import { RequierePermiso } from '@/components/panel/RequierePermiso';
 import { EmpleadosView } from '@/features/administracion/components/empleados/EmpleadosView';
 

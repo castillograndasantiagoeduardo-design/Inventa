@@ -6,12 +6,12 @@
  * Principios aplicados:
  * - Single Responsibility (SRP): Aísla la lógica de captura de inputs, validación Zod
  *   y mapeo de errores del componente visual de la tarjeta de login.
- * - Single Source of Truth: Emplea loginSchema importado de @warengine/contracts.
+ * - Single Source of Truth: Emplea loginSchema importado de @inventa/contracts.
  */
 
 import { useState, useCallback } from 'react';
 import { useAuth } from './useAuth';
-import { loginSchema } from '@warengine/contracts';
+import { loginSchema } from '@inventa/contracts';
 import { ApiError } from '@/lib/api';
 import type { LoginResult } from '../types/auth.types';
 

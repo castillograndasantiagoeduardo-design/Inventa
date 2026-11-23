@@ -6,7 +6,7 @@ import {
 } from '@/features/admin-sucursal';
 
 export const metadata = {
-  title: 'Personal y Turnos · Administrador de Sucursal | Warengine',
+  title: 'Personal y Turnos · Administrador de Sucursal | Inventa',
 };
 
 export default function AdminSucursalPersonalLayout({

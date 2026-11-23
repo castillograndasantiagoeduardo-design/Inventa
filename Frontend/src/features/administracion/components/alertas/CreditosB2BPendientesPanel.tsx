@@ -6,7 +6,7 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import type { ClienteDto } from '@warengine/contracts';
+import type { ClienteDto } from '@inventa/contracts';
 import { apiClient, ApiError } from '@/lib/api';
 
 const RIESGO_BADGE = {

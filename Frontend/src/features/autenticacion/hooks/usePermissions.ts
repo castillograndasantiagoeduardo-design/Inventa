@@ -3,14 +3,14 @@
 /**
  * usePermissions.ts — Hook para comprobaciones de autorización granular (RBAC).
  *
- * La UI autoriza SIEMPRE por códigos de permiso (PERMISSIONS de @warengine/contracts),
+ * La UI autoriza SIEMPRE por códigos de permiso (PERMISSIONS de @inventa/contracts),
  * evaluando la lista real que el backend entrega en la sesión, para todos los roles
  * (RF-SA-E4). El rol solo decide a qué pantalla se aterriza tras el login.
  */
 
 import { useCallback, useMemo } from 'react';
 import { useAuth } from './useAuth';
-import { ROLES } from '@warengine/contracts';
+import { ROLES } from '@inventa/contracts';
 
 export function usePermissions() {
   const { usuario, permisos, tienePermiso, tieneRol } = useAuth();

@@ -6,7 +6,7 @@ import {
 } from '@/features/admin-sucursal';
 
 export const metadata = {
-  title: 'Activos y Mantenimientos · Administrador de Sucursal | Warengine',
+  title: 'Activos y Mantenimientos · Administrador de Sucursal | Inventa',
 };
 
 export default function AdminSucursalActivosLayout({

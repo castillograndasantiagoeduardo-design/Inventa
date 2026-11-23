@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Modal } from '@/components/ui/Modal';
-import { actualizarClienteSchema } from '@warengine/contracts';
+import { actualizarClienteSchema } from '@inventa/contracts';
 import type { ActualizarClienteInput, ClienteDto } from '../../types/branch-clients.types';
 import { Loader2 } from 'lucide-react';
 

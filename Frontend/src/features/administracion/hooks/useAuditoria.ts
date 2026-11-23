@@ -3,12 +3,12 @@
 /**
  * useAuditoria.ts — Bitácora paginada en servidor con filtros por fecha, actor, acción y entidad.
  *
- * Los filtros se validan con consultarAuditoriaSchema (@warengine/contracts) antes de pedir;
+ * Los filtros se validan con consultarAuditoriaSchema (@inventa/contracts) antes de pedir;
  * si no son válidos no se hace la petición y se muestra el error en la barra de filtros.
  */
 
 import { useMemo, useState } from 'react';
-import { consultarAuditoriaSchema } from '@warengine/contracts';
+import { consultarAuditoriaSchema } from '@inventa/contracts';
 import { usePermissions } from '@/features/autenticacion';
 import { useListado } from '@/lib/hooks/useListado';
 import { useRecurso } from '@/lib/hooks/useRecurso';

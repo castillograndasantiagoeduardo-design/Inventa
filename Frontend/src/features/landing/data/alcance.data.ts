@@ -1,5 +1,5 @@
 /**
- * alcance.data.ts — Catálogo de slides y áreas comerciales de WarEngine.
+ * alcance.data.ts — Catálogo de slides y áreas comerciales de Inventa.
  */
 
 import type { SlideData } from '../types/landing.types';

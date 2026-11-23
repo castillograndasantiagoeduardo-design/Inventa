@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * GlassCard.tsx — Contenedor de superficie con estética Glassmorphism para WarEngine.
+ * GlassCard.tsx — Contenedor de superficie con estética Glassmorphism para Inventa.
  *
  * Principio SOLID: Single Responsibility Principle (SRP).
  * Encapsula la elevación, sombras, borde translúcido y desenfoque de fondo

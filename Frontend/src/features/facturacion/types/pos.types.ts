@@ -1,8 +1,8 @@
 /**
- * pos.types.ts — Tipos y contratos para la terminal Punto de Venta (POS) del Cajero en WarEngine.
+ * pos.types.ts — Tipos y contratos para la terminal Punto de Venta (POS) del Cajero en Inventa.
  *
  * Principio SOLID:
- * - Single Source of Truth: Reutiliza y mapea fielmente los contratos de `@warengine/contracts`.
+ * - Single Source of Truth: Reutiliza y mapea fielmente los contratos de `@inventa/contracts`.
  */
 
 import type {
@@ -17,7 +17,7 @@ import type {
   MedioPago,
   ClienteDto,
   CrearClienteInput,
-} from '@warengine/contracts';
+} from '@inventa/contracts';
 
 // Re-exportar contratos base
 export type {

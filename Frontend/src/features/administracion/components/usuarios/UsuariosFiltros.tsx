@@ -4,7 +4,7 @@
  * UsuariosFiltros.tsx — Filtros combinables del directorio: estado, rol, sucursal y texto.
  */
 
-import type { RolResumenDto } from '@warengine/contracts';
+import type { RolResumenDto } from '@inventa/contracts';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { etiquetaRol } from '@/lib/format/rol';
 import { FILTROS_ESTADO_USUARIO, type FiltroEstadoUsuario } from '../../hooks/useUsuarios';

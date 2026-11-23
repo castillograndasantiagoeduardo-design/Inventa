@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Tarjeta.tsx — Contenedor oficial en vidrio translúcido (.vidrio) para WarEngine.
+ * Tarjeta.tsx — Contenedor oficial en vidrio translúcido (.vidrio) para Inventa.
  *
  * Implementación oficial idéntica al proyecto de prueba (localhost:3005):
  * - Estilo translúcido con clase .vidrio (backdrop-filter blur 20px, borde 1px translúcido, sombra suave).

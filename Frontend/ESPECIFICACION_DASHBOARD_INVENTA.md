@@ -1,6 +1,6 @@
-# ESPECIFICACIÓN MAESTRA: ESTÁNDAR DE DASHBOARDS WARENGINE (REFERENCIA: ADMIN DE SUCURSAL)
+# ESPECIFICACIÓN MAESTRA: ESTÁNDAR DE DASHBOARDS INVENTA (REFERENCIA: ADMIN DE SUCURSAL)
 
-> **Documento de arquitectura visual y funcional para todos los Dashboards de WarEngine**  
+> **Documento de arquitectura visual y funcional para todos los Dashboards de Inventa**  
 > Esta especificación documenta la implementación definitiva del **Dashboard de Administrador de Sucursal (`/admin-sucursal`)** y establece el estándar obligatorio que deben seguir todos los paneles del sistema (Super Admin, Admin de Sucursal, Logística, B2B y POS).  
 > **Reglas de integración**: Todo dashboard se conecta con el backend real mediante hooks y servicios tipados respetando Clean Architecture y RBAC. **NO se instalan librerías externas de gráficos**.
 
@@ -25,13 +25,13 @@ const scriptInicializacionTema = `
 (function() {
   try {
     var d = document.documentElement;
-    var paleta = localStorage.getItem('warengine-paleta') || 'zafiro';
-    var fondo = localStorage.getItem('warengine-fondo') || 'malla';
-    var tema = localStorage.getItem('warengine-tema') || 'dark';
+    var paleta = localStorage.getItem('inventa-paleta') || 'zafiro';
+    var fondo = localStorage.getItem('inventa-fondo') || 'malla';
+    var tema = localStorage.getItem('inventa-tema') || 'dark';
     d.setAttribute('data-paleta', paleta);
     d.setAttribute('data-fondo', fondo);
     if (paleta === 'personalizada') {
-      var varsRaw = localStorage.getItem('warengine-paleta-custom-vars');
+      var varsRaw = localStorage.getItem('inventa-paleta-custom-vars');
       if (varsRaw) {
         var varsObj = JSON.parse(varsRaw);
         for (var k in varsObj) {
@@ -167,7 +167,7 @@ El tema inicial por defecto es **`zafiro`** (Negro marino `#070d1a`, Azul `#3b6c
 
 > **Diagnóstico técnico importante (Turbopack vs Webpack):**
 > - En el proyecto de referencia (`prueba-diseno-warengine` en `localhost:3005`), compilado con `@tailwindcss/turbopack` (LightningCSS), escribir `-webkit-backdrop-filter` inmediatamente después de `backdrop-filter` hacía que LightningCSS **descartara la propiedad estándar `backdrop-filter`** y emitiera únicamente `-webkit-backdrop-filter: blur(20px) saturate(160%)`, el cual Chrome moderno ignora cuando no está la propiedad estándar. Gracias a eso, las tarjetas en `localhost:3005` se veían 100% cristalinas, permitiendo ver con total nitidez las líneas de `1px` de la cuadrícula (`.trama-malla`) a través de ellas.
-> - En cambio, en **WarEngine (`localhost:3000`)**, compilado con `next dev --webpack` (`@tailwindcss/postcss`), el compilador conservaba `backdrop-filter: blur(20px) saturate(160%)`. Esto causaba dos problemas visuales severos:
+> - En cambio, en **Inventa (`localhost:3000`)**, compilado con `next dev --webpack` (`@tailwindcss/postcss`), el compilador conservaba `backdrop-filter: blur(20px) saturate(160%)`. Esto causaba dos problemas visuales severos:
 >   1. **`blur(20px)` borraba por completo la retícula `.trama-malla`** detrás de las tarjetas (una línea de `1px` al `4%` de opacidad difuminada 20px desaparece por completo), haciendo que las tarjetas parecieran tener un fondo sólido y opaco.
 >   2. **`saturate(160%)` sobreenfatizaba la luz azul de fondo (`mancha-aurora-2`)** detrás de las primeras tarjetas KPI, tiñendo las tarjetas de un relleno azul eléctrico saturado.
 > - Adicionalmente, todas las tarjetas del dashboard (`TarjetaKpi`, `GraficoVentas`, `TarjetaRequiereAtencion`, `TablaFacturas`, `MetodosPago`, `TarjetaActivos`) deben envolverse siempre en el componente base `<Tarjeta>` (`className="vidrio flex flex-col overflow-hidden"`), sin añadir clases `bg-*` ni pseudo-elementos con gradientes radiales encima.
@@ -281,7 +281,7 @@ Utilitario puro en TypeScript (sin librerías externas) que:
     - `/admin-sucursal/personal` → Personal y Turnos de Sede (`BranchStaffView`)
     - `/admin-sucursal/clientes`, `/admin-sucursal/activos`, `/admin-sucursal/reportes`, `/admin-sucursal/configuracion` → Vistas con estado estándar `ModuleUnderConstruction`.
 - **Modo Expandido (`w-64`)**:
-  - **Encabezado (`h-16 px-4 flex items-center justify-between border-b border-border`)**: A la izquierda el logo `"W"` (`w-8 h-8 rounded-lg bg-brand-600`) junto a `"WarEngine"` y `"Admin. de sucursal"`. Al extremo derecho (`ml-auto`), el botón con ícono `PanelLeftClose` para colapsar la barra lateral sin sobreponerse nunca al texto.
+  - **Encabezado (`h-16 px-4 flex items-center justify-between border-b border-border`)**: A la izquierda el logo `"W"` (`w-8 h-8 rounded-lg bg-brand-600`) junto a `"Inventa"` y `"Admin. de sucursal"`. Al extremo derecho (`ml-auto`), el botón con ícono `PanelLeftClose` para colapsar la barra lateral sin sobreponerse nunca al texto.
   - **Navegación**: Secciones `MENÚ` (`Dashboard`, `Facturación`, `Inventario`, `Clientes`), `OPERACIONES` (`Personal`, `Activos`, `Reportes`) y `SISTEMA` (`Configuración`).
   - **Pie (`p-3 border-t border-border`)**: Botón discreto de `Cerrar sesión` (`LogOut`).
 - **Modo Colapsado / Dock (`w-20`)**:

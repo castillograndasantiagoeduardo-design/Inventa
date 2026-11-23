@@ -14,10 +14,10 @@ export function HeroCopy({ isVisible = true }: { isVisible?: boolean }) {
           ? 'opacity-100 translate-x-0'
           : 'opacity-0 -translate-x-[4vw]'
       }`}
-      aria-label="Presentación WarEngine"
+      aria-label="Presentación Inventa"
     >
       <h1 className="relative inline-block font-[family-name:var(--font-anton)] text-[clamp(48px,9.25vw,140px)] leading-none uppercase text-white tracking-normal">
-        WAR<em className="not-italic text-[var(--gold)]">E</em>NGINE
+        INVENTA
         <span className="absolute left-[calc(100%+0.25em)] top-[-0.62em] w-[1.75em] h-[1.75em] rounded-full bg-[var(--gold)] text-white font-[family-name:var(--font-archivo)] font-black text-[0.13em] leading-[1.75em] text-center inline-block">
           R
         </span>

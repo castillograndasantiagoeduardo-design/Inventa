@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * Insignia.tsx — Badge semántico oficial WarEngine.
+ * Insignia.tsx — Badge semántico oficial Inventa.
  *
  * Utiliza colores de estado fijos (success, warning, danger, info, neutral, brand)
  * con ring-1 ring-inset, tipografía sans/mono y soporte de iconos o puntos de estado.

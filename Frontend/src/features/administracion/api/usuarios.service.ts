@@ -10,7 +10,7 @@ import type {
   CrearUsuarioInput,
   FiltrosUsuariosQuery,
   RolResumenDto,
-} from '@warengine/contracts';
+} from '@inventa/contracts';
 import { IHttpClient, apiClient } from '@/lib/api';
 import { normalizarPaginado, type Paginado, type RespuestaListado } from '@/lib/types/paginacion';
 import type { SucursalesDeUsuario, UsuarioGestionado } from '../types';

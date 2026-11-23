@@ -2,7 +2,7 @@
  * validacion.ts — Traducción de errores de validación (Zod local o API) a errores por campo.
  *
  * Se usa un tipo estructural (EsquemaValidable) en lugar de importar zod, porque
- * @warengine/contracts trae su propia versión de zod: así cualquier esquema del
+ * @inventa/contracts trae su propia versión de zod: así cualquier esquema del
  * paquete encaja sin acoplar versiones.
  */
 

@@ -8,7 +8,7 @@
  */
 
 import { IHttpClient, apiClient } from '@/lib/api';
-import type { StockSucursalResponseDTO } from '@warengine/contracts';
+import type { StockSucursalResponseDTO } from '@inventa/contracts';
 import type { IPosService, EmitirFacturaInput, EnviarAlertaAdminInput } from './pos.interface';
 import type {
   TurnoCajaDto,

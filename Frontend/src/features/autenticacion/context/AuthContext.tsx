@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * AuthContext.tsx — Contexto global de autenticación y sesión de WarEngine.
+ * AuthContext.tsx — Contexto global de autenticación y sesión de Inventa.
  *
  * Principios SOLID y Seguridad:
  * - Single Responsibility: Administra exclusivamente el estado de la sesión en memoria

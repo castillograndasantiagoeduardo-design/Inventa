@@ -1,17 +1,17 @@
 ---
-name: diseno-vistas-warengine
-description: Sistema de diseño oficial de WarEngine (Glassmorphism Ejecutivo: Negro/Marino, Azul Zafiro y Blanco). Úsala siempre para crear o actualizar cualquier dashboard, vista, pantalla, tabla, formulario, modal o componente del frontend de WarEngine manteniendo consistencia total con el estándar de Admin de Sucursal.
+name: diseno-vistas-inventa
+description: Sistema de diseño oficial de Inventa (Glassmorphism Ejecutivo: Negro/Marino, Azul Zafiro y Blanco). Úsala siempre para crear o actualizar cualquier dashboard, vista, pantalla, tabla, formulario, modal o componente del frontend de Inventa manteniendo consistencia total con el estándar de Admin de Sucursal.
 ---
 
-# SKILL: Sistema de Diseño y Arquitectura Visual WarEngine
+# SKILL: Sistema de Diseño y Arquitectura Visual Inventa
 
-Esta skill define las reglas visuales, tokens CSS, tipografía, niveles de transparencia (*glassmorphism*), estructura de layout (Sidebar + Navbar) y componentes base para construir **cualquier dashboard o vista del proyecto WarEngine**, tomando como referencia canónica el **Dashboard de Administrador de Sucursal (`/admin-sucursal`)**.
+Esta skill define las reglas visuales, tokens CSS, tipografía, niveles de transparencia (*glassmorphism*), estructura de layout (Sidebar + Navbar) y componentes base para construir **cualquier dashboard o vista del proyecto Inventa**, tomando como referencia canónica el **Dashboard de Administrador de Sucursal (`/admin-sucursal`)**.
 
 ---
 
 ## 1. Identidad Visual y Tema Inicial por Defecto (Negro, Azul y Blanco)
 
-El estilo de WarEngine es **ejecutivo, sobrio, corporativo y de alta precisión**. Todas las vistas deben arrancar por defecto en **Modo Oscuro (`.dark`)** con la paleta **Zafiro Ejecutivo (`data-paleta="zafiro"`)** y el efecto de fondo **Retícula + luz (`data-fondo="malla"`)**, cuya tríada cromática base es:
+El estilo de Inventa es **ejecutivo, sobrio, corporativo y de alta precisión**. Todas las vistas deben arrancar por defecto en **Modo Oscuro (`.dark`)** con la paleta **Zafiro Ejecutivo (`data-paleta="zafiro"`)** y el efecto de fondo **Retícula + luz (`data-fondo="malla"`)**, cuya tríada cromática base es:
 
 1. **Negro / Marino Profundo (`#070d1a` y `#0f1b33`)**: Lienzo principal y superficies de alta densidad.
 2. **Azul Ejecutivo (`#3b6cf2` y `#2551d6`)**: Acento principal de marca, botones primarios, estados activos, indicadores e iluminación ambiental.
@@ -91,7 +91,7 @@ Se cargan **3 fuentes** para los paneles mediante `next/font/google` en `layout.
 
 ## 3. Transparencia, Capas de Cristal (Glassmorphism) y Fondo Ambiental
 
-El efecto flotante y translúcido de WarEngine se basa en **4 niveles de superficie** sobre un fondo con iluminación ambiental difusa y retícula arquitectónica:
+El efecto flotante y translúcido de Inventa se basa en **4 niveles de superficie** sobre un fondo con iluminación ambiental difusa y retícula arquitectónica:
 
 ### 3.1. Fondo Ambiental Dinámico (`FondoAmbiental.tsx`)
 Cada dashboard debe incluir detrás del contenido (`fixed inset-0 pointer-events-none -z-10 overflow-hidden`) las manchas de luz y la retícula:
@@ -113,7 +113,7 @@ Cada dashboard debe incluir detrás del contenido (`fixed inset-0 pointer-events
 ### 3.3. Regla Crítica sobre `.vidrio` en Webpack (Por qué NO debe llevar `backdrop-filter: blur(20px) saturate(160%)`)
 
 > **Problema detectado y resuelto en `/admin-sucursal`:**  
-> En proyectos que usan `@tailwindcss/turbopack` (LightningCSS), escribir `-webkit-backdrop-filter` después de `backdrop-filter` provocaba que el compilador descartara `backdrop-filter` y dejara solo el prefijo `-webkit-`, el cual Chrome moderno ignora. En cambio, en **WarEngine (`next dev --webpack` con `@tailwindcss/postcss`)**, el compilador sí mantenía activo `backdrop-filter: blur(20px) saturate(160%)`.  
+> En proyectos que usan `@tailwindcss/turbopack` (LightningCSS), escribir `-webkit-backdrop-filter` después de `backdrop-filter` provocaba que el compilador descartara `backdrop-filter` y dejara solo el prefijo `-webkit-`, el cual Chrome moderno ignora. En cambio, en **Inventa (`next dev --webpack` con `@tailwindcss/postcss`)**, el compilador sí mantenía activo `backdrop-filter: blur(20px) saturate(160%)`.  
 > Cuando `backdrop-filter: blur(20px) saturate(160%)` se aplica sobre `.vidrio`:
 > 1. El `blur(20px)` difumina las líneas de `1px` de `.trama-malla` detrás de cada tarjeta hasta borrarlas por completo, haciendo que las tarjetas se vean opacas y sin cuadrícula interior.
 > 2. El `saturate(160%)` multiplica por `1.6x` la saturación de la luz azul detrás de las tarjetas KPI, tiñendo las tarjetas de un relleno azul eléctrico sólido.
@@ -164,7 +164,7 @@ Cada dashboard debe incluir detrás del contenido (`fixed inset-0 pointer-events
 
 ## 4. Estructura Maestra de Layout (Sidebar + Barra Superior + Contenido)
 
-Todos los dashboards autenticados de WarEngine comparten el mismo esqueleto flotante con margen perimetral y `relative isolate`:
+Todos los dashboards autenticados de Inventa comparten el mismo esqueleto flotante con margen perimetral y `relative isolate`:
 
 ```tsx
 <div className="min-h-screen bg-bg text-text font-sans relative isolate overflow-x-clip transition-colors duration-300">
@@ -195,7 +195,7 @@ Todos los dashboards autenticados de WarEngine comparten el mismo esqueleto flot
 - Usa `.vidrio-fuerte` con altura `h-[calc(100vh-2rem)]` y bordes `rounded-2xl`.
 - **Dos modos**:
   - **Expandido (`w-64`)**:
-    - Encabezado `h-16 px-4 flex items-center justify-between border-b border-border` con el logo `"W"` (`w-8 h-8 rounded-lg bg-brand-600 text-btn-primario-texto`), nombre `"WarEngine"`, rol `"Admin. de sucursal"` y a la extrema derecha (`ml-auto`) el botón con ícono `PanelLeftClose` para colapsar el sidebar sin sobreponerse al texto.
+    - Encabezado `h-16 px-4 flex items-center justify-between border-b border-border` con el logo `"W"` (`w-8 h-8 rounded-lg bg-brand-600 text-btn-primario-texto`), nombre `"Inventa"`, rol `"Admin. de sucursal"` y a la extrema derecha (`ml-auto`) el botón con ícono `PanelLeftClose` para colapsar el sidebar sin sobreponerse al texto.
     - Secciones de navegación (`MENÚ`, `OPERACIONES`, `SISTEMA`).
     - Pie `p-3 border-t border-border` con el botón discreto `Cerrar sesión` (`LogOut`).
   - **Colapsado / Dock (`w-20`)**:
@@ -213,7 +213,7 @@ Todos los dashboards autenticados de WarEngine comparten el mismo esqueleto flot
 
 ## 5. Catálogo de Componentes Base para Todos los Dashboards
 
-Al construir o rediseñar cualquier dashboard o vista de módulo en WarEngine, reutiliza siempre estos componentes base:
+Al construir o rediseñar cualquier dashboard o vista de módulo en Inventa, reutiliza siempre estos componentes base:
 
 1. **Encabezado de Vista**:
    - Izquierda: `<h1 className="text-2xl sm:text-3xl font-titulos font-semibold tracking-[-0.005em] text-text">` + subtítulo `text-sm font-sans font-medium text-text-muted mt-1`.

@@ -10,7 +10,7 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
-import type { CotizacionB2BDto, EstadoPedidoB2B } from '@warengine/contracts';
+import type { CotizacionB2BDto, EstadoPedidoB2B } from '@inventa/contracts';
 import { apiClient, ApiError } from '@/lib/api';
 import { GlassCard } from './GlassCard';
 

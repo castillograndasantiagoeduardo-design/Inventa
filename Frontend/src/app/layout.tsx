@@ -65,7 +65,7 @@ const bodoni = Bodoni_Moda({
 });
 
 export const metadata: Metadata = {
-  title: "WarEngine — Administración, Ventas & Logística a otro nivel",
+  title: "Inventa — Administración, Ventas & Logística a otro nivel",
   description:
     "Sistema ERP / POS multi-sucursal para cadenas comerciales, inventario multi-almacén y facturación electrónica.",
 };
@@ -76,17 +76,33 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Las claves de localStorage van en literal porque este script inline no puede
+// importar módulos. Fuente de verdad: src/lib/storage-keys.ts (STORAGE_KEYS y
+// LEGACY_STORAGE_KEYS); si cambias una allí, cámbiala también aquí.
 const scriptInicializacionTema = `
 (function() {
+  // Migración del rebrand Warengine → Inventa: va antes de las lecturas para evitar parpadeo.
+  try {
+    var claves = ['tema', 'paleta', 'fondo', 'paleta-custom', 'paleta-custom-vars'];
+    for (var i = 0; i < claves.length; i++) {
+      var vieja = 'warengine-' + claves[i];
+      var nueva = 'inventa-' + claves[i];
+      var valor = localStorage.getItem(vieja);
+      if (valor !== null && localStorage.getItem(nueva) === null) {
+        localStorage.setItem(nueva, valor);
+      }
+      if (valor !== null) localStorage.removeItem(vieja);
+    }
+  } catch (e) {}
   try {
     var d = document.documentElement;
-    var paleta = localStorage.getItem('warengine-paleta') || 'zafiro';
-    var fondo = localStorage.getItem('warengine-fondo') || 'malla';
-    var tema = localStorage.getItem('warengine-tema') || 'dark';
+    var paleta = localStorage.getItem('inventa-paleta') || 'zafiro';
+    var fondo = localStorage.getItem('inventa-fondo') || 'malla';
+    var tema = localStorage.getItem('inventa-tema') || 'dark';
     d.setAttribute('data-paleta', paleta);
     d.setAttribute('data-fondo', fondo);
     if (paleta === 'personalizada') {
-      var varsRaw = localStorage.getItem('warengine-paleta-custom-vars');
+      var varsRaw = localStorage.getItem('inventa-paleta-custom-vars');
       if (varsRaw) {
         var varsObj = JSON.parse(varsRaw);
         for (var k in varsObj) {

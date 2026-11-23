@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * AuthCard.tsx — Tarjeta de autenticación neumórfica para WarEngine.
+ * AuthCard.tsx — Tarjeta de autenticación neumórfica para Inventa.
  *
  * Principios SOLID aplicados:
  * - Single Responsibility Principle (SRP): Orquesta los subcomponentes especializados
@@ -199,7 +199,7 @@ export function AuthCard() {
               {/* Switch Móvil a Iniciar Sesión */}
               <div className="mt-5 pt-4 border-t border-white/[0.08] text-center">
                 <p className="font-[family-name:var(--font-archivo)] text-[11px] text-white/60 mb-1.5">
-                  ¿Ya tienes una cuenta activa en WarEngine?
+                  ¿Ya tienes una cuenta activa en Inventa?
                 </p>
                 <button
                   type="button"

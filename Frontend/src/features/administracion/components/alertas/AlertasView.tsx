@@ -5,7 +5,7 @@
  */
 
 import { useState } from 'react';
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 import { PageHeader } from '@/components/panel/PageHeader';
 import { SegmentedControl } from '@/components/ui/SegmentedControl';
 import { usePermissions } from '@/features/autenticacion';

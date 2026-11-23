@@ -19,7 +19,7 @@
 
 import { IHttpClient, apiClient } from '@/lib/api';
 import { formatCOP } from '@/lib/format/moneda';
-import type { FacturaDto, TurnoAbiertoDto } from '@warengine/contracts';
+import type { FacturaDto, TurnoAbiertoDto } from '@inventa/contracts';
 import type { MetricasGanancias, PuntoTendenciaVenta } from '@/features/administracion/types';
 import type {
   IBranchDashboardService,

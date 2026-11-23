@@ -4,7 +4,7 @@
  * /dashboard/sucursales — Gestión de sucursales (Super Admin).
  */
 
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 import { RequierePermiso } from '@/components/panel/RequierePermiso';
 import { SucursalesView } from '@/features/administracion/components/sucursales/SucursalesView';
 

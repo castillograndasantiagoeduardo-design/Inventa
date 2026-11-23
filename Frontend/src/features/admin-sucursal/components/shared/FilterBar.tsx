@@ -3,7 +3,7 @@
 /**
  * FilterBar.tsx — Contenedor compartido para barra de búsqueda, filtros y acciones de tabla.
  *
- * Reutiliza el contenedor base `<Tarjeta>` (`.vidrio`) del sistema de diseño WarEngine,
+ * Reutiliza el contenedor base `<Tarjeta>` (`.vidrio`) del sistema de diseño Inventa,
  * organizando los slots de búsqueda, filtros y acciones de forma responsive.
  */
 

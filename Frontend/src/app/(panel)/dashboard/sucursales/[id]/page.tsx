@@ -5,7 +5,7 @@
  */
 
 import { useParams } from 'next/navigation';
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 import { RequierePermiso } from '@/components/panel/RequierePermiso';
 import { SucursalDetalleView } from '@/features/administracion/components/sucursales/detalle/SucursalDetalleView';
 

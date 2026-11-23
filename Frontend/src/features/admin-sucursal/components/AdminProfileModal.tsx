@@ -29,7 +29,7 @@ export function AdminProfileModal({
   isOpen,
   onClose,
   perfil,
-  email = 'admin.norte@warengine.local',
+  email = 'admin.norte@inventa.local',
   rolNombre = 'admin-sucursal',
   onGuardarContacto,
 }: AdminProfileModalProps) {

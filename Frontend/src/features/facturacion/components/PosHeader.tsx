@@ -1,14 +1,15 @@
 'use client';
 
 /**
- * PosHeader.tsx — Barra superior de control de la Terminal POS de WarEngine.
+ * PosHeader.tsx — Barra superior de control de la Terminal POS de Inventa.
  *
  * Muestra la identidad de la sucursal, datos del cajero, estado de la caja
  * en tiempo real y accesos rápidos a alertas, historial y cierre de turno.
  */
 
 import React from 'react';
-import { WarEngineLogo } from '@/components/panel/WarEngineLogo';
+import { InventaLogo } from '@/components/panel/InventaLogo';
+import { InventaWordmark } from '@/components/panel/InventaWordmark';
 import type { TurnoCajaDto } from '../types/pos.types';
 
 interface PosHeaderProps {
@@ -55,12 +56,13 @@ export function PosHeader({
       {/* Lado izquierdo: Marca y Sucursal */}
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 flex items-center justify-center drop-shadow-[0_2px_8px_rgba(217,160,45,0.35)]">
-          <WarEngineLogo className="w-9" />
+          <InventaLogo className="w-9 rounded-lg" />
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="font-[family-name:var(--font-anton)] text-[#e3b341] text-lg tracking-wider uppercase">
-              WarEngine POS
+            <h1 className="flex items-baseline gap-1.5">
+              <InventaWordmark className="text-xl text-white" />
+              <span className="font-[family-name:var(--font-anton)] text-[#F59E0B] text-base tracking-wider uppercase">POS</span>
             </h1>
             <span className="px-2 py-0.5 rounded-full bg-[#14213D] border border-white/10 text-[10px] text-white/80 font-medium">
               {sucursalNombre || 'Sede Principal'}

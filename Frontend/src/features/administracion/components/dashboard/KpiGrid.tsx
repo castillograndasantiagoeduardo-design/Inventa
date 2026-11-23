@@ -6,7 +6,7 @@
  * Cada fila se muestra solo si la sesión tiene el permiso de su endpoint.
  */
 
-import type { ResumenDashboardResponse } from '@warengine/contracts';
+import type { ResumenDashboardResponse } from '@inventa/contracts';
 import { formatCOP, formatNumero, formatPorcentaje } from '@/lib/format/moneda';
 import type { MetricasGanancias } from '../../types';
 import { KpiCard } from './KpiCard';

@@ -9,7 +9,7 @@ import type {
   FiltrosClientesState,
 } from '../types/branch-clients.types';
 import { branchClientsService } from '../api/branch-clients.service';
-import type { FacturaDto } from '@warengine/contracts';
+import type { FacturaDto } from '@inventa/contracts';
 
 const RESUMEN_INICIAL: ResumenClientesDto = {
   total: 0,

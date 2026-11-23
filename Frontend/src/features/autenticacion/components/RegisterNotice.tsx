@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * RegisterNotice.tsx — Vista informativa para 'Crear Cuenta' en WarEngine ERP.
+ * RegisterNotice.tsx — Vista informativa para 'Crear Cuenta' en Inventa ERP.
  *
  * Principio SOLID:
  * - Single Responsibility: Explica amigablemente la política corporativa de cuentas
@@ -81,7 +81,7 @@ export function RegisterNotice({
               🏢 Sistema ERP Multi-Sucursal Privado
             </p>
             <p className="text-white/65">
-              En WarEngine, los perfiles de operadores, cajeros y supervisores son gestionados por el Administrador de cada Sucursal.
+              En Inventa, los perfiles de operadores, cajeros y supervisores son gestionados por el Administrador de cada Sucursal.
             </p>
           </div>
 

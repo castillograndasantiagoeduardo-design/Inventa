@@ -7,7 +7,7 @@
  * añadir una entrada aquí y crear la ruta en src/app/(panel)/dashboard/<ruta>/page.tsx.
  */
 
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 
 export interface PanelMenuItem {
   href: string;

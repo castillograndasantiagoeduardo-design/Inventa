@@ -51,9 +51,9 @@ export function BranchStatusBar({
         </span>
       </div>
 
-      {/* 2. Firma Corporativa WarEngine */}
+      {/* 2. Firma Corporativa Inventa */}
       <div className="tracking-widest uppercase font-mono text-[10px] text-slate-600">
-        WARENGINE / CONTROL DE OPERACIONES
+        INVENTA / CONTROL DE OPERACIONES
       </div>
     </footer>
   );

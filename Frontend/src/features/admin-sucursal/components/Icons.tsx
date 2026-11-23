@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * Icons.tsx — Iconografía SVG pura y ligera para el Dashboard de WarEngine.
+ * Icons.tsx — Iconografía SVG pura y ligera para el Dashboard de Inventa.
  * Principio SOLID: Single Responsibility (SRP).
  * Componentes SVG autónomos, optimizados sin dependencias externas pesadas.
  */

@@ -71,7 +71,7 @@ export function PosTicketModal({
         >
           {/* Cabecera del Comercio */}
           <div className="text-center border-b border-dashed border-black/30 pb-3 mb-3">
-            <h2 className="font-bold text-sm tracking-widest uppercase">WARENGINE</h2>
+            <h2 className="font-bold text-sm tracking-widest uppercase">INVENTA</h2>
             <p className="text-[10px] text-black/70">SISTEMA ERP & POS COMERCIAL</p>
             <p className="text-[10px] text-black/70 font-semibold">{sucursalNombre || 'Sede Principal'}</p>
             <p className="text-[9px] text-black/50 mt-1">NIT: 900.123.456-7 · IVA Régimen Común</p>
@@ -150,7 +150,7 @@ export function PosTicketModal({
           {/* Pie de Página Térmico */}
           <div className="text-center text-[9px] text-black/60 pt-2 space-y-0.5">
             <p className="font-semibold">¡GRACIAS POR SU COMPRA!</p>
-            <p>Comprobante generado por WarEngine POS</p>
+            <p>Comprobante generado por Inventa POS</p>
           </div>
         </div>
 

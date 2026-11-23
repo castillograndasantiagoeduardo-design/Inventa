@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * KpiMetricCard.tsx — Tarjeta de indicador de rendimiento clave (KPI) para WarEngine.
+ * KpiMetricCard.tsx — Tarjeta de indicador de rendimiento clave (KPI) para Inventa.
  *
  * Principio SOLID: Single Responsibility Principle (SRP).
  * Diseñado con tipografía monoespaciada con espaciado tabular (tabular-nums),

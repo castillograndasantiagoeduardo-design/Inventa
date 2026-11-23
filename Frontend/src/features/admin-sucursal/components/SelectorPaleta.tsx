@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * SelectorPaleta.tsx — Panel de Apariencia del Dashboard de WarEngine.
+ * SelectorPaleta.tsx — Panel de Apariencia del Dashboard de Inventa.
  *
  * Implementación oficial copiada y adaptada directamente de prueba-diseno-warengine (localhost:3005):
  * 1. MODO: Oscuro / Claro
@@ -12,6 +12,7 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { STORAGE_KEYS } from '@/lib/storage-keys';
 import {
   Palette,
   X,
@@ -126,7 +127,7 @@ export function SelectorPaleta() {
       setEsOscuro(oscuro);
 
       try {
-        const guardado = localStorage.getItem('warengine-paleta-custom');
+        const guardado = localStorage.getItem(STORAGE_KEYS.paletaCustom);
         if (guardado) {
           const parsed = JSON.parse(guardado) as ConfiguracionPaletaPersonalizada;
           setConfigCustom(parsed);
@@ -190,7 +191,7 @@ export function SelectorPaleta() {
     }
 
     try {
-      localStorage.setItem('warengine-paleta', id);
+      localStorage.setItem(STORAGE_KEYS.paleta, id);
     } catch {}
   };
 
@@ -213,13 +214,13 @@ export function SelectorPaleta() {
 
       try {
         const vars = generarVariablesDesdeConfig(nuevaConfig);
-        localStorage.setItem('warengine-paleta', 'personalizada');
+        localStorage.setItem(STORAGE_KEYS.paleta, 'personalizada');
         localStorage.setItem(
-          'warengine-paleta-custom',
+          STORAGE_KEYS.paletaCustom,
           JSON.stringify(nuevaConfig)
         );
         localStorage.setItem(
-          'warengine-paleta-custom-vars',
+          STORAGE_KEYS.paletaCustomVars,
           JSON.stringify(vars)
         );
       } catch {}
@@ -234,7 +235,7 @@ export function SelectorPaleta() {
     setFondoActivo(id);
     document.documentElement.setAttribute('data-fondo', id);
     try {
-      localStorage.setItem('warengine-fondo', id);
+      localStorage.setItem(STORAGE_KEYS.fondo, id);
     } catch {}
   };
 
@@ -245,13 +246,13 @@ export function SelectorPaleta() {
       html.classList.add('dark');
       html.classList.remove('light');
       try {
-        localStorage.setItem('warengine-tema', 'dark');
+        localStorage.setItem(STORAGE_KEYS.tema, 'dark');
       } catch {}
     } else {
       html.classList.remove('dark');
       html.classList.add('light');
       try {
-        localStorage.setItem('warengine-tema', 'light');
+        localStorage.setItem(STORAGE_KEYS.tema, 'light');
       } catch {}
     }
   };

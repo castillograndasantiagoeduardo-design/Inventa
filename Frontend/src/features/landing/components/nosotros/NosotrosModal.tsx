@@ -22,10 +22,10 @@ export function NosotrosModal({ isOpen, onClose }: NosotrosModalProps) {
           id="modal-nosotros-title"
           className="font-[family-name:var(--font-anton)] text-3xl text-[var(--gold)] mb-4 uppercase"
         >
-          Sobre WarEngine
+          Sobre Inventa
         </h2>
         <p className="font-[family-name:var(--font-archivo)] font-light text-white/90 leading-relaxed mb-6">
-          WarEngine es la plataforma empresarial integral de última generación diseñada para potenciar la gestión multi-sucursal, facturación POS en tiempo real y trazabilidad logística sin límites.
+          Inventa es la plataforma empresarial integral de última generación diseñada para potenciar la gestión multi-sucursal, facturación POS en tiempo real y trazabilidad logística sin límites.
         </p>
         <button
           type="button"

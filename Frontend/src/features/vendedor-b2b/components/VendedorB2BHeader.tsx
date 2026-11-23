@@ -6,6 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
+import { STORAGE_KEYS } from '@/lib/storage-keys';
 import { Sun, Moon, Menu, Briefcase } from 'lucide-react';
 import { useAuth } from '@/features/autenticacion';
 import { SelectorPaleta } from '@/components/SelectorPaleta';
@@ -31,7 +32,7 @@ export function VendedorB2BHeader({
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    const m = (localStorage.getItem('warengine-tema') as 'dark' | 'light') || 'dark';
+    const m = (localStorage.getItem(STORAGE_KEYS.tema) as 'dark' | 'light') || 'dark';
     setModo(m);
   }, []);
 
@@ -46,7 +47,7 @@ export function VendedorB2BHeader({
       d.classList.add('dark');
       d.classList.remove('light');
     }
-    localStorage.setItem('warengine-tema', nuevo);
+    localStorage.setItem(STORAGE_KEYS.tema, nuevo);
   };
 
   const email = usuario?.email || '';

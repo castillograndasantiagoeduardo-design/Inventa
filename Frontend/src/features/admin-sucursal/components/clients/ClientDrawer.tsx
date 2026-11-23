@@ -22,7 +22,7 @@ import {
   obtenerNivelCredito,
   type ClienteDto,
 } from '../../types/branch-clients.types';
-import type { FacturaDto } from '@warengine/contracts';
+import type { FacturaDto } from '@inventa/contracts';
 
 interface ClientDrawerProps {
   cliente: ClienteDto | null;

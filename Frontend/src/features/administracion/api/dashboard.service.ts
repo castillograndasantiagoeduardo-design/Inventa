@@ -6,7 +6,7 @@
  * (RNF-ADM-04): el Super Admin ve global; el admin de sucursal, solo su sede.
  */
 
-import type { ResumenDashboardResponse } from '@warengine/contracts';
+import type { ResumenDashboardResponse } from '@inventa/contracts';
 import { IHttpClient, apiClient } from '@/lib/api';
 import type { Paginado } from '@/lib/types/paginacion';
 import type {

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * HeroRobotCanvas.tsx — Canvas interactivo del robot de WarEngine siguiendo el cursor.
+ * HeroRobotCanvas.tsx — Canvas interactivo del robot de Inventa siguiendo el cursor.
  *
  * NOTA: La lógica interna de animación se preserva idéntica. Su optimización de rendimiento
  * se abordará en una rama posterior según lo indicado.
@@ -191,7 +191,7 @@ export function HeroRobotCanvas({ isVisible = true }: { isVisible?: boolean }) {
       className={`absolute inset-0 w-full h-full block transition-all duration-700 ease-out ${
         isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-[4vw] pointer-events-none'
       }`}
-      aria-label="Robot animado WarEngine sosteniendo una caja"
+      aria-label="Robot animado Inventa sosteniendo una caja"
     />
   );
 }
