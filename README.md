@@ -1,4 +1,4 @@
-# Warengine
+# Inventa
 
 Plataforma de gestión de inventario, facturación/POS, personal, activos internos y asistente conversacional con IA.
 
