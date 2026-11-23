@@ -10,10 +10,13 @@ export class JwtTokenService implements ITokenService {
   constructor(
     private readonly refreshTokenRepo: IRefreshTokenRepository,
     private readonly jwtSecret: Uint8Array,
+    /** Empresa de la petición en curso (multiempresa); se firma en el claim `emp`. */
+    private readonly obtenerEmpresaId: () => number | undefined = () => undefined,
   ) {}
 
   public async generarTokens(usuarioId: string, rolId: number, recordarme = false): Promise<AuthTokens> {
-    const accessToken = await new SignJWT({ usuarioId, rolId })
+    const emp = this.obtenerEmpresaId();
+    const accessToken = await new SignJWT(emp ? { usuarioId, rolId, emp } : { usuarioId, rolId })
       .setProtectedHeader({ alg: 'HS256' })
       .setIssuedAt()
       .setExpirationTime('15m')
@@ -36,6 +39,7 @@ export class JwtTokenService implements ITokenService {
     return {
       usuarioId: payload.usuarioId as string,
       rolId: payload.rolId as number,
+      empresaId: typeof payload.emp === 'number' ? payload.emp : undefined,
       iat: new Date((payload.iat as number) * 1000),
     };
   }

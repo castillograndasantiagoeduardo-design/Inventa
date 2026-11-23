@@ -10,7 +10,14 @@
  *   6. Devuelve un objeto con todos los casos de uso listos para usar.
  */
 
-import { getDatabase } from '../../database/src/client.ts';
+import {
+  crearDatabaseEnrutada,
+  ejecutarConEmpresa,
+  obtenerEmpresaIdActual,
+  contextoPorDefecto,
+  ResolutorEmpresas,
+  type ContextoEmpresa,
+} from '../../database/src/tenancy/index.ts';
 import { DrizzleUsuarioRepository } from '../../database/src/repositories/autenticacion/drizzle-usuario.repository.ts';
 import { DrizzleRolRepository } from '../../database/src/repositories/autenticacion/drizzle-rol.repository.ts';
 import { DrizzleRefreshTokenRepository } from '../../database/src/repositories/autenticacion/drizzle-refresh-token.repository.ts';
@@ -354,6 +361,21 @@ export interface AppContainer {
   asistente: {
     conversar: ConversarConAsistenteUseCase;
   };
+  /** Multiempresa: resolución de la empresa de cada petición (una base de datos por empresa). */
+  multiempresa: ServicioMultiempresa;
+}
+
+export interface ServicioMultiempresa {
+  /** Ejecuta fn con la empresa indicada como contexto (todas las consultas van a su base). */
+  ejecutarConEmpresa<T>(contexto: ContextoEmpresa, fn: () => T): T;
+  /** Empresa por defecto (instalación de una sola empresa / empresa n.º 1). */
+  contextoPorDefecto(): ContextoEmpresa;
+  /** Empresa firmada en un access token válido; null si el token es inválido o no trae empresa. */
+  empresaDesdeToken(accessToken: string): Promise<ContextoEmpresa | null>;
+  /** Empresa a la que pertenece un correo (directorio central). */
+  empresaDesdeEmail(email: string): Promise<ContextoEmpresa | null>;
+  /** Empresa por id. */
+  empresaPorId(empresaId: number): Promise<ContextoEmpresa | null>;
 }
 
 function leerEnteroPositivo(
@@ -385,7 +407,9 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
 
   const jwtSecret = validarYObtenerJwtSecret(getEnv('JWT_SECRET'));
 
-  const db = getDatabase();
+  // Multiempresa: el db se enruta en cada consulta a la base de la empresa de la petición.
+  const db = crearDatabaseEnrutada();
+  const resolutorEmpresas = new ResolutorEmpresas();
 
   // 1. Instanciar Repositorios
   const usuarioRepository = new DrizzleUsuarioRepository(db);
@@ -421,7 +445,7 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
   const asignacionActivoRepository = new DrizzleAsignacionActivoRepository(db);
   const mantenimientoActivoRepository = new DrizzleMantenimientoActivoRepository(db);
   // 2. Instanciar Servicios Técnicos
-  const tokenService = new JwtTokenService(refreshTokenRepository, jwtSecret);
+  const tokenService = new JwtTokenService(refreshTokenRepository, jwtSecret, obtenerEmpresaIdActual);
   const passwordHasher = new Argon2PasswordHasher();
   const totpService = new TotpService();
   const mailer = new PlatformMailer(getEnv('FRONTEND_URL') ?? 'http://localhost:3000');
@@ -1096,6 +1120,20 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
     },
     asistente: {
       conversar: conversarConAsistenteUseCase,
+    },
+    multiempresa: {
+      ejecutarConEmpresa,
+      contextoPorDefecto,
+      empresaPorId: (empresaId) => resolutorEmpresas.porId(empresaId),
+      empresaDesdeEmail: (email) => resolutorEmpresas.porEmail(email),
+      empresaDesdeToken: async (accessToken) => {
+        try {
+          const payload = await tokenService.validarAccessToken(accessToken);
+          return payload.empresaId ? await resolutorEmpresas.porId(payload.empresaId) : null;
+        } catch {
+          return null;
+        }
+      },
     },
   };
 }

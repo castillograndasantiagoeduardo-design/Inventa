@@ -11,6 +11,7 @@ import { createInventarioRoutes } from './routes/inventario.routes.ts';
 import { createAsistenteRoutes } from './routes/asistente.routes.ts';
 import { createLogisticaRoutes } from './routes/logistica.routes.ts';
 import { createSwaggerRoutes } from './docs/swagger.routes.ts';
+import { empresaMiddleware } from './middlewares/empresa.middleware.ts';
 
 const app = new Hono();
 const container = createContainer();
@@ -37,6 +38,9 @@ app.use(
     allowHeaders: ['Content-Type', 'Authorization'],
   }),
 );
+
+// Multiempresa: cada petición corre en el contexto de su empresa (una base de datos por empresa).
+app.use('*', empresaMiddleware(container));
 
 // Rutas base
 app.get('/health', (c) => c.text('Inventa API - OK'));

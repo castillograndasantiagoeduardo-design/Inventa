@@ -40,6 +40,7 @@
     "seed:dev": "NODE_ENV=development deno run --allow-net --allow-env --allow-read --allow-ffi --allow-run --env packages/database/src/seeds/run.ts",
     "seed:clean": "deno run --allow-net --allow-env --allow-read --allow-ffi --allow-run --env packages/database/src/seeds/limpiar-negocio.seed.ts",
     "seed:expo": "deno run --allow-net --allow-env --allow-read --allow-ffi --allow-run --env packages/database/src/seeds/expo.seed.ts",
+    "seed:central": "deno run --allow-net --allow-env --allow-read --allow-ffi --allow-run --env packages/database/src/seeds/central.seed.ts",
     "seed:demo":"deno run --allow-net --allow-env --allow-read --allow-ffi --allow-run --env packages/database/src/seeds/demo.seed.ts",
     "test": "deno test --allow-all",
     "lint": "deno lint apps/ packages/",
