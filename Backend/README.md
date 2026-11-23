@@ -1,4 +1,4 @@
-# Backend/ — Backend completo de Warengine (workspace de Deno)
+# Backend/ — Backend completo de Inventa (workspace de Deno)
 
 Contiene la API REST, el servidor MCP y todos los paquetes de lógica y adaptadores.
 

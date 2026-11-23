@@ -19,7 +19,7 @@ export class GmailMailer implements IOtpMailer {
   constructor() {
     this.user = Deno.env.get('GMAIL_USER');
     this.pass = Deno.env.get('GMAIL_APP_PASSWORD');
-    this.from = Deno.env.get('MAIL_FROM') || (this.user ? `Warengine <${this.user}>` : 'Warengine <noreply@warengine.local>');
+    this.from = Deno.env.get('MAIL_FROM') || (this.user ? `Inventa <${this.user}>` : 'Inventa <noreply@inventa.local>');
 
     if (this.user && this.pass) {
       this.transporter = createTransport({
@@ -46,7 +46,7 @@ export class GmailMailer implements IOtpMailer {
     }
 
     const textoPlano = [
-      'Warengine — Código de Recuperación de Contraseña',
+      'Inventa — Código de Recuperación de Contraseña',
       '',
       `Tu código de verificación es: ${dto.codigoOtp}`,
       '',
@@ -70,7 +70,7 @@ export class GmailMailer implements IOtpMailer {
                 <!-- Header -->
                 <tr>
                   <td style="padding:32px 24px 20px;text-align:center;background:radial-gradient(ellipse at top,#1e3a5f 0%,#14213d 100%);">
-                    <h1 style="margin:0;font-size:26px;font-weight:800;color:#e9b949;letter-spacing:1px;text-transform:uppercase;">Warengine</h1>
+                    <h1 style="margin:0;font-size:26px;font-weight:800;color:#F59E0B;letter-spacing:1px;text-transform:uppercase;">Inventa</h1>
                     <p style="margin:6px 0 0;font-size:13px;color:#94a3b8;letter-spacing:0.5px;">Recuperación de Acceso</p>
                   </td>
                 </tr>
@@ -88,7 +88,7 @@ export class GmailMailer implements IOtpMailer {
                         <tr>
                           ${digitos.map((d) => `
                             <td style="padding:0 6px;">
-                              <div style="width:52px;height:62px;line-height:62px;font-size:32px;font-weight:800;color:#e9b949;background:#0d182e;border:2px solid #2563eb;border-radius:10px;text-align:center;box-shadow:0 0 15px rgba(37,99,235,0.35);">
+                              <div style="width:52px;height:62px;line-height:62px;font-size:32px;font-weight:800;color:#F59E0B;background:#0d182e;border:2px solid #2563eb;border-radius:10px;text-align:center;box-shadow:0 0 15px rgba(37,99,235,0.35);">
                                 ${d}
                               </div>
                             </td>
@@ -110,7 +110,7 @@ export class GmailMailer implements IOtpMailer {
                 <tr>
                   <td style="background:#0d182e;padding:16px 24px;text-align:center;border-top:1px solid #1e293b;">
                     <p style="margin:0;font-size:11px;color:#64748b;">
-                      &copy; ${new Date().getFullYear()} Warengine &mdash; Sistema de Seguridad y Gestión
+                      &copy; ${new Date().getFullYear()} Inventa &mdash; Sistema de Seguridad y Gestión
                     </p>
                   </td>
                 </tr>
@@ -125,7 +125,7 @@ export class GmailMailer implements IOtpMailer {
     await this.transporter.sendMail({
       from: this.from,
       to: dto.para,
-      subject: '🔐 Tu código de recuperación de contraseña — Warengine',
+      subject: '🔐 Tu código de recuperación de contraseña — Inventa',
       text: textoPlano,
       html,
     });

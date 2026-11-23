@@ -11,7 +11,7 @@
  * - RF-ADM-C5 / RF-ADM-C12: Consulta de datos laborales de personal.
  */
 
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { ResolverAlcanceSucursalUseCase } from '../../../autenticacion/application/use-cases/ResolverAlcanceSucursalUseCase.ts';
 import { SucursalFueraDeAlcanceError } from '../../../autenticacion/domain/errors/AlcanceErrors.ts';
 import { Empleado } from '../../domain/entities/Empleado.ts';

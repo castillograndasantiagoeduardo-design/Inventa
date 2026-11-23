@@ -1,7 +1,7 @@
 import type { IncomingMessage } from 'node:http';
-import { DomainError, Result } from '@warengine/shared-kernel';
-import { TokenInvalidoError } from '@warengine/core';
-import type { AppContainer } from '@warengine/composition';
+import { DomainError, Result } from '@inventa/shared-kernel';
+import { TokenInvalidoError } from '@inventa/core';
+import type { AppContainer } from '@inventa/composition';
 import type { McpSessionContext } from './session.types.ts';
 
 /**

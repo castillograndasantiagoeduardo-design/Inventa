@@ -1,4 +1,4 @@
 {
-  "name": "@warengine/api",
+  "name": "@inventa/api",
   "exports": "./src/main.ts"
 }

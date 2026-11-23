@@ -1,5 +1,5 @@
 import { Producto } from '../../domain/entities/Producto.ts';
-import { ProductoResponse, PERMISSIONS } from '@warengine/contracts';
+import { ProductoResponse, PERMISSIONS } from '@inventa/contracts';
 
 /**
  * Mapea una entidad de dominio Producto a su DTO de salida ProductoResponse.

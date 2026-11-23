@@ -6,7 +6,7 @@ usan todos los demás paquetes del backend.
 **Qué va aquí:** `Result<T,E>`, `DomainError`, `Entity`, `ValueObject`, `Money`,
 `Clock`, `Pagination`, `ids`. Solo TypeScript puro, sin librerías externas.
 
-**Qué NO va aquí:** lógica de Warengine, imports de zod, Drizzle, HTTP o
+**Qué NO va aquí:** lógica de Inventa, imports de zod, Drizzle, HTTP o
 cualquier librería de terceros. Este paquete debe poder copiarse a cualquier
 proyecto de TypeScript y funcionar sin cambios.
 

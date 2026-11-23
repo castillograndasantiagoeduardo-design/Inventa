@@ -1,4 +1,4 @@
-import { ITotpService, GenerarSecretoTotpOutput } from '@warengine/core';
+import { ITotpService, GenerarSecretoTotpOutput } from '@inventa/core';
 
 const BASE32_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
@@ -48,7 +48,7 @@ function base32Decode(base32: string): Uint8Array {
 }
 
 export class TotpService implements ITotpService {
-  constructor(private readonly defaultIssuer: string = 'Warengine') {}
+  constructor(private readonly defaultIssuer: string = 'Inventa') {}
 
   public generarSecreto(email: string, issuer = this.defaultIssuer): GenerarSecretoTotpOutput {
     const randomBytes = new Uint8Array(20);

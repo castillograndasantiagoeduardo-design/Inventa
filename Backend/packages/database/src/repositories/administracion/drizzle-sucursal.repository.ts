@@ -11,7 +11,7 @@ import {
   SucursalDetalle,
   UsuarioAsignadoSucursal,
   VentaRecienteSucursal,
-} from '@warengine/core';
+} from '@inventa/core';
 import { sucursalFromRow } from '../../mappers/administracion/sucursal.mapper.ts';
 
 export class DrizzleSucursalRepository implements ISucursalRepository {

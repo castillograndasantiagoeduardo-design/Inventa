@@ -19,7 +19,7 @@ import { usuarios } from './autenticacion.schema.ts';
 /**
  * Tabla: categorias
  * Categorías globales de productos vendibles.
- * Coincide exactamente con WARENGINE_FULL_BD.sql
+ * Coincide exactamente con INVENTA_FULL_BD.sql
  */
 export const categorias = mysqlTable('categorias', {
   id_categoria: int('id_categoria').autoincrement().primaryKey(),
@@ -30,7 +30,7 @@ export const categorias = mysqlTable('categorias', {
 /**
  * Tabla: proveedores
  * Proveedores globales de productos y servicios.
- * Coincide exactamente con WARENGINE_FULL_BD.sql
+ * Coincide exactamente con INVENTA_FULL_BD.sql
  */
 export const proveedores = mysqlTable('proveedores', {
   id_proveedor: int('id_proveedor').autoincrement().primaryKey(),
@@ -42,7 +42,7 @@ export const proveedores = mysqlTable('proveedores', {
 /**
  * Tabla: productos
  * Catálogo maestro de productos vendibles y almacenables.
- * Coincide exactamente con WARENGINE_FULL_BD.sql
+ * Coincide exactamente con INVENTA_FULL_BD.sql
  */
 export const productos = mysqlTable('productos', {
   id_producto: char('id_producto', { length: 36 })
@@ -67,7 +67,7 @@ export const productos = mysqlTable('productos', {
 /**
  * Tabla: inventario_sucursal
  * Existencias y niveles de stock por producto en cada sucursal.
- * Coincide exactamente con WARENGINE_FULL_BD.sql
+ * Coincide exactamente con INVENTA_FULL_BD.sql
  */
 export const inventario_sucursal = mysqlTable('inventario_sucursal', {
   producto_id: char('producto_id', { length: 36 })
@@ -88,7 +88,7 @@ export const inventario_sucursal = mysqlTable('inventario_sucursal', {
 /**
  * Tabla: movimientos_inventario
  * Kardex / histórico inmutable (append-only) de entradas, salidas y ajustes.
- * Coincide exactamente con WARENGINE_FULL_BD.sql
+ * Coincide exactamente con INVENTA_FULL_BD.sql
  */
 export const movimientos_inventario = mysqlTable('movimientos_inventario', {
   id_movimiento_inventario: char('id_movimiento_inventario', { length: 36 })

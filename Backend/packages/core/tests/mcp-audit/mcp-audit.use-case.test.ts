@@ -15,7 +15,7 @@ import {
   metricasGlobalesMcpSchema,
   stockBajoMcpSchema,
   ventasPeriodoMcpSchema,
-} from '@warengine/contracts';
+} from '@inventa/contracts';
 
 /** Mock Repository en memoria para pruebas unitarias */
 class MockLogMcpToolRepository implements ILogMcpToolRepository {
@@ -149,7 +149,7 @@ Deno.test('ConsultarLogsMcpToolsUseCase: filtra logs por nombre de tool', async 
   assertEquals(res.value.items[0].toolName, 'ventas-periodo');
 });
 
-// ─── Pruebas de Contratos Zod MCP (@warengine/contracts) ─────────────────────────
+// ─── Pruebas de Contratos Zod MCP (@inventa/contracts) ─────────────────────────
 
 Deno.test('Zod MCP: consultaStockMcpSchema valida sku o nombre', () => {
   assertEquals(consultaStockMcpSchema.safeParse({ sku: 'ABC-123' }).success, true);

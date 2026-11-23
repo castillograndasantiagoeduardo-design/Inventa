@@ -13,7 +13,7 @@
  * - RF-ADM-C5: Consulta de personal con contexto de sede y área.
  */
 
-import { Empleado } from '@warengine/core';
+import { Empleado } from '@inventa/core';
 
 export interface EmpleadoRow {
   id: string;

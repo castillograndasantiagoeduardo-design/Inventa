@@ -1,4 +1,4 @@
-import { TurnoCaja } from '@warengine/core';
+import { TurnoCaja } from '@inventa/core';
 import { TurnoCajaRecord } from '../../schema/turnos-caja.schema.ts';
 
 export function turnoCajaFromRow(row: TurnoCajaRecord): TurnoCaja {

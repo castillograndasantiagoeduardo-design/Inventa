@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { AppContainer } from '@warengine/composition';
+import { AppContainer } from '@inventa/composition';
 import { authMiddleware } from '../middlewares/auth.middleware.ts';
 import {
   cambiarEstadoSucursalController,

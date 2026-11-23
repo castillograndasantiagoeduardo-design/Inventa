@@ -24,7 +24,7 @@ import {
 function makeUsuario(overrides: Partial<ConstructorParameters<typeof Usuario>> = []): Usuario {
   return new Usuario(
     overrides[0] ?? 'uuid-001',
-    overrides[1] ?? 'test@warengine.local',
+    overrides[1] ?? 'test@inventa.local',
     overrides[2] ?? 'hash_seguro',
     overrides[3] ?? 1,
     overrides[4] ?? true, // isActive
@@ -146,7 +146,7 @@ Deno.test('LoginUseCase: retorna tokens cuando las credenciales son válidas y r
   );
 
   const result = await useCase.execute({
-    email: 'test@warengine.local',
+    email: 'test@inventa.local',
     passwordPlain: 'pass123',
     ip: '10.0.0.1',
   });
@@ -156,7 +156,7 @@ Deno.test('LoginUseCase: retorna tokens cuando las credenciales son válidas y r
   assertEquals(result.value.refreshToken, 'rt_test');
 
   assertEquals(intentos.length, 1);
-  assertEquals(intentos[0].email, 'test@warengine.local');
+  assertEquals(intentos[0].email, 'test@inventa.local');
   assertEquals(intentos[0].ip, '10.0.0.1');
   assertEquals(intentos[0].exitoso, true);
 });
@@ -197,7 +197,7 @@ Deno.test('LoginUseCase: falla con CREDENCIALES_INVALIDAS si la contraseña es i
   );
 
   const result = await useCase.execute({
-    email: 'test@warengine.local',
+    email: 'test@inventa.local',
     passwordPlain: 'wrong',
     ip: '10.0.0.3',
   });
@@ -206,7 +206,7 @@ Deno.test('LoginUseCase: falla con CREDENCIALES_INVALIDAS si la contraseña es i
   assertEquals(result.error.code, 'CREDENCIALES_INVALIDAS');
 
   assertEquals(intentos.length, 1);
-  assertEquals(intentos[0].email, 'test@warengine.local');
+  assertEquals(intentos[0].email, 'test@inventa.local');
   assertEquals(intentos[0].ip, '10.0.0.3');
   assertEquals(intentos[0].exitoso, false);
   const json = JSON.stringify(intentos[0]);
@@ -214,7 +214,7 @@ Deno.test('LoginUseCase: falla con CREDENCIALES_INVALIDAS si la contraseña es i
 });
 
 Deno.test('LoginUseCase: falla con USUARIO_INACTIVO si el usuario está desactivado y registra intento fallido', async () => {
-  const usuarioInactivo = new Usuario('uuid-001', 'test@warengine.local', 'hash', 1, false, false, null);
+  const usuarioInactivo = new Usuario('uuid-001', 'test@inventa.local', 'hash', 1, false, false, null);
   const { registro, control, intentos } = makeRegistroYControlIntentos();
 
   const useCase = new LoginUseCase(
@@ -226,7 +226,7 @@ Deno.test('LoginUseCase: falla con USUARIO_INACTIVO si el usuario está desactiv
   );
 
   const result = await useCase.execute({
-    email: 'test@warengine.local',
+    email: 'test@inventa.local',
     passwordPlain: 'pass123',
     ip: '10.0.0.4',
   });
@@ -235,13 +235,13 @@ Deno.test('LoginUseCase: falla con USUARIO_INACTIVO si el usuario está desactiv
   assertEquals(result.error.code, 'USUARIO_INACTIVO');
 
   assertEquals(intentos.length, 1);
-  assertEquals(intentos[0].email, 'test@warengine.local');
+  assertEquals(intentos[0].email, 'test@inventa.local');
   assertEquals(intentos[0].ip, '10.0.0.4');
   assertEquals(intentos[0].exitoso, false);
 });
 
 Deno.test('LoginUseCase: falla con REQUIERE_2FA si el usuario tiene 2FA activado y registra intento fallido', async () => {
-  const usuario2fa = new Usuario('uuid-001', 'test@warengine.local', 'hash', 1, true, true, null);
+  const usuario2fa = new Usuario('uuid-001', 'test@inventa.local', 'hash', 1, true, true, null);
   const { registro, control, intentos } = makeRegistroYControlIntentos();
 
   const useCase = new LoginUseCase(
@@ -253,7 +253,7 @@ Deno.test('LoginUseCase: falla con REQUIERE_2FA si el usuario tiene 2FA activado
   );
 
   const result = await useCase.execute({
-    email: 'test@warengine.local',
+    email: 'test@inventa.local',
     passwordPlain: 'pass123',
     ip: '10.0.0.5',
   });
@@ -262,7 +262,7 @@ Deno.test('LoginUseCase: falla con REQUIERE_2FA si el usuario tiene 2FA activado
   assertEquals(result.error.code, 'REQUIERE_2FA');
 
   assertEquals(intentos.length, 1);
-  assertEquals(intentos[0].email, 'test@warengine.local');
+  assertEquals(intentos[0].email, 'test@inventa.local');
   assertEquals(intentos[0].ip, '10.0.0.5');
   assertEquals(intentos[0].exitoso, false);
 });
@@ -287,7 +287,7 @@ Deno.test('5 fallos seguidos de un email -> el 6.º intento devuelve LOGIN_BLOQU
   // 5 intentos fallidos
   for (let i = 0; i < 5; i++) {
     const res = await useCase.execute({
-      email: 'test@warengine.local',
+      email: 'test@inventa.local',
       passwordPlain: `wrong_${i}`,
       ip: '10.0.0.1',
     });
@@ -300,7 +300,7 @@ Deno.test('5 fallos seguidos de un email -> el 6.º intento devuelve LOGIN_BLOQU
   // 6.º intento: debe bloquearse
   compararLlamado = false;
   const sextoIntento = await useCase.execute({
-    email: 'test@warengine.local',
+    email: 'test@inventa.local',
     passwordPlain: 'pass123',
     ip: '10.0.0.1',
   });
@@ -370,7 +370,7 @@ Deno.test('Un login exitoso reinicia el contador de la cuenta, pero no el de la 
   // 4 fallos seguidos desde IP 10.0.0.99
   for (let i = 0; i < 4; i++) {
     await useCase.execute({
-      email: 'test@warengine.local',
+      email: 'test@inventa.local',
       passwordPlain: 'wrong',
       ip: '10.0.0.99',
     });
@@ -379,7 +379,7 @@ Deno.test('Un login exitoso reinicia el contador de la cuenta, pero no el de la 
   // 1 login exitoso
   credencialValida = true;
   const loginExitoso = await useCase.execute({
-    email: 'test@warengine.local',
+    email: 'test@inventa.local',
     passwordPlain: 'pass123',
     ip: '10.0.0.99',
   });
@@ -389,7 +389,7 @@ Deno.test('Un login exitoso reinicia el contador de la cuenta, pero no el de la 
   credencialValida = false;
   for (let i = 0; i < 4; i++) {
     await useCase.execute({
-      email: 'test@warengine.local',
+      email: 'test@inventa.local',
       passwordPlain: 'wrong',
       ip: '10.0.0.99',
     });
@@ -397,7 +397,7 @@ Deno.test('Un login exitoso reinicia el contador de la cuenta, pero no el de la 
 
   // Para la cuenta: solo hay 4 fallos posteriores al último éxito → NO está bloqueada por cuenta
   const fallosCuenta = await control.contarFallosRecientesPorEmail(
-    'test@warengine.local',
+    'test@inventa.local',
     new Date(Date.now() - 5 * 60 * 1000),
   );
   assertEquals(fallosCuenta, 4);
@@ -417,7 +417,7 @@ Deno.test('Fallos fuera de la ventana no cuentan', async () => {
   const haceDiezMin = new Date(Date.now() - 10 * 60 * 1000);
   for (let i = 0; i < 5; i++) {
     intentos.push({
-      email: 'test@warengine.local',
+      email: 'test@inventa.local',
       ip: '10.0.0.1',
       exitoso: false,
       fecha: haceDiezMin,
@@ -434,7 +434,7 @@ Deno.test('Fallos fuera de la ventana no cuentan', async () => {
 
   // El intento actual debe permitir autenticar porque los fallos anteriores están fuera de la ventana
   const result = await useCase.execute({
-    email: 'test@warengine.local',
+    email: 'test@inventa.local',
     passwordPlain: 'pass123',
     ip: '10.0.0.1',
   });
@@ -457,7 +457,7 @@ Deno.test('Límite por IP: 20 fallos desde la misma IP con correos distintos blo
   // 20 fallos con 20 correos distintos (ningún correo individual supera los 5 fallos)
   for (let i = 0; i < 20; i++) {
     const res = await useCase.execute({
-      email: `victima_${i}@warengine.local`,
+      email: `victima_${i}@inventa.local`,
       passwordPlain: 'pass',
       ip: ipAtaque,
     });
@@ -469,7 +469,7 @@ Deno.test('Límite por IP: 20 fallos desde la misma IP con correos distintos blo
 
   // 21.º intento desde esa misma IP (incluso con otro correo nuevo)
   const intento21 = await useCase.execute({
-    email: 'nueva_victima@warengine.local',
+    email: 'nueva_victima@inventa.local',
     passwordPlain: 'pass',
     ip: ipAtaque,
   });
@@ -492,7 +492,7 @@ Deno.test('IP null no activa el límite por IP', async () => {
   // 25 fallos con IP null y correos distintos
   for (let i = 0; i < 25; i++) {
     await useCase.execute({
-      email: `correo_distinto_${i}@warengine.local`,
+      email: `correo_distinto_${i}@inventa.local`,
       passwordPlain: 'pass',
       ip: null,
     });
@@ -502,7 +502,7 @@ Deno.test('IP null no activa el límite por IP', async () => {
 
   // Siguiente intento con IP null y otro correo no debe bloquearse por IP
   const siguiente = await useCase.execute({
-    email: 'nuevo_correo@warengine.local',
+    email: 'nuevo_correo@inventa.local',
     passwordPlain: 'pass',
     ip: null,
   });
@@ -528,7 +528,7 @@ Deno.test('RF-SA-G4: Login propaga recordarme: true al generar tokens', async ()
   );
 
   const res = await useCase.execute({
-    email: 'test@warengine.local',
+    email: 'test@inventa.local',
     passwordPlain: 'pass_valido',
     recordarme: true,
   });
@@ -553,7 +553,7 @@ Deno.test('RF-SA-G4: Login propaga recordarme: false o undefined por defecto', a
   );
 
   const res = await useCase.execute({
-    email: 'test@warengine.local',
+    email: 'test@inventa.local',
     passwordPlain: 'pass_valido',
   });
 
@@ -579,7 +579,7 @@ Deno.test('LoginUseCase: la sesión incluye nombre y sucursal del empleado (sin 
     perfiles,
   );
 
-  const result = await useCase.execute({ email: 'test@warengine.local', passwordPlain: 'pass123' });
+  const result = await useCase.execute({ email: 'test@inventa.local', passwordPlain: 'pass123' });
 
   assertEquals(result.isSuccess, true);
   if (result.isSuccess) {
@@ -594,6 +594,6 @@ Deno.test('LoginUseCase: la sesión incluye nombre y sucursal del empleado (sin 
     makeTokenService(),
     registro,
     control,
-  ).execute({ email: 'test@warengine.local', passwordPlain: 'pass123' });
+  ).execute({ email: 'test@inventa.local', passwordPlain: 'pass123' });
   assertEquals(sinPerfil.isSuccess && sinPerfil.value.usuario.sucursalId, null);
 });

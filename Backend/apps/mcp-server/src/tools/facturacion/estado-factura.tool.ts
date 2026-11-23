@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { DomainError, Result } from '@warengine/shared-kernel';
-import { PERMISSIONS, TOOL_NAMES, estadoFacturaMcpSchema, type EstadoFacturaMcpDTO } from '@warengine/contracts';
-import { Factura, FacturaNoEncontradaError } from '@warengine/core';
-import type { AppContainer } from '@warengine/composition';
+import { DomainError, Result } from '@inventa/shared-kernel';
+import { PERMISSIONS, TOOL_NAMES, estadoFacturaMcpSchema, type EstadoFacturaMcpDTO } from '@inventa/contracts';
+import { Factura, FacturaNoEncontradaError } from '@inventa/core';
+import type { AppContainer } from '@inventa/composition';
 import type { DefinicionToolMcp } from '../../catalog/tool-definition.ts';
 import type { McpSessionContext } from '../../session/index.ts';
 

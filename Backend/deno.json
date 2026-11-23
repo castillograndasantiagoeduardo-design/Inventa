@@ -12,12 +12,12 @@
     ]
   },
   "imports": {
-    "@warengine/shared-kernel": "./packages/shared-kernel/mod.ts",
-    "@warengine/core": "./packages/core/mod.ts",
-    "@warengine/database": "./packages/database/mod.ts",
-    "@warengine/platform": "./packages/platform/mod.ts",
-    "@warengine/composition": "./packages/composition/mod.ts",
-    "@warengine/contracts": "../Shared/contracts/src/index.ts",
+    "@inventa/shared-kernel": "./packages/shared-kernel/mod.ts",
+    "@inventa/core": "./packages/core/mod.ts",
+    "@inventa/database": "./packages/database/mod.ts",
+    "@inventa/platform": "./packages/platform/mod.ts",
+    "@inventa/composition": "./packages/composition/mod.ts",
+    "@inventa/contracts": "../Shared/contracts/src/index.ts",
     "zod": "npm:zod@^3.24.0",
     "drizzle-orm": "npm:drizzle-orm@^0.38.4",
     "drizzle-orm/": "npm:/drizzle-orm@^0.38.4/",

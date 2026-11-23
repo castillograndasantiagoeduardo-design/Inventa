@@ -1,4 +1,4 @@
-import { Result, DomainError } from '@warengine/shared-kernel';
+import { Result, DomainError } from '@inventa/shared-kernel';
 import { ITokenService } from '../../domain/services/ITokenService.ts';
 
 export interface LogoutRequest {

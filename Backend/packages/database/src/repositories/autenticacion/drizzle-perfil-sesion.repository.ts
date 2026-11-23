@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 import { Database } from '../../client.ts';
 import { empleados, sucursales } from '../../schema/administracion.schema.ts';
 import { usuarios } from '../../schema/autenticacion.schema.ts';
-import { IPerfilSesionRepository, PerfilSesion } from '@warengine/core';
+import { IPerfilSesionRepository, PerfilSesion } from '@inventa/core';
 
 export class DrizzlePerfilSesionRepository implements IPerfilSesionRepository {
   constructor(private readonly db: Database) {}

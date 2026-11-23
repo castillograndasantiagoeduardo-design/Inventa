@@ -1,5 +1,5 @@
 /**
- * main.ts — Punto de entrada del servidor MCP de Warengine.
+ * main.ts — Punto de entrada del servidor MCP de Inventa.
  *
  * Responsabilidades de este archivo:
  *  1. Leer la configuración del entorno (puerto, host, CORS).
@@ -13,7 +13,7 @@
  *  - Validación de permisos dentro del archivo (eso lo hace el gateway).
  */
 
-import { createContainer } from '@warengine/composition';
+import { createContainer } from '@inventa/composition';
 import { createMcpHttpServer } from './server.ts';
 
 function main() {

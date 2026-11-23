@@ -14,7 +14,7 @@
  */
 
 import { assertEquals } from 'jsr:@std/assert@^1';
-import { Result } from '@warengine/shared-kernel';
+import { Result } from '@inventa/shared-kernel';
 import {
   ActorAuditoria,
   AlcanceSucursal,

@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 
 export interface MensajeHistorial {
   rol: 'user' | 'model' | 'assistant';

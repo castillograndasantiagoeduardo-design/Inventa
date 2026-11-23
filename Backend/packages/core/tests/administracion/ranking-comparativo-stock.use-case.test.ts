@@ -16,7 +16,7 @@ import {
 function armarContexto(opciones: { global: boolean; sucursales: number[]; usuarioExiste?: boolean }) {
   const usuario = opciones.usuarioExiste === false
     ? null
-    : new Usuario('u-1', 'admin@warengine.local', 'hash', 2, true, false, null);
+    : new Usuario('u-1', 'admin@inventa.local', 'hash', 2, true, false, null);
 
   const usuarios: IUsuarioRepository = {
     findByEmail: () => Promise.resolve(usuario),

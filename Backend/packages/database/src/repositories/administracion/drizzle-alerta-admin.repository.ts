@@ -17,7 +17,7 @@ import {
   EstadoAlerta,
   FiltrosAlertasAdmin,
   IAlertaAdminRepository,
-} from '@warengine/core';
+} from '@inventa/core';
 import { alertaAdminFromRow } from '../../mappers/administracion/alerta-admin.mapper.ts';
 
 const SELECCION = {

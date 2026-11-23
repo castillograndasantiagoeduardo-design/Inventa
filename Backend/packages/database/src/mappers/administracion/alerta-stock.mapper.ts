@@ -1,4 +1,4 @@
-import { AlertaStock } from '@warengine/core';
+import { AlertaStock } from '@inventa/core';
 
 export interface FilaAlertaStock {
   productoId: string;

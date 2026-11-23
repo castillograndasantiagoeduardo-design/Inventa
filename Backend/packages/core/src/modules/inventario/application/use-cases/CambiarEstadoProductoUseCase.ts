@@ -1,4 +1,4 @@
-import { Result, DomainError } from '@warengine/shared-kernel';
+import { Result, DomainError } from '@inventa/shared-kernel';
 import { InactivarProductoUseCase } from './InactivarProductoUseCase.ts';
 import { ReactivarProductoUseCase } from './ReactivarProductoUseCase.ts';
 import { Producto } from '../../domain/entities/Producto.ts';

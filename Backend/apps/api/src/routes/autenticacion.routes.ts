@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { AppContainer } from '@warengine/composition';
+import { AppContainer } from '@inventa/composition';
 import { loginController } from '../controllers/autenticacion/login.controller.ts';
 import { renovarTokenController } from '../controllers/autenticacion/renovar-token.controller.ts';
 import { logoutController } from '../controllers/autenticacion/logout.controller.ts';

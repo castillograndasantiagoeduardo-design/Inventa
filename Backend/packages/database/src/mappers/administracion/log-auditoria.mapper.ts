@@ -1,4 +1,4 @@
-import { LogAuditoria } from '@warengine/core';
+import { LogAuditoria } from '@inventa/core';
 
 export interface FilaLogAuditoria {
   id: string;

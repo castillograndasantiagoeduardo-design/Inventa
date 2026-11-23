@@ -10,7 +10,7 @@ import {
   ResultadoPaginaUsuarios,
   SedeAdicional,
   UsuarioGestionado,
-} from '@warengine/core';
+} from '@inventa/core';
 import { usuarioGestionadoFromRow } from '../../mappers/administracion/usuario-gestionado.mapper.ts';
 import { escaparLike } from '../../errors/mysql-error-translator.ts';
 

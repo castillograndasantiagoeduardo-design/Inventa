@@ -1,4 +1,4 @@
-import { Result, DomainError } from '@warengine/shared-kernel';
+import { Result, DomainError } from '@inventa/shared-kernel';
 import { IProductoRepository } from '../../domain/repositories/IProductoRepository.ts';
 import { ICategoriaRepository } from '../../domain/repositories/ICategoriaRepository.ts';
 import { IProveedorRepository } from '../../domain/repositories/IProveedorRepository.ts';
@@ -8,7 +8,7 @@ import { parsearCSV } from '../utils/csv-parser.ts';
 import {
   ItemReporteImportacion,
   ReporteImportacionProductos,
-} from '@warengine/contracts';
+} from '@inventa/contracts';
 
 export interface ImportarProductosRequest {
   csvContenido: string;

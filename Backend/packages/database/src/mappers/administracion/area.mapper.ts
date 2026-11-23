@@ -11,7 +11,7 @@
  * - RF-ADM-C4: Gestión de áreas por sucursal.
  */
 
-import { Area } from '@warengine/core';
+import { Area } from '@inventa/core';
 import { AreaRecord } from '../../schema/administracion.schema.ts';
 
 export function areaFromRow(row: AreaRecord): Area {

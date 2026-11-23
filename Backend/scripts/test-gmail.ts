@@ -10,7 +10,7 @@
  *   3. Agrega al .env:
  *        GMAIL_USER=tucuenta@gmail.com
  *        GMAIL_APP_PASSWORD=xxxx xxxx xxxx xxxx
- *        MAIL_FROM="Warengine <tucuenta@gmail.com>"
+ *        MAIL_FROM="Inventa <tucuenta@gmail.com>"
  *
  * Resultado esperado:
  *   ✅ transporter.verify() exitoso
@@ -35,7 +35,7 @@ if (!GMAIL_APP_PASSWORD) {
   console.error('   Pasos para obtenerla:');
   console.error('   1. Activa la verificación en dos pasos en tu cuenta Google');
   console.error('   2. Ve a https://myaccount.google.com/apppasswords');
-  console.error('   3. Crea una contraseña de aplicación para "Correo" > "Otro (Warengine)"');
+  console.error('   3. Crea una contraseña de aplicación para "Correo" > "Otro (Inventa)"');
   console.error('   4. Copia la contraseña de 16 caracteres (con o sin espacios) en GMAIL_APP_PASSWORD');
   Deno.exit(1);
 }
@@ -86,9 +86,9 @@ try {
   const info = await transporter.sendMail({
     from: MAIL_FROM,
     to: GMAIL_USER,
-    subject: '🔐 Warengine — Código de prueba SMTP',
+    subject: '🔐 Inventa — Código de prueba SMTP',
     text: [
-      'Warengine — Verificación de correo SMTP',
+      'Inventa — Verificación de correo SMTP',
       '',
       `Tu código de prueba es: ${codigoPrueba}`,
       '',
@@ -102,7 +102,7 @@ try {
       <body style="margin:0;padding:0;font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#f4f4f7;">
         <div style="max-width:480px;margin:40px auto;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
           <div style="background:linear-gradient(135deg,#1e3a5f 0%,#2c5282 100%);padding:32px 24px;text-align:center;">
-            <h1 style="color:#ffffff;margin:0;font-size:22px;font-weight:700;">🔐 Warengine</h1>
+            <h1 style="color:#ffffff;margin:0;font-size:22px;font-weight:700;">🔐 Inventa</h1>
             <p style="color:#a3bffa;margin:8px 0 0;font-size:14px;">Verificación de correo SMTP</p>
           </div>
           <div style="padding:32px 24px;text-align:center;">
@@ -116,7 +116,7 @@ try {
             <p style="color:#a0aec0;font-size:12px;margin:0;">Este código no tiene funcionalidad. Es solo una prueba de envío.</p>
           </div>
           <div style="background:#f7fafc;padding:16px 24px;text-align:center;border-top:1px solid #e2e8f0;">
-            <p style="color:#a0aec0;font-size:11px;margin:0;">Warengine &copy; ${new Date().getFullYear()}</p>
+            <p style="color:#a0aec0;font-size:11px;margin:0;">Inventa &copy; ${new Date().getFullYear()}</p>
           </div>
         </div>
       </body>

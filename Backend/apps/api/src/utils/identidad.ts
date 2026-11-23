@@ -1,5 +1,5 @@
 import { Context } from 'hono';
-import { IdentidadAutenticada } from '@warengine/core';
+import { IdentidadAutenticada } from '@inventa/core';
 
 /** Clave con la que authMiddleware guarda la identidad en el contexto de Hono. */
 export const CLAVE_IDENTIDAD = 'identidad';

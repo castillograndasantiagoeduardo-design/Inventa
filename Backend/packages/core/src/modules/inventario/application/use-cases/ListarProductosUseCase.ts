@@ -1,10 +1,10 @@
-import { Result, DomainError, type ResultadoPaginado } from '@warengine/shared-kernel';
+import { Result, DomainError, type ResultadoPaginado } from '@inventa/shared-kernel';
 import {
   IProductoRepository,
   FiltrosListarProductos,
   ResumenStockSede,
 } from '../../domain/repositories/IProductoRepository.ts';
-import { ProductoResponse, ResumenInventarioSede } from '@warengine/contracts';
+import { ProductoResponse, ResumenInventarioSede } from '@inventa/contracts';
 import { ActorAuditoria } from '../../../auditoria/domain/entities/LogAuditoria.ts';
 import { ResolverAlcanceSucursalUseCase } from '../../../autenticacion/application/use-cases/ResolverAlcanceSucursalUseCase.ts';
 import { SucursalFueraDeAlcanceError } from '../../../autenticacion/domain/errors/AlcanceErrors.ts';

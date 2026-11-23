@@ -1,5 +1,5 @@
 import { assertEquals } from 'jsr:@std/assert@^1';
-import { Result } from '@warengine/shared-kernel';
+import { Result } from '@inventa/shared-kernel';
 import { Cliente } from '../../src/modules/facturacion/domain/entities/Cliente.ts';
 import { CotizacionB2B, CotizacionB2BItem } from '../../src/modules/facturacion/domain/entities/CotizacionB2B.ts';
 import { Factura } from '../../src/modules/facturacion/domain/entities/Factura.ts';
@@ -34,7 +34,7 @@ import type { ResolverAlcanceSucursalUseCase } from '../../src/modules/autentica
 import type { CrearFacturaDatos, IFacturaRepository } from '../../src/modules/facturacion/domain/repositories/IFacturaRepository.ts';
 import type { ITurnoCajaRepository } from '../../src/modules/facturacion/domain/repositories/ITurnoCajaRepository.ts';
 import type { EventoAuditoria, IAuditor } from '../../src/modules/auditoria/domain/repositories/IAuditoriaRepository.ts';
-import type { EstadoPedidoB2B } from '@warengine/contracts';
+import type { EstadoPedidoB2B } from '@inventa/contracts';
 
 class MockAuditor implements IAuditor {
   public registros: EventoAuditoria[] = [];
@@ -62,7 +62,7 @@ class MockAlertaRepo implements IAlertaAdminRepository {
         new Date(),
         null,
         'Sede Principal',
-        'vendedor@warengine.local',
+        'vendedor@inventa.local',
         data.destinatarioRol ?? null,
       ),
     );

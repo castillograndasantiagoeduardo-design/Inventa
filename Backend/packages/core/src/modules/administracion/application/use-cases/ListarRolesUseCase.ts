@@ -4,7 +4,7 @@
  * Devuelve el catálogo de roles para el selector de cambio de rol (RF-ADM-C7).
  * Consulta de solo lectura: no audita.
  */
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { IRolCatalogoRepository } from '../../domain/repositories/IRolCatalogoRepository.ts';
 import { RolResumen } from '../../domain/entities/RolResumen.ts';
 

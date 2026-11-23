@@ -8,7 +8,7 @@
  *   cantidad de productos con stock y resumen de ventas recientes.
  */
 
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { SucursalDetalle } from '../../domain/entities/SucursalDetalle.ts';
 import { ISucursalRepository } from '../../domain/repositories/ISucursalRepository.ts';
 import { SucursalNoEncontradaError } from '../../domain/errors/AdministracionErrors.ts';

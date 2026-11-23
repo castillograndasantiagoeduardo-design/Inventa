@@ -9,7 +9,7 @@ import {
   IActivoRepository,
   ResumenActivos,
   ResultadoPaginado,
-} from '@warengine/core';
+} from '@inventa/core';
 import { activoFromRow, ActivoJoinRow } from '../../mappers/logistica/activo.mapper.ts';
 
 const SELECCION = {

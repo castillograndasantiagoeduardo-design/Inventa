@@ -1,4 +1,4 @@
-import { DevolucionVenta } from '@warengine/core';
+import { DevolucionVenta } from '@inventa/core';
 import { DevolucionVentaRecord } from '../../schema/facturacion.schema.ts';
 
 export function devolucionVentaFromRow(row: DevolucionVentaRecord): DevolucionVenta {

@@ -25,12 +25,12 @@ Deno.test('Seed demo: los SKU bajo mínimo existen en el catálogo', () => {
   }
 });
 
-Deno.test('Seed demo: cuentas de prueba únicas, con dominio @warengine.local y sin contraseñas', () => {
+Deno.test('Seed demo: cuentas de prueba únicas, con dominio @inventa.local y sin contraseñas', () => {
   const cuentas = EMPLEADOS_DEMO.flatMap((e) => (e.cuenta ? [e.cuenta] : []));
   const correos = cuentas.map((c) => c.email);
   assertEquals(new Set(correos).size, correos.length);
-  for (const correo of correos) assert(correo.endsWith('@warengine.local'), correo);
-  for (const requerido of ['admin.norte@warengine.local', 'cajero1@warengine.local', 'vendedor.b2b@warengine.local']) {
+  for (const correo of correos) assert(correo.endsWith('@inventa.local'), correo);
+  for (const requerido of ['admin.norte@inventa.local', 'cajero1@inventa.local', 'vendedor.b2b@inventa.local']) {
     assert(correos.includes(requerido), `falta ${requerido}`);
   }
   for (const e of EMPLEADOS_DEMO) assert(!('password' in e) && !('password' in (e.cuenta ?? {})));

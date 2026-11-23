@@ -16,7 +16,7 @@ export interface FiltrosListarCategorias {
   limit: number;
 }
 
-import type { ResultadoPaginado } from '@warengine/shared-kernel';
+import type { ResultadoPaginado } from '@inventa/shared-kernel';
 export type { ResultadoPaginado };
 
 export interface ICategoriaRepository {

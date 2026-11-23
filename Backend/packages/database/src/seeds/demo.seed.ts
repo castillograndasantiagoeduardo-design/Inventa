@@ -41,7 +41,7 @@ import {
 } from './demo.data.ts';
 
 const DIAS_DE_VENTAS = 21;
-const SUPER_ADMIN_EMAIL = 'superadmin@warengine.local';
+const SUPER_ADMIN_EMAIL = 'superadmin@inventa.local';
 /** Misma longitud mínima que exige crearUsuarioSchema para cualquier usuario del sistema. */
 const MIN_PASSWORD = 8;
 
@@ -474,8 +474,8 @@ export async function seedDemo(db: Database): Promise<void> {
   const clienteIds = await asegurarClientes(db);
 
   const cajeros: Record<SucursalDemo['clave'], string> = {
-    norte: cuentas.get('cajero1@warengine.local')!,
-    centro: cuentas.get('cajero2@warengine.local')!,
+    norte: cuentas.get('cajero1@inventa.local')!,
+    centro: cuentas.get('cajero2@inventa.local')!,
   };
 
   for (const s of SUCURSALES_DEMO) {
@@ -487,7 +487,7 @@ export async function seedDemo(db: Database): Promise<void> {
   await asegurarAlertas(db, sedes.norte, cajeros.norte);
 
   console.log('\n✅ Datos de demostración listos.');
-  console.log('   Usuarios: admin.norte, cajero1, cajero2 y vendedor.b2b (@warengine.local) con SEED_DEMO_PASSWORD.');
+  console.log('   Usuarios: admin.norte, cajero1, cajero2 y vendedor.b2b (@inventa.local) con SEED_DEMO_PASSWORD.');
 }
 
 if (import.meta.main) {

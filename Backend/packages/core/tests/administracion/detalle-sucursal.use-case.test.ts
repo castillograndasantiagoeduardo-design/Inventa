@@ -102,7 +102,7 @@ Deno.test('RF-ADM-C18: ObtenerDetalleSucursalUseCase - Retorna detalle consolida
     [
       {
         id: 'user-uuid-1',
-        email: 'cajero1@warengine.local',
+        email: 'cajero1@inventa.local',
         nombre: 'Carlos Cajero',
         cargo: 'Cajero Principal',
         rolId: 3,
@@ -112,7 +112,7 @@ Deno.test('RF-ADM-C18: ObtenerDetalleSucursalUseCase - Retorna detalle consolida
       },
       {
         id: 'user-uuid-2',
-        email: 'vendedor@warengine.local',
+        email: 'vendedor@inventa.local',
         nombre: 'Valeria Vendedora',
         cargo: 'Vendedor B2B',
         rolId: 4,

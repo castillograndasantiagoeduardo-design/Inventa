@@ -1,5 +1,5 @@
 /**
- * DomainError — Clase base abstracta para todos los errores de dominio de Warengine.
+ * DomainError — Clase base abstracta para todos los errores de dominio de Inventa.
  *
  * Todos los errores de negocio específicos heredan de esta clase.
  * Define un código único (`code`) para identificación interna/mapeo y

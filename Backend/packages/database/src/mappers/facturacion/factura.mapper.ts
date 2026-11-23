@@ -1,4 +1,4 @@
-import { DevolucionVenta, EstadoFactura, Factura, FacturaItem, FacturaPago, MedioPago } from '@warengine/core';
+import { DevolucionVenta, EstadoFactura, Factura, FacturaItem, FacturaPago, MedioPago } from '@inventa/core';
 import {
     FacturaItemRecord,
     FacturaPagoRecord,

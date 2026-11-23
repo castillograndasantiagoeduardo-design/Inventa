@@ -1,5 +1,5 @@
-import type { EstadoCotizacionB2B, EstadoPedidoB2B } from '@warengine/contracts';
-import { CotizacionB2B, CotizacionB2BItem, type MedioPago } from '@warengine/core';
+import type { EstadoCotizacionB2B, EstadoPedidoB2B } from '@inventa/contracts';
+import { CotizacionB2B, CotizacionB2BItem, type MedioPago } from '@inventa/core';
 import type {
   CotizacionB2BItemRecord,
   CotizacionB2BRecord,

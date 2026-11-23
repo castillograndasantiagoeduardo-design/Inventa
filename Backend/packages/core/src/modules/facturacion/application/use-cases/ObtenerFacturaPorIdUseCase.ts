@@ -1,11 +1,11 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { Factura } from '../../domain/entities/Factura.ts';
 import { FacturaNoEncontradaError } from '../../domain/errors/FacturacionErrors.ts';
 import { OperadorSinSucursalError } from '../../domain/errors/TurnoCajaErrors.ts';
 import { IFacturaRepository } from '../../domain/repositories/IFacturaRepository.ts';
 import { ISucursalOperadorRepository } from '../../domain/repositories/ISucursalOperadorRepository.ts';
 import { ActorAuditoria } from '../../../auditoria/domain/entities/LogAuditoria.ts';
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 
 export interface ObtenerFacturaPorIdRequest {
     id: string;

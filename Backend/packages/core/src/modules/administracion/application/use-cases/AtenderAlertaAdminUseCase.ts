@@ -4,7 +4,7 @@
  * Caso de uso para marcar una alerta como 'visto' o 'atendido' (RF-ADM-C13).
  */
 
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { AlertaAdmin, EstadoAlerta } from '../../domain/entities/AlertaAdmin.ts';
 import { IAlertaAdminRepository } from '../../domain/repositories/IAlertaAdminRepository.ts';
 import { ResolverAlcanceSucursalUseCase } from '../../../autenticacion/application/use-cases/ResolverAlcanceSucursalUseCase.ts';

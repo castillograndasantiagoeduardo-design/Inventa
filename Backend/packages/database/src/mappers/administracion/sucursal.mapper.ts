@@ -1,4 +1,4 @@
-import { Sucursal } from '@warengine/core';
+import { Sucursal } from '@inventa/core';
 import { SucursalRecord } from '../../schema/administracion.schema.ts';
 
 export function sucursalFromRow(row: SucursalRecord): Sucursal {

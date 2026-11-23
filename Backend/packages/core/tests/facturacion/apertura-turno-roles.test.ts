@@ -1,10 +1,10 @@
 import { assertEquals } from 'jsr:@std/assert';
 import { createFacturacionRoutes } from '../../../../apps/api/src/routes/facturacion.routes.ts';
-import { AppContainer } from '@warengine/composition';
-import { Result } from '@warengine/shared-kernel';
+import { AppContainer } from '@inventa/composition';
+import { Result } from '@inventa/shared-kernel';
 import { PermisoDenegadoError } from '../../src/modules/autenticacion/domain/errors/AutenticacionErrors.ts';
 import { TurnoCaja } from '../../src/modules/facturacion/domain/entities/TurnoCaja.ts';
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 
 function crearMockContainer(): AppContainer {
   return {

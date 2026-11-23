@@ -4,7 +4,7 @@
  * Catálogo de roles para el selector de cambio de rol (RF-ADM-C7).
  * No recibe parámetros: no hay entrada que validar.
  */
-import { AppContainer } from '@warengine/composition';
+import { AppContainer } from '@inventa/composition';
 import { presentResult } from '../../presenters/result.presenter.ts';
 import { safeHandler } from '../../utils/handler.ts';
 

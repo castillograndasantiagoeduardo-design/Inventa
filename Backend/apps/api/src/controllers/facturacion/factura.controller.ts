@@ -1,5 +1,5 @@
-import { AppContainer } from '@warengine/composition';
-import { Factura } from '@warengine/core';
+import { AppContainer } from '@inventa/composition';
+import { Factura } from '@inventa/core';
 import {
     anularFacturaSchema,
     crearFacturaSchema,
@@ -7,7 +7,7 @@ import {
     FacturaItemDto,
     FacturaPagoDto,
     listarFacturasQuerySchema,
-} from '@warengine/contracts';
+} from '@inventa/contracts';
 import { presentResult } from '../../presenters/result.presenter.ts';
 import { leerJson, safeHandler } from '../../utils/handler.ts';
 import { obtenerActor } from '../../utils/actor.ts';

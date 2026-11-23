@@ -13,14 +13,14 @@ import {
   Desactivar2FAUseCase,
   LoginUseCase,
   Requiere2FAError,
-} from '@warengine/core';
+} from '@inventa/core';
 import { IAuditor, EventoAuditoria } from '../../src/modules/auditoria/domain/repositories/IAuditoriaRepository.ts';
 import { TotpService } from '../../../platform/src/totp/totp-service.ts';
 
 function createMockUsuario(overrides: Partial<Usuario> = {}): Usuario {
   return new Usuario(
     overrides.id ?? 'user-uuid-1',
-    overrides.email ?? 'admin@warengine.com',
+    overrides.email ?? 'admin@inventa.local',
     overrides.passwordHash ?? 'hashed_pw',
     overrides.rolId ?? 1,
     overrides.isActive ?? true,
@@ -109,7 +109,7 @@ class FakeRolRepository implements IRolRepository {
 
 Deno.test('RF-SA-D12: TotpService genera secreto Base32 y valida códigos', async () => {
   const totp = new TotpService();
-  const { secretBase32, otpauthUrl } = totp.generarSecreto('superadmin@warengine.local');
+  const { secretBase32, otpauthUrl } = totp.generarSecreto('superadmin@inventa.local');
 
   assert(secretBase32.length >= 16, 'El secreto Base32 debe tener al menos 16 caracteres');
   assert(otpauthUrl.includes('otpauth://totp/'), 'La URL debe cumplir formato otpauth://');
@@ -122,7 +122,7 @@ Deno.test('RF-SA-D12: TotpService genera secreto Base32 y valida códigos', asyn
 
 Deno.test('RF-SA-D12: Configurar2FAUseCase genera configuración para usuario activo', async () => {
   const userRepo = new FakeUsuarioRepository();
-  const usuario = createMockUsuario({ id: 'u-1', email: 'santiago@warengine.local' });
+  const usuario = createMockUsuario({ id: 'u-1', email: 'santiago@inventa.local' });
   userRepo.usuarios.set('u-1', usuario);
 
   const totpService = new TotpService();
@@ -131,12 +131,12 @@ Deno.test('RF-SA-D12: Configurar2FAUseCase genera configuración para usuario ac
   const res = await useCase.execute({ usuarioId: 'u-1' });
   assert(res.isSuccess);
   assert(res.value.secretBase32.length >= 16);
-  assert(res.value.otpauthUrl.includes('santiago%40warengine.local'));
+  assert(res.value.otpauthUrl.includes('santiago%40inventa.local'));
 });
 
 Deno.test('RF-SA-D12: Activar2FAUseCase rechaza código incorrecto y no activa 2FA', async () => {
   const userRepo = new FakeUsuarioRepository();
-  const usuario = createMockUsuario({ id: 'u-2', email: 'diego@warengine.local', requiere2fa: false });
+  const usuario = createMockUsuario({ id: 'u-2', email: 'diego@inventa.local', requiere2fa: false });
   userRepo.usuarios.set('u-2', usuario);
 
   const totpService = new TotpService();
@@ -159,7 +159,7 @@ Deno.test('RF-SA-D12: Activar2FAUseCase rechaza código incorrecto y no activa 2
 
 Deno.test('RF-SA-D12: Activar2FAUseCase activa 2FA y audita sin filtrar secretos', async () => {
   const userRepo = new FakeUsuarioRepository();
-  const usuario = createMockUsuario({ id: 'u-3', email: 'oscar@warengine.local', requiere2fa: false });
+  const usuario = createMockUsuario({ id: 'u-3', email: 'oscar@inventa.local', requiere2fa: false });
   userRepo.usuarios.set('u-3', usuario);
 
   const mockTotp: ITotpService = {
@@ -193,7 +193,7 @@ Deno.test('RF-SA-D5 y RF-SA-D12: LoginUseCase detecta 2FA y emite Requiere2FAErr
   const userRepo = new FakeUsuarioRepository();
   const usuario = createMockUsuario({
     id: 'u-4',
-    email: 'superadmin@warengine.local',
+    email: 'superadmin@inventa.local',
     passwordHash: 'hashed_clave123',
     requiere2fa: true,
   });
@@ -228,7 +228,7 @@ Deno.test('RF-SA-D5 y RF-SA-D12: LoginUseCase detecta 2FA y emite Requiere2FAErr
   );
 
   const res = await loginUseCase.execute({
-    email: 'superadmin@warengine.local',
+    email: 'superadmin@inventa.local',
     passwordPlain: 'clave123',
   });
 
@@ -242,7 +242,7 @@ Deno.test('RF-SA-D5: LoginUseCase exitoso retorna objeto enriquecido (usuario, r
   const userRepo = new FakeUsuarioRepository();
   const usuario = createMockUsuario({
     id: 'u-5',
-    email: 'cajero@warengine.local',
+    email: 'cajero@inventa.local',
     passwordHash: 'hashed_clave123',
     rolId: 1,
     requiere2fa: false,
@@ -273,7 +273,7 @@ Deno.test('RF-SA-D5: LoginUseCase exitoso retorna objeto enriquecido (usuario, r
   );
 
   const res = await loginUseCase.execute({
-    email: 'cajero@warengine.local',
+    email: 'cajero@inventa.local',
     passwordPlain: 'clave123',
   });
 
@@ -281,7 +281,7 @@ Deno.test('RF-SA-D5: LoginUseCase exitoso retorna objeto enriquecido (usuario, r
   assertEquals(res.value.accessToken, 'at_u-5_1');
   assertEquals(res.value.refreshToken, 'rt_u-5');
   assertEquals(res.value.usuario.id, 'u-5');
-  assertEquals(res.value.usuario.email, 'cajero@warengine.local');
+  assertEquals(res.value.usuario.email, 'cajero@inventa.local');
   assertEquals(res.value.usuario.rolNombre, 'super-admin');
   assertEquals(res.value.permisos, ['facturacion:facturar', 'inventario:leer']);
 });
@@ -290,7 +290,7 @@ Deno.test('RF-SA-D12: Verificar2FALoginUseCase completa el paso 2 y emite sesió
   const userRepo = new FakeUsuarioRepository();
   const usuario = createMockUsuario({
     id: 'u-6',
-    email: 'admin2fa@warengine.local',
+    email: 'admin2fa@inventa.local',
     rolId: 1,
     requiere2fa: true,
     totpSecret: 'SECRET2FA',
@@ -344,7 +344,7 @@ Deno.test('RF-SA-D12: Desactivar2FAUseCase desactiva 2FA confirmando contraseña
   const userRepo = new FakeUsuarioRepository();
   const usuario = createMockUsuario({
     id: 'u-7',
-    email: 'desactivar@warengine.local',
+    email: 'desactivar@inventa.local',
     passwordHash: 'hashed_miclave',
     requiere2fa: true,
     totpSecret: 'SECRETO',

@@ -9,7 +9,7 @@ import {
   IAuditoriaRepository,
   LogAuditoria,
 } from '../../mod.ts';
-import { consultarAuditoriaSchema } from '@warengine/contracts';
+import { consultarAuditoriaSchema } from '@inventa/contracts';
 
 function repoFalso(total = 0) {
   const llamadas: FiltrosAuditoria[] = [];

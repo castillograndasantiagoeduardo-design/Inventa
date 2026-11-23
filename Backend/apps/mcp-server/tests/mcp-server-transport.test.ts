@@ -5,7 +5,7 @@ import {
   SessionManager,
 } from '../src/session/index.ts';
 import { createMcpHttpServer } from '../src/server.ts';
-import type { AppContainer } from '@warengine/composition';
+import type { AppContainer } from '@inventa/composition';
 
 // ─── Pruebas de extracción de Tokens ──────────────────────────────────────────
 
@@ -111,7 +111,7 @@ Deno.test('createMcpHttpServer: responde a /health y rechaza /sse sin token', as
     assertEquals(healthRes.status, 200);
     const healthJson = await healthRes.json();
     assertEquals(healthJson.status, 'ok');
-    assertEquals(healthJson.servidor, 'warengine-mcp-server');
+    assertEquals(healthJson.servidor, 'inventa-mcp-server');
 
     // 2. OPTIONS /sse (CORS)
     const optionsRes = await fetch(`${baseUrl}/sse`, { method: 'OPTIONS' });

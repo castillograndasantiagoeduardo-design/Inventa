@@ -15,7 +15,7 @@ import {
   HistorialSalario,
   IHistorialSalarioRepository,
   RegistrarSalarioData,
-} from '@warengine/core';
+} from '@inventa/core';
 import { historialSalarioFromRow } from '../../mappers/administracion/historial-salario.mapper.ts';
 
 export class DrizzleHistorialSalarioRepository implements IHistorialSalarioRepository {

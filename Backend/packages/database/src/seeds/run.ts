@@ -1,5 +1,5 @@
 /**
- * run.ts — Script de arranque de datos iniciales de Warengine.
+ * run.ts — Script de arranque de datos iniciales de Inventa.
  *
  * Usos:
  *   deno run --allow-env --allow-net packages/database/src/seeds/run.ts
@@ -15,7 +15,7 @@ import { seedAutenticacion } from './autenticacion.seed.ts';
 import { crearSuperAdminInicial } from './super-admin.seed.ts';
 
 async function main() {
-  console.log('🌱 Iniciando seeds de Warengine...');
+  console.log('🌱 Iniciando seeds de Inventa...');
 
   const db = getDatabase();
 

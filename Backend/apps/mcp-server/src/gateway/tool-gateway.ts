@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { DomainError, Result } from '@warengine/shared-kernel';
-import type { AppContainer } from '@warengine/composition';
+import { DomainError, Result } from '@inventa/shared-kernel';
+import type { AppContainer } from '@inventa/composition';
 import type { McpSessionContext } from '../session/index.ts';
 import {
   McpPresenterResponse,

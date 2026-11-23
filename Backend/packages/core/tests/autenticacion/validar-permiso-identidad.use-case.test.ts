@@ -45,7 +45,7 @@ const payload: AccessTokenPayload = {
 
 Deno.test('ValidarPermisoUseCase: devuelve usuarioId y rolId tomados de la BD, no del token', async () => {
   // El rol vigente en BD (1) manda sobre el rol que traía el token (2).
-  const usuario = new Usuario('uuid-007', 'a@warengine.local', 'hash', 1, true, false, null);
+  const usuario = new Usuario('uuid-007', 'a@inventa.local', 'hash', 1, true, false, null);
   const useCase = new ValidarPermisoUseCase(
     tokenService(payload),
     usuarios(usuario),
@@ -67,7 +67,7 @@ Deno.test('ValidarPermisoUseCase: devuelve usuarioId y rolId tomados de la BD, n
 });
 
 Deno.test('ValidarPermisoUseCase: devuelve la identidad aunque no se exija un permiso', async () => {
-  const usuario = new Usuario('uuid-007', 'a@warengine.local', 'hash', 2, true, false, null);
+  const usuario = new Usuario('uuid-007', 'a@inventa.local', 'hash', 2, true, false, null);
   const useCase = new ValidarPermisoUseCase(
     tokenService(payload),
     usuarios(usuario),

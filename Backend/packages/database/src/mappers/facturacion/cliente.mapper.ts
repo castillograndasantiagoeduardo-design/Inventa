@@ -1,5 +1,5 @@
-import type { EstadoCreditoCliente, NivelRiesgoCredito } from '@warengine/contracts';
-import { Cliente, TipoCliente, TipoDocumentoCliente } from '@warengine/core';
+import type { EstadoCreditoCliente, NivelRiesgoCredito } from '@inventa/contracts';
+import { Cliente, TipoCliente, TipoDocumentoCliente } from '@inventa/core';
 import { ClienteRecord } from '../../schema/facturacion.schema.ts';
 
 export function clienteFromRow(row: ClienteRecord, saldoPendiente = 0, totalCompras = 0): Cliente {

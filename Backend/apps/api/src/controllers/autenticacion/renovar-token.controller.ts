@@ -1,6 +1,6 @@
 import { Context } from 'hono';
-import { renovarTokenSchema } from '@warengine/contracts';
-import { AppContainer } from '@warengine/composition';
+import { renovarTokenSchema } from '@inventa/contracts';
+import { AppContainer } from '@inventa/composition';
 import { presentResult } from '../../presenters/result.presenter.ts';
 import { getTokensFromCookies, setAuthCookies } from '../../utils/cookie.ts';
 

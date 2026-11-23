@@ -1,5 +1,5 @@
 import * as argon2 from 'argon2';
-import { IPasswordService } from '@warengine/core';
+import { IPasswordService } from '@inventa/core';
 
 export class Argon2PasswordHasher implements IPasswordService {
   public async hashear(plain: string): Promise<string> {

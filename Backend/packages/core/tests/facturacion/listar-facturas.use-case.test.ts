@@ -18,7 +18,7 @@ import {
     ListarFacturasUseCase,
     OperadorSinSucursalError,
 } from '../../mod.ts';
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 
 const actorLocal: ActorAuditoria = {
     usuarioId: 'usr-admin-local',

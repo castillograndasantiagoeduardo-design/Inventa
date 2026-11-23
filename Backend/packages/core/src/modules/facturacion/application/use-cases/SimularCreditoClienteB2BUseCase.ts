@@ -1,5 +1,5 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
-import type { EvaluacionCreditoB2BDto, PlazoCreditoDias } from '@warengine/contracts';
+import { DomainError, Result } from '@inventa/shared-kernel';
+import type { EvaluacionCreditoB2BDto, PlazoCreditoDias } from '@inventa/contracts';
 import { EvaluadorCreditoB2B } from '../../domain/services/EvaluadorCreditoB2B.ts';
 
 export interface SimularCreditoClienteB2BRequest {

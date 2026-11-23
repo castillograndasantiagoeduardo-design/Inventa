@@ -21,7 +21,7 @@ import {
 function makeUsuario(overrides: Partial<ConstructorParameters<typeof Usuario>> = []): Usuario {
   return new Usuario(
     overrides[0] ?? 'usr-test-1',
-    overrides[1] ?? 'admin@warengine.local',
+    overrides[1] ?? 'admin@inventa.local',
     overrides[2] ?? '$argon2id$v=19$m=65536,t=3,p=4$mockhash',
     overrides[3] ?? 1,
     overrides[4] ?? true,
@@ -212,13 +212,13 @@ Deno.test('1. POST /forgot-password — Devuelve éxito genérico tanto si el us
   );
 
   // Email existente y activo -> genera y envía
-  const resExiste = await useCase.execute({ email: 'admin@warengine.local' });
+  const resExiste = await useCase.execute({ email: 'admin@inventa.local' });
   assertEquals(resExiste.isSuccess, true);
   assertEquals(envios.length, 1);
   assertEquals(envios[0].codigoOtp, '1234');
 
   // Email inexistente -> respuesta idéntica, no envía correo
-  const resInexistente = await useCase.execute({ email: 'no-existe@warengine.local' });
+  const resInexistente = await useCase.execute({ email: 'no-existe@inventa.local' });
   assertEquals(resInexistente.isSuccess, true);
   assertEquals(resInexistente.value.mensaje, resExiste.value.mensaje);
   assertEquals(envios.length, 1); // No aumentó
@@ -240,11 +240,11 @@ Deno.test('2. POST /forgot-password — Rechaza reenvío antes del cooldown de 6
     (c, e) => `hash-${e}-${c}`,
   );
 
-  const res1 = await useCase.execute({ email: 'admin@warengine.local' });
+  const res1 = await useCase.execute({ email: 'admin@inventa.local' });
   assertEquals(res1.isSuccess, true);
 
   // Reintento inmediato (menos de 60 segundos)
-  const res2 = await useCase.execute({ email: 'admin@warengine.local' });
+  const res2 = await useCase.execute({ email: 'admin@inventa.local' });
   assertEquals(res2.isFailure, true);
   assertEquals(res2.error.code, 'REENVIO_EN_COOLDOWN');
 });
@@ -264,7 +264,7 @@ Deno.test('3. POST /verify-code — Código correcto devuelve resetToken tempora
     () => '7890',
     (c) => `mockhash-${c}`,
   );
-  await forgotUseCase.execute({ email: 'admin@warengine.local' });
+  await forgotUseCase.execute({ email: 'admin@inventa.local' });
 
   const verifyUseCase = new VerifyCodeUseCase(
     repo,
@@ -273,7 +273,7 @@ Deno.test('3. POST /verify-code — Código correcto devuelve resetToken tempora
     (t) => `hash-${t}`,
   );
 
-  const res = await verifyUseCase.execute({ email: 'admin@warengine.local', code: '7890' });
+  const res = await verifyUseCase.execute({ email: 'admin@inventa.local', code: '7890' });
   assertEquals(res.isSuccess, true);
   assertEquals(res.value.resetToken, 'a'.repeat(64));
   assertEquals(res.value.expiraEnMinutos, 15);
@@ -294,7 +294,7 @@ Deno.test('4. POST /verify-code — Código incorrecto disminuye intentos restan
     () => '9999',
     (c) => `mockhash-${c}`,
   );
-  await forgotUseCase.execute({ email: 'admin@warengine.local' });
+  await forgotUseCase.execute({ email: 'admin@inventa.local' });
 
   const verifyUseCase = new VerifyCodeUseCase(
     repo,
@@ -305,18 +305,18 @@ Deno.test('4. POST /verify-code — Código incorrecto disminuye intentos restan
 
   // Intentos fallidos 1 a 4
   for (let i = 1; i <= 4; i++) {
-    const res = await verifyUseCase.execute({ email: 'admin@warengine.local', code: '0000' });
+    const res = await verifyUseCase.execute({ email: 'admin@inventa.local', code: '0000' });
     assertEquals(res.isFailure, true);
     assertEquals(res.error.code, 'CODIGO_OTP_INVALIDO');
   }
 
   // Intento 5: bloqueo definitivo
-  const res5 = await verifyUseCase.execute({ email: 'admin@warengine.local', code: '0000' });
+  const res5 = await verifyUseCase.execute({ email: 'admin@inventa.local', code: '0000' });
   assertEquals(res5.isFailure, true);
   assertEquals(res5.error.code, 'CODIGO_OTP_BLOQUEADO');
 
   // Incluso con el código correcto posterior, permanece bloqueado
-  const resPostBloqueo = await verifyUseCase.execute({ email: 'admin@warengine.local', code: '9999' });
+  const resPostBloqueo = await verifyUseCase.execute({ email: 'admin@inventa.local', code: '9999' });
   assertEquals(resPostBloqueo.isFailure, true);
   assertEquals(resPostBloqueo.error.code, 'CODIGO_OTP_BLOQUEADO');
 });
@@ -336,7 +336,7 @@ Deno.test('5. POST /verify-code — Falla si el código ha expirado (más de 10 
     () => '4321',
     (c) => `mockhash-${c}`,
   );
-  await forgotUseCase.execute({ email: 'admin@warengine.local' });
+  await forgotUseCase.execute({ email: 'admin@inventa.local' });
 
   // Simulamos expiración modificando expiresAt en el registro
   registros[0].expiresAt = new Date(Date.now() - 1000);
@@ -348,7 +348,7 @@ Deno.test('5. POST /verify-code — Falla si el código ha expirado (más de 10 
     (t) => `hash-${t}`,
   );
 
-  const res = await verifyUseCase.execute({ email: 'admin@warengine.local', code: '4321' });
+  const res = await verifyUseCase.execute({ email: 'admin@inventa.local', code: '4321' });
   assertEquals(res.isFailure, true);
   assertEquals(res.error.code, 'CODIGO_OTP_EXPIRADO');
 });

@@ -5,7 +5,7 @@ import {
   DatosIntentoLogin,
   IControlIntentosLogin,
   IRegistroIntentosLogin,
-} from '@warengine/core';
+} from '@inventa/core';
 
 export class DrizzleIntentoLoginRepository
   implements IRegistroIntentosLogin, IControlIntentosLogin {

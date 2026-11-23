@@ -1,4 +1,4 @@
-# apps/api/ — API REST de Warengine
+# apps/api/ — API REST de Inventa
 
 Punto de entrada HTTP del sistema. Traduce peticiones web a llamadas a casos de uso.
 

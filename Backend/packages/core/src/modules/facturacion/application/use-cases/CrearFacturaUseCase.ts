@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { Factura } from '../../domain/entities/Factura.ts';
 import { FacturaItem } from '../../domain/entities/FacturaItem.ts';
 import { FacturaPago, MedioPago } from '../../domain/entities/FacturaPago.ts';

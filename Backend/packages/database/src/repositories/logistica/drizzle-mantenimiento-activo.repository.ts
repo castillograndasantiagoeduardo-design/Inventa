@@ -12,7 +12,7 @@ import {
   ResultadoPaginado,
   ResumenMantenimientos,
   TipoMantenimiento,
-} from '@warengine/core';
+} from '@inventa/core';
 import { mantenimientoActivoFromRow, MantenimientoJoinRow } from '../../mappers/logistica/mantenimiento-activo.mapper.ts';
 
 const SELECCION = {

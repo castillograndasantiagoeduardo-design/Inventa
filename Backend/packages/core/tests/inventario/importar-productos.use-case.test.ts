@@ -22,7 +22,7 @@ import { Categoria } from '../../src/modules/inventario/domain/entities/Categori
 import { Proveedor } from '../../src/modules/inventario/domain/entities/Proveedor.ts';
 import { IAuditor } from '../../src/modules/auditoria/domain/repositories/IAuditoriaRepository.ts';
 import { Producto } from '../../src/modules/inventario/domain/entities/Producto.ts';
-import { ResultadoPaginado } from '@warengine/shared-kernel';
+import { ResultadoPaginado } from '@inventa/shared-kernel';
 
 class FakeProductoRepository implements IProductoRepository {
   public productos: Producto[] = [];

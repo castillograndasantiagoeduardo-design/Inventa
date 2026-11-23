@@ -1,4 +1,4 @@
-﻿import { Result, DomainError } from '@warengine/shared-kernel';
+﻿import { Result, DomainError } from '@inventa/shared-kernel';
 import { Activo, ESTADOS_ACTIVO } from '../../domain/entities/Activo.ts';
 import { IActivoRepository } from '../../domain/repositories/IActivoRepository.ts';
 import { IAuditor } from '../../../auditoria/domain/repositories/IAuditoriaRepository.ts';

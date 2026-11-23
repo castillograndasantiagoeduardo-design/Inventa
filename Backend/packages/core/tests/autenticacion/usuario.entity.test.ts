@@ -6,7 +6,7 @@ import { assertEquals } from 'jsr:@std/assert@^1';
 import { Usuario } from '../../mod.ts';
 
 function makeUsuario(invalidadoEn: Date | null) {
-  return new Usuario('uuid-001', 'test@warengine.local', 'hash', 1, true, false, invalidadoEn);
+  return new Usuario('uuid-001', 'test@inventa.local', 'hash', 1, true, false, invalidadoEn);
 }
 
 Deno.test('Usuario: token válido si no hay fecha de invalidación', () => {

@@ -41,7 +41,7 @@ const sucursalesFalsas: ISucursalRepository = {
 };
 
 function usuario(principal = 1, nombrePrincipal = 'Centro') {
-  return new UsuarioGestionado('u-9', 'Luis', 'luis@warengine.local', 2, 'admin-sucursal', principal, nombrePrincipal, true);
+  return new UsuarioGestionado('u-9', 'Luis', 'luis@inventa.local', 2, 'admin-sucursal', principal, nombrePrincipal, true);
 }
 
 function usuariosFalsos(existente: UsuarioGestionado | null): IGestionUsuarioRepository {

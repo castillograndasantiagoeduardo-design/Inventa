@@ -12,7 +12,7 @@ import {
   DestinatarioRolAlerta,
   EstadoAlerta,
   PrioridadAlerta,
-} from '@warengine/core';
+} from '@inventa/core';
 
 export interface AlertaAdminRow {
   id: string;

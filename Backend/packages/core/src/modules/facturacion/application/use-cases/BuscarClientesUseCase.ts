@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { Cliente, TipoCliente, TipoDocumentoCliente } from '../../domain/entities/Cliente.ts';
 import { ClientesPaginadosResultado, IClienteRepository } from '../../domain/repositories/IClienteRepository.ts';
 

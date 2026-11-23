@@ -1,5 +1,5 @@
 import { Context } from 'hono';
-import { AppContainer } from '@warengine/composition';
+import { AppContainer } from '@inventa/composition';
 import { clearAuthCookies, getTokensFromCookies } from '../../utils/cookie.ts';
 
 export function logoutController(container: AppContainer) {

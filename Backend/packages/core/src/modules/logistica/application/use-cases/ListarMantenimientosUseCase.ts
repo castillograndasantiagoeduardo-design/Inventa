@@ -1,4 +1,4 @@
-import { Result, DomainError, ResultadoPaginado } from '@warengine/shared-kernel';
+import { Result, DomainError, ResultadoPaginado } from '@inventa/shared-kernel';
 import { TipoMantenimiento } from '../../domain/entities/MantenimientoActivo.ts';
 import {
   IMantenimientoActivoRepository,

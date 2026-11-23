@@ -4,7 +4,7 @@
  * Caso de uso para emitir una alerta administrativa u operativa (RF-ADM-C13).
  */
 
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { AlertaAdmin, PrioridadAlerta } from '../../domain/entities/AlertaAdmin.ts';
 import { IAlertaAdminRepository } from '../../domain/repositories/IAlertaAdminRepository.ts';
 import { ISucursalRepository } from '../../domain/repositories/ISucursalRepository.ts';

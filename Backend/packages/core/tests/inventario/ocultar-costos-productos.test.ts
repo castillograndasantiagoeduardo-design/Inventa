@@ -8,8 +8,8 @@ import {
   FiltrosListarProductos,
   IProductoRepository,
 } from '../../src/modules/inventario/domain/repositories/IProductoRepository.ts';
-import { ResultadoPaginado } from '@warengine/shared-kernel';
-import { PERMISSIONS } from '@warengine/contracts';
+import { ResultadoPaginado } from '@inventa/shared-kernel';
+import { PERMISSIONS } from '@inventa/contracts';
 
 class FakeProductoRepository implements IProductoRepository {
   public productos: Producto[] = [];

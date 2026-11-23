@@ -8,7 +8,7 @@ import {
     FacturaAnuladaError,
     IDevolucionVentaRepository,
     ResumenDevueltoItem,
-} from '@warengine/core';
+} from '@inventa/core';
 import { devolucionVentaFromRow } from '../../mappers/facturacion/devolucion-venta.mapper.ts';
 import { obtenerSqlMessage } from '../../errors/mysql-error-translator.ts';
 

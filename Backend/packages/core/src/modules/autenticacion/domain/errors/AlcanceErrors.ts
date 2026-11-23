@@ -1,4 +1,4 @@
-import { DomainError } from '@warengine/shared-kernel';
+import { DomainError } from '@inventa/shared-kernel';
 
 /** El mensaje es genérico a propósito: no revela si la sucursal existe ni cuáles hay. */
 export class SucursalFueraDeAlcanceError extends DomainError {

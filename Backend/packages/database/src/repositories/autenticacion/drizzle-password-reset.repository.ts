@@ -6,7 +6,7 @@ import {
   PasswordResetTokenInfo,
   PasswordResetOtpRecord,
   ResultadoVerificacionOtp,
-} from '@warengine/core';
+} from '@inventa/core';
 
 async function hashearToken(token: string): Promise<string> {
   const encoder = new TextEncoder();
@@ -193,7 +193,7 @@ export class DrizzlePasswordResetRepository implements IPasswordResetRepository 
     const tokenHash = await hashearToken(token);
     await this.db.insert(password_reset_tokens).values({
       id_usuario: usuarioId,
-      email: 'legacy@warengine.local',
+      email: 'legacy@inventa.local',
       reset_token_hash: tokenHash,
       expires_at: expiraEn,
       reset_token_expires_at: expiraEn,

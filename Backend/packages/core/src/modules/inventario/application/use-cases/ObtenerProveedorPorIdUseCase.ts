@@ -1,4 +1,4 @@
-import { Result, DomainError } from '@warengine/shared-kernel';
+import { Result, DomainError } from '@inventa/shared-kernel';
 import { IProveedorRepository } from '../../domain/repositories/IProveedorRepository.ts';
 import { Proveedor } from '../../domain/entities/Proveedor.ts';
 import { ProveedorNoEncontradoError } from '../../domain/errors/InventarioErrors.ts';

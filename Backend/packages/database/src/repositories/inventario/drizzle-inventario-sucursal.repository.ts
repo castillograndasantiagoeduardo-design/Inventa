@@ -7,7 +7,7 @@ import {
   IConsultaStockSucursalRepository,
   IInventarioSucursalRepository,
   InventarioSucursal,
-} from '@warengine/core';
+} from '@inventa/core';
 
 /**
  * Implementación Drizzle ORM para el repositorio de inventario por sucursal (RF-ADM-B11).

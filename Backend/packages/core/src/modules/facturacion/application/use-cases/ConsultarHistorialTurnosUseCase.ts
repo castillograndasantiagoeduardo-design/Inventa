@@ -1,11 +1,11 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { ResolverAlcanceSucursalUseCase } from '../../../autenticacion/application/use-cases/ResolverAlcanceSucursalUseCase.ts';
 import { SucursalFueraDeAlcanceError } from '../../../autenticacion/domain/errors/AlcanceErrors.ts';
 import {
     ITurnoCajaRepository,
     ResultadoHistorialTurnos,
 } from '../../domain/repositories/ITurnoCajaRepository.ts';
-import type { HistorialTurnosQuery } from '@warengine/contracts';
+import type { HistorialTurnosQuery } from '@inventa/contracts';
 
 export type ConsultarHistorialTurnosRequest = Partial<HistorialTurnosQuery> & {
     usuarioIdPeticion: string;

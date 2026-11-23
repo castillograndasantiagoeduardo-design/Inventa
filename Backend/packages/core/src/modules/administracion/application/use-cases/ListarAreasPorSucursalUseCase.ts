@@ -12,7 +12,7 @@
  * - RF-ADM-C4: Gestión y visualización de áreas por sucursal.
  */
 
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { Area } from '../../domain/entities/Area.ts';
 import { IAreaRepository } from '../../domain/repositories/IAreaRepository.ts';
 import { ISucursalRepository } from '../../domain/repositories/ISucursalRepository.ts';

@@ -1,7 +1,7 @@
 import http from 'node:http';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { SSEServerTransport } from '@modelcontextprotocol/sdk/server/sse.js';
-import type { AppContainer } from '@warengine/composition';
+import type { AppContainer } from '@inventa/composition';
 import {
   McpSessionContext,
   SessionManager,
@@ -63,7 +63,7 @@ export function crearMcpServerParaSesion(
   sessionContext: McpSessionContext,
 ): McpServer {
   const server = new McpServer({
-    name: 'warengine-mcp-server',
+    name: 'inventa-mcp-server',
     version: '1.0.0',
   });
 
@@ -101,7 +101,7 @@ export function createMcpHttpServer(
       res.end(
         JSON.stringify({
           status: 'ok',
-          servidor: 'warengine-mcp-server',
+          servidor: 'inventa-mcp-server',
           sesionesActivas: sessionManager.cantidadSesionesActivas,
           fecha: new Date().toISOString(),
         }),
@@ -305,7 +305,7 @@ export function createMcpHttpServer(
     res.end(
       JSON.stringify({
         error: 'RUTA_NO_ENCONTRADA',
-        message: 'La ruta solicitada no existe en el servidor MCP de Warengine.',
+        message: 'La ruta solicitada no existe en el servidor MCP de Inventa.',
       }),
     );
   });

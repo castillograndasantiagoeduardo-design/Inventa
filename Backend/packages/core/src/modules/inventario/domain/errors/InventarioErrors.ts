@@ -1,4 +1,4 @@
-import { DomainError } from '@warengine/shared-kernel';
+import { DomainError } from '@inventa/shared-kernel';
 
 export class CategoriaNoEncontradaError extends DomainError {
   public readonly code = 'CATEGORIA_NO_ENCONTRADA';

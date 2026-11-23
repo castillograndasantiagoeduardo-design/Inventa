@@ -1,4 +1,4 @@
-import { Result, DomainError, type ResultadoPaginado } from '@warengine/shared-kernel';
+import { Result, DomainError, type ResultadoPaginado } from '@inventa/shared-kernel';
 import { IAlertaStockRepository } from '../../domain/repositories/IAlertaStockRepository.ts';
 import { AlertaStock } from '../../domain/entities/AlertaStock.ts';
 import { ResolverAlcanceSucursalUseCase } from '../../../autenticacion/application/use-cases/ResolverAlcanceSucursalUseCase.ts';

@@ -6,7 +6,7 @@ import {
   AsignacionActivo,
   DatosCrearAsignacion,
   IAsignacionActivoRepository,
-} from '@warengine/core';
+} from '@inventa/core';
 import { asignacionActivoFromRow, AsignacionJoinRow } from '../../mappers/logistica/asignacion-activo.mapper.ts';
 
 const SELECCION = {

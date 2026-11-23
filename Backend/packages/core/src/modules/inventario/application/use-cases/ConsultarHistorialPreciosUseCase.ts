@@ -1,4 +1,4 @@
-import { Result, DomainError } from '@warengine/shared-kernel';
+import { Result, DomainError } from '@inventa/shared-kernel';
 import { IProductoRepository } from '../../domain/repositories/IProductoRepository.ts';
 import { ProductoNoEncontradoError } from '../../domain/errors/InventarioErrors.ts';
 import {
@@ -12,7 +12,7 @@ import {
   HistorialPreciosResponse,
   ItemHistorialPrecio,
   PERMISSIONS,
-} from '@warengine/contracts';
+} from '@inventa/contracts';
 
 export interface ConsultarHistorialPreciosRequest {
   productoId: string;

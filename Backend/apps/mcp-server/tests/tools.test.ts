@@ -1,7 +1,7 @@
 import { assertEquals, assertObjectMatch } from 'jsr:@std/assert@^1';
-import { Result } from '@warengine/shared-kernel';
-import { PERMISSIONS, TOOL_NAMES } from '@warengine/contracts';
-import type { AppContainer } from '@warengine/composition';
+import { Result } from '@inventa/shared-kernel';
+import { PERMISSIONS, TOOL_NAMES } from '@inventa/contracts';
+import type { AppContainer } from '@inventa/composition';
 import type { McpSessionContext } from '../src/session/index.ts';
 import { McpAuthorizationGateway } from '../src/gateway/index.ts';
 import {

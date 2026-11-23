@@ -1,4 +1,4 @@
-import { Result, DomainError } from '@warengine/shared-kernel';
+import { Result, DomainError } from '@inventa/shared-kernel';
 import { IUsuarioRepository } from '../../domain/repositories/IUsuarioRepository.ts';
 import { IPasswordResetRepository } from '../../domain/repositories/IPasswordResetRepository.ts';
 import { IMailer } from '../../domain/services/IMailer.ts';

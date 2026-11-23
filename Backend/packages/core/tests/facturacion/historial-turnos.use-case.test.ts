@@ -6,7 +6,7 @@ import {
     ObtenerCorteTurnoUseCase,
     ResolverAlcanceSucursalUseCase,
 } from '../../mod.ts';
-import type { TurnoCorteDetalleDto, TurnoHistorialItemDto } from '@warengine/contracts';
+import type { TurnoCorteDetalleDto, TurnoHistorialItemDto } from '@inventa/contracts';
 
 class FakeResolverAlcanceSucursal {
     constructor(private readonly sedesPermitidas: number[] = [1]) { }
@@ -22,7 +22,7 @@ const mockHistorialItem: TurnoHistorialItemDto = {
     id: 'turno-1',
     usuarioId: 'usr-cajero-1',
     cajeroNombre: 'Juan Cajero',
-    cajeroEmail: 'cajero@warengine.com',
+    cajeroEmail: 'cajero@inventa.local',
     sucursalId: 1,
     sucursalNombre: 'Sede Principal',
     cajaNombre: 'Caja 1',
@@ -44,7 +44,7 @@ const mockCorteDetalle: TurnoCorteDetalleDto = {
     id: 'turno-1',
     usuarioId: 'usr-cajero-1',
     cajeroNombre: 'Juan Cajero',
-    cajeroEmail: 'cajero@warengine.com',
+    cajeroEmail: 'cajero@inventa.local',
     sucursalId: 1,
     sucursalNombre: 'Sede Principal',
     cajaNombre: 'Caja 1',

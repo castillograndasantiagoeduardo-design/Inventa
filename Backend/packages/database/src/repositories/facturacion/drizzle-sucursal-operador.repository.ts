@@ -2,7 +2,7 @@ import { eq } from 'drizzle-orm';
 import { Database } from '../../client.ts';
 import { empleados } from '../../schema/administracion.schema.ts';
 import { usuarios } from '../../schema/autenticacion.schema.ts';
-import { ISucursalOperadorRepository } from '@warengine/core';
+import { ISucursalOperadorRepository } from '@inventa/core';
 
 export class DrizzleSucursalOperadorRepository implements ISucursalOperadorRepository {
     constructor(private readonly db: Database) { }

@@ -1,4 +1,4 @@
-import { Proveedor } from '@warengine/core';
+import { Proveedor } from '@inventa/core';
 import { ProveedorRecord } from '../../schema/inventario.schema.ts';
 
 export function proveedorFromRow(row: ProveedorRecord): Proveedor {

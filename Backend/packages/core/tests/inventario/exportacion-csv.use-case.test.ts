@@ -21,8 +21,8 @@ import {
   ResultadoTransferenciaMercancia,
 } from '../../src/modules/inventario/domain/repositories/IMovimientoInventarioRepository.ts';
 import { Producto } from '../../src/modules/inventario/domain/entities/Producto.ts';
-import { ResultadoPaginado } from '@warengine/shared-kernel';
-import { PERMISSIONS } from '@warengine/contracts';
+import { ResultadoPaginado } from '@inventa/shared-kernel';
+import { PERMISSIONS } from '@inventa/contracts';
 import { ActorAuditoria } from '../../src/modules/auditoria/domain/entities/LogAuditoria.ts';
 
 // ─── FAKES ──────────────────────────────────────────────────────────────────

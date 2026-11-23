@@ -40,7 +40,7 @@ function makeTokenService(payload: AccessTokenPayload, failValidation = false): 
 }
 
 function makeUsuario(invalidadoEn: Date | null = null): Usuario {
-  return new Usuario('uuid-001', 'test@warengine.local', 'hash', 1, true, false, invalidadoEn);
+  return new Usuario('uuid-001', 'test@inventa.local', 'hash', 1, true, false, invalidadoEn);
 }
 
 function makeUsuarioRepository(usuario: Usuario | null): IUsuarioRepository {
@@ -182,7 +182,7 @@ Deno.test('ValidarPermisoUseCase: aprueba sin verificar permisos si no se requie
 
 Deno.test('ValidarPermisoUseCase: rechaza con USUARIO_INACTIVO si el usuario está desactivado', async () => {
   const payload = makePayload();
-  const usuarioInactivo = new Usuario('uuid-001', 'test@warengine.local', 'hash', 1, false, false, null);
+  const usuarioInactivo = new Usuario('uuid-001', 'test@inventa.local', 'hash', 1, false, false, null);
   const { auditor, eventos } = makeAuditor();
   const useCase = new ValidarPermisoUseCase(
     makeTokenService(payload),

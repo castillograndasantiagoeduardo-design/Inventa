@@ -1,4 +1,4 @@
-import type { EstadoCotizacionB2B, EstadoPedidoB2B } from '@warengine/contracts';
+import type { EstadoCotizacionB2B, EstadoPedidoB2B } from '@inventa/contracts';
 import type { MedioPago } from './FacturaPago.ts';
 import { Factura } from './Factura.ts';
 

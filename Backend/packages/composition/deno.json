@@ -1,4 +1,4 @@
 {
-  "name": "@warengine/composition",
+  "name": "@inventa/composition",
   "exports": "./mod.ts"
 }

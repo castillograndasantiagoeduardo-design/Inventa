@@ -8,7 +8,7 @@ import {
   FiltrosListarCategorias,
   ICategoriaRepository,
   ResultadoPaginado,
-} from '@warengine/core';
+} from '@inventa/core';
 import { categoriaFromRow } from '../../mappers/inventario/categoria.mapper.ts';
 
 export class DrizzleCategoriaRepository implements ICategoriaRepository {

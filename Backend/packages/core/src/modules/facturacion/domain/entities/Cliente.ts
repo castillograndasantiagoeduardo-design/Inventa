@@ -1,4 +1,4 @@
-import type { EstadoCreditoCliente, NivelRiesgoCredito } from '@warengine/contracts';
+import type { EstadoCreditoCliente, NivelRiesgoCredito } from '@inventa/contracts';
 
 export type TipoDocumentoCliente = 'CC' | 'NIT' | 'RUT';
 export type TipoCliente = 'B2C' | 'B2B';

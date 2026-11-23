@@ -1,7 +1,7 @@
 import { assertEquals } from 'jsr:@std/assert@^1';
 import { Hono } from 'hono';
-import { Result } from '@warengine/shared-kernel';
-import type { AppContainer } from '@warengine/composition';
+import { Result } from '@inventa/shared-kernel';
+import type { AppContainer } from '@inventa/composition';
 import { createAsistenteRoutes } from '../src/routes/asistente.routes.ts';
 
 function crearMockContainerParaApi() {

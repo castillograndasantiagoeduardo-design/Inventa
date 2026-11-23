@@ -1,6 +1,6 @@
-import { AppContainer } from '@warengine/composition';
-import { DevolucionVenta } from '@warengine/core';
-import { DevolucionVentaDto, registrarDevolucionSchema } from '@warengine/contracts';
+import { AppContainer } from '@inventa/composition';
+import { DevolucionVenta } from '@inventa/core';
+import { DevolucionVentaDto, registrarDevolucionSchema } from '@inventa/contracts';
 import { presentResult } from '../../presenters/result.presenter.ts';
 import { leerJson, safeHandler } from '../../utils/handler.ts';
 import { obtenerActor } from '../../utils/actor.ts';

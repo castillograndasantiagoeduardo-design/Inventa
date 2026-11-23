@@ -1,6 +1,6 @@
 import { Context } from 'hono';
 import { ContentfulStatusCode } from 'hono/utils/http-status';
-import { Result, DomainError } from '@warengine/shared-kernel';
+import { Result, DomainError } from '@inventa/shared-kernel';
 
 export function presentResult<T>(c: Context, result: Result<T, DomainError>, successStatus: ContentfulStatusCode = 200) {
   if (result.isSuccess) {

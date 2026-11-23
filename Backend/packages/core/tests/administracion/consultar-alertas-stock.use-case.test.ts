@@ -19,7 +19,7 @@ import {
 function armar(opciones: { global: boolean; sucursales: number[]; usuarioExiste?: boolean }) {
   const usuario = opciones.usuarioExiste === false
     ? null
-    : new Usuario('u-1', 'a@warengine.local', 'hash', 2, true, false, null);
+    : new Usuario('u-1', 'a@inventa.local', 'hash', 2, true, false, null);
   const usuarios: IUsuarioRepository = {
     findByEmail: () => Promise.resolve(usuario),
     findById: () => Promise.resolve(usuario),

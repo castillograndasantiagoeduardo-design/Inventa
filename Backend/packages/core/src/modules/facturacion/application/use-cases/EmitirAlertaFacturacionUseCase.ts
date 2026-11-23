@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { AlertaAdmin, PrioridadAlerta } from '../../../administracion/domain/entities/AlertaAdmin.ts';
 import { IAlertaAdminRepository } from '../../../administracion/domain/repositories/IAlertaAdminRepository.ts';
 import { ISucursalOperadorRepository } from '../../domain/repositories/ISucursalOperadorRepository.ts';

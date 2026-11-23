@@ -1,4 +1,4 @@
-import { DomainError } from '@warengine/shared-kernel';
+import { DomainError } from '@inventa/shared-kernel';
 
 export class ErrorComunicacionAsistenteError extends DomainError {
   public readonly code = 'ERROR_COMUNICACION_ASISTENTE';

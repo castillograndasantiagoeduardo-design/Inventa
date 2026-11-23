@@ -1,5 +1,5 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
-import { PERMISSIONS } from '@warengine/contracts';
+import { DomainError, Result } from '@inventa/shared-kernel';
+import { PERMISSIONS } from '@inventa/contracts';
 import { DevolucionVenta } from '../../domain/entities/DevolucionVenta.ts';
 import {
     CantidadDevolucionExcedidaError,

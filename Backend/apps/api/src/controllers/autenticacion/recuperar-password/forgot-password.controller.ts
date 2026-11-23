@@ -1,6 +1,6 @@
 import { Context } from 'hono';
 import { z } from 'zod';
-import { AppContainer } from '@warengine/composition';
+import { AppContainer } from '@inventa/composition';
 import { presentResult } from '../../../presenters/result.presenter.ts';
 import { obtenerIp } from '../../../utils/ip.ts';
 

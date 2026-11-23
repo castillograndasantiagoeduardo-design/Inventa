@@ -1,4 +1,4 @@
-import { LogMcpTool } from '@warengine/core';
+import { LogMcpTool } from '@inventa/core';
 
 export interface FilaLogMcpTool {
   id: number;

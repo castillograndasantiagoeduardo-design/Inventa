@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { Factura } from '../../domain/entities/Factura.ts';
 import {
     FacturaNoEncontradaError,
@@ -14,7 +14,7 @@ import {
     ActorAuditoria,
     ENTIDADES_AUDITORIA,
 } from '../../../auditoria/domain/entities/LogAuditoria.ts';
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 
 export interface AnularFacturaRequest {
     id: string;

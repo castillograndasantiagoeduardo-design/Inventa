@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { AppContainer } from '@warengine/composition';
+import { AppContainer } from '@inventa/composition';
 import { authMiddleware } from '../middlewares/auth.middleware.ts';
 import {
   cambiarEstadoCategoriaController,
@@ -42,10 +42,10 @@ import {
   listarStockSucursalController,
 } from '../controllers/inventario/stock-minimo.controller.ts';
 
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 
 // Códigos según la tabla `permisos` (seed).
-// Si los nuevos permisos ya existen dentro del objeto PERMISOS de @warengine/contratos:
+// Si los nuevos permisos ya existen dentro del objeto PERMISOS de @inventa/contratos:
 const PERMISO_INVENTARIO_LEER = PERMISSIONS.INVENTARIO_LEER;
 const PERMISO_INVENTARIO_ESCRIBIR = PERMISSIONS.INVENTARIO_ESCRIBIR;
 const PERMISO_INVENTARIO_REGISTRAR_MOVIMIENTO = PERMISSIONS.INVENTARIO_REGISTRAR_MOVIMIENTO;

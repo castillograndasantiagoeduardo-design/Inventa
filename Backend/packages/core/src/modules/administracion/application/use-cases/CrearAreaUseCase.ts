@@ -13,7 +13,7 @@
  * - RNF-ADM-02: Registro auditable de mutaciones operativas.
  */
 
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { Area } from '../../domain/entities/Area.ts';
 import { IAreaRepository } from '../../domain/repositories/IAreaRepository.ts';
 import { ISucursalRepository } from '../../domain/repositories/ISucursalRepository.ts';

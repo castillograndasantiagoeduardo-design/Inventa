@@ -1,4 +1,4 @@
-import { SedeAdicional, UsuarioGestionado } from '@warengine/core';
+import { SedeAdicional, UsuarioGestionado } from '@inventa/core';
 
 export interface FilaUsuarioGestionado {
   id: string;

@@ -1,4 +1,4 @@
-import { Result, DomainError } from '@warengine/shared-kernel';
+import { Result, DomainError } from '@inventa/shared-kernel';
 import { IUsuarioRepository } from '../../domain/repositories/IUsuarioRepository.ts';
 import { ITotpService, GenerarSecretoTotpOutput } from '../../domain/services/ITotpService.ts';
 import { UsuarioInactivoError, TokenInvalidoError } from '../../domain/errors/AutenticacionErrors.ts';

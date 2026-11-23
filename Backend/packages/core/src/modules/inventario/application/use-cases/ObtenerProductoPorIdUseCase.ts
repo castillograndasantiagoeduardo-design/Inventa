@@ -1,7 +1,7 @@
-import { Result, DomainError } from '@warengine/shared-kernel';
+import { Result, DomainError } from '@inventa/shared-kernel';
 import { IProductoRepository } from '../../domain/repositories/IProductoRepository.ts';
 import { ProductoNoEncontradoError } from '../../domain/errors/InventarioErrors.ts';
-import { ProductoResponse } from '@warengine/contracts';
+import { ProductoResponse } from '@inventa/contracts';
 import { ActorAuditoria } from '../../../auditoria/domain/entities/LogAuditoria.ts';
 import { toProductoResponse } from '../mappers/producto-response.mapper.ts';
 

@@ -1,4 +1,4 @@
-import { CategoriaActivo } from '@warengine/core';
+import { CategoriaActivo } from '@inventa/core';
 import { CategoriaActivoRecord } from '../../schema/logistica.schema.ts';
 
 export type CategoriaActivoRow = CategoriaActivoRecord & {

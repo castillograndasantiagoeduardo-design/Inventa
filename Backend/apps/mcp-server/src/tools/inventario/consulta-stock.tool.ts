@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { DomainError, Result } from '@warengine/shared-kernel';
-import { PERMISSIONS, TOOL_NAMES, consultaStockMcpSchema, type ConsultaStockMcpDTO } from '@warengine/contracts';
-import { CategoriaNoEncontradaError, ProductoNoEncontradoError } from '@warengine/core';
-import type { AppContainer } from '@warengine/composition';
+import { DomainError, Result } from '@inventa/shared-kernel';
+import { PERMISSIONS, TOOL_NAMES, consultaStockMcpSchema, type ConsultaStockMcpDTO } from '@inventa/contracts';
+import { CategoriaNoEncontradaError, ProductoNoEncontradoError } from '@inventa/core';
+import type { AppContainer } from '@inventa/composition';
 import type { DefinicionToolMcp } from '../../catalog/tool-definition.ts';
 import type { McpSessionContext } from '../../session/index.ts';
 

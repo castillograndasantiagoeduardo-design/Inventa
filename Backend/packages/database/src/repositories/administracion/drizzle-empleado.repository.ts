@@ -22,7 +22,7 @@ import {
   EmpleadosPaginadosResultado,
   FiltrosEmpleados,
   IEmpleadoRepository,
-} from '@warengine/core';
+} from '@inventa/core';
 import { empleadoFromRow } from '../../mappers/administracion/empleado.mapper.ts';
 
 const SELECCION = {

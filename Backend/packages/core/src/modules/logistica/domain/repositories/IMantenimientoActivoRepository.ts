@@ -1,4 +1,4 @@
-import type { ResultadoPaginado } from '@warengine/shared-kernel';
+import type { ResultadoPaginado } from '@inventa/shared-kernel';
 import { MantenimientoActivo, TipoMantenimiento } from '../entities/MantenimientoActivo.ts';
 
 export interface DatosCrearMantenimiento {
