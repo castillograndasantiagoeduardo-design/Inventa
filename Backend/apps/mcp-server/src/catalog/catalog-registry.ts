@@ -1,5 +1,5 @@
 import type { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import type { AppContainer } from '@warengine/composition';
+import type { AppContainer } from '@inventa/composition';
 import type { McpSessionContext } from '../session/index.ts';
 import { McpAuthorizationGateway } from '../gateway/index.ts';
 import type { DefinicionToolMcp } from './tool-definition.ts';

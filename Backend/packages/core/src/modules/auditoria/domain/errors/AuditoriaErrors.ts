@@ -1,4 +1,4 @@
-import { DomainError } from '@warengine/shared-kernel';
+import { DomainError } from '@inventa/shared-kernel';
 
 export class FiltroAuditoriaInvalidoError extends DomainError {
   public readonly code = 'FILTRO_AUDITORIA_INVALIDO';

@@ -1,4 +1,4 @@
-﻿import { ResultadoPaginado } from '@warengine/shared-kernel';
+﻿import { ResultadoPaginado } from '@inventa/shared-kernel';
 import { CategoriaActivo } from '../../domain/entities/CategoriaActivo.ts';
 import { ICategoriaActivoRepository, FiltrosListarCategoriasActivos } from '../../domain/repositories/ICategoriaActivoRepository.ts';
 

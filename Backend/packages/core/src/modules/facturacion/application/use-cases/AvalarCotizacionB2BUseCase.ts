@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { CotizacionB2B } from '../../domain/entities/CotizacionB2B.ts';
 import {
   CotizacionEstadoInvalidoError,

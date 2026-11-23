@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Modal } from '@/components/ui/Modal';
-import { crearClienteSchema } from '@warengine/contracts';
+import { crearClienteSchema } from '@inventa/contracts';
 import type { CrearClienteInput, ClienteDto } from '../../types/branch-clients.types';
 import { Loader2 } from 'lucide-react';
 
@@ -96,7 +96,7 @@ export function CreateClientModal({
       open={isOpen}
       onClose={handleClose}
       title="Nuevo Cliente"
-      description="Registra un cliente nuevo en el directorio comercial de Warengine."
+      description="Registra un cliente nuevo en el directorio comercial de Inventa."
       size="md"
       locked={enviando}
     >

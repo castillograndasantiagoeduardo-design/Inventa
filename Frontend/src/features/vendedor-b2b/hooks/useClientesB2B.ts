@@ -6,7 +6,7 @@
  */
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { crearClienteSchema } from '@warengine/contracts';
+import { crearClienteSchema } from '@inventa/contracts';
 import type { ClienteDto, CrearClienteInput, EvaluacionCreditoB2BDto } from '../types';
 import { vendedorB2bService } from '../api';
 import { ApiError } from '@/lib/api';

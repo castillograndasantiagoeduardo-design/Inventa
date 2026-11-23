@@ -1,5 +1,5 @@
-import { AppContainer } from '@warengine/composition';
-import { emitirAlertaFacturacionSchema } from '@warengine/contracts';
+import { AppContainer } from '@inventa/composition';
+import { emitirAlertaFacturacionSchema } from '@inventa/contracts';
 import { presentResult } from '../../presenters/result.presenter.ts';
 import { leerJson, safeHandler } from '../../utils/handler.ts';
 import { obtenerActor } from '../../utils/actor.ts';

@@ -5,13 +5,13 @@ import {
   type Part,
   type Tool,
 } from '@google/generative-ai';
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import {
   type IAsistenteService,
   type PeticionAsistenteInput,
   type RespuestaAsistenteOutput,
   ErrorComunicacionAsistenteError,
-} from '@warengine/core';
+} from '@inventa/core';
 
 export interface GeminiAsistenteConfig {
   apiKey?: string;
@@ -75,7 +75,7 @@ export class GeminiAsistenteService implements IAsistenteService {
         const nombresTools = tools.map((t) => t.name).join(', ');
         return Result.ok({
           respuesta:
-            `Hola, soy el Asistente IA de Warengine. Tu sesión está activa y tienes acceso a las siguientes herramientas MCP: [${nombresTools}]. ` +
+            `Hola, soy el Asistente IA de Inventa. Tu sesión está activa y tienes acceso a las siguientes herramientas MCP: [${nombresTools}]. ` +
             `Para procesar consultas en lenguaje natural con el modelo Gemini, configure la variable de entorno GEMINI_API_KEY.`,
           toolsEjecutadas: [],
         });
@@ -104,7 +104,7 @@ export class GeminiAsistenteService implements IAsistenteService {
       const model = ai.getGenerativeModel({
         model: this.modelName,
         systemInstruction:
-          'Eres el Asistente Inteligente de Warengine, un ERP para empresas de ferretería y comercio. ' +
+          'Eres el Asistente Inteligente de Inventa, un ERP para empresas de ferretería y comercio. ' +
           'Tienes acceso a herramientas MCP para consultar existencias de inventario, stock bajo, facturas, métricas, y crear o ajustar productos. ' +
           'Responde siempre de forma clara, educada, precisa y en español.\n\n' +
           'DIRECTRICES DE INVENTARIO Y HERRAMIENTAS:\n' +

@@ -6,15 +6,15 @@
  * Rol en la arquitectura:
  * - Capa de Presentación / Controladores HTTP (Hono).
  * - Extrae parámetros de ruta y cuerpos de petición, los valida contra los esquemas Zod
- *   de `@warengine/contracts`, inyecta el actor de auditoría extraído del token JWT
+ *   de `@inventa/contracts`, inyecta el actor de auditoría extraído del token JWT
  *   y formatea la respuesta con `presentResult`.
  *
  * Requisito SRS:
  * - RF-ADM-C4: Endpoints para consultar, crear, editar y eliminar áreas por sucursal.
  */
 
-import { crearAreaSchema, editarAreaSchema } from '@warengine/contracts';
-import { AppContainer } from '@warengine/composition';
+import { crearAreaSchema, editarAreaSchema } from '@inventa/contracts';
+import { AppContainer } from '@inventa/composition';
 import { presentResult } from '../../presenters/result.presenter.ts';
 import { leerJson, safeHandler } from '../../utils/handler.ts';
 import { obtenerActor } from '../../utils/actor.ts';

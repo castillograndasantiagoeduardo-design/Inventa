@@ -8,7 +8,7 @@
  */
 
 import { useCallback, useEffect, useMemo } from 'react';
-import { editarEmpleadoSchema } from '@warengine/contracts';
+import { editarEmpleadoSchema } from '@inventa/contracts';
 import { usePermissions } from '@/features/autenticacion';
 import { useFormulario } from '@/lib/hooks/useFormulario';
 import { useRecurso } from '@/lib/hooks/useRecurso';

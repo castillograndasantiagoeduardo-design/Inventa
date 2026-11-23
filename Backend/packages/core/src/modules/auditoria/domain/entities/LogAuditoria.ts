@@ -1,6 +1,6 @@
 /**
  * Acciones estándar del log de auditoría.
- * Debe coincidir con ACCIONES_AUDITORIA de @warengine/contracts.
+ * Debe coincidir con ACCIONES_AUDITORIA de @inventa/contracts.
  */
 export const ACCIONES_AUDITORIA = {
   CREAR: 'crear',
@@ -17,7 +17,7 @@ export const ACCIONES_AUDITORIA = {
 
 /**
  * Nombres de entidad del log de auditoría.
- * Debe coincidir con ENTIDADES_AUDITORIA de @warengine/contracts.
+ * Debe coincidir con ENTIDADES_AUDITORIA de @inventa/contracts.
  */
 export const ENTIDADES_AUDITORIA = {
   SUCURSALES: 'sucursales',

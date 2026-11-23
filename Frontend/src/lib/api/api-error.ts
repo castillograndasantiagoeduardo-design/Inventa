@@ -1,7 +1,7 @@
 /**
  * api-error.ts — Clase de error estandarizada para respuestas fallidas de la API.
  *
- * Captura todos los metadatos devueltos por el backend de Warengine:
+ * Captura todos los metadatos devueltos por el backend de Inventa:
  * - status: Código HTTP (400, 401, 403, 404, 428, 429, 500)
  * - code: Código semántico de dominio (ej. 'CREDENCIALES_INVALIDAS', 'REQUIERE_2FA', 'LOGIN_BLOQUEADO')
  * - tempToken: Token temporal entregado en 428 para el segundo factor (2FA TOTP)

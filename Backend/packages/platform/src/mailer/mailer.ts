@@ -1,4 +1,4 @@
-import { IMailer, EnviarEmailRecuperacionDto } from '@warengine/core';
+import { IMailer, EnviarEmailRecuperacionDto } from '@inventa/core';
 
 export class PlatformMailer implements IMailer {
   constructor(private readonly frontendUrl: string = 'http://localhost:3000') {}

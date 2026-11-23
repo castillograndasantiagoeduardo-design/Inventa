@@ -1,7 +1,7 @@
 /**
  * auth.types.ts — Tipos y contratos para el módulo de autenticación en Frontend.
  *
- * Importa y re-exporta los contratos oficiales de @warengine/contracts como
+ * Importa y re-exporta los contratos oficiales de @inventa/contracts como
  * única fuente de verdad (Single Source of Truth), asegurando tipado estricto
  * idéntico al backend.
  */
@@ -13,7 +13,7 @@ import type {
   Verificar2faLoginInput,
   SolicitarRecuperacionPasswordInput,
   ConfirmarRestablecerPasswordInput,
-} from '@warengine/contracts';
+} from '@inventa/contracts';
 
 // Re-exportar DTOs de contratos
 export type {

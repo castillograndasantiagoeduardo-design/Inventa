@@ -2,7 +2,7 @@ import type {
   EvaluacionCreditoB2BDto,
   NivelRiesgoCredito,
   PlazoCreditoDias,
-} from '@warengine/contracts';
+} from '@inventa/contracts';
 
 export interface ParametrosEvaluacionCreditoB2B {
   gananciaNetaMensual: number;

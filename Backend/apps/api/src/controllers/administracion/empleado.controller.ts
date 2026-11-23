@@ -13,8 +13,8 @@
  * - RF-ADM-C12: Actualización de datos laborales y de contacto de empleados.
  */
 
-import { editarEmpleadoSchema, listarEmpleadosQuerySchema } from '@warengine/contracts';
-import { AppContainer } from '@warengine/composition';
+import { editarEmpleadoSchema, listarEmpleadosQuerySchema } from '@inventa/contracts';
+import { AppContainer } from '@inventa/composition';
 import { presentResult } from '../../presenters/result.presenter.ts';
 import { leerJson, safeHandler } from '../../utils/handler.ts';
 import { obtenerActor } from '../../utils/actor.ts';

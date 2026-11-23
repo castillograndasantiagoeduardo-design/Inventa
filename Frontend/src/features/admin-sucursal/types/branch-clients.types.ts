@@ -5,7 +5,7 @@ import type {
   CrearClienteInput,
   ActualizarClienteInput,
   FiltrosClientesInput,
-} from '@warengine/contracts';
+} from '@inventa/contracts';
 
 export type {
   ClienteDto,

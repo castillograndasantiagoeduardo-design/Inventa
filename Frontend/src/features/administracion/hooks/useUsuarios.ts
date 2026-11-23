@@ -9,7 +9,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import type { RolResumenDto } from '@warengine/contracts';
+import type { RolResumenDto } from '@inventa/contracts';
 import { usePermissions } from '@/features/autenticacion';
 import { useListado } from '@/lib/hooks/useListado';
 import { useRecurso } from '@/lib/hooks/useRecurso';

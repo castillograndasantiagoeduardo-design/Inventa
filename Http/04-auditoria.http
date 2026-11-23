@@ -6,8 +6,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ###
@@ -55,7 +55,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local",
+  "email": "superadmin@inventa.local",
   "password": "PasswordIncorrecto123!"
 }
 
@@ -71,7 +71,7 @@ Content-Type: application/json
   "nombre": "Cajero Sin Permiso",
   "tipoDocumento": "CC",
   "numeroDocumento": "9876543210",
-  "email": "cajero.sinpermiso@warengine.local",
+  "email": "cajero.sinpermiso@inventa.local",
   "password": "Password.2026!",
   "rolId": 3,
   "sucursalId": 1
@@ -85,7 +85,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "cajero.sinpermiso@warengine.local",
+  "email": "cajero.sinpermiso@inventa.local",
   "password": "Password.2026!"
 }
 

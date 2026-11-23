@@ -1,5 +1,5 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
-import type { EstadoPedidoB2B } from '@warengine/contracts';
+import { DomainError, Result } from '@inventa/shared-kernel';
+import type { EstadoPedidoB2B } from '@inventa/contracts';
 import { CotizacionB2B } from '../../domain/entities/CotizacionB2B.ts';
 import {
   CotizacionEstadoInvalidoError,

@@ -13,7 +13,7 @@
  * - RNF-ADM-02: Registro inmutable en auditoría ante toda mutación de personal.
  */
 
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { ResolverAlcanceSucursalUseCase } from '../../../autenticacion/application/use-cases/ResolverAlcanceSucursalUseCase.ts';
 import { SucursalFueraDeAlcanceError } from '../../../autenticacion/domain/errors/AlcanceErrors.ts';
 import { Empleado } from '../../domain/entities/Empleado.ts';

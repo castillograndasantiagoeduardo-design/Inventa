@@ -9,7 +9,7 @@
  */
 
 import { useCallback, useState } from 'react';
-import { activar2faSchema, desactivar2faSchema, type Activar2faInput, type Desactivar2faInput } from '@warengine/contracts';
+import { activar2faSchema, desactivar2faSchema, type Activar2faInput, type Desactivar2faInput } from '@inventa/contracts';
 import { useToast } from '@/components/ui/Toast';
 import { mensajeDeError } from '@/lib/forms/validacion';
 import { useFormulario } from '@/lib/hooks/useFormulario';

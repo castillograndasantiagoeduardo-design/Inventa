@@ -1,6 +1,6 @@
 import { Context } from 'hono';
-import { verificar2faLoginSchema } from '@warengine/contracts';
-import { AppContainer } from '@warengine/composition';
+import { verificar2faLoginSchema } from '@inventa/contracts';
+import { AppContainer } from '@inventa/composition';
 import { presentResult } from '../../../presenters/result.presenter.ts';
 import { setAuthCookies } from '../../../utils/cookie.ts';
 import { obtenerIp } from '../../../utils/ip.ts';

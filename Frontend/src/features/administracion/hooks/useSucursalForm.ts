@@ -3,12 +3,12 @@
 /**
  * useSucursalForm.ts — Crear o editar una sucursal (RF-ADM-C2, C3).
  *
- * Valida con crearSucursalSchema / editarSucursalSchema de @warengine/contracts.
+ * Valida con crearSucursalSchema / editarSucursalSchema de @inventa/contracts.
  * Campos reales de la entidad: nombre, direccion y contacto (no hay teléfono ni encargado).
  */
 
 import { useCallback, useEffect, useMemo } from 'react';
-import { crearSucursalSchema, editarSucursalSchema } from '@warengine/contracts';
+import { crearSucursalSchema, editarSucursalSchema } from '@inventa/contracts';
 import { useFormulario, vacioAUndefined } from '@/lib/hooks/useFormulario';
 import { sucursalesService } from '../api';
 import type { CrearSucursalInput, EditarSucursalInput, Sucursal } from '../types';

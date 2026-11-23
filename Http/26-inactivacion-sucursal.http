@@ -24,8 +24,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ###
@@ -87,7 +87,7 @@ Authorization: Bearer {{loginAdmin.response.body.accessToken}}
 Content-Type: application/json
 
 {
-  "email": "cajero.sucursal.activa@warengine.local",
+  "email": "cajero.sucursal.activa@inventa.local",
   "password": "Password.12345!",
   "rolId": 3,
   "sucursalId": {{crearSucursalConUsuarios.response.body.id}},

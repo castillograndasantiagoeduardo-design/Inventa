@@ -15,7 +15,7 @@
 import { and, count, eq, sql } from 'drizzle-orm';
 import { Database } from '../../client.ts';
 import { areas, empleados } from '../../schema/administracion.schema.ts';
-import { Area, IAreaRepository } from '@warengine/core';
+import { Area, IAreaRepository } from '@inventa/core';
 import { areaFromRow } from '../../mappers/administracion/area.mapper.ts';
 
 export class DrizzleAreaRepository implements IAreaRepository {

@@ -5,7 +5,7 @@
  */
 
 import { useCallback, useEffect } from 'react';
-import { crearUsuarioSchema, type CrearUsuarioInput } from '@warengine/contracts';
+import { crearUsuarioSchema, type CrearUsuarioInput } from '@inventa/contracts';
 import { useFormulario, vacioAUndefined } from '@/lib/hooks/useFormulario';
 import { usuariosService } from '../api';
 import type { UsuarioGestionado } from '../types';

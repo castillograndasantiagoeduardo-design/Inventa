@@ -7,7 +7,7 @@
  * Es una vista exclusivamente global (permiso administracion:ver-metricas-globales),
  * por eso no resuelve alcance por sucursal. Consulta de solo lectura: no audita.
  */
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { RangoFechasInvalidoError } from '../../domain/errors/AdministracionErrors.ts';
 import type { IMetricasAdminRepository } from '../../domain/repositories/IMetricasAdminRepository.ts';
 import type { IResumenOrganizacionRepository } from '../../domain/repositories/IResumenOrganizacionRepository.ts';

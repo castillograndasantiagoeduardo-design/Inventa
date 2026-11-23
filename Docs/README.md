@@ -1,6 +1,6 @@
-# Docs/ — Documentación Oficial del Proyecto Warengine
+# Docs/ — Documentación Oficial del Proyecto Inventa
 
-Este directorio centraliza toda la documentación técnica, funcional y de arquitectura de Warengine.
+Este directorio centraliza toda la documentación técnica, funcional y de arquitectura de Inventa.
 
 ---
 
@@ -14,9 +14,9 @@ Docs/
 │   └── 0002-auditoria.md              # Estrategia de auditoría no bloqueante y destino
 ├── context/                            # Contexto para asistentes de desarrollo e IA
 │   ├── README.md
-│   └── proyecto-warengine.md          # Especificación integral del sistema
+│   └── proyecto-inventa.md          # Especificación integral del sistema
 ├── database/                           # Esquemas y scripts SQL
-│   ├── WARENGINE_FULL_BD.sql          # Script DDL completo de MySQL 8
+│   ├── INVENTA_FULL_BD.sql          # Script DDL completo de MySQL 8
 │   └── cambios/                       # Scripts incrementales versionados
 ├── modulos/                            # Documentación técnica por módulo de negocio
 │   ├── README.md                      # Índice general y matriz de estado de módulos
@@ -45,6 +45,6 @@ Docs/
 
 - [Índice de Módulos de Negocio](./modulos/README.md)
 - [Índice de Infraestructura y Variables de Entorno](./infraestructura/README.md)
-- [Contexto Integral del Proyecto](./context/proyecto-warengine.md)
+- [Contexto Integral del Proyecto](./context/proyecto-inventa.md)
 - [ADR 0001: Reglas de Arquitectura](./adr/0001-architecture-rules.md)
 - [ADR 0002: Sistema de Auditoría](./adr/0002-auditoria.md)

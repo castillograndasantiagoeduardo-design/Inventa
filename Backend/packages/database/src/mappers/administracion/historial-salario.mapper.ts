@@ -7,7 +7,7 @@
  * - RF-ADM-C14: Historial de salarios de empleados.
  */
 
-import { HistorialSalario } from '@warengine/core';
+import { HistorialSalario } from '@inventa/core';
 
 export interface HistorialSalarioRow {
   id: string;

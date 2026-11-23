@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import {
   IMovimientoInventarioRepository,
 } from '../../domain/repositories/IMovimientoInventarioRepository.ts';
@@ -12,7 +12,7 @@ import {
   MotivoAnulacionRequeridoError,
   StockInsuficienteError,
 } from '../../domain/errors/InventarioErrors.ts';
-import { AnulacionEntradaResponse } from '@warengine/contracts';
+import { AnulacionEntradaResponse } from '@inventa/contracts';
 
 export interface AnularEntradaRequest {
   id: string;

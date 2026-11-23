@@ -7,7 +7,7 @@
  *  - POST /auth/2fa/desactivar  ← desactivar2faSchema { password }
  */
 
-import type { Activar2faInput, Desactivar2faInput } from '@warengine/contracts';
+import type { Activar2faInput, Desactivar2faInput } from '@inventa/contracts';
 import { IHttpClient, apiClient } from '@/lib/api';
 
 export interface Configuracion2FA {

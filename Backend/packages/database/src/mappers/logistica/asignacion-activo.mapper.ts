@@ -1,4 +1,4 @@
-﻿import { AsignacionActivo, EstadoAsignacion } from '@warengine/core';
+﻿import { AsignacionActivo, EstadoAsignacion } from '@inventa/core';
 
 export interface AsignacionJoinRow {
   id: string;

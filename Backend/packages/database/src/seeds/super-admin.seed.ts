@@ -20,7 +20,7 @@ import { Database } from '../client.ts';
 import { usuarios, roles } from '../schema/autenticacion.schema.ts';
 import { empleados, sucursales } from '../schema/administracion.schema.ts';
 
-const SEED_EMAIL = 'superadmin@warengine.local';
+const SEED_EMAIL = 'superadmin@inventa.local';
 
 export async function crearSuperAdminInicial(db: Database): Promise<void> {
   console.log('\n🔐 Configurando super-admin inicial...');

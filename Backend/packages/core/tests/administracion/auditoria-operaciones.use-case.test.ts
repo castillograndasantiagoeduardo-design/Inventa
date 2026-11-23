@@ -52,7 +52,7 @@ function sucursalesFalsas(inicial: Sucursal[] = []): ISucursalRepository {
 }
 
 function usuario(rolId = 3, rolNombre = 'cajero', isActive = true) {
-  return new UsuarioGestionado('u-9', 'Luis', 'luis@warengine.local', rolId, rolNombre, 1, 'Centro', isActive);
+  return new UsuarioGestionado('u-9', 'Luis', 'luis@inventa.local', rolId, rolNombre, 1, 'Centro', isActive);
 }
 
 function usuariosFalsos(existente: UsuarioGestionado | null): IGestionUsuarioRepository {
@@ -125,14 +125,14 @@ Deno.test('CrearUsuario: registra la creación SIN contraseña ni documento', as
   const sucursales = sucursalesFalsas([new Sucursal(1, 'Centro', null, null, true)]);
   const result = await new CrearUsuarioUseCase(usuariosFalsos(null), sucursales, hasher, auditor).execute({
     nombre: 'Marta', tipoDocumento: 'CC', numeroDocumento: '12345678',
-    email: 'marta@warengine.local', passwordPlain: 'ClaveSegura1', rolId: 3, sucursalId: 1, actor,
+    email: 'marta@inventa.local', passwordPlain: 'ClaveSegura1', rolId: 3, sucursalId: 1, actor,
   });
 
   assertEquals(result.isSuccess, true);
   assertEquals(eventos[0].entidad, 'usuarios');
   assertEquals(eventos[0].entidadId, 'u-new');
   assertEquals(eventos[0].detalles, {
-    despues: { email: 'marta@warengine.local', rolId: 3, sucursalId: 1 },
+    despues: { email: 'marta@inventa.local', rolId: 3, sucursalId: 1 },
   });
   const texto = JSON.stringify(eventos[0]);
   assertEquals(texto.includes('ClaveSegura1'), false);

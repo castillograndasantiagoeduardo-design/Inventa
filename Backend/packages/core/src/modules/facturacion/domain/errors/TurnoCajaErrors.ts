@@ -1,4 +1,4 @@
-import { DomainError } from '@warengine/shared-kernel';
+import { DomainError } from '@inventa/shared-kernel';
 
 export class TurnoYaAbiertoError extends DomainError {
     public readonly code = 'TURNO_YA_ABIERTO';

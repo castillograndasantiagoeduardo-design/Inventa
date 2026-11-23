@@ -1,8 +1,8 @@
-# ADR 0001 — Reglas de Dependencia de la Arquitectura Warengine
+# ADR 0001 — Reglas de Dependencia de la Arquitectura Inventa
 
 **Fecha:** 2026-09-25  
 **Estado:** Aceptado  
-**Contexto:** Warengine sigue Clean Architecture. Para que la arquitectura no se degrade con el tiempo, estas reglas de dependencia son obligatorias y deben ser verificadas en cada revisión de código.
+**Contexto:** Inventa sigue Clean Architecture. Para que la arquitectura no se degrade con el tiempo, estas reglas de dependencia son obligatorias y deben ser verificadas en cada revisión de código.
 
 ---
 

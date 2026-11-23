@@ -1,4 +1,4 @@
-# Módulo de Facturación y POS — Warengine
+# Módulo de Facturación y POS — Inventa
 
 > **Propósito y estado:** **PARCIAL** (Directorio de Clientes, Turnos de Caja,
 > Facturas, Pagos y Devoluciones de Ventas implementados; Anulación RF-FMC-F1
@@ -29,7 +29,7 @@
 
 ## 1. Propósito y Estado
 
-El módulo de **Facturación y Punto de Venta (POS)** de Warengine gestiona la
+El módulo de **Facturación y Punto de Venta (POS)** de Inventa gestiona la
 interacción comercial con clientes finales y corporativos, el control operativo
 de turnos de caja y el ciclo de vida de emisión, cobro, anulación y devolución
 de comprobantes de venta.

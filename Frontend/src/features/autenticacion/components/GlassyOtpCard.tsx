@@ -316,7 +316,7 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
                 Recuperar <span className="text-cyan-400">Acceso</span>
               </h2>
               <p className="font-[family-name:var(--font-archivo)] text-xs text-white/70 leading-relaxed max-w-[320px] mx-auto mb-6">
-                Ingresa tu correo institucional o asociado a Warengine. Te enviaremos un código OTP de 4 dígitos.
+                Ingresa tu correo institucional o asociado a Inventa. Te enviaremos un código OTP de 4 dígitos.
               </p>
 
               {errorMsg && (
@@ -335,7 +335,7 @@ export function GlassyOtpCard({ emailInicial = '' }: GlassyOtpCardProps) {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="usuario@warengine.local"
+                    placeholder="usuario@inventa.local"
                     className="w-full bg-transparent text-sm text-white placeholder-white/20 focus:outline-none"
                   />
                 </div>

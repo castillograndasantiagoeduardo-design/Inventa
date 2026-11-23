@@ -1,7 +1,7 @@
 /**
  * vendedorB2b.types.ts — Definiciones de tipos para el módulo de Vendedor B2B.
  *
- * Utiliza los contratos base de @warengine/contracts para garantizar
+ * Utiliza los contratos base de @inventa/contracts para garantizar
  * coherencia con el backend.
  */
 
@@ -16,7 +16,7 @@ import type {
   PlazoCreditoDias,
   ProductoResponse,
   SimularCreditoB2BInput,
-} from '@warengine/contracts';
+} from '@inventa/contracts';
 
 export type {
   ClienteDto,

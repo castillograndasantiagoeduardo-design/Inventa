@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import type { IAsistenteService, PeticionAsistenteInput, RespuestaAsistenteOutput } from '../ports/IAsistenteService.ts';
 import { MensajeAsistenteVacioError } from '../../domain/errors/AsistenteErrors.ts';
 

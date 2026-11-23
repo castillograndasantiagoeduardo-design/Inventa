@@ -30,7 +30,7 @@ function makeTokenService(opts: { failValidation?: boolean; usuarioId?: string }
 }
 
 function makeUsuario(isActive = true): Usuario {
-  return new Usuario('uuid-001', 'test@warengine.local', 'hash', 1, isActive, false, null);
+  return new Usuario('uuid-001', 'test@inventa.local', 'hash', 1, isActive, false, null);
 }
 
 function makeUsuarioRepository(usuario: Usuario | null): IUsuarioRepository {

@@ -5,11 +5,11 @@
  * dentro de una sola transacción de base de datos.
  *
  * Si cualquier paso falla, se hace rollback completo.
- * Implementa el port IUnitOfWork definido en @warengine/core.
+ * Implementa el port IUnitOfWork definido en @inventa/core.
  */
 
 import { Database } from './client.ts';
-import { IUnitOfWork } from '@warengine/core';
+import { IUnitOfWork } from '@inventa/core';
 
 export class DrizzleUnitOfWork implements IUnitOfWork {
     constructor(private readonly db: Database) { }

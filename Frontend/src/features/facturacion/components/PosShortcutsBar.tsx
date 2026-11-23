@@ -29,7 +29,7 @@ export function PosShortcutsBar() {
       </div>
 
       <div className="hidden md:flex items-center gap-2 text-[10px] text-white/40 font-mono">
-        <span>WarEngine Terminal v2.0</span>
+        <span>Inventa Terminal v2.0</span>
         <span>·</span>
         <span className="text-emerald-400">En Línea</span>
       </div>

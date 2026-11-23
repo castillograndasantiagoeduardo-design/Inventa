@@ -17,7 +17,7 @@ import {
   ResultadoProductosPaginado,
   ResumenStockSede,
   SkuDuplicadoError,
-} from '@warengine/core';
+} from '@inventa/core';
 import { productoFromRow } from '../../mappers/inventario/producto.mapper.ts';
 import {
   esClaveDuplicada,

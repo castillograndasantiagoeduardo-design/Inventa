@@ -1,6 +1,6 @@
 import { Context } from 'hono';
-import { desactivar2faSchema } from '@warengine/contracts';
-import { AppContainer } from '@warengine/composition';
+import { desactivar2faSchema } from '@inventa/contracts';
+import { AppContainer } from '@inventa/composition';
 import { presentResult } from '../../../presenters/result.presenter.ts';
 import { obtenerIdentidad } from '../../../utils/identidad.ts';
 import { obtenerIp } from '../../../utils/ip.ts';

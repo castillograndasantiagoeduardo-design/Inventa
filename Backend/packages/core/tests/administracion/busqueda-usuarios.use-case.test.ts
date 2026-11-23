@@ -49,10 +49,10 @@ class FakeGestionUsuarioRepository implements Partial<IGestionUsuarioRepository>
 }
 
 const mockUsuarios: UsuarioGestionado[] = [
-  new UsuarioGestionado('u-1', 'Santiago Castillo', 'santiago@warengine.local', 1, 'super-admin', 1, 'Sede Principal', true),
-  new UsuarioGestionado('u-2', 'Carlos Cajero', 'carlos.ventas@warengine.local', 3, 'cajero-vendedor', 1, 'Sede Principal', true),
-  new UsuarioGestionado('u-3', 'Ana María Gómez', 'ana.gomez@warengine.local', 2, 'admin-sucursal', 2, 'Sede Norte', true),
-  new UsuarioGestionado('u-4', 'Beatriz Vendedora', 'beatriz.b2b@warengine.local', 4, 'vendedor-b2b', 2, 'Sede Norte', false),
+  new UsuarioGestionado('u-1', 'Santiago Castillo', 'santiago@inventa.local', 1, 'super-admin', 1, 'Sede Principal', true),
+  new UsuarioGestionado('u-2', 'Carlos Cajero', 'carlos.ventas@inventa.local', 3, 'cajero-vendedor', 1, 'Sede Principal', true),
+  new UsuarioGestionado('u-3', 'Ana María Gómez', 'ana.gomez@inventa.local', 2, 'admin-sucursal', 2, 'Sede Norte', true),
+  new UsuarioGestionado('u-4', 'Beatriz Vendedora', 'beatriz.b2b@inventa.local', 4, 'vendedor-b2b', 2, 'Sede Norte', false),
 ];
 
 Deno.test('RF-ADM-C16: Listar usuarios sin filtros retorna la totalidad', async () => {
@@ -87,7 +87,7 @@ Deno.test('RF-ADM-C16: Buscar usuarios por coincidencia en el correo electrónic
 
   assertEquals(result.isSuccess, true);
   assertEquals(result.value.items.length, 1);
-  assertEquals(result.value.items[0].email, 'carlos.ventas@warengine.local');
+  assertEquals(result.value.items[0].email, 'carlos.ventas@inventa.local');
 });
 
 Deno.test('RF-ADM-C16: Combinar búsqueda textual con filtro de rol', async () => {
@@ -98,13 +98,13 @@ Deno.test('RF-ADM-C16: Combinar búsqueda textual con filtro de rol', async () =
   
   // Búsqueda que coincide con 'Sede Norte' pero filtrada por rolId=2 (admin-sucursal)
   const result = await useCase.execute({
-    busqueda: 'warengine.local',
+    busqueda: 'inventa.local',
     rolId: 2,
   });
 
   assertEquals(result.isSuccess, true);
   assertEquals(result.value.items.length, 1);
-  assertEquals(result.value.items[0].email, 'ana.gomez@warengine.local');
+  assertEquals(result.value.items[0].email, 'ana.gomez@inventa.local');
 });
 
 Deno.test('RF-ADM-C16: Combinar búsqueda textual con filtro de sucursal', async () => {
@@ -113,9 +113,9 @@ Deno.test('RF-ADM-C16: Combinar búsqueda textual con filtro de sucursal', async
 
   const useCase = new ListarUsuariosUseCase(repo as unknown as IGestionUsuarioRepository);
   
-  // Coincide con 'warengine' en sucursalId=1 (Sede Principal)
+  // Coincide con 'inventa' en sucursalId=1 (Sede Principal)
   const result = await useCase.execute({
-    busqueda: 'warengine',
+    busqueda: 'inventa',
     sucursalId: 1,
   });
 
@@ -175,7 +175,7 @@ Deno.test('RF-ADM-C5: Filtro por estado combinable con rol y sucursal', async ()
 });
 
 Deno.test('RF-ADM-C10: El usuario expone sus sedes adicionales', () => {
-  const usuario = new UsuarioGestionado('u-9', 'Multi Sede', 'multi@warengine.local', 2, 'admin-sucursal', 1, 'Sede Principal', true, [
+  const usuario = new UsuarioGestionado('u-9', 'Multi Sede', 'multi@inventa.local', 2, 'admin-sucursal', 1, 'Sede Principal', true, [
     { id: 2, nombre: 'Sede Norte' },
   ]);
   assertEquals(usuario.sucursalesAdicionales, [{ id: 2, nombre: 'Sede Norte' }]);

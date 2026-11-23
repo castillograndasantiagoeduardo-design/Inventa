@@ -5,7 +5,7 @@
  *
  * Principio SOLID:
  * - Single Responsibility: Controla exclusivamente el ingreso del código de 6 dígitos
- *   y su validación contra el backend de WarEngine.
+ *   y su validación contra el backend de Inventa.
  */
 
 import { useState, useCallback } from 'react';

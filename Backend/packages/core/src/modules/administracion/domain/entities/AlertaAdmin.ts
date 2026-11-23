@@ -1,7 +1,7 @@
 /**
  * AlertaAdmin.ts
  *
- * Entidad de dominio para las alertas administrativas y operativas de Warengine.
+ * Entidad de dominio para las alertas administrativas y operativas de Inventa.
  *
  * Requisito SRS:
  * - RF-ADM-C13: Gestión de alertas administrativas (alertas_admin).

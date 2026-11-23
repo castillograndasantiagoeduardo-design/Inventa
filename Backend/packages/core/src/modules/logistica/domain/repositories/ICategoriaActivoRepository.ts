@@ -1,4 +1,4 @@
-﻿import type { ResultadoPaginado } from '@warengine/shared-kernel';
+﻿import type { ResultadoPaginado } from '@inventa/shared-kernel';
 import { CategoriaActivo } from '../entities/CategoriaActivo.ts';
 
 export interface FiltrosListarCategoriasActivos {

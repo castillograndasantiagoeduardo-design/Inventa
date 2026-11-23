@@ -1,15 +1,15 @@
 /**
- * openapi.doc.ts — Especificación OpenAPI 3.0.3 completa para Warengine API.
+ * openapi.doc.ts — Especificación OpenAPI 3.0.3 completa para Inventa API.
  * Cubre todos los módulos: Autenticación, Administración, Inventario y Facturación.
  */
 
 export const openApiSpec = {
   openapi: '3.0.3',
   info: {
-    title: 'Warengine API — ERP & POS Multi-Sucursal',
+    title: 'Inventa API — ERP & POS Multi-Sucursal',
     version: '1.0.0',
     description: `
-API REST de **Warengine**, sistema integral de Punto de Venta (POS) y ERP multi-sucursal con arquitectura limpia (Clean Architecture), inventario multi-almacén, kardex append-only, auditoría inmutable y control de acceso basado en roles (RBAC).
+API REST de **Inventa**, sistema integral de Punto de Venta (POS) y ERP multi-sucursal con arquitectura limpia (Clean Architecture), inventario multi-almacén, kardex append-only, auditoría inmutable y control de acceso basado en roles (RBAC).
 
 ### Autenticación
 Los endpoints protegidos requieren autenticación mediante **Bearer Token (JWT)** en la cabecera \`Authorization\` o mediante la cookie de sesión HTTP-only \`jwt_access_token\`.
@@ -19,7 +19,7 @@ Para autorizar peticiones interactivas en esta consola:
 3. Haz clic en el botón verde **Authorize** arriba a la derecha e introduce: \`Bearer <tu_token>\` o simplemente \`<tu_token>\`.
     `,
     contact: {
-      name: 'Soporte Técnico Warengine',
+      name: 'Soporte Técnico Inventa',
     },
   },
   servers: [
@@ -103,8 +103,8 @@ Para autorizar peticiones interactivas en esta consola:
         type: 'object',
         required: ['email', 'password'],
         properties: {
-          email: { type: 'string', format: 'email', example: 'superadmin@warengine.local' },
-          password: { type: 'string', example: 'Warengine.Admin.2026!' },
+          email: { type: 'string', format: 'email', example: 'superadmin@inventa.local' },
+          password: { type: 'string', example: 'Inventa.Admin.2026!' },
           recordarme: { type: 'boolean', example: false },
         },
       },
@@ -141,7 +141,7 @@ Para autorizar peticiones interactivas en esta consola:
         type: 'object',
         required: ['email'],
         properties: {
-          email: { type: 'string', format: 'email', example: 'usuario@warengine.local' },
+          email: { type: 'string', format: 'email', example: 'usuario@inventa.local' },
         },
       },
       RestablecerPasswordRequest: {
@@ -220,7 +220,7 @@ Para autorizar peticiones interactivas en esta consola:
         required: ['empleadoId', 'email', 'password', 'rolId'],
         properties: {
           empleadoId: { type: 'integer', example: 1 },
-          email: { type: 'string', format: 'email', example: 'cajero@warengine.local' },
+          email: { type: 'string', format: 'email', example: 'cajero@inventa.local' },
           password: { type: 'string', example: 'CajeroPass.2026!' },
           rolId: { type: 'integer', example: 3 },
           sucursalIds: { type: 'array', items: { type: 'integer' }, example: [1] },
@@ -558,7 +558,7 @@ Para autorizar peticiones interactivas en esta consola:
         responses: {
           200: {
             description: 'Servicio operativo',
-            content: { 'text/plain': { schema: { type: 'string', example: 'Warengine API - OK' } } },
+            content: { 'text/plain': { schema: { type: 'string', example: 'Inventa API - OK' } } },
           },
         },
       },

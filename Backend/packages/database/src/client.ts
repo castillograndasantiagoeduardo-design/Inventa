@@ -29,9 +29,9 @@ export function getDatabase(config?: DatabaseConfig): Database {
 
   const host = config?.host ?? Deno.env.get('DB_HOST') ?? 'localhost';
   const port = config?.port ?? Number(Deno.env.get('DB_PORT') ?? 3306);
-  const user = config?.user ?? Deno.env.get('DB_USER') ?? 'warengine_user';
+  const user = config?.user ?? Deno.env.get('DB_USER') ?? 'inventa_user';
   const password = config?.password || Deno.env.get('DB_PASSWORD') || '';
-  const database = config?.database ?? Deno.env.get('DB_NAME') ?? 'warengine';
+  const database = config?.database ?? Deno.env.get('DB_NAME') ?? 'inventa';
 
   pool = mysql.createPool({
     host,

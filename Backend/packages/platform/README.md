@@ -7,7 +7,7 @@ Implementa los ports técnicos de `core` (JWT, hashing, TOTP, correo, logger…)
 `hashing/` (hash de contraseñas), `totp/` (2FA), `mailer/`, `logger/`,
 `rate-limit/` y `config/` (validación de variables de entorno con Zod).
 
-**Qué NO va aquí:** lógica de negocio, reglas de Warengine, casos de uso.
+**Qué NO va aquí:** lógica de negocio, reglas de Inventa, casos de uso.
 Si algo de aquí necesita conocer a `Factura` o `Producto`, está mal ubicado.
 
 ---

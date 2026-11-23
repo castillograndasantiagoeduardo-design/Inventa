@@ -1,4 +1,4 @@
 {
-  "name": "@warengine/mcp-server",
+  "name": "@inventa/mcp-server",
   "exports": "./src/main.ts"
 }

@@ -1,4 +1,4 @@
-// Punto de entrada público de @warengine/contracts.
+// Punto de entrada público de @inventa/contracts.
 // Solo expone lo que BACK y FRONT pueden importar.
 
 // ─── Constantes globales ───────────────────────────────────────

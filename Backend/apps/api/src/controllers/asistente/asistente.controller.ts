@@ -1,11 +1,11 @@
-import { chatMensajeSchema, type ChatRespuestaDTO } from '@warengine/contracts';
-import { AppContainer } from '@warengine/composition';
+import { chatMensajeSchema, type ChatRespuestaDTO } from '@inventa/contracts';
+import { AppContainer } from '@inventa/composition';
 import { safeHandler, leerJson } from '../../utils/handler.ts';
 import { obtenerIdentidad } from '../../utils/identidad.ts';
 import { getTokensFromCookies } from '../../utils/cookie.ts';
 
 /**
- * Controlador HTTP para interactuar con el Asistente IA de Warengine (RF-SA-i1 / RF-SA-i2).
+ * Controlador HTTP para interactuar con el Asistente IA de Inventa (RF-SA-i1 / RF-SA-i2).
  */
 export function conversarConAsistenteController(container: AppContainer) {
   return safeHandler(async (c) => {

@@ -1,4 +1,4 @@
-import { Producto } from '@warengine/core';
+import { Producto } from '@inventa/core';
 import { ProductoRecord } from '../../schema/inventario.schema.ts';
 
 export interface ProductoRowExtendido extends ProductoRecord {

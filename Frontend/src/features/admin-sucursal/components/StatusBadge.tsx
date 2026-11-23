@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * StatusBadge.tsx — Píldoras de estado luminosas para WarEngine.
+ * StatusBadge.tsx — Píldoras de estado luminosas para Inventa.
  *
  * Principio SOLID: Open/Closed Principle (OCP).
  * Permite variantes cromáticas y tamaños extensibles sin alterar el layout interno.

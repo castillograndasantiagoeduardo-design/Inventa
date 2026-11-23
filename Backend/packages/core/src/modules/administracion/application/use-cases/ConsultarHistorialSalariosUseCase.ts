@@ -11,7 +11,7 @@
  * - RF-ADM-C14: Historial de salarios de empleados.
  */
 
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { HistorialSalario } from '../../domain/entities/HistorialSalario.ts';
 import { IEmpleadoRepository } from '../../domain/repositories/IEmpleadoRepository.ts';
 import { IHistorialSalarioRepository } from '../../domain/repositories/IHistorialSalarioRepository.ts';

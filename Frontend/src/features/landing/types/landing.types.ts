@@ -1,5 +1,5 @@
 /**
- * landing.types.ts — Tipos y modelos de datos para la Landing Page de WarEngine.
+ * landing.types.ts — Tipos y modelos de datos para la Landing Page de Inventa.
  */
 
 export interface SlideData {

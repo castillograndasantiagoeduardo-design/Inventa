@@ -1,8 +1,8 @@
 /**
- * auditoria.etiquetas.ts — Etiquetas legibles del catálogo de auditoría (@warengine/contracts).
+ * auditoria.etiquetas.ts — Etiquetas legibles del catálogo de auditoría (@inventa/contracts).
  */
 
-import { ACCIONES_AUDITORIA_VALORES, ENTIDADES_AUDITORIA_VALORES } from '@warengine/contracts';
+import { ACCIONES_AUDITORIA_VALORES, ENTIDADES_AUDITORIA_VALORES } from '@inventa/contracts';
 import type { BadgeTone } from '@/components/ui/Badge';
 
 export const ETIQUETA_ACCION: Record<string, string> = {

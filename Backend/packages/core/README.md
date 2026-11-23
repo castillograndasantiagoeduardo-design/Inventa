@@ -1,6 +1,6 @@
 # packages/core/ — Dominio y Aplicación (Clean Architecture pura)
 
-El corazón de Warengine. Aquí viven todas las reglas de negocio reales.
+El corazón de Inventa. Aquí viven todas las reglas de negocio reales.
 
 **Qué va aquí:** entidades de dominio (`Factura`, `Producto`, `Activo`…),
 value objects, casos de uso (`emitir-factura.use-case.ts`), ports

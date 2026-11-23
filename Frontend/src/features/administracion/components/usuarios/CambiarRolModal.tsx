@@ -4,7 +4,7 @@
  * CambiarRolModal.tsx — Reasignación de rol con protección del último Super Admin (RF-ADM-C7).
  */
 
-import type { RolResumenDto } from '@warengine/contracts';
+import type { RolResumenDto } from '@inventa/contracts';
 import { Modal } from '@/components/ui/Modal';
 import { SelectField } from '@/components/ui/FormField';
 import { Button3D } from '@/components/ui/Button3D';

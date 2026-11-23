@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { IAuditoriaRepository } from '../../domain/repositories/IAuditoriaRepository.ts';
 import { FiltroAuditoriaInvalidoError } from '../../domain/errors/AuditoriaErrors.ts';
 import { generarCsv } from '../../../inventario/application/utils/csv-generator.ts';

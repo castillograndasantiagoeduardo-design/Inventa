@@ -19,7 +19,7 @@ import {
 function makeUsuario(overrides: Partial<ConstructorParameters<typeof Usuario>> = []): Usuario {
   return new Usuario(
     overrides[0] ?? 'usr-uuid-1',
-    overrides[1] ?? 'admin@warengine.local',
+    overrides[1] ?? 'admin@inventa.local',
     overrides[2] ?? '$argon2id$v=19$m=65536,t=3,p=4$mockhash',
     overrides[3] ?? 1,
     overrides[4] ?? true,
@@ -131,13 +131,13 @@ Deno.test('RF-SA-H1: Solicitar recuperación envía correo si el usuario existe 
   const useCase = new SolicitarRecuperacionPasswordUseCase(usuarioRepo, pwRepo, mailer, auditor);
 
   const res = await useCase.execute({
-    email: 'admin@warengine.local',
+    email: 'admin@inventa.local',
     ip: '127.0.0.1',
   });
 
   assertEquals(res.isSuccess, true);
   assertEquals(emails.length, 1);
-  assertEquals(emails[0].para, 'admin@warengine.local');
+  assertEquals(emails[0].para, 'admin@inventa.local');
   assertEquals(emails[0].expiraEnMinutos, 30);
   assertEquals(guardados.length, 1);
   assertEquals(logs.length, 1);
@@ -152,7 +152,7 @@ Deno.test('RF-SA-H1: Anti-enumeración — si el usuario no existe, devuelve éx
   const useCase = new SolicitarRecuperacionPasswordUseCase(usuarioRepo, pwRepo, mailer, auditor);
 
   const res = await useCase.execute({
-    email: 'noexiste@warengine.local',
+    email: 'noexiste@inventa.local',
     ip: '127.0.0.1',
   });
 
@@ -165,7 +165,7 @@ Deno.test('RF-SA-H1: Anti-enumeración — si el usuario no existe, devuelve éx
 Deno.test('RF-SA-H1: Anti-enumeración — si el usuario está inactivo, devuelve éxito sin enviar correo', async () => {
   const usuarioInactivo = new Usuario(
     'usr-inactivo',
-    'inactivo@warengine.local',
+    'inactivo@inventa.local',
     'hash',
     1,
     false, // inactivo
@@ -180,7 +180,7 @@ Deno.test('RF-SA-H1: Anti-enumeración — si el usuario está inactivo, devuelv
   const useCase = new SolicitarRecuperacionPasswordUseCase(usuarioRepo, pwRepo, mailer, auditor);
 
   const res = await useCase.execute({
-    email: 'inactivo@warengine.local',
+    email: 'inactivo@inventa.local',
   });
 
   assertEquals(res.isSuccess, true);
@@ -204,7 +204,7 @@ Deno.test('RF-SA-H2: Límite de solicitudes de recuperación (rate limiting 3 en
   const useCase = new SolicitarRecuperacionPasswordUseCase(usuarioRepo, pwRepo, mailer, auditor);
 
   const res = await useCase.execute({
-    email: 'admin@warengine.local',
+    email: 'admin@inventa.local',
   });
 
   assertEquals(res.isFailure, true);

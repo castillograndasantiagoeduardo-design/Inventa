@@ -6,7 +6,7 @@ import {
   ICategoriaActivoRepository,
   FiltrosListarCategoriasActivos,
   ResultadoPaginado,
-} from '@warengine/core';
+} from '@inventa/core';
 import { categoriaActivoFromRow } from '../../mappers/logistica/categoria-activo.mapper.ts';
 
 export class DrizzleCategoriaActivoRepository implements ICategoriaActivoRepository {

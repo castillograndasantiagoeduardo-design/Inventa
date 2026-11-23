@@ -6,4 +6,5 @@ export * from './PanelShell';
 export * from './RequierePermiso';
 export * from './Sidebar';
 export * from './usePanelMenu';
-export * from './WarEngineLogo';
+export * from './InventaLogo';
+export * from './InventaWordmark';

@@ -1,7 +1,7 @@
 import { assertEquals, assertObjectMatch } from 'jsr:@std/assert@^1';
 import { z } from 'zod';
-import { DomainError, Result } from '@warengine/shared-kernel';
-import type { AppContainer } from '@warengine/composition';
+import { DomainError, Result } from '@inventa/shared-kernel';
+import type { AppContainer } from '@inventa/composition';
 import type { McpSessionContext } from '../src/session/index.ts';
 import { McpAuthorizationGateway } from '../src/gateway/index.ts';
 import {

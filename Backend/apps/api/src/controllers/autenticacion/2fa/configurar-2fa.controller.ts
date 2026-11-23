@@ -1,5 +1,5 @@
 import { Context } from 'hono';
-import { AppContainer } from '@warengine/composition';
+import { AppContainer } from '@inventa/composition';
 import { presentResult } from '../../../presenters/result.presenter.ts';
 import { obtenerIdentidad } from '../../../utils/identidad.ts';
 

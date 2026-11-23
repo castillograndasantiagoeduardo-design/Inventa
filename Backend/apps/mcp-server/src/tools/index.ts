@@ -18,7 +18,7 @@ export * from './administracion/metricas-globales.tool.ts';
 export * from './logistica/consulta-activo.tool.ts';
 
 /**
- * Registra todas las herramientas oficiales de Warengine en el catálogo global del servidor MCP.
+ * Registra todas las herramientas oficiales de Inventa en el catálogo global del servidor MCP.
  * Debe invocarse una sola vez durante el arranque del proceso o en suites de pruebas.
  */
 export function inicializarCatalogoTools(): void {

@@ -1,4 +1,4 @@
-import type { ResultadoPaginado } from '@warengine/shared-kernel';
+import type { ResultadoPaginado } from '@inventa/shared-kernel';
 import { Producto } from '../entities/Producto.ts';
 
 export interface DatosCrearProducto {

@@ -2,10 +2,10 @@
  * session.types.ts — Tipos y estructuras para la gestión de sesiones en el servidor MCP.
  *
  * Cada conexión SSE que se establece representa una sesión autenticada vinculada
- * a un token JWT de Warengine, garantizando trazabilidad y RBAC inmutable.
+ * a un token JWT de Inventa, garantizando trazabilidad y RBAC inmutable.
  */
 
-import type { ActorAuditoria } from '@warengine/core';
+import type { ActorAuditoria } from '@inventa/core';
 
 export interface McpSessionContext {
   /** Identificador único UUID del usuario autenticado */

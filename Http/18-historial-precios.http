@@ -1,5 +1,5 @@
 ### ==============================================================================
-### WARENGINE - REQUERIMIENTO RF-ADM-B14: HISTORIAL DE PRECIOS DEL PRODUCTO
+### INVENTA - REQUERIMIENTO RF-ADM-B14: HISTORIAL DE PRECIOS DEL PRODUCTO
 ### ==============================================================================
 ### Descripción de negocio:
 ### El sistema debe permitir consultar el historial de cambios de precios
@@ -23,8 +23,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 @tokenAdmin = {{loginAdmin.response.body.accessToken}}
@@ -37,7 +37,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "cajero.norte@warengine.com",
+  "email": "cajero.norte@inventa.local",
   "password": "Password123*"
 }
 

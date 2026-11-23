@@ -1,5 +1,5 @@
 # ==============================================================================
-# WARENGINE API - Master Test Suite
+# INVENTA API - Master Test Suite
 # Requiere: REST Client (extensión VS Code)
 # Servidor: http://localhost:8017  (deno task dev-api)
 #
@@ -48,8 +48,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ###
@@ -113,7 +113,7 @@ Content-Type: application/json
 {
   "nombre": "Sucursal Principal Central",
   "direccion": "Cra 7 # 72-10, Bogotá",
-  "contacto": "admin@warengine.local",
+  "contacto": "admin@inventa.local",
   "isActive": true
 }
 
@@ -145,7 +145,7 @@ Content-Type: application/json
   "nombre": "Juan Pérez",
   "tipoDocumento": "CC",
   "numeroDocumento": "1020304050",
-  "email": "juan.perez@warengine.local",
+  "email": "juan.perez@inventa.local",
   "password": "Password.2026!",
   "rolId": 2,
   "sucursalId": 1,
@@ -388,7 +388,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "cajero.test@warengine.local",
+  "email": "cajero.test@inventa.local",
   "password": "Password.2026!"
 }
 

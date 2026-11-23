@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Button3D } from './Button3D';
+import { InventaLogo } from '@/components/panel/InventaLogo';
 
 export type TabType = 'inicio' | 'alcance' | 'planes' | 'nosotros';
 
@@ -14,32 +15,17 @@ interface NavbarProps {
 export function Navbar({ activeTab, onNavigate }: NavbarProps) {
   return (
     <header className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-[max(3vw,env(safe-area-inset-left))] pt-[max(1.1vw,env(safe-area-inset-top))] transition-all duration-300">
-      {/* Logotipo WarEngine */}
+      {/* Logotipo Inventa */}
       <a
         href="#inicio"
         onClick={(e) => {
           e.preventDefault();
           onNavigate('inicio');
         }}
-        className="w-[clamp(38px,4.8vw,104px)] block select-none"
-        aria-label="WarEngine Inicio"
+        className="w-[clamp(32px,3.4vw,64px)] block select-none"
+        aria-label="Inventa Inicio"
       >
-        <svg
-          viewBox="60 50 1015 575"
-          xmlns="http://www.w3.org/2000/svg"
-          className="w-full h-auto block"
-          role="img"
-          aria-label="Logo WarEngine"
-        >
-          <polygon
-            fill="#D9A02D"
-            points="75,85 445,215 490,305 428,452 600,213 665,300 487,610 385,425 235,318 180,240 360,305 130,165"
-          />
-          <polygon
-            fill="#ffffff"
-            points="1060,65 740,590 635,432 700,335 745,415 830,218 775,205"
-          />
-        </svg>
+        <InventaLogo className="w-full rounded-lg" />
       </a>
 
       {/* Navegación */}

@@ -1,4 +1,4 @@
-# Infraestructura — Base de Datos (`@warengine/database`)
+# Infraestructura — Base de Datos (`@inventa/database`)
 
 > **Propósito y estado:** **IMPLEMENTADO** (Persistencia con Drizzle ORM sobre MySQL 8; Unit of Work pendiente)  
 > **Ubicación:** `Backend/packages/database/`  
@@ -8,7 +8,7 @@
 
 ## 1. Propósito
 
-El paquete `@warengine/database` implementa los puertos de persistencia (repositorios) definidos por el dominio en `@warengine/core`. Encapsula el cliente de conexión a MySQL 8 mediante Drizzle ORM, la definición de esquemas de tablas, los mapeadores entidad-relacional, los scripts de inicialización de datos (seeds) y la traducción de errores de bajo nivel del motor relacional hacia códigos entendibles por el dominio.
+El paquete `@inventa/database` implementa los puertos de persistencia (repositorios) definidos por el dominio en `@inventa/core`. Encapsula el cliente de conexión a MySQL 8 mediante Drizzle ORM, la definición de esquemas de tablas, los mapeadores entidad-relacional, los scripts de inicialización de datos (seeds) y la traducción de errores de bajo nivel del motor relacional hacia códigos entendibles por el dominio.
 
 ---
 
@@ -122,9 +122,9 @@ Centraliza la inspección de errores arrojados por el driver `mysql2`:
 |---|---|---|---|---|
 | `DB_HOST` | `'localhost'` | `client.ts` | No | Dirección del servidor MySQL 8 |
 | `DB_PORT` | `3306` | `client.ts` | No | Puerto de escucha de MySQL |
-| `DB_USER` | `'warengine_user'` | `client.ts` | No | Usuario de conexión a la BD |
+| `DB_USER` | `'inventa_user'` | `client.ts` | No | Usuario de conexión a la BD |
 | `DB_PASSWORD` | `''` | `client.ts` | No | Contraseña de autenticación de MySQL |
-| `DB_NAME` | `'warengine'` | `client.ts` | No | Nombre de la base de datos relacional |
+| `DB_NAME` | `'inventa'` | `client.ts` | No | Nombre de la base de datos relacional |
 | `NODE_ENV` | `'production'` | `seeds/run.ts` | No | Si es `'development'`, habilita la creación del Super Admin inicial |
 | `SEED_SUPERADMIN_PASSWORD` | Ninguno | `seeds/super-admin.seed.ts` | Condicional | Contraseña inicial (mínimo 12 chars). Obligatoria si se corre `deno task seed:dev` |
 
@@ -133,13 +133,13 @@ Centraliza la inspección de errores arrojados por el driver `mysql2`:
 ## 5. Reglas Arquitectónicas y Dependencias Reales
 
 1. **Principio de Inversión de Dependencias (ADR 0001, Reglas 3 y 4):**
-   - `@warengine/core` **no depende** de `@warengine/database`. No existe ningún import de Drizzle ni de SQL en `core`.
-   - `@warengine/database` depende de `@warengine/core` para implementar sus interfaces de repositorio.
+   - `@inventa/core` **no depende** de `@inventa/database`. No existe ningún import de Drizzle ni de SQL en `core`.
+   - `@inventa/database` depende de `@inventa/core` para implementar sus interfaces de repositorio.
 2. **Dependencias reales del paquete:**
    - `drizzle-orm` (queries tipadas)
    - `mysql2` (driver de conexión con soporte para promesas)
-   - `@warengine/core` (interfaces de repositorio, entidades)
-   - `@warengine/shared-kernel` (Result, DomainError, Pagination)
+   - `@inventa/core` (interfaces de repositorio, entidades)
+   - `@inventa/shared-kernel` (Result, DomainError, Pagination)
 
 ---
 
@@ -147,4 +147,4 @@ Centraliza la inspección de errores arrojados por el driver `mysql2`:
 
 1. **Implementación de `UnitOfWork`:** Crear el adaptador transaccional para coordinar múltiples repositorios en una sola transacción sin acoplar los casos de uso a `db.transaction()` de Drizzle.
 2. **Esquema Drizzle para Logística:** Crear `logistica.schema.ts` para mapear `activos`, `asignaciones_activos` y `mantenimientos_activos`.
-3. **Flujo de Migraciones Automáticas:** El proyecto cuenta con `drizzle.config.ts`, pero no tiene generadas las carpetas de migraciones Drizzle (`migrations/` solo tiene `.gitkeep`), dependiendo del script SQL manual [Docs/database/WARENGINE_FULL_BD.sql](../../Docs/database/WARENGINE_FULL_BD.sql).
+3. **Flujo de Migraciones Automáticas:** El proyecto cuenta con `drizzle.config.ts`, pero no tiene generadas las carpetas de migraciones Drizzle (`migrations/` solo tiene `.gitkeep`), dependiendo del script SQL manual [Docs/database/INVENTA_FULL_BD.sql](../../Docs/database/INVENTA_FULL_BD.sql).

@@ -1,7 +1,7 @@
 'use client';
 
 /**
- * useFormulario.ts — Estado de formulario validado con un esquema de @warengine/contracts.
+ * useFormulario.ts — Estado de formulario validado con un esquema de @inventa/contracts.
  *
  * - Valida en el cliente con el mismo esquema Zod que usa el backend.
  * - Si la API responde VALIDATION_ERROR con issues, los pinta en los campos.

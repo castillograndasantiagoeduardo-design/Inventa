@@ -9,7 +9,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { usePanelMenu } from './usePanelMenu';
-import { WarEngineLogo } from './WarEngineLogo';
+import { InventaLogo } from './InventaLogo';
+import { InventaWordmark } from './InventaWordmark';
 
 interface SidebarProps {
   open: boolean;
@@ -35,8 +36,8 @@ export function Sidebar({ open, onClose }: SidebarProps) {
         aria-label="Navegación del panel"
       >
         <div className="flex items-center gap-3 px-5 py-5 border-b border-white/10">
-          <WarEngineLogo className="w-10" />
-          <span className="font-[family-name:var(--font-anton)] text-xl tracking-wider text-white">WARENGINE</span>
+          <InventaLogo className="w-10 rounded-lg" />
+          <InventaWordmark className="text-2xl text-white" />
         </div>
 
         <nav className="flex-1 overflow-y-auto px-3 py-4">

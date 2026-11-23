@@ -1,5 +1,5 @@
 -- ============================================================================
--- WARENGINE — ESQUEMA COMPLETO MySQL 8.0 (tablas + CHECK + triggers)
+-- INVENTA — ESQUEMA COMPLETO MySQL 8.0 (tablas + CHECK + triggers)
 -- ============================================================================
 -- Convencion de nombres: PK = id_<tabla singular>; FK = <tabla_referenciada
 -- singular>_id (excepciones semanticas: asignado_por, registrado_por, ambas
@@ -16,7 +16,7 @@
 -- ============================================================================
 
 -- ============================================================================
--- CAMBIOS DE ESTA VERSION (sobre WARENGINE_FULL_BD1.sql, todo lo demas quedo
+-- CAMBIOS DE ESTA VERSION (sobre INVENTA_FULL_BD1.sql, todo lo demas quedo
 -- intacto):
 --   D1 - productos.precio_corporativo_actualizado_en + trigger que la llena sola
 --   D2 - mantenimientos_activos.fecha_fin + triggers que sincronizan activos.estado
@@ -30,9 +30,9 @@
 --        valida factura, sucursal, estado de la factura y monto de reembolso
 -- ============================================================================
 
-DROP SCHEMA IF EXISTS warengine;
-CREATE SCHEMA warengine DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE warengine;
+DROP SCHEMA IF EXISTS inventa;
+CREATE SCHEMA inventa DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE inventa;
 
 -- ============================================================================
 -- 1. SEGURIDAD Y AUTENTICACION (RBAC)

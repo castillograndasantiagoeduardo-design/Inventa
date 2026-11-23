@@ -6,7 +6,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { crearProductoSchema } from '@warengine/contracts';
+import { crearProductoSchema } from '@inventa/contracts';
 import { Modal } from '@/components/ui/Modal';
 import { apiClient, ApiError } from '@/lib/api';
 import type { CategoriaInventario } from '../types/branch-inventory.types';

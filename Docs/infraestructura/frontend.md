@@ -2,7 +2,7 @@
 
 > **Aplicación:** `Frontend`  
 > **Framework:** Next.js 16.3.6 (App Router), React 19, Tailwind CSS v4, TypeScript 5.  
-> **Contratos:** `@warengine/contracts` (vía transpilePackages y path alias a `../Shared/contracts/src/index.ts`).  
+> **Contratos:** `@inventa/contracts` (vía transpilePackages y path alias a `../Shared/contracts/src/index.ts`).  
 > **Estado en el repositorio:** **ESQUELETO INICIAL / SCAFFOLD**.
 
 ---
@@ -20,10 +20,10 @@ A diferencia del Backend (que cuenta con un núcleo de dominio, base de datos y 
 ## 2. Reglas Arquitectónicas de la Capa Frontend
 
 1. **Aislamiento Total del Backend:**
-   - **PROHIBIDO** importar cualquier archivo de `Backend/` (ni `@warengine/core`, ni `@warengine/database`, ni `@warengine/platform`, ni `@warengine/composition`).
+   - **PROHIBIDO** importar cualquier archivo de `Backend/` (ni `@inventa/core`, ni `@inventa/database`, ni `@inventa/platform`, ni `@inventa/composition`).
    - El Frontend se comunica con el Backend **únicamente a través de peticiones HTTP** (fetch a `http://localhost:8017`).
 2. **Uso de Contratos Compartidos:**
-   - Los únicos tipos y esquemas compartidos provienen de `@warengine/contracts` (`Shared/contracts`).
+   - Los únicos tipos y esquemas compartidos provienen de `@inventa/contracts` (`Shared/contracts`).
    - Los formularios de UI validarán sus entradas con los mismos esquemas Zod que la API REST usa para validar los payloads.
 3. **Manejo de Sesión sin Almacenamiento Local:**
    - Las cookies de sesión (`access_token`, `refresh_token`) son de tipo `HttpOnly`, configuradas por el Backend.
@@ -82,15 +82,15 @@ Frontend/src/
 ## 5. Integración con Contratos (`next.config.ts`)
 
 - **Archivo:** [`Frontend/next.config.ts`](../../Frontend/next.config.ts)
-- Configuración para resolver el paquete `@warengine/contracts` directamente desde su código fuente en TypeScript:
+- Configuración para resolver el paquete `@inventa/contracts` directamente desde su código fuente en TypeScript:
   ```ts
   import type { NextConfig } from "next";
   import path from "path";
 
   const nextConfig: NextConfig = {
-    transpilePackages: ["@warengine/contracts"],
+    transpilePackages: ["@inventa/contracts"],
     webpack: (config) => {
-      config.resolve.alias["@warengine/contracts"] = path.resolve(
+      config.resolve.alias["@inventa/contracts"] = path.resolve(
         __dirname,
         "../Shared/contracts/src/index.ts"
       );
@@ -104,6 +104,6 @@ Frontend/src/
   ```json
   "paths": {
     "@/*": ["./src/*"],
-    "@warengine/contracts": ["../Shared/contracts/src/index.ts"]
+    "@inventa/contracts": ["../Shared/contracts/src/index.ts"]
   }
   ```

@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 
 export interface McpPresenterResponse {
   content: Array<{ type: 'text'; text: string }>;

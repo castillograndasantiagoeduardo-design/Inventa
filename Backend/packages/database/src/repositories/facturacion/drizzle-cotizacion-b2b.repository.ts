@@ -1,12 +1,12 @@
 import { and, desc, eq, inArray, sql, type SQL } from 'drizzle-orm';
-import type { EstadoPedidoB2B } from '@warengine/contracts';
+import type { EstadoPedidoB2B } from '@inventa/contracts';
 import {
   CotizacionB2B,
   CotizacionB2BItem,
   type CrearCotizacionB2BDatos,
   type FiltrosCotizacionesB2B,
   type ICotizacionB2BRepository,
-} from '@warengine/core';
+} from '@inventa/core';
 import { Database } from '../../client.ts';
 import {
   clientes,

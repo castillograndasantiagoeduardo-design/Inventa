@@ -1,4 +1,4 @@
-import { DomainError } from '@warengine/shared-kernel';
+import { DomainError } from '@inventa/shared-kernel';
 
 export class DatosClienteB2BIncompletosError extends DomainError {
   public readonly code = 'CLIENTE_B2B_DATOS_INCOMPLETOS';

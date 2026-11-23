@@ -42,7 +42,7 @@ export const areas = mysqlTable('areas', {
 
 /**
  * Tabla: empleados
- * Registro del personal vinculado contractualmente con Warengine.
+ * Registro del personal vinculado contractualmente con Inventa.
  */
 export const empleados = mysqlTable('empleados', {
   id_empleado: char('id_empleado', { length: 36 })

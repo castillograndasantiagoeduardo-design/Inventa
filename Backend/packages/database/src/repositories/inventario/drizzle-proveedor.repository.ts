@@ -8,7 +8,7 @@ import {
   IProveedorRepository,
   Proveedor,
   ResultadoPaginado,
-} from '@warengine/core';
+} from '@inventa/core';
 import { proveedorFromRow } from '../../mappers/inventario/proveedor.mapper.ts';
 
 export class DrizzleProveedorRepository implements IProveedorRepository {

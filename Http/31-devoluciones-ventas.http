@@ -1,5 +1,5 @@
 # ==============================================================================
-# MÓDULO: FACTURACIÓN — DEVOLUCIÓN DE VENTAS (Warengine v2.0)
+# MÓDULO: FACTURACIÓN — DEVOLUCIÓN DE VENTAS (Inventa v2.0)
 # Archivo: Http/30-devoluciones-ventas.http
 #
 # Requisito del SRS cubierto:
@@ -27,8 +27,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 ### Extraer Token Admin
@@ -114,7 +114,7 @@ Content-Type: application/json
   "numeroDocumento": "708090{{$timestamp}}",
   "nombreRazonSocial": "Cliente Pruebas Devolucion",
   "tipoCliente": "B2C",
-  "email": "cliente.dev@warengine.local"
+  "email": "cliente.dev@inventa.local"
 }
 
 @clienteId = {{clientePrueba.response.body.cliente.id}}
@@ -420,7 +420,7 @@ Content-Type: application/json
   "nombre": "Cajero Sin Permiso Devolucion",
   "tipoDocumento": "CC",
   "numeroDocumento": "334455{{$timestamp}}",
-  "email": "cajero.nodevolucion@warengine.local",
+  "email": "cajero.nodevolucion@inventa.local",
   "password": "Password.2026!",
   "rolId": 3,
   "sucursalId": 1
@@ -432,7 +432,7 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-  "email": "cajero.nodevolucion@warengine.local",
+  "email": "cajero.nodevolucion@inventa.local",
   "password": "Password.2026!"
 }
 

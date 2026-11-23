@@ -1,5 +1,5 @@
 ### ==============================================================================
-### WARENGINE - REQUERIMIENTO RF-ADM-B17: AJUSTE DE INVENTARIO CON CONTEO FÍSICO
+### INVENTA - REQUERIMIENTO RF-ADM-B17: AJUSTE DE INVENTARIO CON CONTEO FÍSICO
 ### ==============================================================================
 ### Descripción de negocio:
 ### Permite a los administradores registrar la conciliación de existencias a partir
@@ -25,8 +25,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 @tokenAdmin = {{loginAdmin.response.body.accessToken}}

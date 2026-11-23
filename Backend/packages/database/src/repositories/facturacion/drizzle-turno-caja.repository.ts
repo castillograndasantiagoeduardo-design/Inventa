@@ -15,8 +15,8 @@ import {
     TurnoAbiertoResumen,
     TurnoCaja,
     TurnoYaCerradoError,
-} from '@warengine/core';
-import type { TurnoCorteDetalleDto, TurnoHistorialItemDto } from '@warengine/contracts';
+} from '@inventa/core';
+import type { TurnoCorteDetalleDto, TurnoHistorialItemDto } from '@inventa/contracts';
 import { turnoCajaFromRow } from '../../mappers/facturacion/turno-caja.mapper.ts';
 
 const MYSQL_CLAVE_DUPLICADA = 1062;

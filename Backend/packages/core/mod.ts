@@ -1,4 +1,4 @@
-// mod.ts — Punto de entrada de @warengine/core
+// mod.ts — Punto de entrada de @inventa/core
 // Expone entidades, value objects, ports y casos de uso organizados por módulo.
 // REGLA: este paquete no implementa nada de infraestructura (DIP).
 

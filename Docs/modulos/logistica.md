@@ -1,4 +1,4 @@
-# Módulo de Logística y Activos Fijos — Warengine
+# Módulo de Logística y Activos Fijos — Inventa
 
 > **Propósito y estado:** **SOLO ESQUEMA** (Estructura definida en base de datos; sin código fuente implementado)  
 > **Stack:** MySQL 8 (Triggers y Constraints en SQL)  
@@ -29,7 +29,7 @@
 El módulo de **Logística** tiene como alcance proyectado el inventario de activos fijos internos (maquinaria, computadores, vehículos, mobiliario), el control de custodia y asignación a empleados o áreas, la trazabilidad de devoluciones y la programación de mantenimientos preventivos y correctivos.
 
 **Estado actual:** **SOLO ESQUEMA**  
-No existe código fuente implementado en TypeScript ni en el backend ni en el frontend. Las carpetas del módulo son esqueletos con archivos `.gitkeep`. Sin embargo, el modelo relacional, las restricciones de integridad y las máquinas de estados de los activos están **completamente gobernadas y forzadas a nivel de base de datos** mediante triggers y CHECKs en el script de referencia [Docs/database/WARENGINE_FULL_BD.sql](../../Docs/database/WARENGINE_FULL_BD.sql).
+No existe código fuente implementado en TypeScript ni en el backend ni en el frontend. Las carpetas del módulo son esqueletos con archivos `.gitkeep`. Sin embargo, el modelo relacional, las restricciones de integridad y las máquinas de estados de los activos están **completamente gobernadas y forzadas a nivel de base de datos** mediante triggers y CHECKs en el script de referencia [Docs/database/INVENTA_FULL_BD.sql](../../Docs/database/INVENTA_FULL_BD.sql).
 
 ---
 
@@ -70,7 +70,7 @@ Frontend/src/features/logistica/
 ├── components/.gitkeep
 └── hooks/.gitkeep
 Docs/database/
-└── WARENGINE_FULL_BD.sql        # Tablas activos, asignaciones_activos, mantenimientos_activos
+└── INVENTA_FULL_BD.sql        # Tablas activos, asignaciones_activos, mantenimientos_activos
 ```
 
 *Hallazgo técnico:* A diferencia de los otros módulos, en `Backend/packages/database/src/schema/` no existe todavía un archivo `logistica.schema.ts` en Drizzle ORM; las tablas solo están presentes en el script SQL maestro.
@@ -91,7 +91,7 @@ Docs/database/
 
 ## 6. Persistencia (Reglas Vivas de la Base de Datos)
 
-Aunque el backend no tiene adaptadores de persistencia para logística, el script [Docs/database/WARENGINE_FULL_BD.sql](../../Docs/database/WARENGINE_FULL_BD.sql) impone 7 triggers y 2 restricciones CHECK que gobernarán estrictamente cualquier implementación futura:
+Aunque el backend no tiene adaptadores de persistencia para logística, el script [Docs/database/INVENTA_FULL_BD.sql](../../Docs/database/INVENTA_FULL_BD.sql) impone 7 triggers y 2 restricciones CHECK que gobernarán estrictamente cualquier implementación futura:
 
 ### 6.1 Tablas en SQL
 - **`activos`**: `id_activo` (PK auto), `sucursal_id` (FK sucursales), `nombre` (varchar 150), `descripcion`, `codigo_interno` (varchar 50 unique), `numero_serie` (varchar 100), `categoria` (varchar 50), `estado` (`'disponible'`, `'asignado'`, `'mantenimiento'`, `'baja'`), `fecha_adquisicion`, `valor_adquisicion`, `creado_en`.

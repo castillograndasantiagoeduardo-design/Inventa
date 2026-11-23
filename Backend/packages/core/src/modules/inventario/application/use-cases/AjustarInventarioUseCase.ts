@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { IProductoRepository } from '../../domain/repositories/IProductoRepository.ts';
 import { ISucursalRepository } from '../../../administracion/domain/repositories/ISucursalRepository.ts';
 import {
@@ -20,7 +20,7 @@ import {
 } from '../../../administracion/domain/errors/AdministracionErrors.ts';
 import { SucursalFueraDeAlcanceError } from '../../../autenticacion/domain/errors/AlcanceErrors.ts';
 import { ResolverAlcanceSucursalUseCase } from '../../../autenticacion/application/use-cases/ResolverAlcanceSucursalUseCase.ts';
-import { AjusteInventarioResponse } from '@warengine/contracts';
+import { AjusteInventarioResponse } from '@inventa/contracts';
 
 export interface AjustarInventarioRequest {
   productoId: string;

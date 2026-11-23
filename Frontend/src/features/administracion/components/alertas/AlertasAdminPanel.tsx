@@ -5,7 +5,7 @@
  */
 
 import { useState } from 'react';
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 import { Forbidden } from '@/components/panel/Forbidden';
 import { Button3D } from '@/components/ui/Button3D';
 import { EmptyState } from '@/components/ui/EmptyState';

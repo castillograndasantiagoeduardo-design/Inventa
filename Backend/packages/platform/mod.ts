@@ -1,5 +1,5 @@
 /**
- * mod.ts — Punto de entrada de @warengine/platform.
+ * mod.ts — Punto de entrada de @inventa/platform.
  *
  * Exportará los adaptadores técnicos sin lógica de negocio:
  *   - jwt/       → implementa el port TokenService (firma/verifica JWT)
@@ -11,7 +11,7 @@
  *   - config/    → variables de entorno validadas con Zod al arrancar
  *
  * REGLA: este paquete no contiene reglas de negocio. Solo "fontanería"
- * técnica. Si aquí aparece una regla de Warengine, está en el lugar equivocado.
+ * técnica. Si aquí aparece una regla de Inventa, está en el lugar equivocado.
  */
 export * from './src/hashing/argon2-password-hasher.ts';
 export * from './src/jwt/jwt-token-service.ts';

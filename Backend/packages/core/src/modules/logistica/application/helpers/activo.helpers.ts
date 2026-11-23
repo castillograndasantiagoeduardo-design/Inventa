@@ -1,5 +1,5 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
-import type { ActivoResponse } from '@warengine/contracts';
+import { DomainError, Result } from '@inventa/shared-kernel';
+import type { ActivoResponse } from '@inventa/contracts';
 import { Activo } from '../../domain/entities/Activo.ts';
 import { IActivoRepository } from '../../domain/repositories/IActivoRepository.ts';
 import { ActivoNoEncontradoError } from '../../domain/errors/LogisticaErrors.ts';

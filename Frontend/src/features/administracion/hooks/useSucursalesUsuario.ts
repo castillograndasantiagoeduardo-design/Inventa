@@ -8,7 +8,7 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
-import { asignarSucursalesSchema } from '@warengine/contracts';
+import { asignarSucursalesSchema } from '@inventa/contracts';
 import { useToast } from '@/components/ui/Toast';
 import { erroresDesdeIssues, mensajeDeError, type ErroresCampo } from '@/lib/forms/validacion';
 import { useRecurso } from '@/lib/hooks/useRecurso';

@@ -1,4 +1,4 @@
-﻿import { MantenimientoActivo, TipoMantenimiento } from '@warengine/core';
+﻿import { MantenimientoActivo, TipoMantenimiento } from '@inventa/core';
 
 export interface MantenimientoJoinRow {
   id: string;

@@ -8,8 +8,8 @@ import {
   cambiarEstadoAlertaAdminSchema,
   crearAlertaAdminSchema,
   listarAlertasAdminQuerySchema,
-} from '@warengine/contracts';
-import { AppContainer } from '@warengine/composition';
+} from '@inventa/contracts';
+import { AppContainer } from '@inventa/composition';
 import { presentResult } from '../../presenters/result.presenter.ts';
 import { leerJson, safeHandler } from '../../utils/handler.ts';
 import { obtenerActor } from '../../utils/actor.ts';

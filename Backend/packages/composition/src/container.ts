@@ -1,5 +1,5 @@
 /**
- * container.ts — Composition Root de Warengine.
+ * container.ts — Composition Root de Inventa.
  *
  * createContainer(env) es la función que conecta todos los paquetes:
  *   1. Lee la configuración validada del entorno.
@@ -205,7 +205,7 @@ import {
   RegistrarDevolucionUseCase,
   
   
-} from '@warengine/core';
+} from '@inventa/core';
 
 export interface AppContainer {
   autenticacion: {

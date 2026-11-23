@@ -1,4 +1,4 @@
-import { Categoria } from '@warengine/core';
+import { Categoria } from '@inventa/core';
 import { CategoriaRecord } from '../../schema/inventario.schema.ts';
 
 export interface CategoriaRowExtendida extends CategoriaRecord {

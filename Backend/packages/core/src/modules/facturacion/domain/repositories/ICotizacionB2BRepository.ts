@@ -1,4 +1,4 @@
-import type { EstadoCotizacionB2B, EstadoPedidoB2B } from '@warengine/contracts';
+import type { EstadoCotizacionB2B, EstadoPedidoB2B } from '@inventa/contracts';
 import { CotizacionB2B, CotizacionB2BItem } from '../entities/CotizacionB2B.ts';
 
 export interface CrearCotizacionB2BDatos {

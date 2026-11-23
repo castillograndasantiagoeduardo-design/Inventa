@@ -1,4 +1,4 @@
-﻿import { Activo, EstadoActivo } from '@warengine/core';
+﻿import { Activo, EstadoActivo } from '@inventa/core';
 
 export interface ActivoJoinRow {
   id: string;

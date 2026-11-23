@@ -1,4 +1,4 @@
-import type { EstadoCreditoCliente, NivelRiesgoCredito } from '@warengine/contracts';
+import type { EstadoCreditoCliente, NivelRiesgoCredito } from '@inventa/contracts';
 import { Cliente, TipoCliente, TipoDocumentoCliente } from '../entities/Cliente.ts';
 
 export interface DatosCliente {

@@ -1,4 +1,4 @@
-# Módulo de Administración — Warengine
+# Módulo de Administración — Inventa
 
 > **Propósito y estado:** **IMPLEMENTADO** (Sucursales, Gestión de Usuarios, Asignación de Sucursales; Resto Pendiente)  
 > **Stack:** Deno · TypeScript · Drizzle ORM · MySQL 8 · Hono · Zod · Argon2  
@@ -26,7 +26,7 @@
 
 ## 1. Propósito y Estado
 
-El módulo de **Administración** centraliza la estructura organizativa de la empresa en Warengine: la gestión física de **sucursales**, la administración de cuentas de **usuarios y empleados** vinculados, la **asignación multisede** de sucursales autorizadas, el **historial salarial**, la gestión de **alertas administrativas**, el **control de áreas por sede** y el **dashboard analítico de métricas financieras, ventas, rotación de productos y stock comparativo multi-sede**. Cada mutación emite eventos estructurados al sistema transversal de [Auditoría](auditoria.md).
+El módulo de **Administración** centraliza la estructura organizativa de la empresa en Inventa: la gestión física de **sucursales**, la administración de cuentas de **usuarios y empleados** vinculados, la **asignación multisede** de sucursales autorizadas, el **historial salarial**, la gestión de **alertas administrativas**, el **control de áreas por sede** y el **dashboard analítico de métricas financieras, ventas, rotación de productos y stock comparativo multi-sede**. Cada mutación emite eventos estructurados al sistema transversal de [Auditoría](auditoria.md).
 
 **Estado actual:** **IMPLEMENTADO AL 100% EN BACKEND** (Sucursales, Áreas, Empleados, Usuarios, Roles, Contraseñas, Asignación multi-sede, Auditoría, Alertas administrativas, Trayectoria salarial y Dashboard analítico completo).
 

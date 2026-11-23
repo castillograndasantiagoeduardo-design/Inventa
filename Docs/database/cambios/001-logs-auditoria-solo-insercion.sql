@@ -6,8 +6,8 @@
 -- RECOMENDACIÓN DE SEGURIDAD EN PRODUCCIÓN:
 -- El usuario MySQL utilizado por la API debe tener únicamente permisos de
 -- INSERT y SELECT sobre la tabla logs_auditoria:
---   GRANT SELECT, INSERT ON warengine.logs_auditoria TO 'warengine_api'@'%';
---   REVOKE UPDATE, DELETE, DROP, ALTER ON warengine.logs_auditoria FROM 'warengine_api'@'%';
+--   GRANT SELECT, INSERT ON inventa.logs_auditoria TO 'inventa_api'@'%';
+--   REVOKE UPDATE, DELETE, DROP, ALTER ON inventa.logs_auditoria FROM 'inventa_api'@'%';
 -- ============================================================================
 
 DELIMITER $$

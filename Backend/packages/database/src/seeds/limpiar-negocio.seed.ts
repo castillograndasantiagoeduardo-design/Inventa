@@ -1,5 +1,5 @@
 /**
- * limpiar-negocio.seed.ts — Script de vaciado de datos operativos y de negocio en Warengine.
+ * limpiar-negocio.seed.ts — Script de vaciado de datos operativos y de negocio en Inventa.
  *
  * Elimina:
  *   - Facturación: facturas, factura_items, factura_pagos, devoluciones_ventas, turnos_caja, clientes
@@ -64,11 +64,11 @@ const TABLAS_A_VACIAR = [
 export async function limpiarDatosNegocio(): Promise<void> {
   const host = Deno.env.get('DB_HOST') || 'localhost';
   const port = Number(Deno.env.get('DB_PORT') || 3306);
-  const user = Deno.env.get('DB_USER') || 'warengine_user';
+  const user = Deno.env.get('DB_USER') || 'inventa_user';
   const password = Deno.env.get('DB_PASSWORD') || '';
-  const database = Deno.env.get('DB_NAME') || 'warengine';
+  const database = Deno.env.get('DB_NAME') || 'inventa';
 
-  console.log('🧹 [Warengine] Conectando a la base de datos para limpieza...');
+  console.log('🧹 [Inventa] Conectando a la base de datos para limpieza...');
   console.log(`   Host: ${host}:${port} | BD: ${database} | Usuario: ${user}\n`);
 
   const conn = await mysql.createConnection({
@@ -100,7 +100,7 @@ export async function limpiarDatosNegocio(): Promise<void> {
     console.log('\n🏢 Restaurando Sede Principal del sistema (id=1)...');
     await conn.query(`
       INSERT INTO sucursales (id_sucursal, nombre, direccion, contacto, is_active)
-      VALUES (1, 'Sede Principal (Sistema)', 'Local', 'sistema@warengine.local', 1)
+      VALUES (1, 'Sede Principal (Sistema)', 'Local', 'sistema@inventa.local', 1)
       ON DUPLICATE KEY UPDATE nombre = 'Sede Principal (Sistema)', is_active = 1;
     `);
     await conn.query('ALTER TABLE sucursales AUTO_INCREMENT = 2;');
@@ -110,7 +110,7 @@ export async function limpiarDatosNegocio(): Promise<void> {
     console.log('\n👤 Limpiando usuarios y empleados (conservando solo superadmin)...');
     await conn.query(`
       DELETE FROM usuarios 
-      WHERE email != 'superadmin@warengine.local'
+      WHERE email != 'superadmin@inventa.local'
         AND rol_id NOT IN (SELECT id_rol FROM roles WHERE nombre = 'super-admin');
     `);
     console.log('   ✔ Usuarios secundarios eliminados.');

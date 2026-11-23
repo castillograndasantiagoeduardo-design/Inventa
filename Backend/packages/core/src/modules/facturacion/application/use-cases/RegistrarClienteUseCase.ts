@@ -1,5 +1,5 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
-import type { EvaluacionCreditoB2BDto, PlazoCreditoDias } from '@warengine/contracts';
+import { DomainError, Result } from '@inventa/shared-kernel';
+import type { EvaluacionCreditoB2BDto, PlazoCreditoDias } from '@inventa/contracts';
 import { Cliente, TipoCliente, TipoDocumentoCliente } from '../../domain/entities/Cliente.ts';
 import { IClienteRepository } from '../../domain/repositories/IClienteRepository.ts';
 import { ISucursalOperadorRepository } from '../../domain/repositories/ISucursalOperadorRepository.ts';

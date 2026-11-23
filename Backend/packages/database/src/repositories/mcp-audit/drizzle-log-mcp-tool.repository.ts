@@ -8,7 +8,7 @@ import {
   ILogMcpToolRepository,
   PaginaLogsMcpTools,
   RegistroLogMcpTool,
-} from '@warengine/core';
+} from '@inventa/core';
 import { logMcpToolFromRow } from '../../mappers/mcp-audit/log-mcp-tool.mapper.ts';
 
 /**

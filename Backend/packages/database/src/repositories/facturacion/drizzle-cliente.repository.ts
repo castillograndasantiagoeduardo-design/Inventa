@@ -11,7 +11,7 @@ import {
     FiltrosClientesPaginado,
     IClienteRepository,
     TipoDocumentoCliente,
-} from '@warengine/core';
+} from '@inventa/core';
 import { clienteFromRow } from '../../mappers/facturacion/cliente.mapper.ts';
 import { esClaveDuplicada, escaparLike } from '../../errors/mysql-error-translator.ts';
 

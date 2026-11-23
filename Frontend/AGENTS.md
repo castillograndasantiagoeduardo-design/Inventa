@@ -8,7 +8,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 <!-- END:nextjs-agent-rules -->
 
-# Directrices de Desarrollo y Estándares Frontend WarEngine
+# Directrices de Desarrollo y Estándares Frontend Inventa
 
 ## Módulo Vendedor B2B (`src/features/vendedor-b2b`)
 

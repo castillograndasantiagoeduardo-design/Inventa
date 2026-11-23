@@ -6,7 +6,7 @@
  * GET /administracion/alertas-stock        → { items, total, page, limit, totalPages }
  */
 
-import type { ListarAlertasAdminQuery } from '@warengine/contracts';
+import type { ListarAlertasAdminQuery } from '@inventa/contracts';
 import { IHttpClient, apiClient } from '@/lib/api';
 import { normalizarPaginado, type Paginado, type RespuestaListado } from '@/lib/types/paginacion';
 import type { AlertaAdmin, AlertaStock } from '../types';

@@ -1,4 +1,4 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { Cliente } from '../../domain/entities/Cliente.ts';
 import {
     ClienteNoEncontradoError,

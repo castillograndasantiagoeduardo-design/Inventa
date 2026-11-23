@@ -1,9 +1,9 @@
 /**
- * main.ts — Punto de entrada de la API REST de Warengine.
+ * main.ts — Punto de entrada de la API REST de Inventa.
  */
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { createContainer } from '@warengine/composition';
+import { createContainer } from '@inventa/composition';
 import { createAutenticacionRoutes } from './routes/autenticacion.routes.ts';
 import { createAdministracionRoutes } from './routes/administracion.routes.ts';
 import { createFacturacionRoutes } from './routes/facturacion.routes.ts';
@@ -39,7 +39,7 @@ app.use(
 );
 
 // Rutas base
-app.get('/health', (c) => c.text('Warengine API - OK'));
+app.get('/health', (c) => c.text('Inventa API - OK'));
 
 // Registro de módulos
 const authRoutes = createAutenticacionRoutes(container);
@@ -64,6 +64,6 @@ app.route('/logistica', logisticaRoutes);
 const swaggerRoutes = createSwaggerRoutes();
 app.route('/', swaggerRoutes);
 
-console.log('🚀 Warengine API escuchando en http://localhost:8017');
+console.log('🚀 Inventa API escuchando en http://localhost:8017');
 console.log('📖 Swagger UI disponible en http://localhost:8017/swagger');
 Deno.serve({ port: 8017 }, app.fetch);

@@ -1,4 +1,4 @@
-import { Result } from '@warengine/shared-kernel';
+import { Result } from '@inventa/shared-kernel';
 import { ILogMcpToolRepository, RegistroLogMcpTool } from '../ports/ILogMcpToolRepository.ts';
 import { sanitizarDetalles } from '../../../auditoria/domain/services/sanitizar-detalles.ts';
 

@@ -1,7 +1,7 @@
-import { Result, DomainError } from '@warengine/shared-kernel';
+import { Result, DomainError } from '@inventa/shared-kernel';
 import { IProductoRepository } from '../../domain/repositories/IProductoRepository.ts';
 import { ActorAuditoria } from '../../../auditoria/domain/entities/LogAuditoria.ts';
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 import { generarCsv } from '../utils/csv-generator.ts';
 
 export interface ExportarProductosCsvRequest {

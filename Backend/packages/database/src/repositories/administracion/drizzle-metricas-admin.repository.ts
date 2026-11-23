@@ -19,7 +19,7 @@ import type {
   PuntoTendenciaVenta,
   RendimientoSucursal,
   ResumenOrganizacion,
-} from '@warengine/core';
+} from '@inventa/core';
 
 export class DrizzleMetricasAdminRepository
   implements IMetricasAdminRepository, IResumenOrganizacionRepository {

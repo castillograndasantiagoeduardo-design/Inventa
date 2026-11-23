@@ -1,7 +1,7 @@
 import { asc, eq } from 'drizzle-orm';
 import { Database } from '../../client.ts';
 import { rol_permisos, permisos, roles } from '../../schema/autenticacion.schema.ts';
-import { IRolCatalogoRepository, IRolRepository, RolResumen } from '@warengine/core';
+import { IRolCatalogoRepository, IRolRepository, RolResumen } from '@inventa/core';
 
 export class DrizzleRolRepository implements IRolRepository, IRolCatalogoRepository {
   constructor(private readonly db: Database) {}

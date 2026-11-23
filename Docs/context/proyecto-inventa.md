@@ -1,4 +1,4 @@
-# Contexto del Proyecto Warengine
+# Contexto del Proyecto Inventa
 
 > **Para el equipo de desarrollo (aprendices ADSO del SENA) y para el asistente
 > IA (MCP):** este documento es la guía de referencia obligatoria antes de
@@ -6,7 +6,7 @@
 > antes de improvisar.
 >
 > **Última actualización:** 15 de octubre de 2026 · **Script SQL de
-> referencia:** `Docs/database/WARENGINE_FULL_BD.sql` (versión 2: 25 triggers,
+> referencia:** `Docs/database/INVENTA_FULL_BD.sql` (versión 2: 25 triggers,
 > 18 CHECK). Si este documento y el script SQL se contradicen, **gana el
 > script**: corrige este archivo y avisa al equipo. Actualiza la fecha de arriba
 > cada vez que cambie una regla de arquitectura, se agregue un módulo o se
@@ -27,9 +27,9 @@
 
 ---
 
-## 1. ¿Qué es Warengine?
+## 1. ¿Qué es Inventa?
 
-Warengine es una plataforma de gestión empresarial que cubre inventario,
+Inventa es una plataforma de gestión empresarial que cubre inventario,
 facturación/POS, administración de personal, activos internos y un asistente
 conversacional con IA. Está construida sobre **Clean Architecture** y los
 principios **SOLID**, organizada como un monorepo con tres zonas independientes:
@@ -70,12 +70,12 @@ flowchart TD
 | ----------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 | `SHARED/contracts`            | Solo `zod`                                                                                                 | Cualquier otra cosa (Deno, Node, React, `BACK/`)                        |
 | `shared-kernel`               | Nada (TypeScript puro)                                                                                     | Cualquier librería externa                                              |
-| `core`                        | `shared-kernel`, `@warengine/contracts`                                                                    | Drizzle, HTTP, JWT, MySQL, `database`, `platform`                       |
+| `core`                        | `shared-kernel`, `@inventa/contracts`                                                                    | Drizzle, HTTP, JWT, MySQL, `database`, `platform`                       |
 | `database`                    | `core` (ports y entidades), `shared-kernel`, `drizzle-orm`, `mysql2`                                       | `platform`, `apps/*`                                                    |
 | `platform`                    | `core` (ports), librerías técnicas (JWT, Argon2, TOTP, correo)                                             | `database`, `apps/*`                                                    |
 | `composition`                 | `core`, `database`, `platform`, `shared-kernel`                                                            | `apps/*`                                                                |
-| `apps/api`, `apps/mcp-server` | `composition`, `@warengine/contracts`, `shared-kernel` (solo `Result` y `DomainError` para los presenters) | Repositorios, Drizzle, SQL, implementaciones de `database` o `platform` |
-| `FRONT`                       | Solo `@warengine/contracts`                                                                                | Cualquier cosa de `BACK/`                                               |
+| `apps/api`, `apps/mcp-server` | `composition`, `@inventa/contracts`, `shared-kernel` (solo `Result` y `DomainError` para los presenters) | Repositorios, Drizzle, SQL, implementaciones de `database` o `platform` |
+| `FRONT`                       | Solo `@inventa/contracts`                                                                                | Cualquier cosa de `BACK/`                                               |
 
 ---
 
@@ -121,7 +121,7 @@ flowchart TD
 
 |                           |                                                                                                                                                                                                                                                     |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Propósito**             | Las reglas de negocio reales de Warengine, independientes de cómo se almacenen o transmitan.                                                                                                                                                        |
+| **Propósito**             | Las reglas de negocio reales de Inventa, independientes de cómo se almacenen o transmitan.                                                                                                                                                        |
 | **Qué SÍ contiene**       | Entidades (`Factura`, `Producto`, `Activo`), value objects (`Sku`), invariantes del negocio, los **errores de dominio** en `domain/errors/` (ej. `stock-insuficiente.error.ts`) y las **interfaces de repositorios de entidades** en `domain/repositories/` (ej. `ISucursalRepository.ts`, `IUsuarioRepository.ts`, `ICategoriaRepository.ts`, `IProveedorRepository.ts`). |
 | **Qué NO contiene**       | Imports de Drizzle, código HTTP, JWT, ni el nombre de ninguna tabla. Si aparece `SELECT` o `drizzle`, está en el lugar equivocado. Tampoco servicios técnicos de infraestructura externa.                                                                                   |
 | **Principio SOLID**       | **DIP (Inversión de Dependencias)**: el dominio define contratos y no depende de ninguna implementación. `database` y `platform` dependen de `core`, no al revés.                                                                                                       |
@@ -141,7 +141,7 @@ flowchart TD
 
 |                           |                                                                                                                                                                                                                            |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Propósito**             | Orquestan el dominio para cumplir un caso de uso concreto del negocio. Son el "cerebro" de Warengine.                                                                                                                      |
+| **Propósito**             | Orquestan el dominio para cumplir un caso de uso concreto del negocio. Son el "cerebro" de Inventa.                                                                                                                      |
 | **Qué SÍ contiene**       | Clases o funciones que reciben DTOs de entrada (validados con contracts), usan entidades, llaman a repositorios del dominio o a ports técnicos y devuelven un `Result`.                                                     |
 | **Qué NO contiene**       | Imports de Drizzle, código HTTP, datos de sesión leídos "de la nada". Recibe todo por inyección. **Tampoco toca el stock en los flujos que ya mueve un trigger** (ver sección 6.1).                                        |
 | **Principio SOLID**       | **SRP + ISP**: cada caso de uso hace exactamente una cosa y usa interfaces pequeñas y específicas.                                                                                                                         |
@@ -194,7 +194,7 @@ flowchart TD
 | ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Propósito**             | "Fontanería" técnica. Implementa los ports técnicos de `core` sin ninguna lógica de negocio.                                                                                                                                  |
 | **Qué SÍ contiene**       | `jwt/` (firma y verificación), `hashing/` (Argon2), `totp/` (códigos TOTP para 2FA **y el cifrado en reposo del secreto**, ver 7.4), `mailer/`, `logger/`, `rate-limit/`, `config/` (variables de entorno validadas con Zod). |
-| **Qué NO contiene**       | Nada de Warengine. Si aparece `Factura`, `stock` o `sucursal`, algo está muy mal.                                                                                                                                             |
+| **Qué NO contiene**       | Nada de Inventa. Si aparece `Factura`, `stock` o `sucursal`, algo está muy mal.                                                                                                                                             |
 | **Principio SOLID**       | **SRP**: cada subcarpeta tiene una única responsabilidad técnica.                                                                                                                                                             |
 | **Convención de nombres** | `<tecnologia>-<servicio>.ts`. Ej.: `jwt/jwt-token-service.ts`, `hashing/argon2-password-hasher.ts`.                                                                                                                           |
 | **Ejemplo real**          | `hashing/argon2-password-hasher.ts` — implementa `IPasswordHasher` con Argon2.                                                                                                                                                |
@@ -257,11 +257,11 @@ flowchart TD
 |                           |                                                                                                                                        |
 | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
 | **Propósito**             | Toda la presentación de un módulo: formularios, llamadas a la API, estado local.                                                       |
-| **Qué SÍ contiene**       | `components/`, `hooks/` (estado, efectos, React Query) y `api/` (funciones que llaman al backend con tipos de `@warengine/contracts`). |
-| **Qué NO contiene**       | Lógica de negocio real (calcular totales, validar stock). Los esquemas vienen de `@warengine/contracts`, no se reinventan aquí.        |
+| **Qué SÍ contiene**       | `components/`, `hooks/` (estado, efectos, React Query) y `api/` (funciones que llaman al backend con tipos de `@inventa/contracts`). |
+| **Qué NO contiene**       | Lógica de negocio real (calcular totales, validar stock). Los esquemas vienen de `@inventa/contracts`, no se reinventan aquí.        |
 | **Principio SOLID**       | **SRP**: cada feature es autónoma; inventario no importa nada de facturación.                                                          |
 | **Convención de nombres** | `components/`: PascalCase (`LoginForm.tsx`). `hooks/`: camelCase con prefijo `use` (`useLogin.ts`). `api/`: `<modulo>.api.ts`.         |
-| **Ejemplo real**          | `features/autenticacion/components/LoginForm.tsx` valida con `loginSchema` de `@warengine/contracts`.                                  |
+| **Ejemplo real**          | `features/autenticacion/components/LoginForm.tsx` valida con `loginSchema` de `@inventa/contracts`.                                  |
 
 ---
 
@@ -356,11 +356,11 @@ datos**: lee la sección 6 antes de escribirlos.
 
 ## 4.1 Sistema de Registro de Auditoría
 
-Warengine cuenta con un sistema unificado y transversal de auditoría con las siguientes directrices arquitectónicas:
+Inventa cuenta con un sistema unificado y transversal de auditoría con las siguientes directrices arquitectónicas:
 
 1. **Regla de oro:** **Se audita por evento de negocio dentro del caso de uso, no por verbo HTTP.** Está estrictamente prohibido implementar middlewares HTTP globales que auditen automáticamente todas las peticiones entrantes. La auditoría pertenece a la semántica del caso de uso.
-2. **Puerto único:** `IAuditor` (definido en `@warengine/core` en `modules/auditoria/domain/repositories/IAuditoriaRepository.ts`). Cualquier caso de uso que ejecute operaciones de mutación o eventos auditables recibe `IAuditor` en su constructor.
-3. **Catálogo de Acciones y Entidades:** Definido en `@warengine/contracts` (`auditoria.catalogo.ts`) y disponible en el core:
+2. **Puerto único:** `IAuditor` (definido en `@inventa/core` en `modules/auditoria/domain/repositories/IAuditoriaRepository.ts`). Cualquier caso de uso que ejecute operaciones de mutación o eventos auditables recibe `IAuditor` en su constructor.
+3. **Catálogo de Acciones y Entidades:** Definido en `@inventa/contracts` (`auditoria.catalogo.ts`) y disponible en el core:
    - `ACCIONES_AUDITORIA`: `crear`, `editar`, `activar`, `inactivar`, `cambiar_rol`, `acceso_denegado`. Siempre en minúsculas con guion bajo.
    - `ENTIDADES_AUDITORIA`: `sucursales`, `usuarios`, `categorias`, `proveedores`, `clientes`, `acceso` (pseudo-entidad para accesos denegados).
 4. **Convención de `detalles`:** Todo evento auditable registra exclusivamente los cambios con la estructura `{ antes: {...}, despues: {...} }` conteniendo únicamente los campos afectados:
@@ -388,7 +388,7 @@ Warengine cuenta con un sistema unificado y transversal de auditoría con las si
    └─ Si el caso de uso toca facturas, factura_items, factura_pagos, devoluciones_ventas,
       movimientos_inventario, inventario_sucursal, activos, asignaciones_activos,
       mantenimientos_activos, turnos_caja, productos o usuarios: lee la sección 6 y los
-      triggers de esas tablas en docs/database/WARENGINE_FULL_BD.sql ANTES de escribir código.
+      triggers de esas tablas en docs/database/INVENTA_FULL_BD.sql ANTES de escribir código.
 
 1. CONTRATO (SHARED/contracts)
    └─ Esquema Zod de entrada y DTO de salida en SHARED/contracts/src/<modulo>/
@@ -437,7 +437,7 @@ Warengine cuenta con un sistema unificado y transversal de auditoría con las si
 | `import { drizzle }` dentro de `packages/core/`                                               | Violación de DIP: core no puede conocer Drizzle.                                         |
 | Un controller con `if (stock < cantidad) throw …`                                             | El controller está haciendo trabajo del dominio.                                         |
 | Una Tool que llama directamente a un repositorio                                              | La Tool debe pasar siempre por el gateway y el caso de uso.                              |
-| `import { Factura } from '@warengine/core'` dentro de `FRONT/`                                | FRONT solo puede importar DTOs y esquemas de contracts.                                  |
+| `import { Factura } from '@inventa/core'` dentro de `FRONT/`                                | FRONT solo puede importar DTOs y esquemas de contracts.                                  |
 | Un `DomainError` que llega al controller sin pasar por el presenter                           | El presenter convierte errores en respuestas HTTP/MCP.                                   |
 | Un esquema de contracts con una regla como `stock >= 0`                                       | Las reglas de negocio van en `domain`, no en contracts.                                  |
 | Un mapper con un `if` de negocio                                                              | Los mappers solo convierten formatos.                                                    |
@@ -453,7 +453,7 @@ Warengine cuenta con un sistema unificado y transversal de auditoría con las si
 
 - [ ] ¿El caso de uso es alcanzable desde la API REST **y** desde el MCP sin
       duplicar lógica?
-- [ ] ¿La Tool valida sus parámetros con Zod (de `@warengine/contracts`) antes
+- [ ] ¿La Tool valida sus parámetros con Zod (de `@inventa/contracts`) antes
       de llegar al caso de uso, y `sucursal_id`/`rol` salen del token y no de
       parámetros?
 - [ ] ¿Lo que se expone al exterior es un DTO y no una entidad de dominio ni una
@@ -480,7 +480,7 @@ Warengine cuenta con un sistema unificado y transversal de auditoría con las si
 > backend **no debe reimplementarlas como fuente de verdad**: puede pre-validar
 > para dar un mensaje más amable, pero siempre debe manejar el rechazo de la BD.
 > Antes de tocar una de estas tablas, **vuelve a leer sus triggers en
-> `docs/database/WARENGINE_FULL_BD.sql`**. Si dudas de si algo ya lo hace un
+> `docs/database/INVENTA_FULL_BD.sql`**. Si dudas de si algo ya lo hace un
 > trigger, pregunta antes de escribir una validación duplicada.
 
 ### 6.1 Regla de oro: quién mueve el stock
@@ -675,7 +675,7 @@ al cambiar `precio_corporativo`. El backend no lo escribe.
 | Coherencia de sucursal entre tablas (asignación vs activo, turno vs factura)                         | Caso de uso                                            |
 | Límite o saldo de crédito corporativo (no existe en el esquema)                                      | No implementado                                        |
 | Bloqueo por intentos fallidos de login                                                               | `platform/rate-limit` usando `intentos_login`          |
-| Formato de datos (correo, longitud de contraseña)                                                    | `@warengine/contracts`                                 |
+| Formato de datos (correo, longitud de contraseña)                                                    | `@inventa/contracts`                                 |
 | Comprobar `iat` contra `tokens_invalidados_en`                                                       | Middleware `authenticate` y `session` del MCP (7.3)    |
 | Registro en `logs_auditoria` (no hay triggers de auditoría)                                          | Backend, en cada operación de escritura                |
 

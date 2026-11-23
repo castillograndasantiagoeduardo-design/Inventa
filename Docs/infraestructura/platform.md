@@ -1,14 +1,14 @@
-# Infraestructura: Plataforma Técnica (`@warengine/platform`)
+# Infraestructura: Plataforma Técnica (`@inventa/platform`)
 
 > **Paquete:** `Backend/packages/platform`  
-> **Dependencias externas:** `jose` (JWT), `argon2` (hashing seguro), `@warengine/core` (interfaces/ports).  
+> **Dependencias externas:** `jose` (JWT), `argon2` (hashing seguro), `@inventa/core` (interfaces/ports).  
 > **Regla arquitectónica:** Cero lógica de negocio. Solo adaptadores y fontanería técnica para satisfacer los puertos definidos en `core`.
 
 ---
 
 ## 1. Propósito y Responsabilidades
 
-El paquete `@warengine/platform` proporciona las implementaciones concretas de servicios de infraestructura tecnológica que no dependen de la base de datos ni contienen reglas de dominio. 
+El paquete `@inventa/platform` proporciona las implementaciones concretas de servicios de infraestructura tecnológica que no dependen de la base de datos ni contienen reglas de dominio. 
 
 Su función es aislar las bibliotecas de terceros y los mecanismos del sistema operativo del núcleo del dominio (`core`), implementando las interfaces de abstracción declaradas en el dominio:
 - Implementación de firma y verificación de tokens (`ITokenService`).
@@ -21,7 +21,7 @@ Su función es aislar las bibliotecas de terceros y los mecanismos del sistema o
 
 ### 2.1 Hashing de Contraseñas: `Argon2PasswordHasher`
 - **Archivo:** [`Backend/packages/platform/src/hashing/argon2-password-hasher.ts`](../../Backend/packages/platform/src/hashing/argon2-password-hasher.ts)
-- **Interfaz implementada:** `IPasswordService` de [`@warengine/core`](../../Backend/packages/core/src/modules/autenticacion/domain/services/IPasswordService.ts).
+- **Interfaz implementada:** `IPasswordService` de [`@inventa/core`](../../Backend/packages/core/src/modules/autenticacion/domain/services/IPasswordService.ts).
 - **Algoritmo:** Argon2 (vía biblioteca npm `argon2`).
 - **Métodos:**
   - `hashear(plain: string): Promise<string>`: Genera el hash seguro utilizando salt aleatorio embebido y parámetros recomendados contra ataques GPU/ASIC.
@@ -29,8 +29,8 @@ Su función es aislar las bibliotecas de terceros y los mecanismos del sistema o
 
 ### 2.2 Gestión de Tokens: `JwtTokenService`
 - **Archivo:** [`Backend/packages/platform/src/jwt/jwt-token-service.ts`](../../Backend/packages/platform/src/jwt/jwt-token-service.ts)
-- **Interfaz implementada:** `ITokenService` de [`@warengine/core`](../../Backend/packages/core/src/modules/autenticacion/domain/services/ITokenService.ts).
-- **Dependencias:** `jose` (`SignJWT`, `jwtVerify`) y `IRefreshTokenRepository` de [`@warengine/core`](../../Backend/packages/core/src/modules/autenticacion/domain/repositories/IRefreshTokenRepository.ts).
+- **Interfaz implementada:** `ITokenService` de [`@inventa/core`](../../Backend/packages/core/src/modules/autenticacion/domain/services/ITokenService.ts).
+- **Dependencias:** `jose` (`SignJWT`, `jwtVerify`) y `IRefreshTokenRepository` de [`@inventa/core`](../../Backend/packages/core/src/modules/autenticacion/domain/repositories/IRefreshTokenRepository.ts).
 - **Ciclo de vida y características:**
   - **Access Token:**
     - Algoritmo: `HS256`.
@@ -81,4 +81,4 @@ Los siguientes subdirectorios existen en la estructura física pero actualmente 
   import { Argon2PasswordHasher } from '../../platform/src/hashing/argon2-password-hasher.ts';
   import { validarYObtenerJwtSecret } from '../../platform/src/config/jwt.config.ts';
   ```
-- **Solución recomendada:** Exportar `Argon2PasswordHasher`, `JwtTokenService` y `validarYObtenerJwtSecret` en `mod.ts` para que `composition` pueda importar de `@warengine/platform` de forma limpia.
+- **Solución recomendada:** Exportar `Argon2PasswordHasher`, `JwtTokenService` y `validarYObtenerJwtSecret` en `mod.ts` para que `composition` pueda importar de `@inventa/platform` de forma limpia.

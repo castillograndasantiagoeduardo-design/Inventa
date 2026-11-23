@@ -14,7 +14,7 @@ import {
     EstadoAlerta,
     OperadorSinSucursalError,
 } from '../../mod.ts';
-import { emitirAlertaFacturacionSchema } from '@warengine/contracts';
+import { emitirAlertaFacturacionSchema } from '@inventa/contracts';
 
 const actor: ActorAuditoria = { usuarioId: 'usr-cajero-1', ip: '192.168.1.100' };
 

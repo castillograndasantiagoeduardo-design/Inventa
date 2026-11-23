@@ -9,7 +9,7 @@
  */
 
 import { useMemo } from 'react';
-import { ROLES } from '@warengine/contracts';
+import { ROLES } from '@inventa/contracts';
 import { useRecurso } from '@/lib/hooks/useRecurso';
 import { sucursalesService } from '../api';
 import type { Sucursal } from '../types';

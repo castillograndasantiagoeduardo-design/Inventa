@@ -1,7 +1,7 @@
 /**
  * administracion.types.ts — Tipos del módulo de Administración en Frontend.
  *
- * Los inputs (payloads y filtros) se re-exportan desde @warengine/contracts.
+ * Los inputs (payloads y filtros) se re-exportan desde @inventa/contracts.
  * Las respuestas de la API no tienen esquema Zod en contracts (salvo el detalle de
  * sucursal), así que se tipan aquí reflejando las entidades del backend:
  * Backend/packages/core/src/modules/administracion/domain/**.
@@ -16,7 +16,7 @@ import type {
   EditarAreaInput,
   EditarEmpleadoInput,
   RegistrarAumentoSalarioInput,
-} from '@warengine/contracts';
+} from '@inventa/contracts';
 
 export type {
   CrearSucursalInput,

@@ -7,7 +7,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import { PLAZOS_CREDITO_DIAS, type ClienteDto, type PlazoCreditoDias } from '@warengine/contracts';
+import { PLAZOS_CREDITO_DIAS, type ClienteDto, type PlazoCreditoDias } from '@inventa/contracts';
 import { Badge } from '@/components/ui/Badge';
 import { Button3D } from '@/components/ui/Button3D';
 import { Modal } from '@/components/ui/Modal';

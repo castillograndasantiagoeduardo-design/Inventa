@@ -1,12 +1,12 @@
-# Base de Datos Warengine — Guía de Migraciones y Operación
+# Base de Datos Inventa — Guía de Migraciones y Operación
 
-Este directorio contiene los esquemas maestros, semillas y scripts incrementales de migración de base de datos de WarEngine (MySQL 8.0).
+Este directorio contiene los esquemas maestros, semillas y scripts incrementales de migración de base de datos de Inventa (MySQL 8.0).
 
 ---
 
 ## 1. Estructura de Directorios
 
-- `WARENGINE_FULL_BD.sql`: Script DDL consolidado de la base de datos completa.
+- `INVENTA_FULL_BD.sql`: Script DDL consolidado de la base de datos completa.
 - `cambios/`: Scripts de migración secuenciales aplicados a lo largo de las distintas fases:
   - `001-logs-auditoria-solo-insercion.sql`
   - `002-turnos-un-abierto-por-usuario.sql`

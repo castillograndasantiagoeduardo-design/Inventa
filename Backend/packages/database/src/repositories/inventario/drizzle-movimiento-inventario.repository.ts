@@ -22,7 +22,7 @@ import {
   MovimientoInventario,
   ResultadoTransferenciaMercancia,
   StockInsuficienteError,
-} from '@warengine/core';
+} from '@inventa/core';
 
 export class DrizzleMovimientoInventarioRepository implements IMovimientoInventarioRepository {
   constructor(private readonly db: Database) {}

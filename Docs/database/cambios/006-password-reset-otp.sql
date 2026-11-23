@@ -3,7 +3,7 @@
 -- Flujo de recuperación Glassy OTP V4 (código de 4 dígitos + resetToken)
 -- ==============================================================================
 
--- La tabla password_reset_tokens en el esquema warengine soporta:
+-- La tabla password_reset_tokens en el esquema inventa soporta:
 -- 1. id: BIGINT UNSIGNED AUTO_INCREMENT
 -- 2. id_usuario: CHAR(36) vinculado a usuarios(id_usuario) ON DELETE CASCADE
 -- 3. email: VARCHAR(150)

@@ -9,12 +9,12 @@
     "skipLibCheck": true,
     "ignoreDeprecations": "5.0",
     "paths": {
-      "@warengine/shared-kernel": ["./packages/shared-kernel/mod.ts"],
-      "@warengine/core": ["./packages/core/mod.ts"],
-      "@warengine/database": ["./packages/database/mod.ts"],
-      "@warengine/platform": ["./packages/platform/mod.ts"],
-      "@warengine/composition": ["./packages/composition/mod.ts"],
-      "@warengine/contracts": ["../Shared/contracts/src/index.ts"]
+      "@inventa/shared-kernel": ["./packages/shared-kernel/mod.ts"],
+      "@inventa/core": ["./packages/core/mod.ts"],
+      "@inventa/database": ["./packages/database/mod.ts"],
+      "@inventa/platform": ["./packages/platform/mod.ts"],
+      "@inventa/composition": ["./packages/composition/mod.ts"],
+      "@inventa/contracts": ["../Shared/contracts/src/index.ts"]
     }
   },
   "include": [

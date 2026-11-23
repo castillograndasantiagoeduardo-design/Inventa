@@ -1,7 +1,7 @@
 /**
  * Empleado.ts
  *
- * Entidad de dominio que modela el registro del personal laboral y contractual de Warengine.
+ * Entidad de dominio que modela el registro del personal laboral y contractual de Inventa.
  *
  * Rol en la arquitectura:
  * - Capa de Dominio (Clean Architecture / Hexagonal).

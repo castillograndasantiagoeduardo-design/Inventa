@@ -1,4 +1,4 @@
-import type { ResultadoPaginado } from '@warengine/shared-kernel';
+import type { ResultadoPaginado } from '@inventa/shared-kernel';
 import { Activo, EstadoActivo } from '../entities/Activo.ts';
 
 export interface DatosCrearActivo {

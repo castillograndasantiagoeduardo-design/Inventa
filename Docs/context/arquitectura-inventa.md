@@ -1,4 +1,4 @@
-# Arquitectura del Sistema Warengine — Documento de Contexto y Referencia
+# Arquitectura del Sistema Inventa — Documento de Contexto y Referencia
 
 > **Documento de Contexto Técnico para Desarrolladores y Asistentes de IA**  
 > **Versión:** 2.1  
@@ -9,7 +9,7 @@
 
 ## 1. Visión General del Sistema
 
-**Warengine** es un sistema integral de **Planificación de Recursos Empresariales (ERP)** y **Punto de Venta (POS)** diseñado para cadenas comerciales con operación omnicanal (venta minorista B2C en mostrador y venta corporativa B2B a crédito o contado), gestión de inventario multi-sucursal y control de activos.
+**Inventa** es un sistema integral de **Planificación de Recursos Empresariales (ERP)** y **Punto de Venta (POS)** diseñado para cadenas comerciales con operación omnicanal (venta minorista B2C en mostrador y venta corporativa B2B a crédito o contado), gestión de inventario multi-sucursal y control de activos.
 
 ### Principios Fundamentales de Diseño
 1. **Clean Architecture (Puertos y Adaptadores):** Separación estricta entre las reglas de negocio del dominio y los detalles técnicos de infraestructura (bases de datos, frameworks web, protocolos).
@@ -25,24 +25,23 @@
 El proyecto está estructurado como un monorepo que separa claramente responsabilidades:
 
 ```
-WARENGINEE/
-├── Warengine/
-│   ├── Backend/                       # Runtime Deno con TypeScript
-│   │   ├── apps/
-│   │   │   ├── api/                   # Primario: API REST Hono (HTTP/JSON)
-│   │   │   └── mcp-server/            # Primario: Servidor Model Context Protocol para IA
-│   │   ├── packages/
-│   │   │   ├── shared-kernel/         # Primitivas puras (Result, DomainError, Entity...)
-│   │   │   ├── core/                  # Dominio puro y casos de uso (DDD)
-│   │   │   ├── database/              # Drizzle ORM, MySQL 8, migraciones y repositorios
-│   │   │   ├── platform/              # Servicios técnicos (JWT, Argon2, Mailer, Config)
-│   │   │   └── composition/           # Composition Root (Inyección de dependencias pura)
-│   │   └── deno.json                  # Workspace Deno y tareas automatizadas
-│   ├── Shared/
-│   │   └── contracts/                 # Esquemas Zod y DTOs compartidos (Front & Back)
-│   ├── Frontend/                      # SPA / SSR con Next.js 16 (App Router)
-│   ├── Docs/                          # Especificaciones de negocio, ADRs, esquemas SQL
-│   └── Http/                          # Archivos .http de prueba de integración funcional
+Inventa/   (raíz del repositorio)
+├── Backend/                       # Runtime Deno con TypeScript
+│   ├── apps/
+│   │   ├── api/                   # Primario: API REST Hono (HTTP/JSON)
+│   │   └── mcp-server/            # Primario: Servidor Model Context Protocol para IA
+│   ├── packages/
+│   │   ├── shared-kernel/         # Primitivas puras (Result, DomainError, Entity...)
+│   │   ├── core/                  # Dominio puro y casos de uso (DDD)
+│   │   ├── database/              # Drizzle ORM, MySQL 8, migraciones y repositorios
+│   │   ├── platform/              # Servicios técnicos (JWT, Argon2, Mailer, Config)
+│   │   └── composition/           # Composition Root (Inyección de dependencias pura)
+│   └── deno.json                  # Workspace Deno y tareas automatizadas
+├── Shared/
+│   └── contracts/                 # Esquemas Zod y DTOs compartidos (Front & Back)
+├── Frontend/                      # SPA / SSR con Next.js 16 (App Router)
+├── Docs/                          # Especificaciones de negocio, ADRs, esquemas SQL
+└── Http/                          # Archivos .http de prueba de integración funcional
 ```
 
 ### Reglas Estrictas de Dependencia (ADR 0001)
@@ -175,7 +174,7 @@ El motor utilizado es **MySQL 8.0** con almacenamiento **InnoDB**.
 
 ## 5. Scripts de Seeds y Mantenimiento
 
-En `Warengine/Backend/packages/database/src/seeds/`:
+En `Inventa/Backend/packages/database/src/seeds/`:
 
 1. **`run.ts` (`deno task seed`):**
    - Siembra roles del sistema, permisos y asignaciones RBAC de forma idempotente.
@@ -224,7 +223,7 @@ En `Warengine/Backend/packages/database/src/seeds/`:
 
 ## 7. Referencias Rápidas y Comandos Útiles
 
-| Tarea | Comando (desde `Warengine/Backend`) |
+| Tarea | Comando (desde `Inventa/Backend`) |
 | :--- | :--- |
 | **Iniciar API REST** | `deno task dev-api` (Puerto 8017 por defecto) |
 | **Iniciar MCP Server** | `deno task dev-mcp` |

@@ -1,5 +1,5 @@
 import { TurnoCaja } from '../entities/TurnoCaja.ts';
-import type { TurnoHistorialItemDto, TurnoCorteDetalleDto, HistorialTurnosQuery } from '@warengine/contracts';
+import type { TurnoHistorialItemDto, TurnoCorteDetalleDto, HistorialTurnosQuery } from '@inventa/contracts';
 
 export interface DatosAperturaTurno {
     usuarioId: string;

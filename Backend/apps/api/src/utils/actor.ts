@@ -1,5 +1,5 @@
 import { Context } from 'hono';
-import { ActorAuditoria } from '@warengine/core';
+import { ActorAuditoria } from '@inventa/core';
 import { obtenerIdentidad } from './identidad.ts';
 import { obtenerIp } from './ip.ts';
 

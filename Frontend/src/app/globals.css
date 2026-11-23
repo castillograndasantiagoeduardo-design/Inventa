@@ -76,7 +76,7 @@
 }
 
 /* ========================================================================== */
-/* 1. DEFINICIÓN DE LAS 11 PALETAS OFICIALES (Idéntico a prueba-diseno)        */
+/* 1. DEFINICIÓN DE LAS 12 PALETAS OFICIALES (11 de prueba-diseno + Ámbar)     */
 /* ========================================================================== */
 
 /* a) ZAFIRO (Predeterminada) */
@@ -309,6 +309,27 @@ html[data-paleta="oro"] {
   --p-900: #713f12;
   --p-950: #422006;
   --p-btn-texto: #1c1917;
+}
+
+/* l) INVENTA ÁMBAR (Paleta de marca: ámbar dorado, negro obsidiana y crema cálido) */
+html[data-paleta="ambar"] {
+  --p-base: #18181b;
+  --p-base-claro: #fffdf9;
+  --p-luz-1: #f59e0b;
+  --p-luz-2: #d97706;
+  --p-luz-3: #fbbf24;
+  --p-50: #fffbeb;
+  --p-100: #fef3c7;
+  --p-200: #fde68a;
+  --p-300: #fcd34d;
+  --p-400: #fbbf24;
+  --p-500: #f59e0b;
+  --p-600: #d97706;
+  --p-700: #b45309;
+  --p-800: #92400e;
+  --p-900: #78350f;
+  --p-950: #451a03;
+  --p-btn-texto: #18181b;
 }
 
 /* ========================================================================== */

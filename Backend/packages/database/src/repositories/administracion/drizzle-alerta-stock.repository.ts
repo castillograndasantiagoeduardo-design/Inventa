@@ -1,9 +1,9 @@
 import { and, asc, count, eq, inArray, sql, type SQL } from 'drizzle-orm';
-import type { ResultadoPaginado } from '@warengine/shared-kernel';
+import type { ResultadoPaginado } from '@inventa/shared-kernel';
 import { Database } from '../../client.ts';
 import { sucursales } from '../../schema/administracion.schema.ts';
 import { inventario_sucursal, productos } from '../../schema/inventario.schema.ts';
-import { AlertaStock, FiltrosAlertasStock, IAlertaStockRepository } from '@warengine/core';
+import { AlertaStock, FiltrosAlertasStock, IAlertaStockRepository } from '@inventa/core';
 import { alertaStockFromRow } from '../../mappers/administracion/alerta-stock.mapper.ts';
 
 export class DrizzleAlertaStockRepository implements IAlertaStockRepository {

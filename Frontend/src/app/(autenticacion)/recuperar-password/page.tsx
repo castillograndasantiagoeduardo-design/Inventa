@@ -57,9 +57,9 @@ function RecuperarPasswordContenido() {
         <GlassyOtpCard emailInicial={emailParam} />
       </section>
 
-      {/* Pie de página sutil con marca WarEngine */}
+      {/* Pie de página sutil con marca Inventa */}
       <footer className="absolute bottom-2.5 left-0 right-0 text-center text-[clamp(10px,0.9vw,12px)] text-white/30 font-[family-name:var(--font-archivo)] z-10 pointer-events-none">
-        WarEngine &copy; {new Date().getFullYear()} &mdash; Sistema de Seguridad y Autenticación Criptográfica
+        Inventa &copy; {new Date().getFullYear()} &mdash; Sistema de Seguridad y Autenticación Criptográfica
       </footer>
     </main>
   );

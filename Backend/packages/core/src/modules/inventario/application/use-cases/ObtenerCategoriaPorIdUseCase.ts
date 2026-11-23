@@ -1,4 +1,4 @@
-import { Result, DomainError } from '@warengine/shared-kernel';
+import { Result, DomainError } from '@inventa/shared-kernel';
 import { ICategoriaRepository } from '../../domain/repositories/ICategoriaRepository.ts';
 import { Categoria } from '../../domain/entities/Categoria.ts';
 import { CategoriaNoEncontradaError } from '../../domain/errors/InventarioErrors.ts';

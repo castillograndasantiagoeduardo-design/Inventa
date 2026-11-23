@@ -25,7 +25,7 @@ import {
     IFacturaRepository,
     PagoInvalidoError,
     StockInsuficienteError,
-} from '@warengine/core';
+} from '@inventa/core';
 import {
     facturaFromRow,
     facturaItemFromRow,

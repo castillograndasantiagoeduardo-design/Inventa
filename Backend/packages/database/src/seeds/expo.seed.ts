@@ -4,7 +4,7 @@
  * Deja la base con SOLO:
  *   - roles, permisos y sus asignaciones (seedAutenticacion)
  *   - la Sede Principal (id=1, reservada)
- *   - el usuario superadmin@warengine.local con su empleado, sin 2FA
+ *   - el usuario superadmin@inventa.local con su empleado, sin 2FA
  * Sin productos, clientes, facturas ni otros usuarios.
  *
  * SEGURIDAD:
@@ -16,7 +16,7 @@
  *
  * Uso (desde Backend/):
  *   deno task seed:expo
- *   deno task seed:expo --yes --db=Warengine
+ *   deno task seed:expo --yes --db=Inventa
  */
 
 import { eq, sql } from 'drizzle-orm';
@@ -26,7 +26,7 @@ import { seedAutenticacion } from './autenticacion.seed.ts';
 import { crearSuperAdminInicial } from './super-admin.seed.ts';
 import { limpiarDatosNegocio } from './limpiar-negocio.seed.ts';
 
-const SUPER_ADMIN_EMAIL = 'superadmin@warengine.local';
+const SUPER_ADMIN_EMAIL = 'superadmin@inventa.local';
 
 const TABLAS_RESUMEN = [
   'roles',
@@ -80,7 +80,7 @@ async function main(): Promise<number> {
   const host = Deno.env.get('DB_HOST') || 'localhost';
   const port = Deno.env.get('DB_PORT') || '3306';
 
-  console.log('🎤 [Warengine] seed:expo — estado inicial limpio para la demo');
+  console.log('🎤 [Inventa] seed:expo — estado inicial limpio para la demo');
   console.log(`   Destino: ${host}:${port} / BD "${dbName}"`);
   console.log('   ⚠️  Se VACIARÁN todas las tablas de negocio (facturas, inventario, clientes, usuarios...).\n');
 

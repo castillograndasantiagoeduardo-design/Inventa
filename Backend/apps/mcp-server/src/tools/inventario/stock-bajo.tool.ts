@@ -1,7 +1,7 @@
 import { z } from 'zod';
-import { DomainError, Result } from '@warengine/shared-kernel';
-import { PERMISSIONS, TOOL_NAMES, stockBajoMcpSchema, type StockBajoMcpDTO } from '@warengine/contracts';
-import type { AppContainer } from '@warengine/composition';
+import { DomainError, Result } from '@inventa/shared-kernel';
+import { PERMISSIONS, TOOL_NAMES, stockBajoMcpSchema, type StockBajoMcpDTO } from '@inventa/contracts';
+import type { AppContainer } from '@inventa/composition';
 import type { DefinicionToolMcp } from '../../catalog/tool-definition.ts';
 import type { McpSessionContext } from '../../session/index.ts';
 

@@ -1,4 +1,4 @@
-import { Usuario } from '@warengine/core';
+import { Usuario } from '@inventa/core';
 import { UsuarioRecord } from '../../schema/autenticacion.schema.ts';
 
 export function fromRow(row: UsuarioRecord): Usuario {

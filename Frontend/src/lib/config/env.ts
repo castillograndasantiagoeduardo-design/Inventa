@@ -7,7 +7,7 @@
 
 export const env = {
   /**
-   * URL base de la API REST de Warengine (Hono).
+   * URL base de la API REST de Inventa (Hono).
    * Por defecto: http://localhost:8017 (puerto estándar de backend).
    */
   apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8017',

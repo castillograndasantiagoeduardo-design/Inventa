@@ -1,11 +1,11 @@
 ---
-name: warengine-ui
-description: Sistema de diseño maestro, tokens visuales, componentes interactivos 3D y directrices frontend para WarEngine en Next.js 16, React 19 y Tailwind CSS v4.
+name: inventa-ui
+description: Sistema de diseño maestro, tokens visuales, componentes interactivos 3D y directrices frontend para Inventa en Next.js 16, React 19 y Tailwind CSS v4.
 ---
 
-# Skill: WarEngine UI & Design System
+# Skill: Inventa UI & Design System
 
-Esta skill es la guía autorizada para construir, extender y refactorizar cualquier elemento de interfaz en **WarEngine**. Establece los tokens visuales, los componentes 3D nativos, los patrones de interacción y las normas de responsive fidelity basados en la landing de referencia.
+Esta skill es la guía autorizada para construir, extender y refactorizar cualquier elemento de interfaz en **Inventa**. Establece los tokens visuales, los componentes 3D nativos, los patrones de interacción y las normas de responsive fidelity basados en la landing de referencia.
 
 ---
 
@@ -15,7 +15,7 @@ Aplica esta skill **siempre** que vayas a:
 * Diseñar o ajustar componentes compartidos en `Frontend/src/components/` o en `Frontend/src/features/*/components/`.
 * Configurar estilos globales, tokens o fuentes en `globals.css` o `layout.tsx`.
 * Construir botones, tarjetas de precios, carruseles, modales o formularios.
-* Validar que la estética, tipografía, paleta de colores y microanimaciones cumplan con el estándar premium de WarEngine.
+* Validar que la estética, tipografía, paleta de colores y microanimaciones cumplan con el estándar premium de Inventa.
 
 ---
 
@@ -25,7 +25,7 @@ Aplica esta skill **siempre** que vayas a:
 * **Navy (Fondo Principal):**
   * Fondo primario: `#0d1630`
   * Degradado Stage: `radial-gradient(60vw 60vh at 0% 100%, rgba(227,179,65,.55), transparent 70%), radial-gradient(70vw 70vh at 10% 0%, #14224a, transparent 70%), linear-gradient(100deg, #0f1b3d 0%, #0a0f1f 45%, #1b1b1d 100%)`
-* **Dorado WarEngine (Acento Principal):**
+* **Dorado Inventa (Acento Principal):**
   * Base: `--gold: #e3b341`
   * Oscuro / Sombra 3D: `--gold-dark: #b88a1f`
   * Fondo Planes / Resplandor: `#e9b949`
@@ -49,11 +49,11 @@ Cada slide adapta el color de acento (`--ac`), sombra (`--ac-dk`), texto (`--ac-
 
 ## 3. Tipografía Oficial y Jerarquía
 
-WarEngine utiliza cuatro familias tipográficas con roles no intercambiables:
+Inventa utiliza cuatro familias tipográficas con roles no intercambiables:
 
 | Familia | Rol en la Interfaz | Configuración en Next.js / CSS |
 | :--- | :--- | :--- |
-| **Anton** | Título principal `WARENGINE` y valores numéricos grandes de precios (`$90.000`). | Google Font `Anton`, sans-serif, weight 400, uppercase. |
+| **Anton** | Título principal `INVENTA` y valores numéricos grandes de precios (`$90.000`). | Google Font `Anton`, sans-serif, weight 400, uppercase. |
 | **Archivo 900** | Subtítulos descriptivos compactos (`Administracion, ventas & Logistica`). | Google Font `Archivo`, weight 900, `font-variation-settings: 'wdth' 95`. |
 | **Pixelify Sans** | Botones, enlaces de navbar, etiquetas píldora, nombres de planes y textos mono. | Google Font `Pixelify Sans`, monospace, weights 400, 500, 700. |
 | **Adirek Serif** | Frase icónica de remate (`A otro nivel`). Fallback: `Bodoni Moda` (cursiva, `opsz 6`). | Local font `AdirekSerif.woff2` o `Bodoni Moda` italic weight 600. |
@@ -72,7 +72,7 @@ El elemento de llamada a la acción característico de la marca. Posee relieve 3
 ```
 
 ### 4.2 Navbar y Logotipo
-* **Logo SVG:** Isotipo geométrico WarEngine en dos tonos (Dorado `#D9A02D` y Blanco `#ffffff`).
+* **Logo SVG:** Isotipo geométrico Inventa en dos tonos (Dorado `#D9A02D` y Blanco `#ffffff`).
 * **Links:** Tipografía `Pixelify Sans`, espaciado de `2.2vw` a `4.2vw`, subrayado inferior sutil `.border-b-2` activado en el color de acento actual.
 * **Fondo dinámico:** En vista normal transparente; en vista móvil o modal con backdrop blur (`backdrop-blur-md bg-zinc-900/90`).
 

@@ -6,7 +6,7 @@
  * autenticacion.routes.ts: si una ruta cambia de permiso, se cambia aquí.
  */
 
-import { PERMISSIONS } from '@warengine/contracts';
+import { PERMISSIONS } from '@inventa/contracts';
 
 export const PERMISOS_ADMIN = {
   // Dashboard

@@ -1,4 +1,4 @@
-# Plan de Acción Frontend — Presentación Proyecto WarEngine
+# Plan de Acción Frontend — Presentación Proyecto Inventa
 **Fecha de Entrega / Exposición:** Lunes 26 de Octubre de 2026  
 **Enfoque:** Frontend (Next.js 16 App Router · Clean Architecture · Principios SOLID)  
 **Alcance:** Funcionalidades esenciales por rol/módulo para la demostración en vivo  
@@ -7,7 +7,7 @@
 
 ## 1. Visión General del Plan
 
-El backend de WarEngine ya cuenta con la lógica de negocio, persistencia en base de datos y validaciones con contratos tipados. El objetivo de este plan de acción es implementar las **pantallas, flujos e interacciones críticas del Frontend** necesarias para realizar una demostración en vivo fluida, visualmente atractiva y robusta ante los evaluadores el día **lunes 26 de octubre**.
+El backend de Inventa ya cuenta con la lógica de negocio, persistencia en base de datos y validaciones con contratos tipados. El objetivo de este plan de acción es implementar las **pantallas, flujos e interacciones críticas del Frontend** necesarias para realizar una demostración en vivo fluida, visualmente atractiva y robusta ante los evaluadores el día **lunes 26 de octubre**.
 
 ### Criterio de Selección de Funcionalidades (Demostración de Impacto)
 Para una exposición académica o técnica de alto impacto, el tribunal evaluador busca ver:
@@ -93,7 +93,7 @@ Aislamiento estricto: Todo el código de frontend de este rol reside en `feature
      * Gráfico esbelto de velocidad de ventas horaria (curva Bezier SVG con altura ampliada) y barra de meta diaria.
   2. **Gestión de Catálogo e Inventario de Sede:**
      * Monitoreo de salud de stock por categorías.
-     * **Modal de Registro de Producto:** Formulario validado con Zod (`@warengine/contracts`) para registrar un nuevo producto o ajustar el stock de sede.
+     * **Modal de Registro de Producto:** Formulario validado con Zod (`@inventa/contracts`) para registrar un nuevo producto o ajustar el stock de sede.
   3. **Personal y Turnos de la Sucursal:**
      * Vista de cajeros asignados a la sede y estado de turno de caja en tiempo real.
      * Operaciones recientes con folios y método de pago.
@@ -101,7 +101,7 @@ Aislamiento estricto: Todo el código de frontend de este rol reside en `feature
 ---
 
 ### Módulo 4: Superadministrador (`super-admin` en `/dashboard`)
-Demuestra el control multi-tenant y la administración global de la plataforma WarEngine.
+Demuestra el control multi-tenant y la administración global de la plataforma Inventa.
 
 * **Ruta Frontend:** `src/app/(panel)/dashboard/page.tsx`
 * **Feature:** `src/features/administracion/`
@@ -156,15 +156,15 @@ Demuestra el control multi-tenant y la administración global de la plataforma W
 * **Tareas:**
   1. Crear la vista de Sucursales y Usuarios para `super-admin` en `src/features/administracion/`.
   2. Tarjetas de métricas consolidadas (`GET /administracion/dashboard/global`).
-  3. Asegurar consistencia visual (estilo oscuro neumórfico/gold de WarEngine).
+  3. Asegurar consistencia visual (estilo oscuro neumórfico/gold de Inventa).
 
 ### Lunes 26 de Octubre — Bloque Mañana (Previo a la Exposición)
 * **Objetivo:** Validación, datos semilla y ensayo del guion de presentación.
 * **Tareas:**
   1. Ejecutar seeds en base de datos para contar con usuarios de prueba listos:
-     * `superadmin@warengine.com` (Superadmin)
-     * `admin.norte@warengine.com` (Admin Sucursal)
-     * `cajero1@warengine.com` (Cajero)
+     * `superadmin@inventa.local` (Superadmin)
+     * `admin.norte@inventa.local` (Admin Sucursal)
+     * `cajero1@inventa.local` (Cajero)
   2. Verificar que haya productos con imágenes y precios realistas ya cargados.
   3. Ensayar el guion de la demostración de 10 a 15 minutos.
 
@@ -175,7 +175,7 @@ Demuestra el control multi-tenant y la administración global de la plataforma W
 Para mantener a la audiencia atenta y mostrar la potencia del sistema, se recomienda seguir este orden exacto:
 
 1. **Introducción & Propuesta de Valor (2 min):**
-   * Mostrar la **Landing Page**: explicar la propuesta de WarEngine (gestión multi-sucursal y POS en tiempo real).
+   * Mostrar la **Landing Page**: explicar la propuesta de Inventa (gestión multi-sucursal y POS en tiempo real).
    * Navegar entre secciones (Alcance con el robot 3D y planes de suscripción).
 2. **Acceso Seguro (1.5 min):**
    * Ingresar a `/acceso`.
@@ -201,5 +201,5 @@ Para mantener a la audiencia atenta y mostrar la potencia del sistema, se recomi
 ## 6. Pautas de Código y Recordatorio Arquitectónico
 * Toda petición debe usar `apiClient` (`import { apiClient } from '@/lib/api'`).
 * Prohibido almacenar tokens en `localStorage`.
-* Reutilizar contratos y esquemas Zod desde `@warengine/contracts`.
+* Reutilizar contratos y esquemas Zod desde `@inventa/contracts`.
 * Mantener los componentes visuales bajo 200 líneas de código, delegando la lógica a custom hooks (`usePos`, `useInventario`).

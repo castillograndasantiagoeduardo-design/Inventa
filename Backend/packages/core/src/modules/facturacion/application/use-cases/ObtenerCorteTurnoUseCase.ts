@@ -1,9 +1,9 @@
-import { DomainError, Result } from '@warengine/shared-kernel';
+import { DomainError, Result } from '@inventa/shared-kernel';
 import { ResolverAlcanceSucursalUseCase } from '../../../autenticacion/application/use-cases/ResolverAlcanceSucursalUseCase.ts';
 import { SucursalFueraDeAlcanceError } from '../../../autenticacion/domain/errors/AlcanceErrors.ts';
 import { TurnoNoEncontradoError } from '../../domain/errors/TurnoCajaErrors.ts';
 import { ITurnoCajaRepository } from '../../domain/repositories/ITurnoCajaRepository.ts';
-import type { TurnoCorteDetalleDto } from '@warengine/contracts';
+import type { TurnoCorteDetalleDto } from '@inventa/contracts';
 
 export interface ObtenerCorteTurnoRequest {
     turnoId: string;

@@ -18,7 +18,7 @@ export class UsuarioGestionado {
     public readonly sucursalesAdicionales: SedeAdicional[] = [],
   ) {}
 
-  /** Debe coincidir con ROLES.SUPER_ADMIN de @warengine/contracts. */
+  /** Debe coincidir con ROLES.SUPER_ADMIN de @inventa/contracts. */
   public get esSuperAdmin(): boolean {
     return this.rolNombre === 'super-admin';
   }

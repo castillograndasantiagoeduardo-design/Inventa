@@ -1,4 +1,4 @@
-﻿import { DomainError } from '@warengine/shared-kernel';
+﻿import { DomainError } from '@inventa/shared-kernel';
 
 // --- Categorias de activos ---------------------------------------------------
 export class CategoriaActivoNoEncontradaError extends DomainError {

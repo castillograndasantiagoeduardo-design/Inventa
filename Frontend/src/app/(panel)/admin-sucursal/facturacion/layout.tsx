@@ -3,7 +3,7 @@ import { PageHeader, SectionTabs } from '@/features/admin-sucursal/components/sh
 import { INVOICING_SECTION_TABS } from '@/features/admin-sucursal/config';
 
 export const metadata = {
-  title: 'Facturación y Alertas · Administrador de Sucursal | Warengine',
+  title: 'Facturación y Alertas · Administrador de Sucursal | Inventa',
 };
 
 export default function FacturacionLayout({

@@ -4,7 +4,7 @@
  * CrearUsuarioModal.tsx — Alta atómica de empleado + cuenta de usuario (RF-ADM-C6).
  */
 
-import type { RolResumenDto } from '@warengine/contracts';
+import type { RolResumenDto } from '@inventa/contracts';
 import { Modal } from '@/components/ui/Modal';
 import { SelectField, TextField } from '@/components/ui/FormField';
 import { Button3D } from '@/components/ui/Button3D';

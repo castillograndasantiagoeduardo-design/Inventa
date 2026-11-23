@@ -1,5 +1,5 @@
 import { Context, Next } from 'hono';
-import { AppContainer } from '@warengine/composition';
+import { AppContainer } from '@inventa/composition';
 import { presentResult } from '../presenters/result.presenter.ts';
 import { getTokensFromCookies } from '../utils/cookie.ts';
 import { CLAVE_IDENTIDAD } from '../utils/identidad.ts';

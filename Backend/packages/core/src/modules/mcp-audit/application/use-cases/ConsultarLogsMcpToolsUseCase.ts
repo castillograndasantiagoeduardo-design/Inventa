@@ -1,4 +1,4 @@
-import { Result } from '@warengine/shared-kernel';
+import { Result } from '@inventa/shared-kernel';
 import {
   FiltrosLogsMcpTools,
   ILogMcpToolRepository,

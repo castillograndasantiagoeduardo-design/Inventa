@@ -1,5 +1,5 @@
 ### ==============================================================================
-### WARENGINE - REQUERIMIENTO RF-ADM-B15: LISTADO Y DETALLE DE ENTRADAS DE MERCANCÍA
+### INVENTA - REQUERIMIENTO RF-ADM-B15: LISTADO Y DETALLE DE ENTRADAS DE MERCANCÍA
 ### ==============================================================================
 ### Descripción de negocio:
 ### El sistema debe permitir listar las entradas de mercancía registradas, con filtros
@@ -22,8 +22,8 @@ POST {{baseUrl}}/auth/login
 Content-Type: {{contentType}}
 
 {
-  "email": "superadmin@warengine.local",
-  "password": "Warengine.Admin.2026!"
+  "email": "superadmin@inventa.local",
+  "password": "Inventa.Admin.2026!"
 }
 
 @tokenAdmin = {{loginAdmin.response.body.accessToken}}

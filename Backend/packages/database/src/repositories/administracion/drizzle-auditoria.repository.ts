@@ -9,7 +9,7 @@ import {
   IAuditoriaRepository,
   PaginaAuditoria,
   sanitizarDetalles,
-} from '@warengine/core';
+} from '@inventa/core';
 import { logAuditoriaFromRow } from '../../mappers/administracion/log-auditoria.mapper.ts';
 
 export class DrizzleAuditoriaRepository implements IAuditoriaRepository {

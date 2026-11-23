@@ -1,7 +1,7 @@
-# Guía Maestra de Arquitectura Frontend — WarEngine
+# Guía Maestra de Arquitectura Frontend — Inventa
 
-> **Audiencia:** Desarrolladores Frontend y Fullstack de WarEngine.  
-> **Stack:** Next.js 16 (App Router) · React 19 · TypeScript estricto · Tailwind CSS v4 · Zod (`@warengine/contracts`).  
+> **Audiencia:** Desarrolladores Frontend y Fullstack de Inventa.  
+> **Stack:** Next.js 16 (App Router) · React 19 · TypeScript estricto · Tailwind CSS v4 · Zod (`@inventa/contracts`).  
 > **Patrón Arquitectónico:** Feature-Sliced Design (Vertical Slices) + Clean Frontend + Principios SOLID.
 
 ---
@@ -21,14 +21,14 @@
 
 ## 1. Visión General y Reglas Fundamentales
 
-Para garantizar que el frontend de WarEngine sea modular, seguro, mantenible y escalable, todo el equipo debe cumplir estrictamente estas directrices:
+Para garantizar que el frontend de Inventa sea modular, seguro, mantenible y escalable, todo el equipo debe cumplir estrictamente estas directrices:
 
 1. **Aislamiento Total del Backend:**
-   * **PROHIBIDO** importar archivos desde `Backend/` (ni `@warengine/core`, ni drizzle, ni entidades backend).
+   * **PROHIBIDO** importar archivos desde `Backend/` (ni `@inventa/core`, ni drizzle, ni entidades backend).
    * La comunicación con el backend es **exclusivamente mediante HTTP REST** utilizando el cliente centralizado `apiClient`.
 2. **Única Fuente de Verdad para Contratos y Validación:**
-   * Todos los tipos de datos (DTOs) y esquemas de validación se importan desde `@warengine/contracts`.
-   * **PROHIBIDO inventar expresiones regulares manuales** para validar correos, contraseñas, RUCs o montos si ya existe un esquema Zod en `@warengine/contracts`.
+   * Todos los tipos de datos (DTOs) y esquemas de validación se importan desde `@inventa/contracts`.
+   * **PROHIBIDO inventar expresiones regulares manuales** para validar correos, contraseñas, RUCs o montos si ya existe un esquema Zod en `@inventa/contracts`.
 3. **Máximo de Líneas por Archivo:**
    * Ningún componente debe exceder las **200 - 250 líneas de código**. Si un archivo supera este umbral, debe descomponerse en subcomponentes atómicos o extraer su lógica a un custom hook.
 4. **Seguridad Absoluta de Tokens:**
@@ -136,7 +136,7 @@ const productos = await apiClient.get<ProductoDto[]>('/inventario/productos', {
 
 ## 5. Estandarización en el Manejo de Errores
 
-El backend de WarEngine devuelve errores de dominio estructurados. En el frontend, todos se capturan mediante la clase `ApiError`:
+El backend de Inventa devuelve errores de dominio estructurados. En el frontend, todos se capturan mediante la clase `ApiError`:
 
 ```typescript
 import { ApiError } from '@/lib/api';
@@ -233,7 +233,7 @@ Antes de solicitar revisión de código en el frontend, verifica:
 
 - [ ] ¿El nuevo código está ubicado dentro de su `feature/` correspondiente (`api/`, `components/`, `hooks/`, `types/`)?
 - [ ] ¿Los componentes tienen menos de 250 líneas y delegan la lógica a hooks?
-- [ ] ¿Todos los formularios utilizan un esquema Zod de `@warengine/contracts` para validación?
+- [ ] ¿Todos los formularios utilizan un esquema Zod de `@inventa/contracts` para validación?
 - [ ] ¿Todas las llamadas a la API utilizan `apiClient` y manejan `ApiError` adecuadamente?
 - [ ] ¿Se verificó que ningún token se guarde en `localStorage` o `sessionStorage`?
 - [ ] ¿Se agregaron los guardias de permisos necesarios con `usePermissions()`?

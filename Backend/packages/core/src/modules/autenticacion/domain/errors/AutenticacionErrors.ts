@@ -1,4 +1,4 @@
-import { DomainError } from '@warengine/shared-kernel';
+import { DomainError } from '@inventa/shared-kernel';
 
 export class CredencialesInvalidasError extends DomainError {
   public readonly code = 'CREDENCIALES_INVALIDAS';

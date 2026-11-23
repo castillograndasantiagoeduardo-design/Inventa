@@ -1,10 +1,10 @@
 # docs/context/ — Contexto vivo para desarrolladores y asistente IA
 
-Esta carpeta contiene el archivo `proyecto-warengine.md`, que es el documento
+Esta carpeta contiene el archivo `proyecto-inventa.md`, que es el documento
 principal de referencia para cualquier desarrollador nuevo o para el agente IA
 que trabaje dentro de este repositorio.
 
-**Qué va aquí:** documentación de arquitectura específica de Warengine, reglas
+**Qué va aquí:** documentación de arquitectura específica de Inventa, reglas
 de trabajo con el MCP, reglas vivas de la base de datos y checklists de calidad.
 
 **Qué NO va aquí:** documentación genérica de Clean Architecture, tutoriales

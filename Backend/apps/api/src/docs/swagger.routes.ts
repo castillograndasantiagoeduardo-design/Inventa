@@ -17,7 +17,7 @@ export function createSwaggerRoutes(): Hono {
     '/swagger',
     swaggerUI({
       url: '/openapi.json',
-      title: 'Warengine API — Documentación Swagger',
+      title: 'Inventa API — Documentación Swagger',
     }),
   );
 

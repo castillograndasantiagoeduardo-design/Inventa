@@ -1,4 +1,4 @@
 {
-  "name": "@warengine/platform",
+  "name": "@inventa/platform",
   "exports": "./mod.ts"
 }

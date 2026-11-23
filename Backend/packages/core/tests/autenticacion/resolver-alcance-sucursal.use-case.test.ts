@@ -31,7 +31,7 @@ function sucursalesDe(ids: number[]) {
   return { repo, consultas };
 }
 
-const usuario = (rolId = 2) => new Usuario('u-1', 'a@warengine.local', 'hash', rolId, true, false, null);
+const usuario = (rolId = 2) => new Usuario('u-1', 'a@inventa.local', 'hash', rolId, true, false, null);
 
 Deno.test('ResolverAlcance: con el permiso global el alcance es global y no consulta sucursales', async () => {
   const { repo, consultas } = sucursalesDe([1]);

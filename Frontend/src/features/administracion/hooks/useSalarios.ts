@@ -8,7 +8,7 @@
  */
 
 import { useCallback, useEffect } from 'react';
-import { registrarAumentoSalarioSchema } from '@warengine/contracts';
+import { registrarAumentoSalarioSchema } from '@inventa/contracts';
 import { useToast } from '@/components/ui/Toast';
 import { aFechaISO } from '@/lib/format/fecha';
 import { formatCOP } from '@/lib/format/moneda';

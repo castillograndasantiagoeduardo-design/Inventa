@@ -3,7 +3,7 @@
 **Fecha:** 2026-10-07\
 **Estado:** Aceptado\
 **Contexto:** Anteriormente existían dos aproximaciones desconectadas para
-auditoría en el backend de Warengine:
+auditoría en el backend de Inventa:
 
 1. Administración auditaba en base de datos (`logs_auditoria`) mediante
    `IAuditor`.
@@ -116,7 +116,7 @@ Para cumplir con la inmutabilidad de la auditoría (RNF-ADM-02):
   `logs_auditoria`.
 - Recomendación de privilegios de usuario MySQL: otorgar únicamente `SELECT` e
   `INSERT` sobre `logs_auditoria` al usuario de conexión de la API
-  (`warengine_api`).
+  (`inventa_api`).
 
 ---
 

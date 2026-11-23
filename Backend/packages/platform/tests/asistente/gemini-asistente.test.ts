@@ -18,7 +18,7 @@ Deno.test('GeminiAsistenteService: responde con mensaje informativo si GEMINI_AP
   });
 
   assertEquals(res.isSuccess, true);
-  assertEquals(res.value.respuesta.includes('Asistente IA de Warengine'), true);
+  assertEquals(res.value.respuesta.includes('Asistente IA de Inventa'), true);
   assertEquals(res.value.respuesta.includes('consulta-stock'), true);
   assertEquals(res.value.toolsEjecutadas.length, 0);
 });

@@ -22,7 +22,7 @@ import type {
   ProductoCatalogoB2B,
   SimularCreditoB2BInput,
 } from '../types';
-import type { StockSucursalResponseDTO } from '@warengine/contracts';
+import type { StockSucursalResponseDTO } from '@inventa/contracts';
 
 export class VendedorB2bService implements IVendedorB2bService {
   constructor(private readonly http: IHttpClient = apiClient) {}

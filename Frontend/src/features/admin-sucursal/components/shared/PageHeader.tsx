@@ -4,7 +4,7 @@
  * PageHeader.tsx — Encabezado compartido para las vistas de Admin de Sucursal.
  *
  * Sigue la tipografía Ejecutiva (Plus Jakarta Sans + Inter) y tokens de tema
- * definidos en SKILL_SISTEMA_DISENO_WARENGINE.md:
+ * definidos en SKILL_SISTEMA_DISENO_INVENTA.md:
  * - Izquierda: título h1 (`font-titulos font-semibold tracking-[-0.005em] text-text`)
  *   y descripción corta (`text-sm font-sans font-medium text-text-muted mt-1`).
  * - Derecha: slot de acciones (botones primarios/secundarios).

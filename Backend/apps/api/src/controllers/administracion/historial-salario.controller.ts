@@ -11,8 +11,8 @@
  * - RF-ADM-C14: Historial de salarios de empleados.
  */
 
-import { registrarAumentoSalarioSchema } from '@warengine/contracts';
-import { AppContainer } from '@warengine/composition';
+import { registrarAumentoSalarioSchema } from '@inventa/contracts';
+import { AppContainer } from '@inventa/composition';
 import { presentResult } from '../../presenters/result.presenter.ts';
 import { leerJson, safeHandler } from '../../utils/handler.ts';
 import { obtenerActor } from '../../utils/actor.ts';

@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
-import { AppContainer } from '@warengine/composition';
-import { PERMISSIONS } from '@warengine/contracts';
+import { AppContainer } from '@inventa/composition';
+import { PERMISSIONS } from '@inventa/contracts';
 import { authMiddleware } from '../middlewares/auth.middleware.ts';
 import { conversarConAsistenteController } from '../controllers/asistente/asistente.controller.ts';
 

@@ -4,7 +4,7 @@ import {
   AuthTokens,
   AccessTokenPayload,
   IRefreshTokenRepository,
-} from '@warengine/core';
+} from '@inventa/core';
 
 export class JwtTokenService implements ITokenService {
   constructor(

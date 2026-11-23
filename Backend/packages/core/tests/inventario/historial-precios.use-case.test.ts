@@ -18,8 +18,8 @@ import {
   ENTIDADES_AUDITORIA,
   LogAuditoria,
 } from '../../src/modules/auditoria/domain/entities/LogAuditoria.ts';
-import { PERMISSIONS } from '@warengine/contracts';
-import { ResultadoPaginado } from '@warengine/shared-kernel';
+import { PERMISSIONS } from '@inventa/contracts';
+import { ResultadoPaginado } from '@inventa/shared-kernel';
 
 class InMemoryProductoRepository implements IProductoRepository {
   public productos: Producto[] = [];

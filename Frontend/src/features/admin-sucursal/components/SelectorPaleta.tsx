@@ -1,17 +1,18 @@
 'use client';
 
 /**
- * SelectorPaleta.tsx — Panel de Apariencia del Dashboard de WarEngine.
+ * SelectorPaleta.tsx — Panel de Apariencia del Dashboard de Inventa.
  *
  * Implementación oficial copiada y adaptada directamente de prueba-diseno-warengine (localhost:3005):
  * 1. MODO: Oscuro / Claro
- * 2. TEMAS: 11 paletas oficiales en cuadrícula de 3 columnas con muestras de 3 colores y selección activa
+ * 2. TEMAS: 12 paletas oficiales (incluye la de marca Inventa Ámbar) en cuadrícula de 3 columnas con muestras de 3 colores y selección activa
  * 3. EFECTO DE FONDO: Orbes difusos / Aurora ambiental / Retícula + luz (con 'malla' por defecto)
  * 4. PERSONALIZAR COLORES (AVANZADO): Acordeón con 5 roles de color, catálogo de muestras y selector libre
  * 5. POP-OVER FLOTANTE: Anclado absolutamente a la barra superior, no desplaza ni deforma el layout.
  */
 
 import React, { useState, useEffect, useRef } from 'react';
+import { STORAGE_KEYS } from '@/lib/storage-keys';
 import {
   Palette,
   X,
@@ -45,6 +46,7 @@ export type IdPaleta =
   | 'petroleo'
   | 'vino'
   | 'oro'
+  | 'ambar'
   | 'personalizada';
 
 export type IdFondo = 'orbes' | 'aurora' | 'malla';
@@ -73,6 +75,7 @@ const PALETAS: OpcionPaleta[] = [
   { id: 'petroleo', nombre: 'Azul Petróleo' },
   { id: 'vino', nombre: 'Borgoña Directivo' },
   { id: 'oro', nombre: 'Oro y Obsidiana' },
+  { id: 'ambar', nombre: 'Inventa Ámbar' },
   { id: 'zafiro', nombre: 'Zafiro' },
   { id: 'violeta', nombre: 'Violeta' },
   { id: 'cian', nombre: 'Cian' },
@@ -126,7 +129,7 @@ export function SelectorPaleta() {
       setEsOscuro(oscuro);
 
       try {
-        const guardado = localStorage.getItem('warengine-paleta-custom');
+        const guardado = localStorage.getItem(STORAGE_KEYS.paletaCustom);
         if (guardado) {
           const parsed = JSON.parse(guardado) as ConfiguracionPaletaPersonalizada;
           setConfigCustom(parsed);
@@ -190,7 +193,7 @@ export function SelectorPaleta() {
     }
 
     try {
-      localStorage.setItem('warengine-paleta', id);
+      localStorage.setItem(STORAGE_KEYS.paleta, id);
     } catch {}
   };
 
@@ -213,13 +216,13 @@ export function SelectorPaleta() {
 
       try {
         const vars = generarVariablesDesdeConfig(nuevaConfig);
-        localStorage.setItem('warengine-paleta', 'personalizada');
+        localStorage.setItem(STORAGE_KEYS.paleta, 'personalizada');
         localStorage.setItem(
-          'warengine-paleta-custom',
+          STORAGE_KEYS.paletaCustom,
           JSON.stringify(nuevaConfig)
         );
         localStorage.setItem(
-          'warengine-paleta-custom-vars',
+          STORAGE_KEYS.paletaCustomVars,
           JSON.stringify(vars)
         );
       } catch {}
@@ -234,7 +237,7 @@ export function SelectorPaleta() {
     setFondoActivo(id);
     document.documentElement.setAttribute('data-fondo', id);
     try {
-      localStorage.setItem('warengine-fondo', id);
+      localStorage.setItem(STORAGE_KEYS.fondo, id);
     } catch {}
   };
 
@@ -245,13 +248,13 @@ export function SelectorPaleta() {
       html.classList.add('dark');
       html.classList.remove('light');
       try {
-        localStorage.setItem('warengine-tema', 'dark');
+        localStorage.setItem(STORAGE_KEYS.tema, 'dark');
       } catch {}
     } else {
       html.classList.remove('dark');
       html.classList.add('light');
       try {
-        localStorage.setItem('warengine-tema', 'light');
+        localStorage.setItem(STORAGE_KEYS.tema, 'light');
       } catch {}
     }
   };

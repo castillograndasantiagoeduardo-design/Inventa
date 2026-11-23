@@ -1,7 +1,7 @@
 import { eq, and } from 'drizzle-orm';
 import { Database } from '../../client.ts';
 import { refresh_tokens } from '../../schema/autenticacion.schema.ts';
-import { IRefreshTokenRepository } from '@warengine/core';
+import { IRefreshTokenRepository } from '@inventa/core';
 
 /**
  * Calcula el hash SHA-256 en formato hexadecimal de un token usando la Web Crypto API.

@@ -37,7 +37,7 @@ export default function AdminSucursalLayout({
             <span className="relative inline-flex rounded-full h-3 w-3 bg-brand-500" />
           </span>
           <span className="text-xs font-medium text-text-muted">
-            Iniciando sesión segura WarEngine...
+            Iniciando sesión segura Inventa...
           </span>
         </div>
       </div>

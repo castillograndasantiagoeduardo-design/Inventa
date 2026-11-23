@@ -1,5 +1,5 @@
 /**
- * planes.data.ts — Catálogo de planes comerciales y suscripciones de WarEngine.
+ * planes.data.ts — Catálogo de planes comerciales y suscripciones de Inventa.
  */
 
 import type { PlanData } from '../types/landing.types';

@@ -29,20 +29,20 @@ export default function AccesoPage() {
       {/* Grano analógico de fondo */}
       <NoiseOverlay />
 
-      {/* Navbar Superior Fijo Estándar WarEngine */}
+      {/* Navbar Superior Fijo Estándar Inventa */}
       <Navbar activeTab="inicio" onNavigate={handleNavigate} />
 
       {/* Tarjeta de Autenticación Neumórfica Centrada exactamente en X e Y */}
       <section
         className="w-full flex items-center justify-center z-10 my-auto py-12"
-        aria-label="Panel de autenticación WarEngine"
+        aria-label="Panel de autenticación Inventa"
       >
         <AuthCard />
       </section>
 
-      {/* Pie de página sutil con marca WarEngine anclado abajo sin desplazar el centro */}
+      {/* Pie de página sutil con marca Inventa anclado abajo sin desplazar el centro */}
       <footer className="absolute bottom-2.5 left-0 right-0 text-center text-[clamp(10px,0.9vw,12px)] text-white/30 font-[family-name:var(--font-archivo)] z-10 pointer-events-none">
-        WarEngine &copy; {new Date().getFullYear()} &mdash; Sistema Integral de Gestión Comercial & Logística
+        Inventa &copy; {new Date().getFullYear()} &mdash; Sistema Integral de Gestión Comercial & Logística
       </footer>
     </main>
   );

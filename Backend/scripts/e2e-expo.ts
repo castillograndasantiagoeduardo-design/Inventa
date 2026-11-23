@@ -19,7 +19,7 @@
  */
 
 const API = Deno.env.get('E2E_API_URL') ?? 'http://localhost:8017';
-const SA_EMAIL = 'superadmin@warengine.local';
+const SA_EMAIL = 'superadmin@inventa.local';
 const ROL = { ADMIN_SUCURSAL: 2, CAJERO: 3, VENDEDOR_B2B: 4 } as const;
 
 const sufijo = Date.now().toString(36).slice(-5).toUpperCase();
@@ -144,7 +144,7 @@ async function main(): Promise<void> {
     ['vendedor', ROL.VENDEDOR_B2B, 'Vendedor corporativo'],
   ];
   for (const [clave, rolId, cargo] of usuarios) {
-    const email = `${clave}.${sufijo.toLowerCase()}@warengine.local`;
+    const email = `${clave}.${sufijo.toLowerCase()}@inventa.local`;
     const password = passwordAleatoria();
     const r = await api('POST', '/administracion/usuarios', sa.token, {
       nombre: `${cargo} ${sufijo}`,

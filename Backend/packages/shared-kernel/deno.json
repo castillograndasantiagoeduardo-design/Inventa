@@ -1,4 +1,4 @@
 {
-  "name": "@warengine/shared-kernel",
+  "name": "@inventa/shared-kernel",
   "exports": "./mod.ts"
 }

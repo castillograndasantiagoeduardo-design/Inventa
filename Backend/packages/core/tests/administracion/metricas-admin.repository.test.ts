@@ -12,7 +12,7 @@ import type {
   MetricasGanancias,
   PuntoTendenciaVenta,
   RendimientoSucursal,
-} from '@warengine/core';
+} from '@inventa/core';
 
 class MockMetricasAdminRepository implements IMetricasAdminRepository {
   public metricasGananciasResponse: MetricasGanancias = {

@@ -16,7 +16,7 @@ import {
 } from '@/features/admin-sucursal';
 
 export const metadata = {
-  title: 'Inventario · Administrador de Sucursal | WarEngine',
+  title: 'Inventario · Administrador de Sucursal | Inventa',
 };
 
 export default function AdminSucursalInventarioLayout({
