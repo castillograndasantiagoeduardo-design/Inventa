@@ -1,141 +1,38 @@
-'use client';
+/**
+ * page.tsx — Landing pública de Inventa.
+ *
+ * Misma estética que el panel de Admin de sucursal: fondo ambiental con retícula,
+ * superficies de vidrio y paleta activa (zafiro por defecto). Diseño en Figma:
+ * "Inventa — Landing".
+ */
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { Navbar, type TabType } from '@/components/ui/Navbar';
-import { NoiseOverlay } from '@/components/ui/NoiseOverlay';
+import { FondoAmbiental } from '@/components/FondoAmbiental';
 import {
-  HeroRobotCanvas,
-  HeroCopy,
-  AlcanceSection,
+  HeroSection,
+  LandingFooter,
+  LandingNavbar,
+  ModulosSection,
+  NosotrosSection,
   PlanesSection,
-  NosotrosModal,
-  SLIDES,
-  type SlideData,
-  type ThemeColors,
 } from '@/features/landing';
 
-const INITIAL_THEME: ThemeColors = {
-  c: '#e3b341',
-  k: '#b88a1f',
-  tc: '#e3b341',
-  fg: '#111111',
-};
-
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<TabType>('inicio');
-  const [selectedPlanIndex, setSelectedPlanIndex] = useState<number>(-1);
-  const [theme, setTheme] = useState<ThemeColors>(INITIAL_THEME);
-
-  const handleNavigate = useCallback((tab: TabType) => {
-    setActiveTab(tab);
-    if (tab === 'inicio' || tab === 'planes') {
-      setTheme((prev) =>
-        prev.c === INITIAL_THEME.c &&
-        prev.k === INITIAL_THEME.k &&
-        prev.tc === INITIAL_THEME.tc &&
-        prev.fg === INITIAL_THEME.fg
-          ? prev
-          : INITIAL_THEME
-      );
-    } else if (tab === 'alcance') {
-      const first = SLIDES[0];
-      setTheme((prev) => {
-        if (
-          prev.c === first.c &&
-          prev.k === first.k &&
-          prev.tc === first.tc &&
-          prev.fg === first.fg
-        ) {
-          return prev;
-        }
-        return {
-          c: first.c,
-          k: first.k,
-          tc: first.tc,
-          fg: first.fg,
-        };
-      });
-    }
-  }, []);
-
-  const handleSlideThemeChange = useCallback((slide: SlideData) => {
-    setTheme((prev) => {
-      if (
-        prev.c === slide.c &&
-        prev.k === slide.k &&
-        prev.tc === slide.tc &&
-        prev.fg === slide.fg
-      ) {
-        return prev;
-      }
-      return {
-        c: slide.c,
-        k: slide.k,
-        tc: slide.tc,
-        fg: slide.fg,
-      };
-    });
-  }, []);
-
-  const handleSelectPlanFromAlcance = (slideIndex: number) => {
-    setSelectedPlanIndex(slideIndex);
-    setActiveTab('planes');
-  };
-
-  // Atajo de teclado 'Escape' para volver al inicio
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && activeTab !== 'inicio') {
-        handleNavigate('inicio');
-      }
-    };
-    addEventListener('keydown', handleKeyDown);
-    return () => removeEventListener('keydown', handleKeyDown);
-  }, [activeTab]);
-
   return (
-    <main
-      style={
-        {
-          '--ac': theme.c,
-          '--ac-dk': theme.k,
-          '--ac-t': theme.tc,
-          '--ac-fg': theme.fg,
-        } as React.CSSProperties
-      }
-      className="relative w-screen h-screen h-[100dvh] overflow-hidden bg-[radial-gradient(60vw_60vh_at_0%_100%,rgba(227,179,65,0.55),transparent_70%),radial-gradient(70vw_70vh_at_10%_0%,#14224a,transparent_70%),linear-gradient(100deg,#0f1b3d_0%,#0a0f1f_45%,#1b1b1d_100%)] select-none"
-    >
-      {/* Grano analógico overlay */}
-      <NoiseOverlay />
-
-      {/* Navbar Superior */}
-      <Navbar
-        activeTab={activeTab}
-        onNavigate={handleNavigate}
-      />
-
-      {/* Vista HERO */}
-      <HeroRobotCanvas isVisible={activeTab === 'inicio'} />
-      <HeroCopy isVisible={activeTab === 'inicio'} />
-
-      {/* Vista ALCANCE */}
-      <AlcanceSection
-        isVisible={activeTab === 'alcance'}
-        onSelectPlan={handleSelectPlanFromAlcance}
-        onThemeChange={handleSlideThemeChange}
-      />
-
-      {/* Vista PLANES */}
-      <PlanesSection
-        isVisible={activeTab === 'planes'}
-        selectedPlanIndex={selectedPlanIndex}
-      />
-
-      {/* Vista NOSOTROS (Modal informativo) */}
-      <NosotrosModal
-        isOpen={activeTab === 'nosotros'}
-        onClose={() => handleNavigate('inicio')}
-      />
-    </main>
+    <div className="min-h-dvh bg-bg text-text font-sans relative isolate overflow-x-clip landing-raiz">
+      <FondoAmbiental />
+      {/* Brillos ámbar del logo, muy tenues, sobre el fondo ambiental de la paleta */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute top-[2%] right-[6%] w-[460px] h-[340px] rounded-full bg-ambar/[0.09] dark:bg-ambar/[0.08] blur-[120px]" />
+        <div className="absolute top-[58%] left-[30%] w-[620px] h-[360px] rounded-full bg-ambar/[0.07] dark:bg-ambar/[0.06] blur-[130px]" />
+      </div>
+      <LandingNavbar />
+      <main className="mx-auto max-w-[1440px] px-4 sm:px-8 lg:px-16">
+        <HeroSection />
+        <ModulosSection />
+        <PlanesSection />
+        <NosotrosSection />
+        <LandingFooter />
+      </main>
+    </div>
   );
 }
