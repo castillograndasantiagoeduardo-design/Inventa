@@ -5,7 +5,7 @@
  *
  * Implementación oficial copiada y adaptada directamente de prueba-diseno-warengine (localhost:3005):
  * 1. MODO: Oscuro / Claro
- * 2. TEMAS: 11 paletas oficiales en cuadrícula de 3 columnas con muestras de 3 colores y selección activa
+ * 2. TEMAS: 12 paletas oficiales (incluye la de marca Inventa Ámbar) en cuadrícula de 3 columnas con muestras de 3 colores y selección activa
  * 3. EFECTO DE FONDO: Orbes difusos / Aurora ambiental / Retícula + luz (con 'malla' por defecto)
  * 4. PERSONALIZAR COLORES (AVANZADO): Acordeón con 5 roles de color, catálogo de muestras y selector libre
  * 5. POP-OVER FLOTANTE: Anclado absolutamente a la barra superior, no desplaza ni deforma el layout.
@@ -46,6 +46,7 @@ export type IdPaleta =
   | 'petroleo'
   | 'vino'
   | 'oro'
+  | 'ambar'
   | 'personalizada';
 
 export type IdFondo = 'orbes' | 'aurora' | 'malla';
@@ -74,6 +75,7 @@ const PALETAS: OpcionPaleta[] = [
   { id: 'petroleo', nombre: 'Azul Petróleo' },
   { id: 'vino', nombre: 'Borgoña Directivo' },
   { id: 'oro', nombre: 'Oro y Obsidiana' },
+  { id: 'ambar', nombre: 'Inventa Ámbar' },
   { id: 'zafiro', nombre: 'Zafiro' },
   { id: 'violeta', nombre: 'Violeta' },
   { id: 'cian', nombre: 'Cian' },

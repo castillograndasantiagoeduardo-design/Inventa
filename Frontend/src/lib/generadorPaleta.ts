@@ -119,6 +119,13 @@ export const CONFIG_BASE_POR_PALETA: Record<string, ConfiguracionPaletaPersonali
     luz2: "#b45309",
     luz3: "#334155",
   },
+  ambar: {
+    acento: "#f59e0b",
+    fondoOscuro: "#18181b",
+    luz1: "#f59e0b",
+    luz2: "#d97706",
+    luz3: "#fbbf24",
+  },
 };
 
 function hexARgb(hex: string): [number, number, number] {
