@@ -3,7 +3,7 @@
 --
 -- Cómo usarlo:
 --   1. Ajusta la sección PARÁMETROS (sede, cajero, cliente, fecha) y las LÍNEAS.
---   2. Ejecútalo completo en MySQL Workbench / DBeaver / mysql CLI sobre la BD warengine.
+--   2. Ejecútalo completo en MySQL Workbench / DBeaver / mysql CLI sobre la BD inventa.
 --   3. Repite cambiando las líneas o la fecha para generar más ventas.
 --
 -- Qué hacen los triggers de la BD automáticamente (no insertes esto a mano):
@@ -26,7 +26,7 @@
 
 -- ─── PARÁMETROS ──────────────────────────────────────────────────────────────
 SET @sede     := 'Sede Norte';                    -- 'Sede Norte' | 'Sede Centro' (la principal no tiene stock)
-SET @vendedor := 'cajero1@warengine.local';       -- usuario que factura
+SET @vendedor := 'cajero1@inventa.local';       -- usuario que factura
 SET @cliente  := '222222222222';                  -- documento del cliente (222222222222 = Consumidor Final)
 SET @medio    := 'efectivo';                      -- 'efectivo' | 'tarjeta' | 'transferencia'
 SET @fecha    := UTC_TIMESTAMP();                 -- ahora; o una fecha UTC fija: '2026-10-24 20:30:00'
