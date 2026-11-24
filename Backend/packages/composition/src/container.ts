@@ -16,7 +16,14 @@ import {
   obtenerEmpresaIdActual,
   contextoPorDefecto,
   ResolutorEmpresas,
+  TopePermisosPlan,
+  conTopePlan,
+  DirectorioCentral,
+  conDirectorioCentral,
+  AprovisionadorEmpresas,
   type ContextoEmpresa,
+  type DatosNuevaEmpresa,
+  type EmpresaAprovisionada,
 } from '../../database/src/tenancy/index.ts';
 import { DrizzleUsuarioRepository } from '../../database/src/repositories/autenticacion/drizzle-usuario.repository.ts';
 import { DrizzleRolRepository } from '../../database/src/repositories/autenticacion/drizzle-rol.repository.ts';
@@ -376,6 +383,12 @@ export interface ServicioMultiempresa {
   empresaDesdeEmail(email: string): Promise<ContextoEmpresa | null>;
   /** Empresa por id. */
   empresaPorId(empresaId: number): Promise<ContextoEmpresa | null>;
+  /** Crea la base de datos de una empresa nueva con su sede principal y su dueño. */
+  aprovisionarEmpresa(datos: DatosNuevaEmpresa): Promise<EmpresaAprovisionada>;
+  /** Plan vigente de una empresa (null si no tiene suscripción vigente). */
+  planVigente(empresaId: number): Promise<{ planId: string; venceEn: Date } | null>;
+  /** Olvida cachés de empresa y de tope de permisos (tras activar o renovar un plan). */
+  invalidarCaches(empresaId?: number): void;
 }
 
 function leerEnteroPositivo(
@@ -410,17 +423,22 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
   // Multiempresa: el db se enruta en cada consulta a la base de la empresa de la petición.
   const db = crearDatabaseEnrutada();
   const resolutorEmpresas = new ResolutorEmpresas();
+  const topePermisosPlan = new TopePermisosPlan();
+  const directorioCentral = new DirectorioCentral();
+  const aprovisionadorEmpresas = new AprovisionadorEmpresas(undefined, directorioCentral);
 
   // 1. Instanciar Repositorios
   const usuarioRepository = new DrizzleUsuarioRepository(db);
-  const rolRepository = new DrizzleRolRepository(db);
+  // Permisos efectivos = rol ∩ plan vigente de la empresa (sin tope en la empresa por defecto).
+  const rolRepository = conTopePlan(new DrizzleRolRepository(db), topePermisosPlan);
   const refreshTokenRepository = new DrizzleRefreshTokenRepository(db);
   const intentoLoginRepository = new DrizzleIntentoLoginRepository(db);
   const sucursalRepository = new DrizzleSucursalRepository(db);
   const areaRepository = new DrizzleAreaRepository(db);
   const empleadoRepository = new DrizzleEmpleadoRepository(db);
   const historialSalarioRepository = new DrizzleHistorialSalarioRepository(db);
-  const gestionUsuarioRepository = new DrizzleGestionUsuarioRepository(db);
+  // Correos únicos entre empresas + registro en el directorio central.
+  const gestionUsuarioRepository = conDirectorioCentral(new DrizzleGestionUsuarioRepository(db), directorioCentral);
   const clienteRepository = new DrizzleClienteRepository(db);
   const categoriaRepository = new DrizzleCategoriaRepository(db);
   const proveedorRepository = new DrizzleProveedorRepository(db);
@@ -1126,6 +1144,16 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
       contextoPorDefecto,
       empresaPorId: (empresaId) => resolutorEmpresas.porId(empresaId),
       empresaDesdeEmail: (email) => resolutorEmpresas.porEmail(email),
+      aprovisionarEmpresa: async (datos) => {
+        const creada = await aprovisionadorEmpresas.crear(datos);
+        resolutorEmpresas.invalidar(creada.empresaId);
+        return creada;
+      },
+      planVigente: (empresaId) => topePermisosPlan.planVigente(empresaId),
+      invalidarCaches: (empresaId) => {
+        resolutorEmpresas.invalidar(empresaId);
+        topePermisosPlan.invalidar(empresaId);
+      },
       empresaDesdeToken: async (accessToken) => {
         try {
           const payload = await tokenService.validarAccessToken(accessToken);
