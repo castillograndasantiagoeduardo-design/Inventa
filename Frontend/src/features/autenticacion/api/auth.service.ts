@@ -15,6 +15,7 @@ import type {
   LoginInput,
   LoginResult,
   LoginResponseDto,
+  CuentaWeb,
   Verificar2faLoginInput,
   SesionCompleta,
   SolicitarRecuperacionPasswordInput,
@@ -39,11 +40,16 @@ export class AuthService implements IAuthService {
    */
   public async login(credentials: LoginInput): Promise<LoginResult> {
     try {
-      const response = await this.http.post<LoginResponseDto>(
+      const response = await this.http.post<LoginResponseDto | { tipo: 'CUENTA'; cuenta: CuentaWeb }>(
         '/auth/login',
         credentials,
         { skipAuthRefresh: true },
       );
+
+      // Login unificado: el correo es de una cuenta gratuita de la web.
+      if ('tipo' in response) {
+        return { tipo: 'CUENTA', cuenta: response.cuenta };
+      }
 
       return {
         tipo: 'EXITO',

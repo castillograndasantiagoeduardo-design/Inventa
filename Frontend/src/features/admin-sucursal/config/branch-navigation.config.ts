@@ -6,6 +6,7 @@
  * basta con añadir una entrada en los arreglos declarativos de este archivo.
  */
 
+import { PERMISSIONS } from '@inventa/contracts';
 import type { DashboardPeriodo } from '../types/branch-dashboard.types';
 
 /**
@@ -24,7 +25,8 @@ export type BranchNavIconName =
   | 'personal'
   | 'activos'
   | 'reportes'
-  | 'configuracion';
+  | 'configuracion'
+  | 'pos';
 
 export interface BranchNavItemConfig {
   id: string;
@@ -34,6 +36,8 @@ export interface BranchNavItemConfig {
   categoria: BranchNavCategory;
   /** Si es true, la ruta se marca activa solo en coincidencia exacta (ej. /admin-sucursal). */
   exact?: boolean;
+  /** Permiso requerido (permisos efectivos = rol ∩ plan). Sin permiso = visible para todos. */
+  permiso?: string;
 }
 
 export const BRANCH_NAV_CATEGORIES: readonly BranchNavCategory[] = [
@@ -46,6 +50,7 @@ export const BRANCH_NAV_ITEMS: readonly BranchNavItemConfig[] = [
   // MENÚ
   {
     id: 'resumen',
+    permiso: PERMISSIONS.ADMIN_VER_METRICAS_SUCURSAL,
     label: 'Dashboard',
     href: '/admin-sucursal',
     icon: 'dashboard',
@@ -54,13 +59,23 @@ export const BRANCH_NAV_ITEMS: readonly BranchNavItemConfig[] = [
   },
   {
     id: 'facturacion',
+    permiso: PERMISSIONS.FACTURACION_CONSULTAR,
     label: 'Facturación',
     href: '/admin-sucursal/facturacion',
     icon: 'facturacion',
     categoria: 'MENÚ',
   },
   {
+    id: 'pos',
+    permiso: PERMISSIONS.FACTURACION_FACTURAR,
+    label: 'Punto de venta',
+    href: '/pos',
+    icon: 'pos',
+    categoria: 'MENÚ',
+  },
+  {
     id: 'inventario',
+    permiso: PERMISSIONS.INVENTARIO_LEER,
     label: 'Inventario',
     href: '/admin-sucursal/inventario',
     icon: 'inventario',
@@ -68,6 +83,7 @@ export const BRANCH_NAV_ITEMS: readonly BranchNavItemConfig[] = [
   },
   {
     id: 'clientes',
+    permiso: PERMISSIONS.FACTURACION_GESTIONAR_CLIENTES,
     label: 'Clientes',
     href: '/admin-sucursal/clientes',
     icon: 'clientes',
@@ -76,6 +92,7 @@ export const BRANCH_NAV_ITEMS: readonly BranchNavItemConfig[] = [
   // OPERACIONES
   {
     id: 'personal',
+    permiso: PERMISSIONS.ADMIN_GESTIONAR_PERSONAL,
     label: 'Personal',
     href: '/admin-sucursal/personal',
     icon: 'personal',
@@ -83,6 +100,7 @@ export const BRANCH_NAV_ITEMS: readonly BranchNavItemConfig[] = [
   },
   {
     id: 'activos',
+    permiso: PERMISSIONS.LOGISTICA_LEER,
     label: 'Activos',
     href: '/admin-sucursal/activos',
     icon: 'activos',
@@ -90,6 +108,7 @@ export const BRANCH_NAV_ITEMS: readonly BranchNavItemConfig[] = [
   },
   {
     id: 'reportes',
+    permiso: PERMISSIONS.ADMIN_VER_METRICAS_SUCURSAL,
     label: 'Reportes',
     href: '/admin-sucursal/reportes',
     icon: 'reportes',

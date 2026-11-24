@@ -149,6 +149,12 @@ export function AuthProvider({
           return resultado;
         }
 
+        // Cuenta gratuita de la web: no hay sesión de panel que guardar.
+        if (resultado.tipo === 'CUENTA') {
+          limpiarRateLimit();
+          return resultado;
+        }
+
         // Caso REQUIERE_2FA (428)
         setPaso2FA({
           tempToken: resultado.tempToken,

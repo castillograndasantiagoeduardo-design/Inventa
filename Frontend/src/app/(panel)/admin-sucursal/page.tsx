@@ -8,6 +8,8 @@
  */
 
 import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { PERMISSIONS } from '@inventa/contracts';
 import { usePermissions } from '@/features/autenticacion';
 import {
   DashboardSkeleton,
@@ -17,7 +19,22 @@ import {
 } from '@/features/admin-sucursal';
 import { useBranchDashboard } from '@/features/admin-sucursal/hooks';
 
+/**
+ * Sin permiso de métricas (ej. plan Almacén) no hay resumen: se va directo a Inventario.
+ */
 export default function AdminSucursalDashboardPage() {
+  const { tienePermiso } = usePermissions();
+  const router = useRouter();
+  const puedeVerMetricas = tienePermiso(PERMISSIONS.ADMIN_VER_METRICAS_SUCURSAL);
+
+  useEffect(() => {
+    if (!puedeVerMetricas) router.replace('/admin-sucursal/inventario');
+  }, [puedeVerMetricas, router]);
+
+  return puedeVerMetricas ? <DashboardSucursal /> : <DashboardSkeleton />;
+}
+
+function DashboardSucursal() {
   const { usuario } = usePermissions();
   const { periodo: layoutPeriodo } = useBranchLayoutPeriodo();
 

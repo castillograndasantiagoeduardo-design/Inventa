@@ -25,7 +25,7 @@ function RecuperarPasswordContenido() {
         <div className="absolute top-[12%] right-[10%] w-[420px] h-[320px] rounded-full bg-ambar/[0.09] dark:bg-ambar/[0.07] blur-[120px]" />
       </div>
 
-      <LandingNavbar fueraDeLanding />
+      <LandingNavbar fueraDeLanding accion="crear-cuenta" />
 
       <main
         className="flex-1 w-full flex items-center justify-center px-4 py-12"

@@ -24,8 +24,15 @@ const ENLACES: { id: SeccionLanding; etiqueta: string }[] = [
 /**
  * @param fueraDeLanding true en otras páginas (ej. /acceso): los enlaces apuntan a "/#seccion",
  *                       no se marca sección activa y se oculta el botón "Iniciar sesión".
+ * @param accion         botón principal: "Crear cuenta" (por defecto), "Mi cuenta" o ninguno.
  */
-export function LandingNavbar({ fueraDeLanding = false }: { fueraDeLanding?: boolean }) {
+export function LandingNavbar({
+  fueraDeLanding = false,
+  accion = 'crear-cuenta',
+}: {
+  fueraDeLanding?: boolean;
+  accion?: 'crear-cuenta' | 'mi-cuenta' | 'ninguna';
+}) {
   const [activa, setActiva] = useState<SeccionLanding | null>(fueraDeLanding ? null : 'inicio');
   const base = fueraDeLanding ? '/' : '';
 
@@ -81,11 +88,13 @@ export function LandingNavbar({ fueraDeLanding = false }: { fueraDeLanding?: boo
               Iniciar sesión
             </BotonLanding>
           )}
-          <span className="hidden sm:inline-flex">
-            <BotonLanding href={`${base}#nosotros`} className="!px-4 !py-2.5">
-              Solicitar demo
-            </BotonLanding>
-          </span>
+          {accion !== 'ninguna' && (
+            <span className="hidden sm:inline-flex">
+              <BotonLanding href={accion === 'mi-cuenta' ? '/cuenta' : '/registro'} className="!px-4 !py-2.5">
+                {accion === 'mi-cuenta' ? 'Mi cuenta' : 'Crear cuenta'}
+              </BotonLanding>
+            </span>
+          )}
         </div>
       </nav>
     </header>

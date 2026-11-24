@@ -27,6 +27,7 @@ import {
   Wrench,
   BarChart3,
   Settings,
+  ShoppingCart,
   LogOut,
   PanelLeftClose,
   PanelLeftOpen,
@@ -56,6 +57,7 @@ const NAV_ICONS: Record<BranchNavIconName, React.ReactNode> = {
   activos: <Wrench className="w-4 h-4 shrink-0" />,
   reportes: <BarChart3 className="w-4 h-4 shrink-0" />,
   configuracion: <Settings className="w-4 h-4 shrink-0" />,
+  pos: <ShoppingCart className="w-4 h-4 shrink-0" />,
 };
 
 export function BranchSidebar({
@@ -63,7 +65,7 @@ export function BranchSidebar({
   onCloseMobile,
   className = '',
 }: BranchSidebarProps) {
-  const { logout } = useAuth();
+  const { logout, tienePermiso } = useAuth();
   const pathname = usePathname() || '';
   const [colapsado, setColapsado] = useState(false);
 
@@ -173,9 +175,11 @@ export function BranchSidebar({
             aria-label="Navegación principal"
           >
             {BRANCH_NAV_CATEGORIES.map((categoria) => {
+              // Solo las opciones que su plan y su rol permiten (permisos efectivos).
               const itemsCategoria = BRANCH_NAV_ITEMS.filter(
-                (it) => it.categoria === categoria,
+                (it) => it.categoria === categoria && (!it.permiso || tienePermiso(it.permiso)),
               );
+              if (itemsCategoria.length === 0) return null;
               return (
                 <div
                   key={categoria}
