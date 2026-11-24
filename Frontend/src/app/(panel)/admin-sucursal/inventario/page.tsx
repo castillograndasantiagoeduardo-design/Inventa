@@ -5,7 +5,7 @@
  * Vista principal rediseñada con glassmorphism, KPIs interactivos y acciones modales.
  */
 
-import React, { Suspense, useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { usePermissions } from '@/features/autenticacion';
 import { useBranchInventory } from '@/features/admin-sucursal';
@@ -151,17 +151,17 @@ function InventarioProductosContenido() {
   };
 
   // Consultar Kardex para el modal rápido
-  const handleConsultarKardexRapido = async (params: any) => {
+  const handleConsultarKardexRapido = useCallback(async (params: any) => {
     setKardexLoading(true);
     try {
       const res = await branchInventoryService.consultarKardex(params);
-      setKardexMovimientos(res.items);
+      setKardexMovimientos(res?.items || []);
     } catch {
       setKardexMovimientos([]);
     } finally {
       setKardexLoading(false);
     }
-  };
+  }, []);
 
   return (
     <div className="space-y-6">

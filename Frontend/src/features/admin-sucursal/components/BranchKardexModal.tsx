@@ -5,7 +5,7 @@
  * Migrado a Modal.tsx para accesibilidad y diseño unificado.
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Modal } from '@/components/ui/Modal';
 import type {
   ProductoInventarioSede,
@@ -41,18 +41,25 @@ export function BranchKardexModal({
   const [productoFiltro, setProductoFiltro] = useState<string>('');
   const [tipoFiltro, setTipoFiltro] = useState<string>('todos');
 
+  const onConsultarKardexRef = useRef(onConsultarKardex);
+  useEffect(() => {
+    onConsultarKardexRef.current = onConsultarKardex;
+  });
+
+  const productoInicialId = productoInicial?.id;
+
   useEffect(() => {
     if (isOpen) {
-      const prodId = productoInicial ? productoInicial.id : '';
+      const prodId = productoInicialId || '';
       setProductoFiltro(prodId);
       setTipoFiltro('todos');
-      onConsultarKardex({
+      onConsultarKardexRef.current({
         sucursalId,
         productoId: prodId || undefined,
         limit: 50,
       });
     }
-  }, [isOpen, productoInicial, sucursalId, onConsultarKardex]);
+  }, [isOpen, productoInicialId, sucursalId]);
 
   const handleFiltrar = (tipo?: string, prodId?: string) => {
     const t = tipo !== undefined ? tipo : tipoFiltro;
