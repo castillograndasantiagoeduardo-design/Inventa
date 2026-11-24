@@ -3,12 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { formatCOP } from '@/lib/format/moneda';
 import { branchInventoryService } from '../../api/branch-inventory.service';
-import type { ProductoInventarioSede, MovimientoKardexItem } from '../../types/branch-inventory.types';
+import type { ProductoInventarioSede, MovimientoKardexItem, ProveedorInventario } from '../../types/branch-inventory.types';
 
 interface ProductDrawerProps {
   open: boolean;
   producto: ProductoInventarioSede | null;
   sucursalId: number;
+  proveedores?: ProveedorInventario[];
   onClose: () => void;
   onEditar: (producto: ProductoInventarioSede) => void;
   onVerKardex: (producto: ProductoInventarioSede) => void;
@@ -22,6 +23,7 @@ export function ProductDrawer({
   open,
   producto,
   sucursalId,
+  proveedores = [],
   onClose,
   onEditar,
   onVerKardex,
@@ -270,7 +272,11 @@ export function ProductDrawer({
               <div>
                 <span className="text-text-muted block">Proveedor asignado</span>
                 <span className="text-text font-medium">
-                  {producto.proveedorNombre || (producto.proveedorId ? `Proveedor #${producto.proveedorId}` : 'Sin proveedor')}
+                  {producto.proveedorNombre ||
+                    (producto.proveedorId && proveedores.length > 0
+                      ? proveedores.find((p) => p.id === producto.proveedorId)?.nombre
+                      : null) ||
+                    (producto.proveedorId ? `Proveedor #${producto.proveedorId}` : 'Sin proveedor')}
                 </span>
               </div>
             </div>

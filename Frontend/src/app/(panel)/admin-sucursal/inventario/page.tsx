@@ -267,6 +267,7 @@ function InventarioProductosContenido() {
         open={drawerOpen}
         producto={productoSeleccionado}
         sucursalId={sucursalId}
+        proveedores={proveedores}
         onClose={() => setDrawerOpen(false)}
         onEditar={(p) => {
           setDrawerOpen(false);
@@ -305,6 +306,7 @@ function InventarioProductosContenido() {
         onProductoCreado={recargar}
         sucursalId={sucursalId}
         categorias={categorias}
+        proveedores={proveedores}
       />
 
       <EditProductModal

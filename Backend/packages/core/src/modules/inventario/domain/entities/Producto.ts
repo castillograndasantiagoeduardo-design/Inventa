@@ -21,6 +21,7 @@ export class Producto {
     public readonly stockActual?: number,
     public readonly stockMinimo?: number,
     public readonly estadoStock?: 'optimo' | 'bajo' | 'agotado',
+    public readonly proveedorNombre?: string | null,
   ) {
     this.advertencia =
       advertencia !== undefined
@@ -54,6 +55,7 @@ export class Producto {
       this.stockActual,
       this.stockMinimo,
       this.estadoStock,
+      this.proveedorNombre,
     );
   }
 
@@ -74,6 +76,7 @@ export class Producto {
       this.stockActual,
       this.stockMinimo,
       this.estadoStock,
+      this.proveedorNombre,
     );
   }
 }

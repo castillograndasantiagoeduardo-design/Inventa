@@ -115,6 +115,13 @@ export class RegistrarEntradaInventarioUseCase {
       usuarioId: request.actor.usuarioId,
     });
 
+    // Si se suministró un proveedor en la entrada, asociarlo al producto en catálogo
+    if (request.proveedorId !== undefined && request.proveedorId !== null) {
+      await this.productoRepository.actualizar(request.productoId, {
+        proveedorId: request.proveedorId,
+      });
+    }
+
     const stockNuevo = stockAnterior + request.cantidad;
 
     // 7. Auditar mutación (RNF-ADM-02)

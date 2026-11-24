@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { crearProductoSchema } from '@warengine/contracts';
 import { Modal } from '@/components/ui/Modal';
 import { apiClient, ApiError } from '@/lib/api';
-import type { CategoriaInventario } from '../types/branch-inventory.types';
+import type { CategoriaInventario, ProveedorInventario } from '../types/branch-inventory.types';
 
 interface CreateProductModalProps {
   isOpen: boolean;
@@ -18,6 +18,7 @@ interface CreateProductModalProps {
   /** Sede de la sesión del admin: el stock mínimo se configura en ella. */
   sucursalId: number;
   categorias?: CategoriaInventario[];
+  proveedores?: ProveedorInventario[];
   categoriaPreseleccionadaId?: number | null;
 }
 
@@ -36,11 +37,13 @@ export function CreateProductModal({
   onProductoCreado,
   sucursalId,
   categorias = [],
+  proveedores = [],
   categoriaPreseleccionadaId,
 }: CreateProductModalProps) {
   const [sku, setSku] = useState('');
   const [nombre, setNombre] = useState('');
   const [categoriaId, setCategoriaId] = useState<number | ''>('');
+  const [proveedorId, setProveedorId] = useState<number | ''>('');
   const [precioVenta, setPrecioVenta] = useState('');
   const [precioCompra, setPrecioCompra] = useState('');
   const [precioCorporativo, setPrecioCorporativo] = useState('');
@@ -59,6 +62,7 @@ export function CreateProductModal({
     setSku('');
     setNombre('');
     setCategoriaId(categoriaPreseleccionadaId ?? '');
+    setProveedorId('');
     setPrecioVenta('');
     setPrecioCompra('');
     setPrecioCorporativo('');
@@ -81,6 +85,7 @@ export function CreateProductModal({
       sku: sku.trim(),
       nombre: nombre.trim(),
       categoriaId: categoriaId === '' ? undefined : Number(categoriaId),
+      proveedorId: proveedorId === '' ? undefined : Number(proveedorId),
       precioVenta: Number(precioVenta),
       precioCompra: aNumeroOpcional(precioCompra),
       precioCorporativo: aNumeroOpcional(precioCorporativo),
@@ -246,7 +251,7 @@ export function CreateProductModal({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label className="block text-xs font-semibold text-text-muted mb-1">
               Categoría
@@ -267,7 +272,25 @@ export function CreateProductModal({
 
           <div>
             <label className="block text-xs font-semibold text-text-muted mb-1">
-              Stock Mínimo (Umbral de alerta en sede)
+              Proveedor asignado
+            </label>
+            <select
+              value={proveedorId}
+              onChange={(e) => setProveedorId(e.target.value ? Number(e.target.value) : '')}
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
+            >
+              <option value="" className="bg-black text-white">Sin proveedor asignado</option>
+              {proveedores.map((pr) => (
+                <option key={pr.id} value={pr.id} className="bg-black text-white">
+                  {pr.nombre}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-text-muted mb-1">
+              Stock Mínimo (Umbral)
             </label>
             <input
               type="number"

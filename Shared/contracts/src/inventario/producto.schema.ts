@@ -132,6 +132,7 @@ export const productoResponseSchema = z.object({
   categoriaId: z.number().int().nullable(),
   categoriaNombre: z.string().nullable().optional(),
   proveedorId: z.number().int().nullable().optional(),
+  proveedorNombre: z.string().nullable().optional(),
   precioCompra: z.number().optional(),
   precioVenta: z.number(),
   precioCorporativo: z.number().nullable(),

@@ -5,6 +5,7 @@ import {
   inventario_sucursal,
   movimientos_inventario,
   productos,
+  proveedores,
 } from '../../schema/inventario.schema.ts';
 import {
   DatosActualizarProducto,
@@ -151,6 +152,7 @@ export class DrizzleProductoRepository implements IProductoRepository {
           categoria_id: productos.categoria_id,
           categoria_nombre: categorias.nombre,
           proveedor_id: productos.proveedor_id,
+          proveedor_nombre: proveedores.nombre,
           precio_compra: productos.precio_compra,
           precio_venta: productos.precio_venta,
           precio_corporativo: productos.precio_corporativo,
@@ -161,6 +163,7 @@ export class DrizzleProductoRepository implements IProductoRepository {
         })
         .from(productos)
         .leftJoin(categorias, eq(productos.categoria_id, categorias.id_categoria))
+        .leftJoin(proveedores, eq(productos.proveedor_id, proveedores.id_proveedor))
         .leftJoin(
           inventario_sucursal,
           and(
@@ -181,6 +184,7 @@ export class DrizzleProductoRepository implements IProductoRepository {
           categoria_id: productos.categoria_id,
           categoria_nombre: categorias.nombre,
           proveedor_id: productos.proveedor_id,
+          proveedor_nombre: proveedores.nombre,
           precio_compra: productos.precio_compra,
           precio_venta: productos.precio_venta,
           precio_corporativo: productos.precio_corporativo,
@@ -191,6 +195,7 @@ export class DrizzleProductoRepository implements IProductoRepository {
         })
         .from(productos)
         .leftJoin(categorias, eq(productos.categoria_id, categorias.id_categoria))
+        .leftJoin(proveedores, eq(productos.proveedor_id, proveedores.id_proveedor))
         .where(whereClause)
         .orderBy(productos.nombre)
         .limit(limit)
@@ -212,8 +217,23 @@ export class DrizzleProductoRepository implements IProductoRepository {
 
   public async findById(id: string): Promise<Producto | null> {
     const [row] = await this.db
-      .select()
+      .select({
+        id_producto: productos.id_producto,
+        sku: productos.sku,
+        nombre: productos.nombre,
+        categoria_id: productos.categoria_id,
+        categoria_nombre: categorias.nombre,
+        proveedor_id: productos.proveedor_id,
+        proveedor_nombre: proveedores.nombre,
+        precio_compra: productos.precio_compra,
+        precio_venta: productos.precio_venta,
+        precio_corporativo: productos.precio_corporativo,
+        precio_corporativo_actualizado_en: productos.precio_corporativo_actualizado_en,
+        is_active: productos.is_active,
+      })
       .from(productos)
+      .leftJoin(categorias, eq(productos.categoria_id, categorias.id_categoria))
+      .leftJoin(proveedores, eq(productos.proveedor_id, proveedores.id_proveedor))
       .where(eq(productos.id_producto, id))
       .limit(1);
     return row ? productoFromRow(row) : null;
@@ -221,8 +241,23 @@ export class DrizzleProductoRepository implements IProductoRepository {
 
   public async findBySku(sku: string): Promise<Producto | null> {
     const [row] = await this.db
-      .select()
+      .select({
+        id_producto: productos.id_producto,
+        sku: productos.sku,
+        nombre: productos.nombre,
+        categoria_id: productos.categoria_id,
+        categoria_nombre: categorias.nombre,
+        proveedor_id: productos.proveedor_id,
+        proveedor_nombre: proveedores.nombre,
+        precio_compra: productos.precio_compra,
+        precio_venta: productos.precio_venta,
+        precio_corporativo: productos.precio_corporativo,
+        precio_corporativo_actualizado_en: productos.precio_corporativo_actualizado_en,
+        is_active: productos.is_active,
+      })
       .from(productos)
+      .leftJoin(categorias, eq(productos.categoria_id, categorias.id_categoria))
+      .leftJoin(proveedores, eq(productos.proveedor_id, proveedores.id_proveedor))
       .where(eq(productos.sku, sku))
       .limit(1);
     return row ? productoFromRow(row) : null;
