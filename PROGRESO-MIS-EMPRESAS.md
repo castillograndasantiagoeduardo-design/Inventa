@@ -65,4 +65,5 @@
 | Fase 3 | 14 | `8b29b28` | Entidad `CreditoB2B` con estado derivado y días de mora | `credito-b2b.entity.test.ts` |
 | Fase 3 | 15 | `3f93e7d` | Puerto `ICarteraRepository` | Contrato de persistencia en `core/` |
 | Fase 3 | 16 | `df6a01d` | Servicio puro `CalculadorRentabilidadCliente` + pruebas | `calculador-rentabilidad-cliente.test.ts` (3/3) |
-| Fase 3 | 17 | `pendiente` | `ListarEmpresasB2BUseCase` + pruebas | `listar-empresas-b2b.use-case.test.ts` |
+| Fase 3 | 17 | `fce1704` | `ListarEmpresasB2BUseCase` + pruebas | `listar-empresas-b2b.use-case.test.ts` (1/1) |
+| Fase 3 | 18 | `pendiente` | `ObtenerEmpresaB2BDetalleUseCase` + pruebas | `obtener-empresa-b2b-detalle.use-case.test.ts` |
