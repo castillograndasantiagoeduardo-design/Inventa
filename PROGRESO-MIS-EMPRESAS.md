@@ -67,4 +67,5 @@
 | Fase 3 | 16 | `df6a01d` | Servicio puro `CalculadorRentabilidadCliente` + pruebas | `calculador-rentabilidad-cliente.test.ts` (3/3) |
 | Fase 3 | 17 | `fce1704` | `ListarEmpresasB2BUseCase` + pruebas | `listar-empresas-b2b.use-case.test.ts` (1/1) |
 | Fase 3 | 18 | `b9aa284` | `ObtenerEmpresaB2BDetalleUseCase` + pruebas | `obtener-empresa-b2b-detalle.use-case.test.ts` (2/2) |
-| Fase 3 | 19 | `pendiente` | `ListarCarteraUseCase` + pruebas | `listar-cartera.use-case.test.ts` |
+| Fase 3 | 19 | `0527125` | `ListarCarteraUseCase` + pruebas | `listar-cartera.use-case.test.ts` (1/1) |
+| Fase 3 | 20 | `pendiente` | `ListarEmpresasEnMoraUseCase` + pruebas | `listar-empresas-en-mora.use-case.test.ts` |
