@@ -117,6 +117,7 @@ export interface EmpresaB2BResumenDto {
 export interface EmpresaB2BDetalleDto extends EmpresaB2BResumenDto {
   creditos: CreditoB2BDto[];
   abonosRecientes: AbonoCreditoDto[];
+  avisosPago: AvisoPagoCreditoDto[];
 }
 
 const numeroOpcionalCartera = (valor: unknown) => {
@@ -219,3 +220,77 @@ export const filtrosCarteraB2BSchema = z.object({
 });
 
 export type FiltrosCarteraB2B = z.infer<typeof filtrosCarteraB2BSchema>;
+
+/**
+ * Aviso de pago reportado por el vendedor B2B para revisión del admin de sucursal.
+ */
+export interface AvisoPagoCreditoDto {
+  id: string;
+  creditoId: string;
+  facturaId: string;
+  facturaConsecutivo: number;
+  clienteId: string;
+  clienteNombre: string;
+  sucursalId: number;
+  monto: number;
+  saldoActualCredito: number;
+  referencia: string;
+  nota: string | null;
+  estado: EstadoAvisoPago;
+  avisadoPor: string;
+  avisadoPorNombre: string | null;
+  fechaAviso: string;
+  revisadoPor: string | null;
+  revisadoPorNombre: string | null;
+  fechaRevision: string | null;
+  motivoRechazo: string | null;
+}
+
+export const avisarPagoCreditoSchema = z.object({
+  monto: z.coerce
+    .number({ required_error: 'El monto del pago es obligatorio.' })
+    .positive({ message: 'El monto debe ser mayor a 0.' })
+    .max(999_999_999_999),
+  referencia: z
+    .string({ required_error: 'La referencia de pago es obligatoria.' })
+    .trim()
+    .min(3, { message: 'La referencia debe tener al menos 3 caracteres.' })
+    .max(100, { message: 'La referencia no puede exceder 100 caracteres.' }),
+  nota: z.preprocess(
+    textoOpcionalCartera,
+    z.string().trim().max(300, { message: 'La nota no puede exceder 300 caracteres.' }).optional(),
+  ),
+});
+
+export type AvisarPagoInput = z.infer<typeof avisarPagoCreditoSchema>;
+
+export const resolverAvisoPagoSchema = z
+  .object({
+    decision: z.enum(['confirmar', 'rechazar'], {
+      message: 'La decisión debe ser confirmar o rechazar.',
+    }),
+    motivoRechazo: z.preprocess(
+      textoOpcionalCartera,
+      z.string().trim().max(300, { message: 'El motivo de rechazo no puede exceder 300 caracteres.' }).optional(),
+    ),
+  })
+  .superRefine((datos, ctx) => {
+    if (datos.decision === 'rechazar' && (!datos.motivoRechazo || datos.motivoRechazo.trim().length < 5)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['motivoRechazo'],
+        message: 'Debes indicar un motivo de rechazo (mínimo 5 caracteres).',
+      });
+    }
+  });
+
+export type ResolverAvisoInput = z.infer<typeof resolverAvisoPagoSchema>;
+
+export const filtrosAvisosPagoSchema = z.object({
+  estado: z.preprocess(textoOpcionalCartera, z.enum(ESTADOS_AVISO_PAGO).optional()),
+  clienteId: z.preprocess(textoOpcionalCartera, z.string().uuid().optional()),
+  pagina: z.coerce.number().int().min(1).default(1),
+  limite: z.coerce.number().int().min(1).max(100).default(20),
+});
+
+export type FiltrosAvisosPago = z.infer<typeof filtrosAvisosPagoSchema>;
