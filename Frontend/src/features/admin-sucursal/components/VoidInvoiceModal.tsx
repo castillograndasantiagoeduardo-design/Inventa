@@ -70,17 +70,17 @@ export function VoidInvoiceModal({
     <Modal
       open={isOpen}
       onClose={onClose}
-      title={`Anular Factura ${factura.folioFormateado}`}
-      description="Operación administrativa irreversible con reversión automática de existencias."
+      title={`Anular factura ${factura.folioFormateado}`}
+      description="Operación administrativa irreversible con reversión automática de existencias"
       size="md"
       locked={isSubmitting}
       footer={
-        <div className="flex w-full items-center justify-end gap-3">
+        <div className="flex w-full items-center justify-end gap-2">
           <button
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2 rounded-xl border border-white/20 text-slate-300 hover:text-white hover:bg-white/[0.05] transition-colors text-xs font-semibold cursor-pointer disabled:opacity-40"
+            className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text transition-colors text-xs font-semibold cursor-pointer disabled:opacity-40"
           >
             Cancelar
           </button>
@@ -88,61 +88,61 @@ export function VoidInvoiceModal({
             type="button"
             onClick={handleSubmit}
             disabled={isSubmitting || motivo.trim().length < 5}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white text-xs font-bold uppercase tracking-wider border border-red-400/30 shadow-[0_4px_15px_rgba(220,38,38,0.4)] active:translate-y-0.5 transition-all cursor-pointer disabled:opacity-50"
+            className="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all cursor-pointer disabled:opacity-40"
           >
-            {isSubmitting ? 'Anulando...' : 'Confirmar Anulación'}
+            {isSubmitting ? 'Anulando...' : 'Confirmar anulación'}
           </button>
         </div>
       }
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {errorMsg && (
-          <div className="p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-200 text-xs">
+          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/25 text-red-600 dark:text-red-300 text-xs">
             {errorMsg}
           </div>
         )}
 
         {/* Resumen de la Factura */}
-        <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-2 text-xs">
-          <div className="flex justify-between items-center text-slate-400">
-            <span>Cliente:</span>
-            <span className="font-semibold text-white">
+        <div className="vidrio rounded-xl p-4 border border-border space-y-2 text-xs">
+          <div className="flex justify-between items-center text-text-muted">
+            <span>Cliente</span>
+            <span className="font-semibold text-text">
               {factura.clienteNombre} ({factura.clienteDocumento})
             </span>
           </div>
-          <div className="flex justify-between items-center text-slate-400">
-            <span>Fecha de emisión:</span>
-            <span className="font-mono text-slate-300">{factura.fechaFormateada}</span>
+          <div className="flex justify-between items-center text-text-muted">
+            <span>Fecha de emisión</span>
+            <span className="font-mono text-text">{factura.fechaFormateada}</span>
           </div>
           <div className="flex justify-between items-center text-text-muted">
-            <span>Monto total:</span>
-            <span className="font-mono font-bold text-brand-600 dark:text-brand-400 text-sm">
+            <span>Monto total</span>
+            <span className="font-mono font-bold text-text text-sm">
               {factura.totalFormateado}
             </span>
           </div>
-          <div className="flex justify-between items-center text-slate-400">
-            <span>Productos vendidos:</span>
-            <span className="font-mono text-slate-200">{factura.items.length} ítem(s)</span>
+          <div className="flex justify-between items-center text-text-muted">
+            <span>Productos vendidos</span>
+            <span className="font-mono text-text">{factura.items.length} ítem(s)</span>
           </div>
         </div>
 
         {/* Advertencia de Reposición de Stock (RF-FMC-E10) */}
-        <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-200 text-xs space-y-1">
-          <p className="font-bold flex items-center gap-1.5 text-amber-300">
+        <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/25 text-xs space-y-1">
+          <p className="font-semibold flex items-center gap-1.5 text-rose-600 dark:text-rose-300">
             <span aria-hidden="true">⚠️</span>
-            <span>Impacto en Inventario & Kardex</span>
+            <span>Impacto en inventario y Kardex</span>
           </p>
-          <p className="text-[11px] leading-relaxed text-amber-200/90">
+          <p className="text-[11px] leading-relaxed text-text-muted">
             Al confirmar esta anulación, las cantidades de los productos facturados serán{' '}
-            <strong className="text-white">reintegradas automáticamente al stock físico de la sucursal</strong>{' '}
+            <strong className="text-text">reintegradas automáticamente al stock físico de la sucursal</strong>{' '}
             con un movimiento de reversión en el Kardex.
           </p>
         </div>
 
         {/* Motivo Obligatorio */}
         <div>
-          <label htmlFor="void-reason" className="block text-xs font-semibold text-slate-300 mb-1.5">
-            Motivo de la anulación <span className="text-red-400">*</span>
+          <label htmlFor="void-reason" className="block text-xs font-medium text-text-muted mb-1">
+            Motivo de la anulación <span className="text-rose-500">*</span>
           </label>
           <textarea
             id="void-reason"
@@ -151,10 +151,10 @@ export function VoidInvoiceModal({
             onChange={(e) => setMotivo(e.target.value)}
             placeholder="Ej. Error en medio de pago / Devolución total por cliente..."
             maxLength={255}
-            className="w-full p-3 rounded-xl bg-white/[0.04] border border-white/[0.1] text-xs text-white placeholder-slate-400 focus:outline-none focus:border-red-500/60 focus:ring-1 focus:ring-red-500/40 resize-none"
+            className="w-full p-3 rounded-xl superficie-control border border-border text-xs text-text placeholder:text-text-muted focus:outline-none focus:border-rose-500 resize-none"
             required
           />
-          <div className="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
+          <div className="flex justify-between text-[10px] text-text-muted mt-1 font-mono">
             <span>Mínimo 5 caracteres</span>
             <span>{motivo.length} / 255</span>
           </div>

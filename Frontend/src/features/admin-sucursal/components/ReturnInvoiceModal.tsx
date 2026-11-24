@@ -151,15 +151,15 @@ export function ReturnInvoiceModal({
     <Modal
       open={open}
       onClose={onClose}
-      title={`Registrar Devolución — ${factura.folioFormateado}`}
-      description="Registra la devolución total o parcial de productos con cálculo de reembolso y reingreso a kardex."
+      title={`Registrar devolución — ${factura.folioFormateado}`}
+      description="Registra la devolución total o parcial de productos con cálculo de reembolso y reingreso a Kardex"
       size="lg"
       locked={isSubmitting}
       footer={
         <div className="flex w-full items-center justify-between gap-3">
           <div className="text-xs">
             <span className="text-text-muted">Reembolso estimado: </span>
-            <span className="font-mono font-bold text-brand-600 dark:text-brand-400 text-sm">
+            <span className="font-mono font-bold text-text text-sm">
               {formatCOP(totalReembolsoEstimado)}
             </span>
           </div>
@@ -169,7 +169,7 @@ export function ReturnInvoiceModal({
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2 rounded-xl border border-white/20 text-slate-300 hover:text-white hover:bg-white/[0.05] transition-colors text-xs font-semibold cursor-pointer disabled:opacity-40"
+              className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text transition-colors text-xs font-semibold cursor-pointer disabled:opacity-40"
             >
               Cancelar
             </button>
@@ -182,9 +182,9 @@ export function ReturnInvoiceModal({
                 (!devolverTodo && totalReembolsoEstimado <= 0) ||
                 !hayItemsDevolvibles
               }
-              className="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-btn-primario-texto text-xs font-bold uppercase tracking-wider shadow-md transition-all cursor-pointer disabled:opacity-40"
+              className="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold shadow-lg shadow-rose-500/20 transition-all cursor-pointer disabled:opacity-40"
             >
-              {isSubmitting ? 'Registrando...' : 'Confirmar Devolución'}
+              {isSubmitting ? 'Registrando...' : 'Confirmar devolución'}
             </button>
           </div>
         </div>
@@ -192,25 +192,25 @@ export function ReturnInvoiceModal({
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {errorMsg && (
-          <div className="p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-200 text-xs">
+          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/25 text-red-600 dark:text-red-300 text-xs">
             {errorMsg}
           </div>
         )}
 
         {!hayItemsDevolvibles ? (
-          <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-200 text-xs text-center">
+          <div className="p-4 rounded-xl superficie-control border border-border text-text-muted text-xs text-center">
             Esta factura ya no tiene unidades disponibles para devolver.
           </div>
         ) : (
           <>
             {/* Opciones Generales */}
-            <div className="p-3.5 rounded-xl superficie-control border border-border flex flex-wrap items-center justify-between gap-4 text-xs">
+            <div className="p-3.5 rounded-xl vidrio border border-border flex flex-wrap items-center justify-between gap-4 text-xs">
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <input
                   type="checkbox"
                   checked={devolverTodo}
                   onChange={(e) => setDevolverTodo(e.target.checked)}
-                  className="rounded border-border bg-transparent text-brand-600 focus:ring-0 cursor-pointer h-4 w-4"
+                  className="rounded border-border bg-transparent text-rose-500 focus:ring-0 cursor-pointer h-4 w-4"
                 />
                 <span className="font-semibold text-text">Devolución total de la factura</span>
                 <span className="text-[11px] text-text-muted">(Devuelve todo el remanente disponible)</span>
@@ -221,22 +221,22 @@ export function ReturnInvoiceModal({
                   type="checkbox"
                   checked={reingresaStock}
                   onChange={(e) => setReingresaStock(e.target.checked)}
-                  className="rounded border-border bg-transparent text-brand-600 focus:ring-0 cursor-pointer h-4 w-4"
+                  className="rounded border-border bg-transparent text-rose-500 focus:ring-0 cursor-pointer h-4 w-4"
                 />
                 <span className="text-text">Reingresar stock al inventario</span>
               </label>
             </div>
 
             {/* Tabla de Selección de Ítems */}
-            <div className="space-y-2">
-              <span className="text-xs font-bold text-slate-200 uppercase tracking-wider block">
-                Selección de Unidades por Producto
+            <div className="vidrio rounded-xl p-4 border border-border space-y-2.5">
+              <span className="text-[11px] font-semibold text-text-muted uppercase tracking-wider block">
+                Selección de unidades por producto
               </span>
 
-              <div className="rounded-xl border border-white/[0.08] overflow-hidden bg-white/[0.01]">
+              <div className="rounded-xl border border-border overflow-hidden">
                 <table className="w-full text-left text-xs">
                   <thead>
-                    <tr className="border-b border-white/[0.06] bg-white/[0.02] text-slate-400 text-[10px] uppercase font-mono">
+                    <tr className="border-b border-border superficie-control text-text-muted text-[10px] uppercase font-mono">
                       <th scope="col" className="py-2.5 px-3">Producto</th>
                       <th scope="col" className="py-2.5 px-3 text-center">Facturado</th>
                       <th scope="col" className="py-2.5 px-3 text-center">Ya Devuelto</th>
@@ -244,29 +244,29 @@ export function ReturnInvoiceModal({
                       <th scope="col" className="py-2.5 px-3 text-right">Cant. a Devolver</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/[0.04]">
+                  <tbody className="divide-y divide-border">
                     {itemsConRemanente.map((it) => {
                       const cantActual = devolverTodo ? it.disponible : (cantidades[it.id] || 0);
                       return (
-                        <tr key={it.id} className="hover:bg-white/[0.02] transition-colors">
+                        <tr key={it.id} className="hover:bg-slate-900/5 dark:hover:bg-white/[0.02] transition-colors">
                           <td className="py-2.5 px-3">
-                            <span className="font-semibold text-white block">{it.productoNombre}</span>
-                            <span className="text-[10px] text-slate-400 font-mono">
+                            <span className="font-semibold text-text block">{it.productoNombre}</span>
+                            <span className="text-[10px] text-text-muted font-mono">
                               Unitario: {formatCOP(it.precioUnitario)}
                             </span>
                           </td>
-                          <td className="py-2.5 px-3 text-center font-mono text-slate-300">
+                          <td className="py-2.5 px-3 text-center font-mono text-text-muted">
                             {it.cantidad}
                           </td>
-                          <td className="py-2.5 px-3 text-center font-mono text-amber-300">
+                          <td className="py-2.5 px-3 text-center font-mono text-text-muted">
                             {it.yaDevuelto}
                           </td>
-                          <td className="py-2.5 px-3 text-center font-mono font-bold text-emerald-400">
+                          <td className="py-2.5 px-3 text-center font-mono font-bold text-emerald-600 dark:text-emerald-400">
                             {it.disponible}
                           </td>
                           <td className="py-2.5 px-3 text-right">
                             {devolverTodo ? (
-                              <span className="font-mono font-bold text-brand-600 dark:text-brand-400">
+                              <span className="font-mono font-bold text-text">
                                 {it.disponible}
                               </span>
                             ) : (
@@ -285,7 +285,7 @@ export function ReturnInvoiceModal({
                                   )
                                 }
                                 aria-label={`Cantidad a devolver para ${it.productoNombre}`}
-                                className="w-20 px-2 py-1 rounded-lg superficie-control border border-border text-right font-mono text-xs text-text focus:outline-none focus:border-brand-500/60 disabled:opacity-30"
+                                className="w-20 px-2 py-1 rounded-lg superficie-control border border-border text-right font-mono text-xs text-text focus:outline-none focus:border-rose-500 disabled:opacity-30"
                               />
                             )}
                           </td>
@@ -299,8 +299,8 @@ export function ReturnInvoiceModal({
 
             {/* Motivo Obligatorio */}
             <div>
-              <label htmlFor="return-reason" className="block text-xs font-semibold text-slate-300 mb-1.5">
-                Motivo de la devolución <span className="text-amber-400">*</span>
+              <label htmlFor="return-reason" className="block text-xs font-medium text-text-muted mb-1">
+                Motivo de la devolución <span className="text-rose-500">*</span>
               </label>
               <textarea
                 id="return-reason"
@@ -309,10 +309,10 @@ export function ReturnInvoiceModal({
                 onChange={(e) => setMotivo(e.target.value)}
                 placeholder="Ej. Producto defectuoso / Error de digitación en caja / Cambio solicitado por cliente..."
                 maxLength={255}
-                className="w-full p-3 rounded-xl bg-white/[0.04] border border-white/[0.1] text-xs text-white placeholder-slate-400 focus:outline-none focus:border-amber-500/60 resize-none"
+                className="w-full p-3 rounded-xl superficie-control border border-border text-xs text-text placeholder:text-text-muted focus:outline-none focus:border-rose-500 resize-none"
                 required
               />
-              <div className="flex justify-between text-[10px] text-slate-400 mt-1 font-mono">
+              <div className="flex justify-between text-[10px] text-text-muted mt-1 font-mono">
                 <span>Mínimo 5 caracteres</span>
                 <span>{motivo.length} / 255</span>
               </div>
