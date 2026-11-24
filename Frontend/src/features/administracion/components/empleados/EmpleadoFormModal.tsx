@@ -45,7 +45,7 @@ export function EmpleadoFormModal({ empleado, onClose, onGuardado }: EmpleadoFor
     >
       <form id={formId} onSubmit={handleSubmit} noValidate className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         {errorGeneral && (
-          <p role="alert" className="sm:col-span-2 rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+          <p role="alert" className="sm:col-span-2 rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-600 dark:text-red-200">
             {errorGeneral}
           </p>
         )}
@@ -86,12 +86,12 @@ export function EmpleadoFormModal({ empleado, onClose, onGuardado }: EmpleadoFor
           error={errores.direccion}
           maxLength={255}
         />
-        <label className="sm:col-span-2 flex min-h-[44px] cursor-pointer items-center gap-3 text-sm text-white/80">
+        <label className="sm:col-span-2 flex min-h-[44px] cursor-pointer items-center gap-3 text-sm text-text">
           <input
             type="checkbox"
             checked={valores.isActive}
             onChange={(e) => setCampo('isActive', e.target.checked)}
-            className="h-5 w-5 accent-[#e3b341]"
+            className="h-4 w-4 accent-[var(--p-600,#2551d6)]"
           />
           Empleado activo
         </label>

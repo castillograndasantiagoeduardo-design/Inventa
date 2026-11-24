@@ -17,12 +17,12 @@ const COLUMNAS: DataTableColumn<UsuarioAsignado>[] = [
     header: 'Nombre',
     render: (u) => (
       <div>
-        <p className="text-white">{u.nombre}</p>
-        <p className="text-xs text-white/50">{u.email}</p>
+        <p className="font-medium text-text">{u.nombre}</p>
+        <p className="text-xs text-text-muted">{u.email}</p>
       </div>
     ),
   },
-  { key: 'cargo', header: 'Cargo', render: (u) => u.cargo || <span className="text-white/35">—</span> },
+  { key: 'cargo', header: 'Cargo', render: (u) => u.cargo || <span className="text-text-muted/60">—</span> },
   { key: 'rolNombre', header: 'Rol', render: (u) => <Badge tone="info">{u.rolNombre}</Badge> },
   {
     key: 'esSedePrincipal',
@@ -39,7 +39,7 @@ const COLUMNAS: DataTableColumn<UsuarioAsignado>[] = [
 export function SucursalUsuarios({ usuarios }: { usuarios: UsuarioAsignado[] }) {
   return (
     <section>
-      <h2 className="mb-3 font-[family-name:var(--font-anton)] uppercase tracking-wider text-lg text-white">Personal asignado</h2>
+      <h2 className="mb-3 font-titulos font-semibold tracking-[-0.005em] text-lg text-text">Personal asignado</h2>
       <DataTable
         caption="Usuarios asignados a la sucursal"
         columns={COLUMNAS}

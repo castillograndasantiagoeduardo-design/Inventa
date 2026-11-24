@@ -42,7 +42,7 @@ export function RestablecerPasswordModal({ usuario, onClose, onHecho }: Restable
       }
     >
       <form id={formId} onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
-        {errorGeneral && <p role="alert" className="text-sm text-red-300">{errorGeneral}</p>}
+        {errorGeneral && <p role="alert" className="text-sm text-red-600 dark:text-red-300">{errorGeneral}</p>}
         <TextField
           label="Nueva contraseña temporal"
           required

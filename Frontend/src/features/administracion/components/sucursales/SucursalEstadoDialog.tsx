@@ -29,14 +29,14 @@ export function SucursalEstadoDialog({ sucursal, procesando, onConfirm, onCancel
       message={
         activar ? (
           <p>
-            <strong className="text-white">{sucursal?.nombre}</strong> volverá a estar disponible para asignar personal y operar.
+            <strong className="text-text">{sucursal?.nombre}</strong> volverá a estar disponible para asignar personal y operar.
           </p>
         ) : (
           <>
             <p>
-              <strong className="text-white">{sucursal?.nombre}</strong> dejará de operar. Su historial de ventas e inventario se conserva.
+              <strong className="text-text">{sucursal?.nombre}</strong> dejará de operar. Su historial de ventas e inventario se conserva.
             </p>
-            <p className="mt-2 text-white/60">No es posible inactivar una sede que aún tiene usuarios activos asignados.</p>
+            <p className="mt-2 text-text-muted">No es posible inactivar una sede que aún tiene usuarios activos asignados.</p>
           </>
         )
       }

@@ -16,7 +16,7 @@ export function columnasAuditoria(onDetalle: (log: LogAuditoria) => void): DataT
     {
       key: 'actor',
       header: 'Actor',
-      render: (l) => (l.usuarioNombre ? <span className="text-white">{l.usuarioNombre}</span> : <span className="text-white/45">Sistema / anónimo</span>),
+      render: (l) => (l.usuarioNombre ? <span className="font-medium text-text">{l.usuarioNombre}</span> : <span className="text-text-muted">Sistema / anónimo</span>),
     },
     { key: 'accion', header: 'Acción', render: (l) => <Badge tone={TONO_ACCION[l.accion] ?? 'neutral'}>{etiquetaAccion(l.accion)}</Badge> },
     {
@@ -26,14 +26,14 @@ export function columnasAuditoria(onDetalle: (log: LogAuditoria) => void): DataT
         <div>
           <p>{etiquetaEntidad(l.entidad)}</p>
           {l.entidadId && (
-            <p className="max-w-[180px] truncate text-xs text-white/45" title={l.entidadId}>
+            <p className="max-w-[180px] truncate text-xs text-text-muted font-mono" title={l.entidadId}>
               {l.entidadId}
             </p>
           )}
         </div>
       ),
     },
-    { key: 'ip', header: 'IP', render: (l) => <span className="text-white/60">{l.ip ?? '—'}</span> },
+    { key: 'ip', header: 'IP', render: (l) => <span className="text-text-muted font-mono text-xs">{l.ip ?? '—'}</span> },
     {
       key: 'detalle',
       header: 'Detalle',
@@ -42,7 +42,7 @@ export function columnasAuditoria(onDetalle: (log: LogAuditoria) => void): DataT
         <button
           type="button"
           onClick={() => onDetalle(l)}
-          className="min-h-[44px] rounded-lg px-3 text-xs uppercase tracking-wider text-[#e9b949] hover:bg-[#e3b341]/15 font-[family-name:var(--font-ui)] cursor-pointer"
+          className="min-h-[40px] rounded-lg px-3 text-xs uppercase tracking-wider font-sans font-medium text-brand-600 dark:text-brand-300 hover:bg-brand-500/15 transition-colors cursor-pointer"
         >
           Ver
         </button>

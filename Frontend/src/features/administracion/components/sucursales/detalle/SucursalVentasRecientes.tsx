@@ -14,25 +14,25 @@ import type { SucursalDetalle } from '../../../types';
 type Venta = SucursalDetalle['ventasRecientes'][number];
 
 const COLUMNAS: DataTableColumn<Venta>[] = [
-  { key: 'consecutivo', header: 'Factura', render: (v) => <span className="font-medium text-white">#{v.consecutivo}</span> },
+  { key: 'consecutivo', header: 'Factura', render: (v) => <span className="font-medium text-text tabular-nums">#{v.consecutivo}</span> },
   { key: 'fecha', header: 'Fecha', render: (v) => formatFechaHora(v.fecha) },
   {
     key: 'cliente',
     header: 'Cliente',
-    render: (v) => v.clienteNombre || <span className="text-white/50">Consumidor final</span>,
+    render: (v) => v.clienteNombre || <span className="text-text-muted">Consumidor final</span>,
   },
   {
     key: 'estado',
     header: 'Estado',
     render: (v) => <Badge tone={v.estado.toLowerCase().includes('anul') ? 'danger' : 'success'}>{v.estado}</Badge>,
   },
-  { key: 'total', header: 'Total', align: 'right', render: (v) => <strong className="text-white">{formatCOP(v.total)}</strong> },
+  { key: 'total', header: 'Total', align: 'right', render: (v) => <strong className="text-text tabular-nums">{formatCOP(v.total)}</strong> },
 ];
 
 export function SucursalVentasRecientes({ ventas }: { ventas: Venta[] }) {
   return (
     <section>
-      <h2 className="mb-3 font-[family-name:var(--font-anton)] uppercase tracking-wider text-lg text-white">Ventas recientes</h2>
+      <h2 className="mb-3 font-titulos font-semibold tracking-[-0.005em] text-lg text-text">Ventas recientes</h2>
       <DataTable
         caption="Ventas recientes de la sucursal"
         columns={COLUMNAS}

@@ -14,7 +14,7 @@ interface Acciones {
   onSalarios?: (e: Empleado) => void;
 }
 
-const BTN = 'min-h-[44px] rounded-lg px-3 text-xs uppercase tracking-wider font-[family-name:var(--font-ui)] cursor-pointer';
+const BTN = 'min-h-[40px] rounded-lg px-3 text-xs uppercase tracking-wider font-sans font-medium transition-colors cursor-pointer';
 
 export function columnasEmpleados({ onEditar, onSalarios }: Acciones): DataTableColumn<Empleado>[] {
   return [
@@ -24,14 +24,14 @@ export function columnasEmpleados({ onEditar, onSalarios }: Acciones): DataTable
       sortable: true,
       render: (e) => (
         <div>
-          <p className="font-medium text-white">{e.nombre}</p>
-          <p className="text-xs text-white/50">
+          <p className="font-medium text-text">{e.nombre}</p>
+          <p className="text-xs text-text-muted font-mono">
             {e.tipoDocumento} {e.numeroDocumento}
           </p>
         </div>
       ),
     },
-    { key: 'cargo', header: 'Cargo', sortable: true, render: (e) => e.cargo || <span className="text-white/35">—</span> },
+    { key: 'cargo', header: 'Cargo', sortable: true, render: (e) => e.cargo || <span className="text-text-muted/60">—</span> },
     {
       key: 'sucursalNombre',
       header: 'Sucursal / Área',
@@ -39,7 +39,7 @@ export function columnasEmpleados({ onEditar, onSalarios }: Acciones): DataTable
       render: (e) => (
         <div>
           <p>{e.sucursalNombre}</p>
-          <p className="text-xs text-white/50">{e.areaNombre ?? 'Sin área'}</p>
+          <p className="text-xs text-text-muted">{e.areaNombre ?? 'Sin área'}</p>
         </div>
       ),
     },
@@ -48,7 +48,7 @@ export function columnasEmpleados({ onEditar, onSalarios }: Acciones): DataTable
       header: 'Sueldo',
       sortable: true,
       align: 'right',
-      render: (e) => (e.sueldoActual !== null ? formatCOP(e.sueldoActual) : <span className="text-white/35">—</span>),
+      render: (e) => (e.sueldoActual !== null ? <span className="tabular-nums">{formatCOP(e.sueldoActual)}</span> : <span className="text-text-muted/60">—</span>),
     },
     {
       key: 'isActive',
@@ -62,11 +62,11 @@ export function columnasEmpleados({ onEditar, onSalarios }: Acciones): DataTable
       align: 'right',
       render: (e) => (
         <div className="flex justify-end gap-1">
-          <button type="button" onClick={() => onEditar(e)} className={`${BTN} text-[#e9b949] hover:bg-[#e3b341]/15`}>
+          <button type="button" onClick={() => onEditar(e)} className={`${BTN} text-brand-600 dark:text-brand-300 hover:bg-brand-500/15`}>
             Editar
           </button>
           {onSalarios && (
-            <button type="button" onClick={() => onSalarios(e)} className={`${BTN} text-sky-300 hover:bg-sky-500/15`}>
+            <button type="button" onClick={() => onSalarios(e)} className={`${BTN} text-sky-600 dark:text-sky-300 hover:bg-sky-500/15`}>
               Salario
             </button>
           )}
