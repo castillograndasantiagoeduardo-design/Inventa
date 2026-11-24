@@ -6,3 +6,4 @@ export * from './inventario.schema.ts';
 export * from './auditoria.schema.ts';
 export * from './turnos-caja.schema.ts';
 export * from './logistica.schema.ts';
+export * from './cartera.schema.ts';
