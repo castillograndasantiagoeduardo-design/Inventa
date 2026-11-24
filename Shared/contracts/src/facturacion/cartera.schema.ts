@@ -1,9 +1,10 @@
 import { z } from 'zod';
-import type {
-  EstadoCreditoCliente,
-  NivelRiesgoCredito,
-  PlazoCreditoDias,
-  TipoDocumentoCliente,
+import {
+  PLAZOS_CREDITO_DIAS,
+  type EstadoCreditoCliente,
+  type NivelRiesgoCredito,
+  type PlazoCreditoDias,
+  type TipoDocumentoCliente,
 } from './cliente.schema.ts';
 
 /**
@@ -116,3 +117,42 @@ export interface EmpresaB2BDetalleDto extends EmpresaB2BResumenDto {
   creditos: CreditoB2BDto[];
   abonosRecientes: AbonoCreditoDto[];
 }
+
+const numeroOpcionalCartera = (valor: unknown) => {
+  if (valor === '' || valor === null || valor === undefined) return undefined;
+  const parsed = Number(valor);
+  return Number.isNaN(parsed) ? valor : parsed;
+};
+
+const textoOpcionalCartera = (valor: unknown) =>
+  typeof valor === 'string' && valor.trim() === '' ? undefined : valor;
+
+/**
+ * Solicitud de crédito corporativo B2B ("Soltar crédito") para una empresa existente.
+ */
+export const solicitarCreditoB2BSchema = z.object({
+  gananciaNetaMensual: z.coerce
+    .number({ required_error: 'La ganancia neta mensual es obligatoria.' })
+    .positive({ message: 'La ganancia neta mensual debe ser mayor a 0.' })
+    .max(999_999_999_999),
+  antiguedadEmpresaMeses: z.preprocess(
+    numeroOpcionalCartera,
+    z.number().int().min(0, { message: 'La antigüedad no puede ser negativa.' }).max(1200).optional(),
+  ),
+  plazoCreditoDias: z.preprocess(
+    numeroOpcionalCartera,
+    z
+      .number()
+      .int()
+      .refine((v): v is PlazoCreditoDias => (PLAZOS_CREDITO_DIAS as readonly number[]).includes(v), {
+        message: 'El plazo de crédito debe ser 15, 30, 45 o 60 días.',
+      })
+      .default(30),
+  ),
+  observacionFinanciera: z.preprocess(
+    textoOpcionalCartera,
+    z.string().trim().max(500, { message: 'La observación financiera no puede exceder 500 caracteres.' }).optional(),
+  ),
+});
+
+export type SolicitarCreditoB2BInput = z.infer<typeof solicitarCreditoB2BSchema>;
