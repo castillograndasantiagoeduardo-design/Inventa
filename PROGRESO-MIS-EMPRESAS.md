@@ -1,0 +1,52 @@
+# PROGRESO-MIS-EMPRESAS.md — Sección "Mis empresas" (Vendedor B2B)
+
+> **Rama:** `Actualizaciones` (sin merge a `main`)  
+> **Inicio:** 2026-11-24  
+> **Objetivo:** Implementar la sección **Mis empresas** en el panel del Vendedor B2B junto con la gestión de cartera, solicitudes de crédito, mora, avisos de pago (vendedor) y confirmación/abonos (admin de sucursal).
+
+---
+
+## 1. Alcance Funcional
+
+1. **Listado de empresas B2B (`Mis empresas`):** cupo aprobado, utilizado, disponible, plazo, estado de crédito, riesgo y ganancia generada frente al crédito otorgado.
+2. **Solicitud de crédito ("Soltar crédito"):** carga de datos de ganancia neta mensual, antigüedad y plazo, simulación previa con `EvaluadorCreditoB2B`, y envío a `pendiente_aprobacion`. El vendedor B2B **no** aprueba créditos.
+3. **Cartera activa y antigüedad:** listado de créditos B2B (`creditos_b2b`), tiempo pagando, créditos pagados vs. vigentes.
+4. **Empresas en mora:** estado derivado (`saldo > 0` y `fecha_vencimiento < hoy`), días de mora y monto vencido.
+5. **Flujo de pagos con separación de funciones:**
+   - **Vendedor B2B:** solo lectura de cartera + botón **"Avisar pago"** (monto + referencia obligatoria + nota opcional). Queda en `pendiente` y no altera saldo.
+   - **Admin de Sucursal / Super Admin:** bandeja de avisos de pago para **confirmar** (crea abono atómico, reduce saldo del crédito y libera cupo del cliente) o **rechazar** (con motivo obligatorio), además de poder registrar **abono directo**.
+
+---
+
+## 2. Reglas de Base de Datos y Arquitectura
+
+- **Regla de Oro de BD:** Prohibido modificar `Docs/database/INVENTA_FULL_BD.sql` o alterar/eliminar tablas existentes (`clientes`, `facturas`, `cotizaciones_b2b`, etc.).
+- Todo lo nuevo de BD es aditivo mediante archivos nuevos en `Docs/database/cambios/`:
+  - `010-creditos-b2b.sql`
+  - `011-abonos-credito-b2b.sql`
+  - `012-avisos-pago-credito-b2b.sql`
+- Registrados en `Backend/packages/database/src/tenancy/aprovisionador.ts` (`ARCHIVOS_ESQUEMA_EMPRESA`) y documentados en `Docs/database/README.md`.
+- Esquema Drizzle nuevo en `Backend/packages/database/src/schema/cartera.schema.ts` sin editar `facturacion.schema.ts`.
+- En `packages/core`: prohibido importar Drizzle, Hono, JWT o SQL. Los errores de negocio retornan `Result.fail(new DomainError(...))`.
+- Toda mutación audita con `IAuditor` (`{ antes, despues }` solo con campos modificados).
+- Operaciones multi-tabla (facturar a crédito, confirmar aviso, registrar abono) van con Unit of Work atómico.
+
+---
+
+## 3. Supuestos, Limitaciones y Notas Previas
+
+1. **Ganancia por empresa:** Se calcula como `SUM((precio_unitario - precio_compra) * cantidad - descuento)` de facturas emitidas no anuladas, restando devoluciones. **Limitación:** utiliza el `precio_compra` vigente del producto (no existe histórico de costo en `factura_items`).
+2. **Empresas con crédito previo a la migración:** Si no tienen obligaciones en `creditos_b2b`, se muestran sin cartera y sin inventar fechas.
+3. **Soporte de pago:** No hay almacenamiento de archivos; el soporte es la referencia bancaria/recibo + nota opcional.
+4. **Baseline previo al inicio:**
+   - `deno task check` reporta un error preexistente fuera de alcance en `Backend/apps/api/src/controllers/logistica/activo.controller.ts:23:66` (`categoriaActivoId: number | null | undefined` vs `number | undefined`). No se modifica por estar fuera de alcance.
+   - `deno task lint` tiene 235 avisos preexistentes; no se agregarán avisos nuevos.
+   - `Result.fail(...)` es la API real de `Result` en `@inventa/shared-kernel` (en `GEMINI.md` se menciona `Result.err`).
+
+---
+
+## 4. Bitácora de Commits
+
+| Fase | Paso | Commit | Descripción | Verificación |
+| :--- | :--- | :--- | :--- | :--- |
+| Fase 0 | 1 | `pendiente` | Crear `PROGRESO-MIS-EMPRESAS.md` | Lectura de docs base |
