@@ -627,7 +627,13 @@ html[data-fondo="malla"] .capa-malla {
   --m-2: #d97706;
   --m-3: #334155;
 }
-[data-muestra="personalizada"] {
+[data-muestra="ambar"] {
+  --m-1: #f59e0b;
+  --m-2: #d97706;
+  --m-3: #fbbf24;
+}
+[data-muestra="personalizada"],
+[data-muestra="empresa"] {
   --m-1: var(--p-500, #3b6cf2);
   --m-2: var(--p-luz-1, #4f46e5);
   --m-3: var(--p-luz-2, #06b6d4);
@@ -648,11 +654,12 @@ body {
   font-family: var(--fuente-texto), system-ui, sans-serif;
   font-weight: 500;
   letter-spacing: 0.04em;
-  color: var(--color-btn-primario-texto, #ffffff);
-  background: var(--p-600, #2551d6);
+  /* Las variantes de Button3D redefinen --ac (fondo), --ac-dk (sombra 3D) y --ac-fg (texto). */
+  color: var(--ac-fg, var(--color-btn-primario-texto, #ffffff));
+  background: var(--ac, var(--p-600, #2551d6));
   border: 0;
   border-radius: 12px;
-  box-shadow: 0 4px 0 var(--p-800, #1c388c);
+  box-shadow: 0 4px 0 var(--ac-dk, var(--p-800, #1c388c));
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -664,19 +671,144 @@ body {
 
 .btn-3d:hover {
   transform: translateY(3px);
-  box-shadow: 0 1px 0 var(--p-800, #1c388c);
+  box-shadow: 0 1px 0 var(--ac-dk, var(--p-800, #1c388c));
 }
 
 .btn-3d:active {
   transform: translateY(4px);
-  box-shadow: 0 0 0 var(--p-800, #1c388c);
+  box-shadow: 0 0 0 var(--ac-dk, var(--p-800, #1c388c));
 }
 
 .btn-3d:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
-  box-shadow: 0 4px 0 var(--p-800, #1c388c);
+  box-shadow: 0 4px 0 var(--ac-dk, var(--p-800, #1c388c));
+}
+
+/* Tamaño de los botones 3D dentro de los paneles (Button3D size="panel" | "panel-sm"). */
+.btn-3d-panel {
+  --ac: var(--p-600, #2551d6);
+  --ac-dk: var(--p-800, #1c388c);
+  --ac-fg: var(--color-btn-primario-texto, #ffffff);
+  gap: 0.5rem;
+  min-height: 40px;
+  padding-block: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+/* Variante secundaria (Button3D variant="navy"): superficie neutra que sigue el tema. */
+.btn-3d-neutro {
+  --ac: var(--superficie-ctrl-bg);
+  --ac-dk: var(--border);
+  --ac-fg: var(--text);
+  outline: 1px solid var(--superficie-ctrl-borde);
+  outline-offset: -1px;
+}
+
+/* Tarjeta de vidrio de los paneles (tablas, formularios, estados vacíos, modales). */
+.panel-card {
+  position: relative;
+  color: var(--text);
+  background-color: var(--vidrio-bg);
+  border: 1px solid var(--vidrio-borde);
+  border-top-color: var(--border-top-brillo);
+  border-radius: 1rem;
+  box-shadow: var(--vidrio-sombra);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  transition: border-color 300ms ease, background-color 300ms ease;
+}
+
+/* Controles de entrada de los paneles (inputs, selects y buscadores). */
+.panel-input {
+  width: 100%;
+  min-height: 40px;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--text);
+  background-color: var(--superficie-ctrl-bg);
+  border: 1px solid var(--superficie-ctrl-borde);
+  transition: background-color 200ms ease, border-color 200ms ease, box-shadow 200ms ease, color 200ms ease;
+}
+
+.panel-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.75;
+}
+
+.panel-input:hover:not(:disabled) {
+  border-color: var(--border-hover);
+}
+
+.panel-input:focus {
+  outline: none;
+  border-color: var(--p-500, #3b6cf2);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--p-500, #3b6cf2) 25%, transparent);
+}
+
+.panel-input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.panel-input option {
+  background-color: var(--p-base, #0b111e);
+  color: #f1f5f9;
+}
+
+.light .panel-input option {
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.12) 37%,
+    rgba(255, 255, 255, 0.05) 63%
+  );
+  background-size: 400% 100%;
+  animation: skeleton-shimmer 1.4s ease infinite;
+  border-radius: 0.5rem;
+}
+
+.light .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(15, 23, 42, 0.06) 25%,
+    rgba(15, 23, 42, 0.13) 37%,
+    rgba(15, 23, 42, 0.06) 63%
+  );
+  background-size: 400% 100%;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toast-in {
+  animation: toast-in 0.22s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 /* Scrollbar fina elegante */

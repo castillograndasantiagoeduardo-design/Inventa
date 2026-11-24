@@ -51,7 +51,7 @@ export function ConfirmDialog({
         </>
       }
     >
-      <div className="text-sm text-white/80 leading-relaxed">{message}</div>
+      <div className="text-sm text-text leading-relaxed">{message}</div>
     </Modal>
   );
 }

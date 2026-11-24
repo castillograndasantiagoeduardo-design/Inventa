@@ -17,9 +17,9 @@ export interface Button3DProps extends React.ButtonHTMLAttributes<HTMLButtonElem
 const SIZE_CLASSES: Record<Button3DSize, string> = {
   landing: 'text-[clamp(12px,1.75vw,28px)] px-[2vw] py-[0.5vw]',
   responsive: 'text-[clamp(12px,1.75vw,28px)] px-[2vw] py-[0.5vw]',
-  sm: 'text-xs px-3.5 py-1.5 min-h-[38px] rounded-xl shadow-[0_3px_0_var(--gold-dark,#b88a1f)] font-bold',
-  md: 'text-sm px-5 py-2 min-h-[42px] rounded-xl shadow-[0_3px_0_var(--gold-dark,#b88a1f)] font-bold',
-  lg: 'text-base px-6 py-2.5 min-h-[48px] rounded-2xl shadow-[0_4px_0_var(--gold-dark,#b88a1f)] font-bold',
+  sm: 'text-xs px-3.5 py-1.5 min-h-[38px] rounded-xl shadow-[0_3px_0_var(--gold-dark,#b88a1f)] font-semibold',
+  md: 'text-sm px-5 py-2 min-h-[42px] rounded-xl shadow-[0_3px_0_var(--gold-dark,#b88a1f)] font-semibold',
+  lg: 'text-base px-6 py-2.5 min-h-[48px] rounded-2xl shadow-[0_4px_0_var(--gold-dark,#b88a1f)] font-semibold',
   panel: 'btn-3d-panel text-sm px-5',
   'panel-sm': 'btn-3d-panel text-xs px-3',
 };
@@ -42,8 +42,10 @@ export function Button3D({
   style,
   ...props
 }: Button3DProps) {
-  const combinedClasses = `btn-3d ${SIZE_CLASSES[size]} ${className}`;
-  const combinedStyle = { ...VARIANT_STYLES[variant], ...style };
+  const esPanel = size === 'panel' || size === 'panel-sm';
+  const esNeutroPanel = esPanel && variant === 'navy';
+  const combinedClasses = `btn-3d ${SIZE_CLASSES[size]} ${esNeutroPanel ? 'btn-3d-neutro' : ''} ${className}`;
+  const combinedStyle = { ...(esNeutroPanel ? undefined : VARIANT_STYLES[variant]), ...style };
 
   if (href) {
     return (
