@@ -7,7 +7,7 @@
  */
 
 import { env } from '@/lib/config/env';
-import { aplicarPaletaEmpresa, retirarPaletaEmpresa } from './paleta-empresa';
+import { activarPaletaEmpresa, aplicarPaletaEmpresa, retirarPaletaEmpresa } from './paleta-empresa';
 
 export interface EstadoMarca {
   colorPrincipal: string | null;
@@ -61,4 +61,29 @@ export const marcaStore = {
     retirarPaletaEmpresa();
     publicar(INICIAL);
   },
+  /** Recarga la marca desde el servidor y activa la paleta del nuevo color si aplica. */
+  async recargar(): Promise<void> {
+    carga = cargar();
+    await carga;
+  },
 };
+
+/** Actualiza el logo PNG de la empresa activa desde el panel (requiere permiso de gestión de sucursales). */
+export async function actualizarLogoEmpresaPanel(
+  logoPng: string,
+): Promise<{ colorPrincipal: string; logoVersion: string }> {
+  const r = await fetch(`${base()}/empresa/logo`, {
+    method: 'PUT',
+    credentials: 'include',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ logoPng }),
+  });
+  if (!r.ok) {
+    const cuerpo = (await r.json().catch(() => null)) as { message?: string } | null;
+    throw new Error(cuerpo?.message || 'No se pudo actualizar el logo de la empresa.');
+  }
+  const marca = (await r.json()) as { colorPrincipal: string; logoVersion: string };
+  activarPaletaEmpresa(marca.colorPrincipal);
+  await marcaStore.recargar();
+  return marca;
+}

@@ -48,3 +48,10 @@ export class LogoInvalidoError extends DomainError {
     super(motivo);
   }
 }
+
+export class EmpresaNoEncontradaError extends DomainError {
+  public readonly code = 'EMPRESA_NO_ENCONTRADA';
+  constructor() {
+    super('La empresa activa no existe en el registro central.');
+  }
+}

@@ -39,6 +39,7 @@ export const ENTIDADES_AUDITORIA = {
   MANTENIMIENTOS_ACTIVOS: 'mantenimientos_activos',
   DEVOLUCIONES_VENTAS: 'devoluciones_ventas',
   COTIZACIONES_B2B: 'cotizaciones_b2b',
+  EMPRESAS: 'empresas',
 } as const;
 
 /** Quién ejecuta la operación y desde dónde. Lo arma la capa HTTP a partir del token. */
