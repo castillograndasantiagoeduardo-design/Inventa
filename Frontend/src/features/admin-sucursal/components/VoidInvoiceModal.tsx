@@ -114,9 +114,9 @@ export function VoidInvoiceModal({
             <span>Fecha de emisión:</span>
             <span className="font-mono text-slate-300">{factura.fechaFormateada}</span>
           </div>
-          <div className="flex justify-between items-center text-slate-400">
+          <div className="flex justify-between items-center text-text-muted">
             <span>Monto total:</span>
-            <span className="font-mono font-bold text-[#e3b341] text-sm">
+            <span className="font-mono font-bold text-brand-600 dark:text-brand-400 text-sm">
               {factura.totalFormateado}
             </span>
           </div>

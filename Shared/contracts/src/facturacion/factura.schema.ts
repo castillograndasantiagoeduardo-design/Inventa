@@ -58,7 +58,7 @@ export const listarFacturasQuerySchema = z.object({
   tipo: z.string().trim().optional(),
   page: z.coerce.number().int().min(1).default(1).optional(),
   limite: z.coerce.number().int().min(1).max(100).default(20),
-  offset: z.coerce.number().int().min(0).default(0).optional(),
+  offset: z.coerce.number().int().min(0).optional(),
 });
 
 export const anularFacturaSchema = z.object({

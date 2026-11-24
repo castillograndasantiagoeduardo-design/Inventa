@@ -315,7 +315,15 @@ export class DrizzleFacturaRepository implements IFacturaRepository {
         }
         const fechaFin = filtros.hasta ?? filtros.fechaFin;
         if (fechaFin) {
-            condiciones.push(lte(facturas.fecha, fechaFin));
+            const fFin = new Date(fechaFin);
+            if (
+                fFin.getUTCHours() === 0 &&
+                fFin.getUTCMinutes() === 0 &&
+                fFin.getUTCSeconds() === 0
+            ) {
+                fFin.setUTCHours(23, 59, 59, 999);
+            }
+            condiciones.push(lte(facturas.fecha, fFin));
         }
 
         if (filtros.tipo) {

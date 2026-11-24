@@ -122,8 +122,8 @@ export function InvoiceDetailModal({
       }
     >
       {isLoading ? (
-        <div className="py-12 flex flex-col items-center justify-center gap-3 text-slate-400">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#e3b341] border-t-transparent" />
+        <div className="py-12 flex flex-col items-center justify-center gap-3 text-text-muted">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-brand-500 border-t-transparent" />
           <p className="text-xs">Consultando comprobante en el servidor...</p>
         </div>
       ) : error ? (
@@ -255,9 +255,9 @@ export function InvoiceDetailModal({
                 <span>IVA (0% / 19%):</span>
                 <span className="font-mono text-slate-200">{formatCOP(factura.iva)}</span>
               </div>
-              <div className="flex justify-between text-sm font-bold pt-2 border-t border-white/[0.06] text-white">
+              <div className="flex justify-between text-sm font-bold pt-2 border-t border-border text-text">
                 <span className="uppercase tracking-wider">Total Facturado:</span>
-                <span className="font-mono text-[#e3b341] text-base">{factura.totalFormateado}</span>
+                <span className="font-mono text-brand-600 dark:text-brand-400 text-base">{factura.totalFormateado}</span>
               </div>
             </div>
           </div>

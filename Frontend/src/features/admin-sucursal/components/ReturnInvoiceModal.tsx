@@ -158,8 +158,8 @@ export function ReturnInvoiceModal({
       footer={
         <div className="flex w-full items-center justify-between gap-3">
           <div className="text-xs">
-            <span className="text-slate-400">Reembolso estimado: </span>
-            <span className="font-mono font-bold text-[#e3b341] text-sm">
+            <span className="text-text-muted">Reembolso estimado: </span>
+            <span className="font-mono font-bold text-brand-600 dark:text-brand-400 text-sm">
               {formatCOP(totalReembolsoEstimado)}
             </span>
           </div>
@@ -182,7 +182,7 @@ export function ReturnInvoiceModal({
                 (!devolverTodo && totalReembolsoEstimado <= 0) ||
                 !hayItemsDevolvibles
               }
-              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 text-xs font-bold uppercase tracking-wider shadow-md transition-all cursor-pointer disabled:opacity-40"
+              className="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-btn-primario-texto text-xs font-bold uppercase tracking-wider shadow-md transition-all cursor-pointer disabled:opacity-40"
             >
               {isSubmitting ? 'Registrando...' : 'Confirmar Devolución'}
             </button>
@@ -204,16 +204,16 @@ export function ReturnInvoiceModal({
         ) : (
           <>
             {/* Opciones Generales */}
-            <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] flex flex-wrap items-center justify-between gap-4 text-xs">
+            <div className="p-3.5 rounded-xl superficie-control border border-border flex flex-wrap items-center justify-between gap-4 text-xs">
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <input
                   type="checkbox"
                   checked={devolverTodo}
                   onChange={(e) => setDevolverTodo(e.target.checked)}
-                  className="rounded border-white/20 bg-white/5 text-[#e3b341] focus:ring-0 cursor-pointer h-4 w-4"
+                  className="rounded border-border bg-transparent text-brand-600 focus:ring-0 cursor-pointer h-4 w-4"
                 />
-                <span className="font-semibold text-white">Devolución total de la factura</span>
-                <span className="text-[11px] text-slate-400">(Devuelve todo el remanente disponible)</span>
+                <span className="font-semibold text-text">Devolución total de la factura</span>
+                <span className="text-[11px] text-text-muted">(Devuelve todo el remanente disponible)</span>
               </label>
 
               <label className="flex items-center gap-2 cursor-pointer select-none">
@@ -221,9 +221,9 @@ export function ReturnInvoiceModal({
                   type="checkbox"
                   checked={reingresaStock}
                   onChange={(e) => setReingresaStock(e.target.checked)}
-                  className="rounded border-white/20 bg-white/5 text-[#e3b341] focus:ring-0 cursor-pointer h-4 w-4"
+                  className="rounded border-border bg-transparent text-brand-600 focus:ring-0 cursor-pointer h-4 w-4"
                 />
-                <span className="text-slate-300">Reingresar stock al inventario</span>
+                <span className="text-text">Reingresar stock al inventario</span>
               </label>
             </div>
 
@@ -266,7 +266,7 @@ export function ReturnInvoiceModal({
                           </td>
                           <td className="py-2.5 px-3 text-right">
                             {devolverTodo ? (
-                              <span className="font-mono font-bold text-[#e3b341]">
+                              <span className="font-mono font-bold text-brand-600 dark:text-brand-400">
                                 {it.disponible}
                               </span>
                             ) : (
@@ -285,7 +285,7 @@ export function ReturnInvoiceModal({
                                   )
                                 }
                                 aria-label={`Cantidad a devolver para ${it.productoNombre}`}
-                                className="w-20 px-2 py-1 rounded-lg bg-white/[0.04] border border-white/[0.1] text-right font-mono text-xs text-white focus:outline-none focus:border-[#e3b341]/60 disabled:opacity-30"
+                                className="w-20 px-2 py-1 rounded-lg superficie-control border border-border text-right font-mono text-xs text-text focus:outline-none focus:border-brand-500/60 disabled:opacity-30"
                               />
                             )}
                           </td>
