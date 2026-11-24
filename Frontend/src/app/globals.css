@@ -707,7 +707,7 @@ body {
   outline-offset: -1px;
 }
 
-/* Tarjeta de vidrio de los paneles (tablas, formularios, estados vacíos, modales). */
+/* Tarjeta de vidrio de los paneles (tablas, formularios, estados vacíos, modales), alineada con .vidrio sin desenfocar en exceso la marca de agua. */
 .panel-card {
   position: relative;
   color: var(--text);
@@ -716,8 +716,6 @@ body {
   border-top-color: var(--border-top-brillo);
   border-radius: 1rem;
   box-shadow: var(--vidrio-sombra);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
   transition: border-color 300ms ease, background-color 300ms ease;
 }
 

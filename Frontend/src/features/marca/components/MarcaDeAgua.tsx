@@ -12,13 +12,20 @@ export function MarcaDeAgua({ className = '-z-10' }: { className?: string }) {
   const { logoUrl } = useMarcaEmpresa();
   if (!logoUrl) return null;
   return (
-    <div aria-hidden="true" className={`pointer-events-none fixed inset-0 flex items-center justify-center ${className}`}>
-      {/* eslint-disable-next-line @next/next/no-img-element -- URL de objeto del logo, no optimizable */}
-      <img
-        src={logoUrl}
-        alt=""
-        className="w-[min(62vmin,540px)] h-[min(62vmin,540px)] object-contain opacity-[0.15] dark:opacity-[0.18] contrast-105 saturate-110 drop-shadow-[0_6px_24px_rgba(0,0,0,0.16)] select-none"
-      />
+    <div
+      aria-hidden="true"
+      className={`pointer-events-none fixed inset-0 flex items-center justify-center md:pl-56 ${className}`}
+    >
+      <div className="relative flex items-center justify-center w-[min(68vmin,580px)] h-[min(68vmin,580px)]">
+        {/* Halo radial neutro detrás del PNG para separarlo de los orbes y del fondo oscuro/claro */}
+        <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.72)_0%,rgba(255,255,255,0.24)_46%,transparent_72%)] dark:bg-[radial-gradient(circle,rgba(255,255,255,0.16)_0%,rgba(255,255,255,0.05)_46%,transparent_72%)]" />
+        {/* eslint-disable-next-line @next/next/no-img-element -- URL de objeto del logo, no optimizable */}
+        <img
+          src={logoUrl}
+          alt=""
+          className="relative w-[min(56vmin,470px)] h-[min(56vmin,470px)] object-contain opacity-[0.34] dark:opacity-[0.40] contrast-110 saturate-115 [filter:drop-shadow(0_0_2px_rgba(255,255,255,0.85))_drop-shadow(0_6px_20px_rgba(15,23,42,0.16))] dark:[filter:drop-shadow(0_0_2px_rgba(255,255,255,0.65))_drop-shadow(0_0_24px_rgba(255,255,255,0.22))] select-none"
+        />
+      </div>
     </div>
   );
 }
