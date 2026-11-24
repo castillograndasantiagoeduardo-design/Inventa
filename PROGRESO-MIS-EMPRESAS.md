@@ -58,4 +58,5 @@
 | Fase 1 | 7 | `9ecb553` | `ResumenCarteraDto`, `EmpresaEnMoraDto` y filtros de listado | Schemas de filtros y DTOs de resumen |
 | Fase 1 | 8 | `c6853fa` | `AvisoPagoCreditoDto`, `AvisarPagoInput` y `ResolverAvisoInput` | Contratos de avisos de pago completos |
 | Fase 2 | 9 | `92245cd` | Migración `010-creditos-b2b.sql` | Tabla aditiva con checks e índices |
-| Fase 2 | 10 | `pendiente` | Migración `011-abonos-credito-b2b.sql` | Tabla aditiva + triggers append-only |
+| Fase 2 | 10 | `429e2f6` | Migración `011-abonos-credito-b2b.sql` | Tabla aditiva + triggers append-only |
+| Fase 2 | 11 | `pendiente` | Migración `012-avisos-pago-credito-b2b.sql` | Tabla aditiva de avisos con checks de estado |
