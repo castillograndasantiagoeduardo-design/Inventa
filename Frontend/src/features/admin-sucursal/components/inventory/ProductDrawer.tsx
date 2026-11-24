@@ -93,7 +93,7 @@ export function ProductDrawer({
     setGuardandoMinimo(true);
     setErrorMinimo(null);
     try {
-      const res = await branchInventoryService.ajustarStockMinimo(producto.id, val);
+      const res = await branchInventoryService.ajustarStockMinimo(producto.id, val, sucursalId);
       if (res.ok) {
         setEditandoMinimo(false);
         if (onStockActualizado) onStockActualizado();

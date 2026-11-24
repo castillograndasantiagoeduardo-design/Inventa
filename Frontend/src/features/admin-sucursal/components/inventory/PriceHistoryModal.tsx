@@ -63,7 +63,7 @@ export function PriceHistoryModal({ open, producto, onClose }: PriceHistoryModal
           <div className="h-6 bg-black/5 dark:bg-white/5 rounded animate-pulse w-2/3" />
         </div>
       ) : error ? (
-        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs text-center">
+        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-medium text-center">
           {error}
         </div>
       ) : historial.length === 0 ? (

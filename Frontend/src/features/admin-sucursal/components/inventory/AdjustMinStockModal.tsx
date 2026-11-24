@@ -8,6 +8,7 @@ import type { ProductoInventarioSede } from '../../types/branch-inventory.types'
 interface AdjustMinStockModalProps {
   open: boolean;
   producto: ProductoInventarioSede | null;
+  sucursalId?: number;
   onClose: () => void;
   onGuardado: () => void;
 }
@@ -15,6 +16,7 @@ interface AdjustMinStockModalProps {
 export function AdjustMinStockModal({
   open,
   producto,
+  sucursalId,
   onClose,
   onGuardado,
 }: AdjustMinStockModalProps) {
@@ -42,7 +44,7 @@ export function AdjustMinStockModal({
     setIsSubmitting(true);
     setErrorMsg(null);
     try {
-      const res = await branchInventoryService.ajustarStockMinimo(producto.id, val);
+      const res = await branchInventoryService.ajustarStockMinimo(producto.id, val, sucursalId);
       if (res.ok) {
         onGuardado();
         onClose();
@@ -106,7 +108,7 @@ export function AdjustMinStockModal({
         </div>
 
         {errorMsg && (
-          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs">
+          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-medium">
             {errorMsg}
           </div>
         )}

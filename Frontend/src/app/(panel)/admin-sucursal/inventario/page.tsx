@@ -334,6 +334,7 @@ function InventarioProductosContenido() {
       <AdjustMinStockModal
         open={minStockModalOpen}
         producto={productoSeleccionado}
+        sucursalId={sucursalId}
         onClose={() => setMinStockModalOpen(false)}
         onGuardado={recargar}
       />
