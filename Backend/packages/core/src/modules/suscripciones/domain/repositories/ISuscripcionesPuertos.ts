@@ -18,10 +18,14 @@ export interface ISuscripcionRepository {
   vigenteDeEmpresa(empresaId: number, ahora?: Date): Promise<SuscripcionVigente | null>;
   /** Crea el periodo pagado. Idempotente por pagoId. */
   registrar(datos: { empresaId: number; planId: string; pagoId: string; iniciaEn: Date; venceEn: Date }): Promise<void>;
+  /** Periodo creado por un pago (para no activarlo dos veces). */
+  buscarPorPago(pagoId: string): Promise<{ empresaId: number; venceEn: Date } | null>;
 }
 
 export interface IPagoRepository {
-  crear(datos: { referencia: string; cuentaId: string; planId: string; montoCentavos: number; pasarela: string }): Promise<Pago>;
+  crear(datos: { referencia: string; cuentaId: string; planId: string; montoCentavos: number; pasarela: string; detalle?: Record<string, unknown> | null }): Promise<Pago>;
+  /** Mezcla datos en el detalle JSON del pago (ej. resultado de la pasarela). */
+  agregarDetalle(referencia: string, datos: Record<string, unknown>): Promise<void>;
   buscarPorReferencia(referencia: string): Promise<Pago | null>;
   /**
    * Cambia el estado solo si el pago sigue pendiente (evita procesarlo dos veces).

@@ -46,5 +46,7 @@ export interface Pago {
   pasarela: string;
   estado: EstadoPago;
   transaccionExterna: string | null;
+  /** Datos de la compra (ej. nombre de la empresa a crear) y de la pasarela. */
+  detalle: Record<string, unknown> | null;
   creadoEn: Date;
 }

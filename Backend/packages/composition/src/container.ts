@@ -66,6 +66,7 @@ import { DrizzleMantenimientoActivoRepository } from '../../database/src/reposit
 
 import { JwtTokenService } from '../../platform/src/jwt/jwt-token-service.ts';
 import { JwtCuentaTokenService } from '../../platform/src/jwt/jwt-cuenta-token-service.ts';
+import { PasarelaSimulada } from '../../platform/src/pagos/pasarela-simulada.ts';
 import {
   CentralCuentaRepository,
   CentralPagoRepository,
@@ -77,7 +78,11 @@ import {
   IniciarSesionCuentaUseCase,
   ObtenerMiCuentaUseCase,
   ListarPlanesUseCase,
+  IniciarPagoUseCase,
+  ConfirmarPagoUseCase,
+  ConsultarPagoUseCase,
   type ITokenCuentaService,
+  type IAprovisionadorEmpresas,
 } from '@inventa/core';
 import { Argon2PasswordHasher } from '../../platform/src/hashing/argon2-password-hasher.ts';
 import { TotpService } from '../../platform/src/totp/totp-service.ts';
@@ -391,6 +396,13 @@ export interface AppContainer {
     obtenerMiCuenta: ObtenerMiCuentaUseCase;
     listarPlanes: ListarPlanesUseCase;
     tokenCuenta: ITokenCuentaService;
+    iniciarPago: IniciarPagoUseCase;
+    confirmarPago: ConfirmarPagoUseCase;
+    consultarPago: ConsultarPagoUseCase;
+    /** Pasarela de demostración (página de pago propia y tarjetas de prueba). */
+    pasarelaSimulada: PasarelaSimulada;
+    /** Abre la sesión del panel del dueño en su empresa (tras pagar, sin pedir de nuevo la clave). */
+    emitirSesionDueno(empresaId: number, email: string): Promise<{ accessToken: string; refreshToken: string } | null>;
   };
 }
 
@@ -494,6 +506,7 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
   const planRepository = new CentralPlanRepository();
   const suscripcionRepository = new CentralSuscripcionRepository();
   const pagoRepository = new CentralPagoRepository();
+  const pasarelaSimulada = new PasarelaSimulada(pagoRepository, getEnv('FRONTEND_URL') ?? 'http://localhost:3000');
   const totpService = new TotpService();
   const mailer = new PlatformMailer(getEnv('FRONTEND_URL') ?? 'http://localhost:3000');
 
@@ -1174,6 +1187,28 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
       obtenerMiCuenta: new ObtenerMiCuentaUseCase(cuentaRepository, suscripcionRepository, planRepository),
       listarPlanes: new ListarPlanesUseCase(planRepository),
       tokenCuenta: tokenCuentaService,
+      iniciarPago: new IniciarPagoUseCase(cuentaRepository, planRepository, pagoRepository, pasarelaSimulada),
+      confirmarPago: new ConfirmarPagoUseCase(cuentaRepository, planRepository, pagoRepository, suscripcionRepository, pasarelaSimulada, {
+        crear: async (datos) => {
+          const creada = await aprovisionadorEmpresas.crear(datos);
+          resolutorEmpresas.invalidar(creada.empresaId);
+          return { empresaId: creada.empresaId };
+        },
+        invalidarCaches: (empresaId) => {
+          resolutorEmpresas.invalidar(empresaId);
+          topePermisosPlan.invalidar(empresaId);
+        },
+      } satisfies IAprovisionadorEmpresas),
+      pasarelaSimulada,
+      consultarPago: new ConsultarPagoUseCase(pagoRepository, planRepository),
+      emitirSesionDueno: async (empresaId, email) => {
+        const contexto = await resolutorEmpresas.porId(empresaId);
+        if (!contexto) return null;
+        return ejecutarConEmpresa(contexto, async () => {
+          const usuario = await usuarioRepository.findByEmail(email);
+          return usuario ? tokenService.generarTokens(usuario.id, usuario.rolId) : null;
+        });
+      },
     },
     multiempresa: {
       ejecutarConEmpresa,

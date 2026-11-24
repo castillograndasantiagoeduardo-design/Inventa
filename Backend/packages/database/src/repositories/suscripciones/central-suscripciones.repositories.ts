@@ -109,6 +109,11 @@ export class CentralSuscripcionRepository implements ISuscripcionRepository {
       .values({ empresa_id: datos.empresaId, plan_id: datos.planId, pago_id: datos.pagoId, inicia_en: datos.iniciaEn, vence_en: datos.venceEn })
       .onDuplicateKeyUpdate({ set: { pago_id: datos.pagoId } });
   }
+
+  async buscarPorPago(pagoId: string): Promise<{ empresaId: number; venceEn: Date } | null> {
+    const [f] = await this.central().select().from(suscripciones).where(eq(suscripciones.pago_id, pagoId)).limit(1);
+    return f ? { empresaId: f.empresa_id, venceEn: f.vence_en } : null;
+  }
 }
 
 const aPago = (f: typeof pagos.$inferSelect): Pago => ({
@@ -121,13 +126,14 @@ const aPago = (f: typeof pagos.$inferSelect): Pago => ({
   pasarela: f.pasarela,
   estado: f.estado as EstadoPago,
   transaccionExterna: f.transaccion_externa ?? null,
+  detalle: (f.detalle as Record<string, unknown> | null) ?? null,
   creadoEn: f.created_at,
 });
 
 export class CentralPagoRepository implements IPagoRepository {
   constructor(private readonly central: Central = getCentralDatabase) {}
 
-  async crear(datos: { referencia: string; cuentaId: string; planId: string; montoCentavos: number; pasarela: string }): Promise<Pago> {
+  async crear(datos: { referencia: string; cuentaId: string; planId: string; montoCentavos: number; pasarela: string; detalle?: Record<string, unknown> | null }): Promise<Pago> {
     const id = crypto.randomUUID();
     await this.central().insert(pagos).values({
       id_pago: id,
@@ -136,6 +142,7 @@ export class CentralPagoRepository implements IPagoRepository {
       plan_id: datos.planId,
       monto_centavos: datos.montoCentavos,
       pasarela: datos.pasarela,
+      detalle: datos.detalle ?? null,
     });
     const creado = await this.buscarPorReferencia(datos.referencia);
     if (!creado) throw new Error('No se pudo leer el pago recién creado.');
@@ -145,6 +152,12 @@ export class CentralPagoRepository implements IPagoRepository {
   async buscarPorReferencia(referencia: string): Promise<Pago | null> {
     const [f] = await this.central().select().from(pagos).where(eq(pagos.referencia, referencia)).limit(1);
     return f ? aPago(f) : null;
+  }
+
+  async agregarDetalle(referencia: string, datos: Record<string, unknown>): Promise<void> {
+    const actual = await this.buscarPorReferencia(referencia);
+    if (!actual) return;
+    await this.central().update(pagos).set({ detalle: { ...(actual.detalle ?? {}), ...datos } }).where(eq(pagos.referencia, referencia));
   }
 
   async marcarSiPendiente(pagoId: string, estado: Exclude<EstadoPago, 'pendiente'>, transaccionExterna: string | null): Promise<boolean> {

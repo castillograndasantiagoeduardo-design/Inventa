@@ -5,10 +5,19 @@
  *   POST /cuentas/registro   crea una cuenta gratuita y abre su sesión
  *   GET  /cuentas/yo         cuenta + plan vigente (sesión de cuenta)
  *   POST /cuentas/logout     cierra la sesión de cuenta
+ *
+ *   POST /pagos/checkout                    crea el pago de un plan (monto del servidor)
+ *   GET  /pagos/:referencia                 datos del pago (página de pago / resultado)
+ *   POST /pagos/simulado/:referencia/pagar  paga con tarjeta de prueba y activa el plan
+ *   POST /pagos/:referencia/confirmar       reconsulta la pasarela y activa (reintento)
  */
 
 import { Hono } from 'hono';
-import { registroCuentaSchema } from '@inventa/contracts';
+import { iniciarPagoSchema, pagoSimuladoSchema, registroCuentaSchema } from '@inventa/contracts';
+import type { Context } from 'hono';
+import { setCookie } from 'hono/cookie';
+import { setAuthCookies } from '../utils/cookie.ts';
+import { COOKIE_EMPRESA } from '../middlewares/empresa.middleware.ts';
 import type { AppContainer } from '@inventa/composition';
 import { createIpRateLimiter } from '../middlewares/rate-limit.middleware.ts';
 import { presentResult } from '../presenters/result.presenter.ts';
@@ -58,6 +67,77 @@ export function createSuscripcionesRoutes(container: AppContainer) {
     cerrarSesionCuenta(c);
     return c.json({ ok: true });
   });
+
+  // ─── Pagos ────────────────────────────────────────────────────────────────
+  const pagosRateLimiter = createIpRateLimiter({
+    ventanaMs: 60 * 1000,
+    maxPeticiones: 10,
+    mensaje: 'Demasiados intentos de pago desde esta IP. Espera un minuto.',
+  });
+
+  /** Tras un pago aprobado: abre la sesión del panel del dueño en su empresa. */
+  const abrirPanelDelDueno = async (c: Context, cuentaId: string, empresaId: number | null) => {
+    if (empresaId === null) return;
+    const mia = await container.suscripciones.obtenerMiCuenta.execute(cuentaId);
+    if (mia.isFailure) return;
+    const tokens = await container.suscripciones.emitirSesionDueno(empresaId, mia.value.cuenta.email);
+    if (!tokens) return;
+    setAuthCookies(c, tokens);
+    setCookie(c, COOKIE_EMPRESA, String(empresaId), {
+      httpOnly: true,
+      secure: Deno.env.get('NODE_ENV') !== 'development',
+      sameSite: 'Lax',
+      path: '/',
+      maxAge: 30 * 24 * 60 * 60,
+    });
+  };
+
+  const respuestaConfirmacion = (r: { referencia: string; estado: string; empresaId: number | null; venceEn: Date | null }) => ({
+    referencia: r.referencia,
+    estado: r.estado,
+    empresaId: r.empresaId,
+    venceEn: r.venceEn?.toISOString() ?? null,
+  });
+
+  api.post('/pagos/checkout', cuentaMiddleware(container), pagosRateLimiter, safeHandler(async (c) => {
+    const validacion = iniciarPagoSchema.safeParse(await c.req.json().catch(() => null));
+    if (!validacion.success) return c.json({ error: 'VALIDATION_ERROR', issues: validacion.error.errors }, 400);
+    const resultado = await container.suscripciones.iniciarPago.execute({ cuentaId: obtenerCuentaId(c), ...validacion.data });
+    if (resultado.isFailure) return presentResult(c, resultado);
+    return c.json(resultado.value, 201);
+  }));
+
+  api.get('/pagos/:referencia', cuentaMiddleware(container), safeHandler(async (c) => {
+    return presentResult(c, await container.suscripciones.consultarPago.execute({ cuentaId: obtenerCuentaId(c), referencia: (c.req.param('referencia') ?? '') }));
+  }));
+
+  api.post('/pagos/simulado/:referencia/pagar', cuentaMiddleware(container), pagosRateLimiter, safeHandler(async (c) => {
+    const cuentaId = obtenerCuentaId(c);
+    const referencia = (c.req.param('referencia') ?? '');
+    const pago = await container.suscripciones.consultarPago.execute({ cuentaId, referencia });
+    if (pago.isFailure) return presentResult(c, pago);
+    if (pago.value.estado !== 'pendiente') {
+      return c.json({ error: 'PAGO_YA_PROCESADO', message: `Este pago ya fue procesado (${pago.value.estado}).` }, 409);
+    }
+
+    const tarjeta = pagoSimuladoSchema.safeParse(await c.req.json().catch(() => null));
+    if (!tarjeta.success) return c.json({ error: 'VALIDATION_ERROR', issues: tarjeta.error.errors }, 400);
+    const cobro = await container.suscripciones.pasarelaSimulada.cobrar(referencia, tarjeta.data);
+    if (!cobro.ok) return c.json({ error: 'TARJETA_INVALIDA', message: cobro.error }, 422);
+
+    const confirmacion = await container.suscripciones.confirmarPago.execute({ cuentaId, referencia });
+    if (confirmacion.isFailure) return presentResult(c, confirmacion);
+    if (confirmacion.value.estado === 'aprobado') await abrirPanelDelDueno(c, cuentaId, confirmacion.value.empresaId);
+    return c.json({ ...respuestaConfirmacion(confirmacion.value), motivo: cobro.estado === 'rechazado' ? cobro.motivo ?? null : null });
+  }));
+
+  api.post('/pagos/:referencia/confirmar', cuentaMiddleware(container), pagosRateLimiter, safeHandler(async (c) => {
+    const cuentaId = obtenerCuentaId(c);
+    const confirmacion = await container.suscripciones.confirmarPago.execute({ cuentaId, referencia: (c.req.param('referencia') ?? '') });
+    if (confirmacion.isFailure) return presentResult(c, confirmacion);
+    if (confirmacion.value.estado === 'aprobado') await abrirPanelDelDueno(c, cuentaId, confirmacion.value.empresaId);
+    return c.json(respuestaConfirmacion(confirmacion.value));
+  }));
 
   return api;
 }

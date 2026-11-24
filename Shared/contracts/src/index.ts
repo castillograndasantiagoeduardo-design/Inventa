@@ -57,3 +57,4 @@ export * from './mcp/index.ts';
 
 // ─── Módulo: suscripciones (cuentas, planes y pagos) ──────────
 export * from './suscripciones/cuenta.schema.ts';
+export * from './suscripciones/pago.schema.ts';

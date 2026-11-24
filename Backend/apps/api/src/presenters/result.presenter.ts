@@ -103,6 +103,7 @@ export function presentResult<T>(c: Context, result: Result<T, DomainError>, suc
       status = 404;
       break;
     case 'EMAIL_YA_REGISTRADO':
+    case 'PAGO_YA_PROCESADO':
     case 'PAGO_NO_APROBADO':
       status = 409;
       break;
