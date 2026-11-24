@@ -60,4 +60,5 @@
 | Fase 2 | 9 | `92245cd` | Migración `010-creditos-b2b.sql` | Tabla aditiva con checks e índices |
 | Fase 2 | 10 | `429e2f6` | Migración `011-abonos-credito-b2b.sql` | Tabla aditiva + triggers append-only |
 | Fase 2 | 11 | `47f9f38` | Migración `012-avisos-pago-credito-b2b.sql` | Tabla aditiva de avisos con checks de estado |
-| Fase 2 | 12 | `pendiente` | `cartera.schema.ts` con el esquema Drizzle de las tablas nuevas | Export en `schema/index.ts` sin tocar `facturacion.schema.ts` |
+| Fase 2 | 12 | `69c7fa7` | `cartera.schema.ts` con el esquema Drizzle de las tablas nuevas | Export en `schema/index.ts` sin tocar `facturacion.schema.ts` |
+| Fase 2 | 13 | `pendiente` | Registrar 010, 011 y 012 en `aprovisionador.ts` y `Docs/database/README.md` | `tenancy.test.ts` + tablas creadas en BD local |

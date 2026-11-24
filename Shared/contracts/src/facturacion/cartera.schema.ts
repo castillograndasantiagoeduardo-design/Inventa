@@ -2,11 +2,13 @@ import { z } from 'zod';
 import {
   ESTADOS_CREDITO_CLIENTE,
   PLAZOS_CREDITO_DIAS,
+  TIPOS_DOCUMENTO_CLIENTE,
   type EstadoCreditoCliente,
   type NivelRiesgoCredito,
   type PlazoCreditoDias,
-  type TipoDocumentoCliente,
 } from './cliente.schema.ts';
+
+export type TipoDocumentoCartera = (typeof TIPOS_DOCUMENTO_CLIENTE)[number];
 
 /**
  * Estados de una obligación de crédito corporativo B2B.
@@ -77,7 +79,7 @@ export type RegistrarAbonoCreditoInput = z.infer<typeof registrarAbonoCreditoSch
  */
 export interface EmpresaB2BResumenDto {
   id: string;
-  tipoDocumento: TipoDocumentoCliente;
+  tipoDocumento: TipoDocumentoCartera;
   numeroDocumento: string;
   nombreRazonSocial: string;
   email: string | null;
@@ -183,7 +185,7 @@ export interface ResumenCarteraDto {
 export interface EmpresaEnMoraDto {
   clienteId: string;
   nombreRazonSocial: string;
-  tipoDocumento: TipoDocumentoCliente;
+  tipoDocumento: TipoDocumentoCartera;
   numeroDocumento: string;
   telefono: string | null;
   montoVencido: number;

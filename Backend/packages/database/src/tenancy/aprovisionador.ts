@@ -26,6 +26,9 @@ export const ARCHIVOS_ESQUEMA_EMPRESA = [
   'cambios/002-turnos-un-abierto-por-usuario.sql',
   'cambios/007-cierre-administrativo-turnos.sql',
   'cambios/008-cotizaciones-b2b-y-credito.sql',
+  'cambios/010-creditos-b2b.sql',
+  'cambios/011-abonos-credito-b2b.sql',
+  'cambios/012-avisos-pago-credito-b2b.sql',
 ];
 
 export interface DatosNuevaEmpresa {
