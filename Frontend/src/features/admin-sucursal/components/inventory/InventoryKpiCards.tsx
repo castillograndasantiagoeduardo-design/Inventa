@@ -26,7 +26,7 @@ export function InventoryKpiCards({
       id: 'todos' as const,
       label: 'Total productos',
       value: total,
-      color: 'text-white',
+      color: 'text-text',
       accentColor: 'bg-rose-500',
       activeRing: 'border-rose-500/50 shadow-rose-500/10',
     },
@@ -67,21 +67,21 @@ export function InventoryKpiCards({
             onClick={() => onSelectNivel(c.id)}
             className={`vidrio relative rounded-2xl p-4 text-left transition-all duration-200 cursor-pointer group ${
               isSelected
-                ? `${c.activeRing} ring-2 ring-white/10 bg-white/[0.06]`
-                : 'hover:bg-white/[0.04]'
+                ? `${c.activeRing} ring-2 ring-brand-500/30 bg-slate-900/5 dark:bg-white/[0.06]`
+                : 'hover:bg-slate-900/5 dark:hover:bg-white/[0.04]'
             }`}
           >
-            <div className="text-xs text-white/60 font-medium mb-1 tracking-wide">
+            <div className="text-xs text-text-muted font-medium mb-1 tracking-wide">
               {c.label}
             </div>
-            <div className="text-2xl md:text-3xl font-bold font-mono tabular-nums text-white">
+            <div className="text-2xl md:text-3xl font-bold font-mono tabular-nums text-text">
               {isLoading ? (
-                <span className="inline-block w-12 h-8 bg-white/10 rounded animate-pulse" />
+                <span className="inline-block w-12 h-8 bg-slate-200 dark:bg-white/10 rounded animate-pulse" />
               ) : (
                 c.value
               )}
             </div>
-            <div className="mt-3 h-1 w-full bg-white/5 rounded-full overflow-hidden">
+            <div className="mt-3 h-1 w-full bg-slate-200 dark:bg-white/5 rounded-full overflow-hidden">
               <div
                 className={`h-full ${c.accentColor} rounded-full transition-all duration-300`}
                 style={{

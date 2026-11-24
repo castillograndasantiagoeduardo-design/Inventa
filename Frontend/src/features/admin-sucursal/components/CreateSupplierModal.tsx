@@ -81,7 +81,7 @@ export function CreateSupplierModal({
             type="button"
             onClick={handleClose}
             disabled={isSubmitting}
-            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer disabled:opacity-40"
+            className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text text-xs font-semibold cursor-pointer disabled:opacity-40"
           >
             Cancelar
           </button>
@@ -104,7 +104,7 @@ export function CreateSupplierModal({
         )}
 
         <div>
-          <label className="block text-xs font-semibold text-white/70 mb-1">
+          <label className="block text-xs font-semibold text-text-muted mb-1">
             Razón Social / Nombre Comercial *
           </label>
           <input
@@ -112,14 +112,14 @@ export function CreateSupplierModal({
             placeholder="Ej. Distribuciones del Valle S.A.S."
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500"
+            className="w-full h-10 px-3 rounded-xl superficie-control text-xs placeholder:text-text-muted focus:outline-none focus:border-rose-500"
             required
             autoFocus
           />
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-white/70 mb-1">
+          <label className="block text-xs font-semibold text-text-muted mb-1">
             Datos de contacto (Teléfono / Email / Asesor)
           </label>
           <input
@@ -127,7 +127,7 @@ export function CreateSupplierModal({
             placeholder="Ej. 3101234567 - ventas@valle.com - Juan Gómez"
             value={contacto}
             onChange={(e) => setContacto(e.target.value)}
-            className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500"
+            className="w-full h-10 px-3 rounded-xl superficie-control text-xs placeholder:text-text-muted focus:outline-none focus:border-rose-500"
           />
         </div>
       </form>

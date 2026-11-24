@@ -115,26 +115,26 @@ export function ProductDrawer({
       />
 
       {/* Drawer Container */}
-      <div className="relative w-full max-w-lg bg-[#0d0914]/95 border-l border-white/10 shadow-2xl flex flex-col h-full overflow-y-auto">
+      <div className="relative w-full max-w-lg bg-white dark:bg-[#0d0914]/95 border-l border-border shadow-2xl flex flex-col h-full overflow-y-auto">
         {/* Header */}
-        <div className="p-5 border-b border-white/10 flex items-start justify-between gap-4 sticky top-0 bg-[#0d0914]/90 backdrop-blur-md z-10">
+        <div className="p-5 border-b border-border flex items-start justify-between gap-4 sticky top-0 bg-white/95 dark:bg-[#0d0914]/90 backdrop-blur-md z-10">
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="font-mono text-xs text-white/50 tracking-wider">
+              <span className="font-mono text-xs text-text-muted tracking-wider">
                 {producto.sku}
               </span>
               <span className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase border ${nivelClass}`}>
                 {nivelLabel}
               </span>
             </div>
-            <h2 className="text-lg font-bold text-white leading-snug">
+            <h2 className="text-lg font-bold text-text leading-snug">
               {producto.nombre}
             </h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 text-white/60 hover:text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-8 h-8 rounded-lg border border-border superficie-control text-text-muted hover:text-text flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Cerrar panel"
           >
             ✕
@@ -145,28 +145,28 @@ export function ProductDrawer({
         <div className="p-5 space-y-6 flex-1">
           {/* Stock en sede */}
           <div className="vidrio rounded-2xl p-4 space-y-3">
-            <div className="text-xs uppercase tracking-wider text-white/40 font-semibold">
+            <div className="text-xs uppercase tracking-wider text-text-muted font-semibold">
               Estado de inventario en sede
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <div className="text-xs text-white/60">Stock actual</div>
-                <div className="text-2xl font-bold font-mono tabular-nums text-white mt-0.5">
-                  {stock} <span className="text-xs font-normal text-white/40">unidades</span>
+                <div className="text-xs text-text-muted">Stock actual</div>
+                <div className="text-2xl font-bold font-mono tabular-nums text-text mt-0.5">
+                  {stock} <span className="text-xs font-normal text-text-muted">unidades</span>
                 </div>
               </div>
 
               <div>
-                <div className="text-xs text-white/60">Stock mínimo</div>
+                <div className="text-xs text-text-muted">Stock mínimo</div>
                 {!editandoMinimo ? (
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-2xl font-bold font-mono tabular-nums text-white">
+                    <span className="text-2xl font-bold font-mono tabular-nums text-text">
                       {min}
                     </span>
                     <button
                       type="button"
                       onClick={() => setEditandoMinimo(true)}
-                      className="text-[11px] text-rose-400 hover:text-rose-300 underline cursor-pointer"
+                      className="text-[11px] text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 underline cursor-pointer"
                     >
                       Editar
                     </button>
@@ -178,7 +178,7 @@ export function ProductDrawer({
                       min="0"
                       value={nuevoMinimo}
                       onChange={(e) => setNuevoMinimo(e.target.value)}
-                      className="w-16 h-8 px-2 rounded-lg bg-white/10 border border-white/20 text-white font-mono text-sm focus:outline-none focus:border-rose-500"
+                      className="w-16 h-8 px-2 rounded-lg superficie-control text-text font-mono text-sm focus:outline-none focus:border-rose-500"
                       autoFocus
                     />
                     <button
@@ -191,7 +191,7 @@ export function ProductDrawer({
                     <button
                       type="button"
                       onClick={() => setEditandoMinimo(false)}
-                      className="px-2 h-8 rounded-lg bg-white/10 text-white/60 hover:text-white text-xs cursor-pointer"
+                      className="px-2 h-8 rounded-lg border border-border superficie-control text-text-muted hover:text-text text-xs cursor-pointer"
                     >
                       ✕
                     </button>
@@ -201,54 +201,54 @@ export function ProductDrawer({
             </div>
 
             {errorMinimo && (
-              <p className="text-xs text-red-400 mt-1">{errorMinimo}</p>
+              <p className="text-xs text-red-500 dark:text-red-400 mt-1">{errorMinimo}</p>
             )}
           </div>
 
           {/* Datos comerciales */}
           <div className="vidrio rounded-2xl p-4 space-y-3">
-            <div className="text-xs uppercase tracking-wider text-white/40 font-semibold">
+            <div className="text-xs uppercase tracking-wider text-text-muted font-semibold">
               Datos comerciales
             </div>
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div>
-                <span className="text-white/50 block">Precio de venta</span>
-                <span className="text-sm font-bold text-amber-400 font-mono">
+                <span className="text-text-muted block">Precio de venta</span>
+                <span className="text-sm font-bold text-amber-500 dark:text-amber-400 font-mono">
                   {formatCOP(producto.precioVenta)}
                 </span>
               </div>
               <div>
-                <span className="text-white/50 block">Precio de compra</span>
-                <span className="text-sm font-mono text-white/80">
+                <span className="text-text-muted block">Precio de compra</span>
+                <span className="text-sm font-mono text-text">
                   {producto.precioCompra ? formatCOP(producto.precioCompra) : 'No visible'}
                 </span>
               </div>
               <div>
-                <span className="text-white/50 block">Precio corporativo</span>
-                <span className="text-sm font-mono text-white/80">
+                <span className="text-text-muted block">Precio corporativo</span>
+                <span className="text-sm font-mono text-text">
                   {producto.precioCorporativo ? formatCOP(producto.precioCorporativo) : '-'}
                 </span>
               </div>
               {margen !== null && (
                 <div>
-                  <span className="text-white/50 block">Margen estimado</span>
-                  <span className="text-sm font-semibold text-emerald-400 font-mono">
+                  <span className="text-text-muted block">Margen estimado</span>
+                  <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 font-mono">
                     {margen}%
                   </span>
                 </div>
               )}
             </div>
 
-            <div className="pt-2 border-t border-white/5 grid grid-cols-2 gap-3 text-xs">
+            <div className="pt-2 border-t border-border grid grid-cols-2 gap-3 text-xs">
               <div>
-                <span className="text-white/50 block">Categoría</span>
-                <span className="text-white font-medium">
+                <span className="text-text-muted block">Categoría</span>
+                <span className="text-text font-medium">
                   {producto.categoriaNombre || 'Sin categoría'}
                 </span>
               </div>
               <div>
-                <span className="text-white/50 block">Proveedor asignado</span>
-                <span className="text-white font-medium">
+                <span className="text-text-muted block">Proveedor asignado</span>
+                <span className="text-text font-medium">
                   {producto.proveedorNombre || (producto.proveedorId ? `Proveedor #${producto.proveedorId}` : 'Sin proveedor')}
                 </span>
               </div>
@@ -258,13 +258,13 @@ export function ProductDrawer({
           {/* Últimos movimientos Kardex */}
           <div className="vidrio rounded-2xl p-4 space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-xs uppercase tracking-wider text-white/40 font-semibold">
+              <span className="text-xs uppercase tracking-wider text-text-muted font-semibold">
                 Últimos movimientos
               </span>
               <button
                 type="button"
                 onClick={() => onVerKardex(producto)}
-                className="text-xs text-rose-400 hover:text-rose-300 font-medium cursor-pointer"
+                className="text-xs text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 font-medium cursor-pointer"
               >
                 Ver todo el Kardex →
               </button>
@@ -272,11 +272,11 @@ export function ProductDrawer({
 
             {loadingRecientes ? (
               <div className="space-y-2 py-2">
-                <div className="h-4 bg-white/5 rounded animate-pulse w-full" />
-                <div className="h-4 bg-white/5 rounded animate-pulse w-3/4" />
+                <div className="h-4 bg-slate-200 dark:bg-white/5 rounded animate-pulse w-full" />
+                <div className="h-4 bg-slate-200 dark:bg-white/5 rounded animate-pulse w-3/4" />
               </div>
             ) : recientes.length === 0 ? (
-              <p className="text-xs text-white/40 italic py-2">
+              <p className="text-xs text-text-muted italic py-2">
                 Sin movimientos registrados para este producto en la sede.
               </p>
             ) : (
@@ -286,25 +286,25 @@ export function ProductDrawer({
                   return (
                     <div
                       key={m.id}
-                      className="flex items-center justify-between text-xs py-1.5 border-b border-white/5 last:border-0"
+                      className="flex items-center justify-between text-xs py-1.5 border-b border-border last:border-0"
                     >
                       <div>
-                        <div className="text-white/80 font-medium capitalize">
+                        <div className="text-text font-medium capitalize">
                           {m.tipo.replace('_', ' ')}
                         </div>
-                        <div className="text-[10px] text-white/40">
+                        <div className="text-[10px] text-text-muted">
                           {new Date(m.fecha).toLocaleDateString()} · {m.motivo || 'Sin motivo'}
                         </div>
                       </div>
                       <div className="text-right">
                         <span
                           className={`font-mono font-bold ${
-                            isPositive ? 'text-emerald-400' : 'text-red-400'
+                            isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'
                           }`}
                         >
                           {isPositive ? `+${m.cantidad}` : m.cantidad}
                         </span>
-                        <div className="text-[10px] font-mono text-white/40">
+                        <div className="text-[10px] font-mono text-text-muted">
                           Saldo: {m.stockResultante}
                         </div>
                       </div>
@@ -317,11 +317,11 @@ export function ProductDrawer({
         </div>
 
         {/* Footer Actions */}
-        <div className="p-4 border-t border-white/10 bg-[#0d0914]/90 backdrop-blur-md flex flex-wrap gap-2 sticky bottom-0">
+        <div className="p-4 border-t border-border bg-white/95 dark:bg-[#0d0914]/90 backdrop-blur-md flex flex-wrap gap-2 sticky bottom-0">
           <button
             type="button"
             onClick={() => onVerHistorialPrecios(producto)}
-            className="flex-1 py-2 px-3 rounded-xl border border-white/15 hover:bg-white/5 text-white text-xs font-semibold transition-colors cursor-pointer text-center"
+            className="flex-1 py-2 px-3 rounded-xl border border-border superficie-control text-text hover:text-text text-xs font-semibold transition-colors cursor-pointer text-center"
           >
             Historial precios
           </button>

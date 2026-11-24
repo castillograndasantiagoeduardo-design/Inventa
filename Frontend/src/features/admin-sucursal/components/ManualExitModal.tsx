@@ -123,7 +123,7 @@ export function ManualExitModal({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer disabled:opacity-40"
+            className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text text-xs font-semibold cursor-pointer disabled:opacity-40"
           >
             Cancelar
           </button>
@@ -146,17 +146,17 @@ export function ManualExitModal({
         )}
 
         <div>
-          <label className="block text-xs font-semibold text-white/70 mb-1">
+          <label className="block text-xs font-semibold text-text-muted mb-1">
             Producto a descargar *
           </label>
           <select
             value={productoId}
             onChange={(e) => setProductoId(e.target.value)}
-            className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-red-500 cursor-pointer"
+            className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-red-500 cursor-pointer"
             required
           >
             {productos.map((p) => (
-              <option key={p.id} value={p.id}>
+              <option key={p.id} value={p.id} className="bg-black text-white">
                 {p.nombre} ({p.sku}) — Stock: {p.stockActual ?? 0}
               </option>
             ))}
@@ -165,7 +165,7 @@ export function ManualExitModal({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Cantidad a dar de baja *
             </label>
             <input
@@ -175,24 +175,24 @@ export function ManualExitModal({
               placeholder="Ej. 2"
               value={cantidad}
               onChange={(e) => setCantidad(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
-              className={`w-full h-10 px-3 rounded-xl bg-white/5 border text-white font-mono text-xs focus:outline-none ${
-                esExcesiva ? 'border-red-500 text-red-300' : 'border-white/10 focus:border-red-500'
+              className={`w-full h-10 px-3 rounded-xl superficie-control font-mono text-xs focus:outline-none ${
+                esExcesiva ? 'border-red-500 text-red-500 dark:text-red-300' : 'text-text focus:border-red-500'
               }`}
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Tipo de justificación *
             </label>
             <select
               value={motivoTipificado}
               onChange={(e) => setMotivoTipificado(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-red-500 cursor-pointer"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-red-500 cursor-pointer"
             >
               {MOTIVOS_TIPIFICADOS.map((m) => (
-                <option key={m} value={m}>
+                <option key={m} value={m} className="bg-black text-white">
                   {m}
                 </option>
               ))}
@@ -202,12 +202,12 @@ export function ManualExitModal({
 
         {/* Resumen de saldo calculado */}
         {productoSeleccionado && (
-          <div className="vidrio rounded-xl p-3 flex items-center justify-between text-xs">
-            <span className="text-white/60">Saldo resultante en sede:</span>
+          <div className="vidrio rounded-xl p-3 flex items-center justify-between text-xs border border-border">
+            <span className="text-text-muted">Saldo resultante en sede:</span>
             <div className="font-mono">
-              <span className="text-white/50">{stockDisponible}</span>
-              <span className="text-red-400 font-bold mx-1.5">-{cantNum}</span>
-              <span className={`font-bold text-sm ${esExcesiva ? 'text-red-400' : 'text-white'}`}>
+              <span className="text-text-muted">{stockDisponible}</span>
+              <span className="text-red-500 dark:text-red-400 font-bold mx-1.5">-{cantNum}</span>
+              <span className={`font-bold text-sm ${esExcesiva ? 'text-red-500 dark:text-red-400' : 'text-text'}`}>
                 ➔ {saldoFinal}
               </span>
             </div>
@@ -215,7 +215,7 @@ export function ManualExitModal({
         )}
 
         <div>
-          <label className="block text-xs font-semibold text-white/70 mb-1">
+          <label className="block text-xs font-semibold text-text-muted mb-1">
             Detalle adicional / Observación
           </label>
           <textarea
@@ -223,7 +223,7 @@ export function ManualExitModal({
             placeholder="Ej. Número de acta de merma o lote dañado..."
             value={observacionDetallada}
             onChange={(e) => setObservacionDetallada(e.target.value)}
-            className="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-red-500 resize-none"
+            className="w-full p-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-red-500 resize-none placeholder:text-text-muted"
           />
         </div>
       </form>

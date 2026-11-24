@@ -131,7 +131,7 @@ export function ImportProductsModal({
               type="button"
               onClick={handleClose}
               disabled={isSubmitting}
-              className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer disabled:opacity-40"
+              className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text text-xs font-semibold cursor-pointer disabled:opacity-40"
             >
               {resultado ? 'Finalizar' : 'Cancelar'}
             </button>
@@ -162,7 +162,7 @@ export function ImportProductsModal({
                 ? 'border-rose-500 bg-rose-500/10'
                 : file
                 ? 'border-emerald-500/50 bg-emerald-500/5'
-                : 'border-white/15 hover:border-white/30 bg-white/[0.02]'
+                : 'border-border hover:border-slate-400 dark:hover:border-white/30 bg-black/[0.02] dark:bg-white/[0.02]'
             }`}
           >
             <input
@@ -172,22 +172,22 @@ export function ImportProductsModal({
               onChange={handleFileChange}
               className="hidden"
             />
-            <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-white/5 flex items-center justify-center text-white/60">
+            <div className="w-12 h-12 mx-auto mb-3 rounded-full bg-black/5 dark:bg-white/5 flex items-center justify-center text-text-muted">
               📁
             </div>
             {file ? (
               <div>
-                <p className="text-sm font-semibold text-emerald-400">{file.name}</p>
-                <p className="text-xs text-white/50 mt-1">
+                <p className="text-sm font-semibold text-emerald-500 dark:text-emerald-400">{file.name}</p>
+                <p className="text-xs text-text-muted mt-1">
                   {(file.size / 1024).toFixed(1)} KB · Clic para seleccionar otro archivo
                 </p>
               </div>
             ) : (
               <div>
-                <p className="text-sm text-white/80 font-medium">
+                <p className="text-sm text-text font-medium">
                   Arrastra aquí tu archivo .CSV o haz clic para seleccionarlo
                 </p>
-                <p className="text-xs text-white/40 mt-1">
+                <p className="text-xs text-text-muted mt-1">
                   Formato CSV codificado en UTF-8, hasta 5MB.
                 </p>
               </div>
@@ -205,21 +205,21 @@ export function ImportProductsModal({
         {resultado && (
           <div className="space-y-4">
             <div className="grid grid-cols-3 gap-3">
-              <div className="vidrio rounded-xl p-3 text-center">
-                <span className="text-[11px] text-white/50 uppercase">Procesadas</span>
-                <p className="text-xl font-bold font-mono text-white mt-0.5">
+              <div className="vidrio rounded-xl p-3 text-center border border-border">
+                <span className="text-[11px] text-text-muted uppercase">Procesadas</span>
+                <p className="text-xl font-bold font-mono text-text mt-0.5">
                   {resultado.totalFilas}
                 </p>
               </div>
-              <div className="vidrio rounded-xl p-3 text-center">
-                <span className="text-[11px] text-emerald-400/80 uppercase">Cargadas</span>
-                <p className="text-xl font-bold font-mono text-emerald-400 mt-0.5">
+              <div className="vidrio rounded-xl p-3 text-center border border-border">
+                <span className="text-[11px] text-emerald-500 dark:text-emerald-400 uppercase">Cargadas</span>
+                <p className="text-xl font-bold font-mono text-emerald-500 dark:text-emerald-400 mt-0.5">
                   {resultado.totalCargados}
                 </p>
               </div>
-              <div className="vidrio rounded-xl p-3 text-center">
-                <span className="text-[11px] text-red-400/80 uppercase">Rechazadas</span>
-                <p className="text-xl font-bold font-mono text-red-400 mt-0.5">
+              <div className="vidrio rounded-xl p-3 text-center border border-border">
+                <span className="text-[11px] text-red-500 dark:text-red-400 uppercase">Rechazadas</span>
+                <p className="text-xl font-bold font-mono text-red-500 dark:text-red-400 mt-0.5">
                   {resultado.totalRechazados}
                 </p>
               </div>

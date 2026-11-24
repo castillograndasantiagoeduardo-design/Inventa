@@ -141,7 +141,7 @@ export function CreateProductModal({
             type="button"
             onClick={handleClose}
             disabled={isSubmitting}
-            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer disabled:opacity-40"
+            className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text text-xs font-semibold cursor-pointer disabled:opacity-40"
           >
             Cancelar
           </button>
@@ -170,7 +170,7 @@ export function CreateProductModal({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Código SKU / Barras *
             </label>
             <input
@@ -178,13 +178,13 @@ export function CreateProductModal({
               placeholder="Ej. 7701234000011"
               value={sku}
               onChange={(e) => setSku(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text font-mono text-xs focus:outline-none focus:border-rose-500"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Nombre comercial *
             </label>
             <input
@@ -192,7 +192,7 @@ export function CreateProductModal({
               placeholder="Ej. Arroz Diana 500g"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-rose-500"
               required
             />
           </div>
@@ -200,7 +200,7 @@ export function CreateProductModal({
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Precio Venta POS *
             </label>
             <input
@@ -210,13 +210,13 @@ export function CreateProductModal({
               placeholder="Ej. 4200"
               value={precioVenta}
               onChange={(e) => setPrecioVenta(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text font-mono text-xs focus:outline-none focus:border-rose-500"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Precio Compra
             </label>
             <input
@@ -226,12 +226,12 @@ export function CreateProductModal({
               placeholder="Ej. 3200"
               value={precioCompra}
               onChange={(e) => setPrecioCompra(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text font-mono text-xs focus:outline-none focus:border-rose-500"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Precio B2B Corporativo
             </label>
             <input
@@ -241,24 +241,24 @@ export function CreateProductModal({
               placeholder="Opcional"
               value={precioCorporativo}
               onChange={(e) => setPrecioCorporativo(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text font-mono text-xs focus:outline-none focus:border-rose-500"
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Categoría
             </label>
             <select
               value={categoriaId}
               onChange={(e) => setCategoriaId(e.target.value ? Number(e.target.value) : '')}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
             >
-              <option value="">Sin categoría asignada</option>
+              <option value="" className="bg-black text-white">Sin categoría asignada</option>
               {categorias.map((c) => (
-                <option key={c.id} value={c.id}>
+                <option key={c.id} value={c.id} className="bg-black text-white">
                   {c.nombre}
                 </option>
               ))}
@@ -266,7 +266,7 @@ export function CreateProductModal({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Stock Mínimo (Umbral de alerta en sede)
             </label>
             <input
@@ -275,7 +275,7 @@ export function CreateProductModal({
               placeholder="Ej. 15"
               value={stockMinimo}
               onChange={(e) => setStockMinimo(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text font-mono text-xs focus:outline-none focus:border-rose-500"
             />
           </div>
         </div>

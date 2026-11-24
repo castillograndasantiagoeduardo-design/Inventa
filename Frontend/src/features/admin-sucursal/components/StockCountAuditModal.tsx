@@ -113,7 +113,7 @@ export function StockCountAuditModal({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer disabled:opacity-40"
+            className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text text-xs font-semibold cursor-pointer disabled:opacity-40"
           >
             Cancelar
           </button>
@@ -136,7 +136,7 @@ export function StockCountAuditModal({
         )}
 
         <div>
-          <label className="block text-xs font-semibold text-white/70 mb-1">
+          <label className="block text-xs font-semibold text-text-muted mb-1">
             Producto a auditar *
           </label>
           <select
@@ -147,11 +147,11 @@ export function StockCountAuditModal({
               const p = productos.find((item) => item.id === pid);
               if (p) setStockFisico(p.stockActual);
             }}
-            className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
+            className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
             required
           >
             {productos.map((p) => (
-              <option key={p.id} value={p.id}>
+              <option key={p.id} value={p.id} className="bg-black text-white">
                 {p.nombre} ({p.sku}) — Stock en sistema: {p.stockActual}
               </option>
             ))}
@@ -159,15 +159,15 @@ export function StockCountAuditModal({
         </div>
 
         <div className="grid grid-cols-2 gap-3">
-          <div className="vidrio rounded-xl p-3">
-            <span className="text-[11px] text-white/40 block">Stock en sistema</span>
-            <span className="text-xl font-bold font-mono text-white/70 mt-1 block">
+          <div className="vidrio rounded-xl p-3 border border-border">
+            <span className="text-[11px] text-text-muted block">Stock en sistema</span>
+            <span className="text-xl font-bold font-mono text-text mt-1 block">
               {stockSistema}
             </span>
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Conteo físico real *
             </label>
             <input
@@ -176,22 +176,22 @@ export function StockCountAuditModal({
               step="1"
               value={stockFisico}
               onChange={(e) => setStockFisico(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
-              className="w-full h-11 px-3 rounded-xl bg-white/5 border border-white/15 text-white font-mono text-base font-bold focus:outline-none focus:border-rose-500"
+              className="w-full h-11 px-3 rounded-xl superficie-control text-text font-mono text-base font-bold focus:outline-none focus:border-rose-500"
               required
             />
           </div>
         </div>
 
         {/* Resumen de Discrepancia */}
-        <div className="vidrio rounded-xl p-3 flex items-center justify-between text-xs">
-          <span className="text-white/60">Discrepancia detectada:</span>
+        <div className="vidrio rounded-xl p-3 flex items-center justify-between text-xs border border-border">
+          <span className="text-text-muted">Discrepancia detectada:</span>
           <span
             className={`font-mono font-bold text-sm ${
               diferencia > 0
-                ? 'text-emerald-400'
+                ? 'text-emerald-500 dark:text-emerald-400'
                 : diferencia < 0
-                ? 'text-red-400'
-                : 'text-white/40'
+                ? 'text-red-500 dark:text-red-400'
+                : 'text-text-muted'
             }`}
           >
             {diferencia > 0 ? `+${diferencia} (Sobrante)` : diferencia < 0 ? `${diferencia} (Faltante)` : 'Sin discrepancia'}
@@ -199,7 +199,7 @@ export function StockCountAuditModal({
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-white/70 mb-1">
+          <label className="block text-xs font-semibold text-text-muted mb-1">
             Justificación del ajuste *
           </label>
           <input
@@ -207,7 +207,7 @@ export function StockCountAuditModal({
             placeholder="Ej. Conteo cíclico semanal de pasillo 3"
             value={motivo}
             onChange={(e) => setMotivo(e.target.value)}
-            className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500"
+            className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-rose-500 placeholder:text-text-muted"
             required
           />
         </div>
