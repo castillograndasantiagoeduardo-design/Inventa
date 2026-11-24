@@ -26,6 +26,7 @@ import type {
   RateLimitState,
 } from '../types/auth.types';
 import { ApiError } from '@/lib/api';
+import { marcaStore } from '@/features/marca/lib/marca.store';
 
 export interface Paso2FAState {
   tempToken: string;
@@ -142,6 +143,7 @@ export function AuthProvider({
         const resultado = await service.login(credentials);
 
         if (resultado.tipo === 'EXITO') {
+          marcaStore.reiniciar(); // otra sesión puede ser de otra empresa
           setUsuario(resultado.data.usuario);
           setPermisos(resultado.data.permisos);
           setPaso2FA(null);
@@ -209,6 +211,7 @@ export function AuthProvider({
     try {
       await service.logout();
     } finally {
+      marcaStore.reiniciar();
       setUsuario(null);
       setPermisos([]);
       setPaso2FA(null);

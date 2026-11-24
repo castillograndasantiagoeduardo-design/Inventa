@@ -14,6 +14,7 @@ import { usePathname } from 'next/navigation';
 import { BranchSidebar } from './BranchSidebar';
 import { BranchHeader } from './BranchHeader';
 import { FondoAmbiental } from './FondoAmbiental';
+import { MarcaDeAgua } from '@/features/marca';
 import { DEFAULT_DASHBOARD_PERIODO } from '../config/branch-navigation.config';
 import type { DashboardPeriodo } from '../types/branch-dashboard.types';
 
@@ -71,6 +72,7 @@ export function BranchLayout({
       <div className="min-h-screen bg-bg text-text font-sans relative isolate overflow-x-clip transition-colors duration-300">
         {/* 1. Fondo Ambiental Dinámico Detrás del Cristal (-z-10) */}
         <FondoAmbiental />
+        <MarcaDeAgua />
 
         {/* 2. Contenedor Principal con Separación de 24px (gap-6) */}
         <div className="flex items-start p-4 sm:p-5 lg:p-6 gap-6 max-w-[1680px] mx-auto min-h-screen">

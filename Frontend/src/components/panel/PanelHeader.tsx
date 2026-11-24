@@ -10,6 +10,7 @@ import { useAuth } from '@/features/autenticacion';
 import { Button3D } from '@/components/ui/Button3D';
 import { Spinner } from '@/components/ui/Spinner';
 import { etiquetaRol } from '@/lib/format/rol';
+import { AvatarMarca } from '@/features/marca';
 
 export function PanelHeader({ onMenuClick }: { onMenuClick: () => void }) {
   const router = useRouter();
@@ -43,12 +44,9 @@ export function PanelHeader({ onMenuClick }: { onMenuClick: () => void }) {
           <span className="text-sm text-white">{identidad}</span>
           <span className="text-[11px] uppercase tracking-wider text-[#e9b949] font-[family-name:var(--font-ui)]">{rol}</span>
         </div>
-        <span
-          aria-hidden="true"
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e3b341] text-[#111] font-[family-name:var(--font-anton)] text-lg"
-        >
-          {inicial}
-        </span>
+        <AvatarMarca className="flex h-10 w-10 items-center justify-center rounded-full bg-[#e3b341] text-[#111] font-[family-name:var(--font-anton)] text-lg">
+          <span aria-hidden="true">{inicial}</span>
+        </AvatarMarca>
         <Button3D size="panel-sm" variant="navy" type="button" onClick={handleLogout} disabled={saliendo}>
           {saliendo ? <Spinner size={14} label="Cerrando sesión" /> : '⏻'}
           <span className="hidden sm:inline">Cerrar sesión</span>

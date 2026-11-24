@@ -17,6 +17,7 @@ import { formatCOP } from '@/lib/format/moneda';
 import { PLANES } from '@/features/landing/data/planes.data';
 import { BOTON_PRIMARIO, BOTON_SECUNDARIO, TITULO_ACENTO } from '@/features/autenticacion/components/auth.estilos';
 import { suscripcionesService, rutaLogin, type MiCuenta } from '../api/suscripciones.service';
+import { MarcaCuentaCard } from './MarcaCuentaCard';
 
 const fecha = (iso: string) => new Date(iso).toLocaleDateString('es-CO', { day: 'numeric', month: 'long', year: 'numeric' });
 
@@ -98,6 +99,12 @@ export function MiCuentaView() {
           </button>
         </div>
       </section>
+
+      <MarcaCuentaCard
+        colorPrincipal={cuenta.colorPrincipal ?? null}
+        logoVersion={cuenta.logoVersion ?? null}
+        onCambio={(marca) => setDatos((d) => d && { ...d, cuenta: { ...d.cuenta, ...marca } })}
+      />
 
       {/* Planes */}
       <section aria-labelledby="planes-cuenta" className="flex flex-col gap-5">

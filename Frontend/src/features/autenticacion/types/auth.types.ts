@@ -73,6 +73,9 @@ export interface CuentaWeb {
   nombre: string;
   email: string;
   empresaId: number | null;
+  /** Color principal detectado en el logo de la empresa (#rrggbb). */
+  colorPrincipal?: string | null;
+  logoVersion?: string | null;
 }
 
 /**

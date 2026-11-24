@@ -26,8 +26,9 @@ import {
 } from '@/features/autenticacion/components/auth.estilos';
 import { suscripcionesService, rutaLogin } from '../api/suscripciones.service';
 import { TarjetaCuenta } from './CuentaShell';
+import { SelectorLogoPng } from '@/features/marca';
 
-type Campo = 'nombre' | 'email' | 'password' | 'confirmar' | 'aceptaTerminos';
+type Campo = 'nombre' | 'email' | 'password' | 'confirmar' | 'logoPng' | 'aceptaTerminos';
 
 export function RegistroCuentaForm() {
   const router = useRouter();
@@ -36,7 +37,7 @@ export function RegistroCuentaForm() {
   const destino = destinoParam && destinoParam.startsWith('/') && !destinoParam.startsWith('//') ? destinoParam : '/cuenta';
   const id = useId();
 
-  const [valores, setValores] = useState({ nombre: '', email: '', password: '', confirmar: '', aceptaTerminos: false });
+  const [valores, setValores] = useState({ nombre: '', email: '', password: '', confirmar: '', logoPng: '', aceptaTerminos: false });
   const [errores, setErrores] = useState<Partial<Record<Campo, string>>>({});
   const [errorGeneral, setErrorGeneral] = useState<string | null>(null);
   const [verClave, setVerClave] = useState(false);
@@ -66,6 +67,8 @@ export function RegistroCuentaForm() {
     } catch (error) {
       if (error instanceof ApiError && error.code === 'EMAIL_YA_REGISTRADO') {
         setErrores({ email: 'Ya existe una cuenta con ese correo. Inicia sesión.' });
+      } else if (error instanceof ApiError && error.code === 'LOGO_INVALIDO') {
+        setErrores({ logoPng: error.message });
       } else {
         setErrorGeneral(error instanceof ApiError ? error.message : 'No se pudo crear la cuenta. Intenta de nuevo.');
       }
@@ -122,6 +125,12 @@ export function RegistroCuentaForm() {
           </div>
           {errores.confirmar && <p className={ERROR_CAMPO}>{errores.confirmar}</p>}
         </div>
+
+        <SelectorLogoPng
+          valor={valores.logoPng || null}
+          onCambio={(dataUrl) => cambiar('logoPng', dataUrl)}
+          error={errores.logoPng}
+        />
 
         <div>
           <label className="flex items-start gap-2 font-sans text-[13px] text-text-muted cursor-pointer select-none">

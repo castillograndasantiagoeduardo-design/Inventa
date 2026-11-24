@@ -7,6 +7,7 @@
 
 import type { IniciarPagoInput, PagoSimuladoInput, PlanDto, RegistroCuentaInput } from '@inventa/contracts';
 import { ApiError, apiClient } from '@/lib/api';
+import { env } from '@/lib/config/env';
 import type { CuentaWeb } from '@/features/autenticacion';
 
 const SIN_REFRESH = { skipAuthRefresh: true } as const;
@@ -59,6 +60,13 @@ export const suscripcionesService = {
   },
 
   cerrarSesion: () => apiClient.post<{ ok: boolean }>('/cuentas/logout', undefined, SIN_REFRESH),
+
+  /** Cambia el logo (PNG en data URL); devuelve el color principal detectado. */
+  actualizarLogo: (logoPng: string) =>
+    apiClient.put<{ colorPrincipal: string; logoVersion: string }>('/cuentas/logo', { logoPng }, SIN_REFRESH),
+
+  /** URL del logo de la cuenta (la versión evita ver uno viejo en caché). */
+  urlLogo: (version: string) => `${env.apiUrl.replace(/\/+$/, '')}/cuentas/logo?v=${encodeURIComponent(version)}`,
 
   iniciarCheckout: (datos: IniciarPagoInput) => apiClient.post<CheckoutIniciado>('/pagos/checkout', datos, SIN_REFRESH),
 

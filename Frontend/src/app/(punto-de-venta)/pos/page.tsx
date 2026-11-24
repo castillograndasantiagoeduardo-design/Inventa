@@ -18,6 +18,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/features/autenticacion';
+import { MarcaDeAgua } from '@/features/marca';
 import {
   usePosTurno,
   usePosVenta,
@@ -249,7 +250,8 @@ export default function PosTerminalPage() {
   const sucursalNombre = usuario.sucursalNombre ?? `Sucursal #${usuario.sucursalId}`;
 
   return (
-    <div className="h-screen flex flex-col bg-[#0d1630] text-white overflow-hidden">
+    <div className="h-screen flex flex-col bg-[#0d1630] text-white overflow-hidden relative isolate">
+      <MarcaDeAgua />
       {/* 1. Barra Superior de Control */}
       <PosHeader
         usuarioNombre={usuario?.email?.split('@')[0] || 'Cajero'}

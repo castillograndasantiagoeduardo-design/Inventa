@@ -41,6 +41,17 @@ y una **base central** (`inventa_central`) con lo transversal.
 
 Para cambiar qué incluye un plan basta editar `plan_permisos` en la base central (los permisos se recalculan en ≤ 30 s).
 
+## Marca de la empresa (logo y color)
+
+- Al crear la cuenta en `/registro` el logo es **obligatorio y solo PNG** (firma PNG real, ≤ 1 MB, ≤ 2048 px).
+- El servidor detecta su **color principal** (`AnalizadorLogoPng`): ignora transparencias, blancos y negros,
+  prefiere los colores saturados y ajusta la luminosidad para que sirva de acento en claro y oscuro.
+- Logo y color se guardan en `cuentas` (base central) y se copian a `empresas` al comprar el plan.
+  Se pueden cambiar en **Mi cuenta → Marca de tu empresa** (`PUT /cuentas/logo`).
+- En el panel (`features/marca`): el color genera la paleta **"Mi empresa"** (se activa sola la primera vez
+  y se puede cambiar en el selector), el logo reemplaza las iniciales del perfil y aparece tenue de fondo
+  en todas las vistas del panel y el POS. Endpoints: `GET /empresa/marca` y `GET /empresa/logo?v=<versión>`.
+
 ## Puesta en marcha (una vez por equipo)
 
 ```powershell
@@ -49,6 +60,12 @@ cmd /c "mysql -u root -p < Docs\database\central\INVENTA_CENTRAL_BD.sql"
 # 2. Registrar tu base actual como empresa n.º 1 y llenar el directorio
 cd Backend
 deno task seed:central
+```
+
+Si tu base central ya existía antes del logo, aplica también el cambio:
+
+```powershell
+cmd /c "mysql -u root -p inventa_central < Docsdatabasecentralcambios-marca-empresa.sql"
 ```
 
 Después de `seed:demo` (o si creas usuarios con SQL directo), vuelve a correr `deno task seed:central`

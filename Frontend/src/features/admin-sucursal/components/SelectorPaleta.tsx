@@ -13,6 +13,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { STORAGE_KEYS } from '@/lib/storage-keys';
+import { activarPaletaEmpresa, useMarcaEmpresa } from '@/features/marca';
 import {
   Palette,
   X,
@@ -47,7 +48,11 @@ export type IdPaleta =
   | 'vino'
   | 'oro'
   | 'ambar'
-  | 'personalizada';
+  | 'personalizada'
+  /** Generada del color principal del logo de la empresa. */
+  | 'empresa';
+
+type IdPaletaOficial = Exclude<IdPaleta, 'personalizada' | 'empresa'>;
 
 export type IdFondo = 'orbes' | 'aurora' | 'malla';
 
@@ -59,7 +64,7 @@ type RolColorPersonalizado =
   | 'luz3';
 
 interface OpcionPaleta {
-  id: Exclude<IdPaleta, 'personalizada'>;
+  id: IdPaletaOficial;
   nombre: string;
 }
 
@@ -105,7 +110,7 @@ export function SelectorPaleta() {
   const [avanzadoAbierto, setAvanzadoAbierto] = useState<boolean>(false);
   const [paletaActiva, setPaletaActiva] = useState<IdPaleta>('zafiro');
   const [ultimaRecomendada, setUltimaRecomendada] =
-    useState<Exclude<IdPaleta, 'personalizada'>>('zafiro');
+    useState<IdPaletaOficial>('zafiro');
   const [fondoActivo, setFondoActivo] = useState<IdFondo>('malla');
   const [esOscuro, setEsOscuro] = useState<boolean>(true);
 
@@ -114,6 +119,13 @@ export function SelectorPaleta() {
     useState<ConfiguracionPaletaPersonalizada>(CONFIG_BASE_POR_PALETA.zafiro);
 
   const contenedorRef = useRef<HTMLDivElement>(null);
+  const { colorPrincipal: colorEmpresa } = useMarcaEmpresa();
+
+  const seleccionarPaletaEmpresa = () => {
+    if (!colorEmpresa) return;
+    activarPaletaEmpresa(colorEmpresa);
+    setPaletaActiva('empresa');
+  };
 
   useEffect(() => {
     const sincronizarDesdeDom = () => {
@@ -122,7 +134,7 @@ export function SelectorPaleta() {
       const f = (html.getAttribute('data-fondo') as IdFondo) || 'malla';
       const oscuro = html.classList.contains('dark');
       setPaletaActiva(p);
-      if (p !== 'personalizada' && CONFIG_BASE_POR_PALETA[p]) {
+      if (p !== 'personalizada' && p !== 'empresa' && CONFIG_BASE_POR_PALETA[p]) {
         setUltimaRecomendada(p);
       }
       setFondoActivo(f);
@@ -181,7 +193,7 @@ export function SelectorPaleta() {
   }, [abierto]);
 
   const seleccionarPaletaRecomendada = (
-    id: Exclude<IdPaleta, 'personalizada'>
+    id: IdPaletaOficial
   ) => {
     limpiarVariablesPersonalizadasEnDom();
     setPaletaActiva(id);
@@ -262,6 +274,8 @@ export function SelectorPaleta() {
   const nombrePaletaActiva =
     paletaActiva === 'personalizada'
       ? 'Personalizado'
+      : paletaActiva === 'empresa'
+      ? 'Mi empresa'
       : (PALETAS.find((p) => p.id === paletaActiva) || PALETAS[0]).nombre;
 
   const catalogoMuestrasActual =
@@ -377,6 +391,30 @@ export function SelectorPaleta() {
                 </span>
               )}
             </div>
+            {colorEmpresa && (
+              <button
+                type="button"
+                onClick={seleccionarPaletaEmpresa}
+                className={`w-full flex items-center gap-2.5 p-2 rounded-xl border text-left transition-all duration-150 cursor-pointer ${
+                  paletaActiva === 'empresa'
+                    ? 'bg-brand-500/15 border-brand-500 text-text font-semibold shadow-xs'
+                    : 'superficie-control text-text-muted hover:text-text'
+                }`}
+              >
+                <span
+                  aria-hidden="true"
+                  className="w-5 h-5 rounded-full ring-1 ring-black/25 shrink-0"
+                  style={{ backgroundColor: colorEmpresa }}
+                />
+                <span className="flex-1 min-w-0">
+                  <span className="block text-[11px] text-text leading-tight">Mi empresa</span>
+                  <span className="block text-[10px] text-text-muted leading-tight">Color de tu logo</span>
+                </span>
+                {paletaActiva === 'empresa' && (
+                  <Check className="w-3.5 h-3.5 text-brand-600 dark:text-brand-300 shrink-0" />
+                )}
+              </button>
+            )}
             <div className="grid grid-cols-3 gap-1.5">
               {PALETAS.map((paleta) => {
                 const activa = paletaActiva === paleta.id;
