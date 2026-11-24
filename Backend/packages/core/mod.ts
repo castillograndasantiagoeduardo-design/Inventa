@@ -262,3 +262,4 @@ export * from './src/modules/suscripciones/domain/repositories/ISuscripcionesPue
 export * from './src/modules/suscripciones/domain/services/ITokenCuentaService.ts';
 export * from './src/modules/suscripciones/application/use-cases/CuentasUseCases.ts';
 export * from './src/modules/suscripciones/application/use-cases/PagosUseCases.ts';
+export * from './src/modules/suscripciones/domain/services/IAnalizadorLogo.ts';

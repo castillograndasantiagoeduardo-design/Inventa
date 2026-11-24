@@ -1,12 +1,23 @@
 import type { Cuenta, EstadoPago, Pago, Plan, SuscripcionVigente } from '../entities/Suscripciones.ts';
+import type { LogoValidado, MarcaEmpresa } from '../services/IAnalizadorLogo.ts';
 
 export interface ICuentaRepository {
   buscarPorEmail(email: string): Promise<Cuenta | null>;
   buscarPorId(id: string): Promise<Cuenta | null>;
   /** true si el correo ya está en una cuenta o en el directorio de alguna empresa. */
   correoOcupado(email: string): Promise<boolean>;
-  crear(datos: { email: string; nombre: string; passwordHash: string }): Promise<Cuenta>;
+  crear(datos: { email: string; nombre: string; passwordHash: string; logo?: LogoValidado | null }): Promise<Cuenta>;
+  /** Vincula la empresa creada y le copia la marca (logo y color) de la cuenta. */
   asignarEmpresa(cuentaId: string, empresaId: number): Promise<void>;
+  /** Cambia el logo de la cuenta y, si ya tiene empresa, también el de la empresa. */
+  actualizarLogo(cuentaId: string, logo: LogoValidado): Promise<void>;
+  obtenerLogo(cuentaId: string): Promise<Uint8Array | null>;
+}
+
+/** Marca (logo y color) de las empresas, para pintar su panel. */
+export interface IMarcaEmpresaRepository {
+  obtener(empresaId: number): Promise<MarcaEmpresa | null>;
+  obtenerLogo(empresaId: number): Promise<Uint8Array | null>;
 }
 
 export interface IPlanRepository {

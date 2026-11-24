@@ -7,6 +7,9 @@ import type {
   Cuenta,
   EstadoPago,
   ICuentaRepository,
+  IMarcaEmpresaRepository,
+  LogoValidado,
+  MarcaEmpresa,
   IPagoRepository,
   IPlanRepository,
   ISuscripcionRepository,
@@ -15,16 +18,32 @@ import type {
   SuscripcionVigente,
 } from '@inventa/core';
 import { getCentralDatabase, type CentralDatabase } from '../../tenancy/bases-empresa.ts';
-import { cuentas, directorioUsuarios, pagos, planes, planPermisos, suscripciones } from '../../tenancy/central.schema.ts';
+import { cuentas, directorioUsuarios, empresas, pagos, planes, planPermisos, suscripciones } from '../../tenancy/central.schema.ts';
 
 type Central = () => CentralDatabase;
 
-const aCuenta = (f: typeof cuentas.$inferSelect): Cuenta => ({
+/** Columnas de la cuenta SIN el logo (los bytes solo se leen en obtenerLogo). */
+const COLUMNAS_CUENTA = {
+  id_cuenta: cuentas.id_cuenta,
+  email: cuentas.email,
+  nombre: cuentas.nombre,
+  password_hash: cuentas.password_hash,
+  empresa_id: cuentas.empresa_id,
+  logo_version: cuentas.logo_version,
+  color_principal: cuentas.color_principal,
+  created_at: cuentas.created_at,
+};
+
+type FilaCuenta = { [K in keyof typeof COLUMNAS_CUENTA]: (typeof cuentas.$inferSelect)[K] };
+
+const aCuenta = (f: FilaCuenta): Cuenta => ({
   id: f.id_cuenta,
   email: f.email,
   nombre: f.nombre,
   passwordHash: f.password_hash,
   empresaId: f.empresa_id ?? null,
+  colorPrincipal: f.color_principal ?? null,
+  logoVersion: f.logo_version ?? null,
   creadaEn: f.created_at,
 });
 
@@ -32,12 +51,12 @@ export class CentralCuentaRepository implements ICuentaRepository {
   constructor(private readonly central: Central = getCentralDatabase) {}
 
   async buscarPorEmail(email: string): Promise<Cuenta | null> {
-    const [f] = await this.central().select().from(cuentas).where(eq(cuentas.email, email.trim().toLowerCase())).limit(1);
+    const [f] = await this.central().select(COLUMNAS_CUENTA).from(cuentas).where(eq(cuentas.email, email.trim().toLowerCase())).limit(1);
     return f ? aCuenta(f) : null;
   }
 
   async buscarPorId(id: string): Promise<Cuenta | null> {
-    const [f] = await this.central().select().from(cuentas).where(eq(cuentas.id_cuenta, id)).limit(1);
+    const [f] = await this.central().select(COLUMNAS_CUENTA).from(cuentas).where(eq(cuentas.id_cuenta, id)).limit(1);
     return f ? aCuenta(f) : null;
   }
 
@@ -49,9 +68,17 @@ export class CentralCuentaRepository implements ICuentaRepository {
     return Boolean(enDirectorio);
   }
 
-  async crear(datos: { email: string; nombre: string; passwordHash: string }): Promise<Cuenta> {
+  async crear(datos: { email: string; nombre: string; passwordHash: string; logo?: LogoValidado | null }): Promise<Cuenta> {
     const id = crypto.randomUUID();
-    await this.central().insert(cuentas).values({ id_cuenta: id, email: datos.email, nombre: datos.nombre, password_hash: datos.passwordHash });
+    await this.central().insert(cuentas).values({
+      id_cuenta: id,
+      email: datos.email,
+      nombre: datos.nombre,
+      password_hash: datos.passwordHash,
+      logo_png: datos.logo?.png ?? null,
+      logo_version: datos.logo?.version ?? null,
+      color_principal: datos.logo?.colorPrincipal ?? null,
+    });
     const creada = await this.buscarPorId(id);
     if (!creada) throw new Error('No se pudo leer la cuenta recién creada.');
     return creada;
@@ -59,6 +86,27 @@ export class CentralCuentaRepository implements ICuentaRepository {
 
   async asignarEmpresa(cuentaId: string, empresaId: number): Promise<void> {
     await this.central().update(cuentas).set({ empresa_id: empresaId }).where(eq(cuentas.id_cuenta, cuentaId));
+    // La empresa hereda la marca (logo y color) que el dueño subió al registrarse.
+    const [marca] = await this.central()
+      .select({ png: cuentas.logo_png, version: cuentas.logo_version, color: cuentas.color_principal })
+      .from(cuentas).where(eq(cuentas.id_cuenta, cuentaId)).limit(1);
+    if (marca?.png) {
+      await this.central().update(empresas)
+        .set({ logo_png: marca.png, logo_version: marca.version, color_principal: marca.color })
+        .where(eq(empresas.id_empresa, empresaId));
+    }
+  }
+
+  async actualizarLogo(cuentaId: string, logo: LogoValidado): Promise<void> {
+    const valores = { logo_png: logo.png, logo_version: logo.version, color_principal: logo.colorPrincipal };
+    await this.central().update(cuentas).set(valores).where(eq(cuentas.id_cuenta, cuentaId));
+    const cuenta = await this.buscarPorId(cuentaId);
+    if (cuenta?.empresaId) await this.central().update(empresas).set(valores).where(eq(empresas.id_empresa, cuenta.empresaId));
+  }
+
+  async obtenerLogo(cuentaId: string): Promise<Uint8Array | null> {
+    const [f] = await this.central().select({ png: cuentas.logo_png }).from(cuentas).where(eq(cuentas.id_cuenta, cuentaId)).limit(1);
+    return f?.png ?? null;
   }
 }
 
@@ -166,5 +214,21 @@ export class CentralPagoRepository implements IPagoRepository {
       .set({ estado, transaccion_externa: transaccionExterna })
       .where(and(eq(pagos.id_pago, pagoId), eq(pagos.estado, 'pendiente')));
     return resultado.affectedRows === 1;
+  }
+}
+
+export class CentralMarcaEmpresaRepository implements IMarcaEmpresaRepository {
+  constructor(private readonly central: Central = getCentralDatabase) {}
+
+  async obtener(empresaId: number): Promise<MarcaEmpresa | null> {
+    const [f] = await this.central()
+      .select({ color: empresas.color_principal, version: empresas.logo_version })
+      .from(empresas).where(eq(empresas.id_empresa, empresaId)).limit(1);
+    return f ? { colorPrincipal: f.color ?? null, logoVersion: f.version ?? null } : null;
+  }
+
+  async obtenerLogo(empresaId: number): Promise<Uint8Array | null> {
+    const [f] = await this.central().select({ png: empresas.logo_png }).from(empresas).where(eq(empresas.id_empresa, empresaId)).limit(1);
+    return f?.png ?? null;
   }
 }

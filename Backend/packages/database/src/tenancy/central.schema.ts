@@ -5,8 +5,16 @@
  * instancia de getCentralDatabase(). Coincide con Docs/database/central/INVENTA_CENTRAL_BD.sql.
  */
 
-import { bigint, char, datetime, index, int, json, mysqlTable, primaryKey, tinyint, uniqueIndex, varchar } from 'drizzle-orm/mysql-core';
+import { bigint, char, customType, datetime, index, int, json, mysqlTable, primaryKey, tinyint, uniqueIndex, varchar } from 'drizzle-orm/mysql-core';
 import { sql } from 'drizzle-orm';
+import { Buffer } from 'node:buffer';
+
+/** MEDIUMBLOB (hasta 16 MB) para el logo PNG de la empresa. */
+const mediumblob = customType<{ data: Uint8Array; driverData: Buffer }>({
+  dataType: () => 'mediumblob',
+  toDriver: (valor) => Buffer.from(valor),
+  fromDriver: (valor) => new Uint8Array(valor),
+});
 
 export const empresas = mysqlTable('empresas', {
   id_empresa: int('id_empresa').autoincrement().primaryKey(),
@@ -14,6 +22,9 @@ export const empresas = mysqlTable('empresas', {
   nit: varchar('nit', { length: 30 }),
   db_nombre: varchar('db_nombre', { length: 64 }).notNull(),
   estado: varchar('estado', { length: 20 }).notNull().default('activa'),
+  logo_png: mediumblob('logo_png'),
+  logo_version: char('logo_version', { length: 16 }),
+  color_principal: char('color_principal', { length: 7 }),
   created_at: datetime('created_at', { mode: 'date' }).notNull().default(sql`CURRENT_TIMESTAMP`),
   updated_at: datetime('updated_at', { mode: 'date' }).notNull().default(sql`CURRENT_TIMESTAMP`),
 }, (t) => [uniqueIndex('uq_empresas_db_nombre').on(t.db_nombre)]);
@@ -30,6 +41,9 @@ export const cuentas = mysqlTable('cuentas', {
   nombre: varchar('nombre', { length: 150 }).notNull(),
   password_hash: varchar('password_hash', { length: 255 }).notNull(),
   empresa_id: int('empresa_id'),
+  logo_png: mediumblob('logo_png'),
+  logo_version: char('logo_version', { length: 16 }),
+  color_principal: char('color_principal', { length: 7 }),
   created_at: datetime('created_at', { mode: 'date' }).notNull().default(sql`CURRENT_TIMESTAMP`),
 }, (t) => [uniqueIndex('uq_cuentas_email').on(t.email)]);
 

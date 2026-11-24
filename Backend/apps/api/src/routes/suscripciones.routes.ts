@@ -13,7 +13,9 @@
  */
 
 import { Hono } from 'hono';
-import { iniciarPagoSchema, pagoSimuladoSchema, registroCuentaSchema } from '@inventa/contracts';
+import { actualizarLogoSchema, iniciarPagoSchema, pagoSimuladoSchema, registroCuentaSchema } from '@inventa/contracts';
+import { decodeBase64 } from 'jsr:@std/encoding@^1/base64';
+import { authMiddleware } from '../middlewares/auth.middleware.ts';
 import type { Context } from 'hono';
 import { setCookie } from 'hono/cookie';
 import { setAuthCookies } from '../utils/cookie.ts';
@@ -23,6 +25,28 @@ import { createIpRateLimiter } from '../middlewares/rate-limit.middleware.ts';
 import { presentResult } from '../presenters/result.presenter.ts';
 import { safeHandler } from '../utils/handler.ts';
 import { cerrarSesionCuenta, cuentaMiddleware, fijarSesionCuenta, obtenerCuentaId } from '../utils/cuenta-sesion.ts';
+
+/** Bytes del PNG a partir de base64 (acepta el prefijo data:image/png;base64,). */
+function decodificarLogo(base64: string): Uint8Array {
+  try {
+    return decodeBase64(base64.replace(/^data:image\/png;base64,/, ''));
+  } catch {
+    return new Uint8Array(0); // el analizador lo rechaza como logo vacío
+  }
+}
+
+/** Respuesta con el PNG del logo; ?v=<versión> permite cachearlo sin riesgo de verlo viejo. */
+function responderLogo(c: Context, png: Uint8Array | null) {
+  if (!png) return c.json({ error: 'LOGO_NO_ENCONTRADO', message: 'No hay logo.' }, 404);
+  return new Response(png.slice(), {
+    status: 200,
+    headers: {
+      'Content-Type': 'image/png',
+      'Cache-Control': c.req.query('v') ? 'private, max-age=31536000, immutable' : 'private, no-cache',
+      'X-Content-Type-Options': 'nosniff',
+    },
+  });
+}
 
 export function createSuscripcionesRoutes(container: AppContainer) {
   const api = new Hono();
@@ -43,7 +67,10 @@ export function createSuscripcionesRoutes(container: AppContainer) {
     const validacion = registroCuentaSchema.safeParse(await c.req.json().catch(() => null));
     if (!validacion.success) return c.json({ error: 'VALIDATION_ERROR', issues: validacion.error.errors }, 400);
 
-    const resultado = await container.suscripciones.registrarCuenta.execute(validacion.data);
+    const resultado = await container.suscripciones.registrarCuenta.execute({
+      ...validacion.data,
+      logoPng: decodificarLogo(validacion.data.logoPng),
+    });
     if (resultado.isFailure) return presentResult(c, resultado);
 
     fijarSesionCuenta(c, resultado.value.token);
@@ -58,7 +85,14 @@ export function createSuscripcionesRoutes(container: AppContainer) {
     }
     const { cuenta, suscripcion } = resultado.value;
     return c.json({
-      cuenta: { id: cuenta.id, nombre: cuenta.nombre, email: cuenta.email, empresaId: cuenta.empresaId },
+      cuenta: {
+        id: cuenta.id,
+        nombre: cuenta.nombre,
+        email: cuenta.email,
+        empresaId: cuenta.empresaId,
+        colorPrincipal: cuenta.colorPrincipal,
+        logoVersion: cuenta.logoVersion,
+      },
       suscripcion: suscripcion && { ...suscripcion, venceEn: suscripcion.venceEn.toISOString() },
     });
   }));
@@ -67,6 +101,27 @@ export function createSuscripcionesRoutes(container: AppContainer) {
     cerrarSesionCuenta(c);
     return c.json({ ok: true });
   });
+
+  // ─── Marca: logo y color principal ────────────────────────────────────────
+  api.get('/cuentas/logo', cuentaMiddleware(container), safeHandler(async (c) =>
+    responderLogo(c, await container.suscripciones.logoDeCuenta(obtenerCuentaId(c)))));
+
+  api.put('/cuentas/logo', cuentaMiddleware(container), registroRateLimiter, safeHandler(async (c) => {
+    const validacion = actualizarLogoSchema.safeParse(await c.req.json().catch(() => null));
+    if (!validacion.success) return c.json({ error: 'VALIDATION_ERROR', issues: validacion.error.errors }, 400);
+    const resultado = await container.suscripciones.actualizarLogo.execute({
+      cuentaId: obtenerCuentaId(c),
+      logoPng: decodificarLogo(validacion.data.logoPng),
+    });
+    return presentResult(c, resultado);
+  }));
+
+  /** Marca de la empresa del usuario del panel (color principal y versión del logo). */
+  api.get('/empresa/marca', authMiddleware(container), safeHandler(async (c) =>
+    presentResult(c, await container.suscripciones.obtenerMarcaEmpresa.execute(container.multiempresa.empresaActual()))));
+
+  api.get('/empresa/logo', authMiddleware(container), safeHandler(async (c) =>
+    responderLogo(c, await container.suscripciones.logoDeEmpresa(container.multiempresa.empresaActual()))));
 
   // ─── Pagos ────────────────────────────────────────────────────────────────
   const pagosRateLimiter = createIpRateLimiter({

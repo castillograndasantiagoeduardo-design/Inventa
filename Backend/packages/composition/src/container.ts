@@ -67,8 +67,10 @@ import { DrizzleMantenimientoActivoRepository } from '../../database/src/reposit
 import { JwtTokenService } from '../../platform/src/jwt/jwt-token-service.ts';
 import { JwtCuentaTokenService } from '../../platform/src/jwt/jwt-cuenta-token-service.ts';
 import { PasarelaSimulada } from '../../platform/src/pagos/pasarela-simulada.ts';
+import { AnalizadorLogoPng } from '../../platform/src/marca/analizador-logo.ts';
 import {
   CentralCuentaRepository,
+  CentralMarcaEmpresaRepository,
   CentralPagoRepository,
   CentralPlanRepository,
   CentralSuscripcionRepository,
@@ -81,6 +83,8 @@ import {
   IniciarPagoUseCase,
   ConfirmarPagoUseCase,
   ConsultarPagoUseCase,
+  ActualizarLogoCuentaUseCase,
+  ObtenerMarcaEmpresaUseCase,
   type ITokenCuentaService,
   type IAprovisionadorEmpresas,
 } from '@inventa/core';
@@ -399,6 +403,11 @@ export interface AppContainer {
     iniciarPago: IniciarPagoUseCase;
     confirmarPago: ConfirmarPagoUseCase;
     consultarPago: ConsultarPagoUseCase;
+    actualizarLogo: ActualizarLogoCuentaUseCase;
+    obtenerMarcaEmpresa: ObtenerMarcaEmpresaUseCase;
+    /** Bytes del logo PNG (null si no hay). */
+    logoDeCuenta(cuentaId: string): Promise<Uint8Array | null>;
+    logoDeEmpresa(empresaId: number): Promise<Uint8Array | null>;
     /** Pasarela de demostración (página de pago propia y tarjetas de prueba). */
     pasarelaSimulada: PasarelaSimulada;
     /** Abre la sesión del panel del dueño en su empresa (tras pagar, sin pedir de nuevo la clave). */
@@ -423,6 +432,8 @@ export interface ServicioMultiempresa {
   planVigente(empresaId: number): Promise<{ planId: string; venceEn: Date } | null>;
   /** Olvida cachés de empresa y de tope de permisos (tras activar o renovar un plan). */
   invalidarCaches(empresaId?: number): void;
+  /** Id de la empresa de la petición en curso (o la empresa por defecto). */
+  empresaActual(): number;
 }
 
 function leerEnteroPositivo(
@@ -506,6 +517,8 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
   const planRepository = new CentralPlanRepository();
   const suscripcionRepository = new CentralSuscripcionRepository();
   const pagoRepository = new CentralPagoRepository();
+  const marcaEmpresaRepository = new CentralMarcaEmpresaRepository();
+  const analizadorLogo = new AnalizadorLogoPng();
   const pasarelaSimulada = new PasarelaSimulada(pagoRepository, getEnv('FRONTEND_URL') ?? 'http://localhost:3000');
   const totpService = new TotpService();
   const mailer = new PlatformMailer(getEnv('FRONTEND_URL') ?? 'http://localhost:3000');
@@ -1182,7 +1195,7 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
       conversar: conversarConAsistenteUseCase,
     },
     suscripciones: {
-      registrarCuenta: new RegistrarCuentaUseCase(cuentaRepository, passwordHasher, tokenCuentaService),
+      registrarCuenta: new RegistrarCuentaUseCase(cuentaRepository, passwordHasher, tokenCuentaService, analizadorLogo),
       iniciarSesionCuenta: new IniciarSesionCuentaUseCase(cuentaRepository, passwordHasher, tokenCuentaService),
       obtenerMiCuenta: new ObtenerMiCuentaUseCase(cuentaRepository, suscripcionRepository, planRepository),
       listarPlanes: new ListarPlanesUseCase(planRepository),
@@ -1202,6 +1215,10 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
       } satisfies IAprovisionadorEmpresas),
       pasarelaSimulada,
       consultarPago: new ConsultarPagoUseCase(pagoRepository, planRepository),
+      actualizarLogo: new ActualizarLogoCuentaUseCase(cuentaRepository, analizadorLogo),
+      obtenerMarcaEmpresa: new ObtenerMarcaEmpresaUseCase(marcaEmpresaRepository),
+      logoDeCuenta: (cuentaId) => cuentaRepository.obtenerLogo(cuentaId),
+      logoDeEmpresa: (empresaId) => marcaEmpresaRepository.obtenerLogo(empresaId),
       emitirSesionDueno: async (empresaId, email) => {
         const contexto = await resolutorEmpresas.porId(empresaId);
         if (!contexto) return null;
@@ -1226,6 +1243,7 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
         resolutorEmpresas.invalidar(empresaId);
         topePermisosPlan.invalidar(empresaId);
       },
+      empresaActual: () => obtenerEmpresaIdActual() ?? contextoPorDefecto().empresaId,
       empresaDesdeToken: async (accessToken) => {
         try {
           const payload = await tokenService.validarAccessToken(accessToken);

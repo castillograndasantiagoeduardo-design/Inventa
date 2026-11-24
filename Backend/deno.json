@@ -31,7 +31,8 @@
     "@google/generative-ai": "npm:@google/generative-ai@^0.24.1",
     "@modelcontextprotocol/sdk": "npm:@modelcontextprotocol/sdk@^1.32.1",
     "@modelcontextprotocol/sdk/": "npm:/@modelcontextprotocol/sdk@^1.32.1/",
-    "nodemailer": "npm:nodemailer@^6.9.16"
+    "nodemailer": "npm:nodemailer@^6.9.16",
+    "pngjs": "npm:pngjs@^7.0.0"
   },
   "tasks": {
     "dev-api": "deno run --allow-net --allow-env --allow-read --allow-ffi --allow-run --env apps/api/src/main.ts",

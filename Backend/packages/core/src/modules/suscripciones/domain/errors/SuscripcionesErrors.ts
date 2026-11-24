@@ -41,3 +41,10 @@ export class AprovisionamientoFallidoError extends DomainError {
     super('El pago fue aprobado, pero no se pudo crear tu empresa. Nuestro equipo lo revisará; no se te cobrará de nuevo.');
   }
 }
+
+export class LogoInvalidoError extends DomainError {
+  public readonly code = 'LOGO_INVALIDO';
+  constructor(motivo: string) {
+    super(motivo);
+  }
+}

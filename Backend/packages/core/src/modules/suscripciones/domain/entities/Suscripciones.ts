@@ -9,6 +9,9 @@ export interface Cuenta {
   nombre: string;
   passwordHash: string;
   empresaId: number | null;
+  /** Color principal detectado en el logo (#rrggbb), o null si aún no subió logo. */
+  colorPrincipal: string | null;
+  logoVersion: string | null;
   creadaEn: Date;
 }
 

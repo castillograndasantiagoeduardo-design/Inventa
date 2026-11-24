@@ -27,6 +27,10 @@ CREATE TABLE IF NOT EXISTS empresas (
     -- Nombre de la base de datos MySQL con los datos operativos de la empresa.
     db_nombre   VARCHAR(64) NOT NULL,
     estado      VARCHAR(20) NOT NULL DEFAULT 'activa',
+    -- Marca: logo PNG (≤ 1 MB) y su color principal (#rrggbb), copiados de la cuenta del dueño.
+    logo_png        MEDIUMBLOB NULL,
+    logo_version    CHAR(16) NULL,
+    color_principal CHAR(7) NULL,
     created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (id_empresa),
@@ -51,6 +55,10 @@ CREATE TABLE IF NOT EXISTS cuentas (
     password_hash VARCHAR(255) NOT NULL COLLATE utf8mb4_bin,
     -- NULL mientras la cuenta es gratuita; se llena cuando compra un plan.
     empresa_id    INT NULL,
+    -- Logo de la empresa (PNG ≤ 1 MB) y el color principal detectado en él.
+    logo_png        MEDIUMBLOB NULL,
+    logo_version    CHAR(16) NULL,
+    color_principal CHAR(7) NULL,
     created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id_cuenta),
     UNIQUE INDEX uq_cuentas_email (email),

@@ -4,6 +4,7 @@
     "jsr:@hono/hono@^4.13.9": "4.13.10",
     "jsr:@std/assert@*": "1.0.19",
     "jsr:@std/assert@1": "1.0.19",
+    "jsr:@std/encoding@1": "1.0.11",
     "jsr:@std/internal@^1.0.12": "1.0.14",
     "jsr:@std/internal@^1.0.14": "1.0.14",
     "jsr:@std/path@1": "1.1.6",
@@ -16,7 +17,7 @@
     "npm:@node-rs/argon2@^2.2.1": "2.2.1",
     "npm:argon2@~0.41.1": "0.41.1",
     "npm:drizzle-kit@~0.30.5": "0.30.6",
-    "npm:drizzle-orm@~0.38.4": "0.38.4_mysql2@3.24.5__@types+node@26.6.5_@types+node@26.6.5",
+    "npm:drizzle-orm@~0.38.4": "0.38.4_mysql2@3.24.5_@types+node@26.6.5",
     "npm:hono@*": "4.13.10",
     "npm:hono@^4.6.11": "4.13.10",
     "npm:jose@^5.9.3": "5.10.0",
@@ -28,6 +29,7 @@
     "npm:nodemailer@^10.0.11": "10.0.12",
     "npm:nodemailer@^6.9.16": "6.10.1",
     "npm:otpauth@^9.5.2": "9.5.2",
+    "npm:pngjs@7": "7.0.0",
     "npm:zod-to-json-schema@*": "3.25.2_zod@4.6.5",
     "npm:zod@^3.24.0": "3.25.76",
     "npm:zod@^4.6.5": "4.6.5"
@@ -41,6 +43,9 @@
       "dependencies": [
         "jsr:@std/internal@^1.0.12"
       ]
+    },
+    "@std/encoding@1.0.11": {
+      "integrity": "e7cef2f0b3153bccc17431e7c864a1de03a4b6d9647389c43e08aaa775d37385"
     },
     "@std/internal@1.0.14": {
       "integrity": "291516b3d4c35024d6ffbc0a9df5bf4c64116e05b50012cf846710152d2ffdf7"
@@ -553,7 +558,7 @@
       ],
       "bin": true
     },
-    "drizzle-orm@0.38.4_mysql2@3.24.5__@types+node@26.6.5_@types+node@26.6.5": {
+    "drizzle-orm@0.38.4_mysql2@3.24.5_@types+node@26.6.5": {
       "integrity": "sha512-s7/5BpLKO+WJRHspvpqTydxFob8i1vo2rEx4pY6TGY7QSMuUfWUuzaY0DIpXCkgHOo37BaFC+SJQb99dDUXT3Q==",
       "dependencies": [
         "mysql2"
@@ -950,6 +955,9 @@
     "pkce-challenge@5.0.1": {
       "integrity": "sha512-wQ0b/W4Fr01qtpHlqSqspcj3EhBvimsdh0KlHhH8HRZnMsEa0ea2fTULOXOS9ccQr3om+GcGRk4e+isrZWV8qQ=="
     },
+    "pngjs@7.0.0": {
+      "integrity": "sha512-LKWqWJRhstyYo9pGvgor/ivk2w94eSjE3RGVuzLGlr3NmD8bf7RcYGze1mNdEHRP6TRP6rMuDHk5t44hnTRyow=="
+    },
     "proxy-addr@2.0.8": {
       "integrity": "sha512-5nnx0yGyVUcY6t9RnWcARWtwT9F1D8O9rt08htPvnd49W1IgZtmLkhu9WfMzQj1cFxjHIO6connUNVW5k7AVyQ==",
       "dependencies": [
@@ -1220,6 +1228,7 @@
       "npm:jose@^5.9.3",
       "npm:mysql2@^3.12.0",
       "npm:nodemailer@^6.9.16",
+      "npm:pngjs@7",
       "npm:zod@^3.24.0"
     ],
     "packageJson": {

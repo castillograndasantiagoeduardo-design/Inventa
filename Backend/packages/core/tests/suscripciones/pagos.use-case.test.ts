@@ -20,13 +20,15 @@ const plan = (id: string, precio: number): Plan => ({
 });
 
 function escenario(empresaInicial: number | null = null) {
-  const cuenta: Cuenta = { id: 'c1', email: 'ana@x.co', nombre: 'Ana', passwordHash: 'h', empresaId: empresaInicial, creadaEn: new Date() };
+  const cuenta: Cuenta = { id: 'c1', email: 'ana@x.co', nombre: 'Ana', passwordHash: 'h', empresaId: empresaInicial, colorPrincipal: null, logoVersion: null, creadaEn: new Date() };
   const cuentas: ICuentaRepository = {
     buscarPorEmail: () => Promise.resolve(cuenta),
     buscarPorId: (id) => Promise.resolve(id === 'c1' ? cuenta : null),
     correoOcupado: () => Promise.resolve(false),
     crear: () => Promise.reject(new Error('no')),
     asignarEmpresa: (_id, empresaId) => { cuenta.empresaId = empresaId; return Promise.resolve(); },
+    actualizarLogo: () => Promise.resolve(),
+    obtenerLogo: () => Promise.resolve(null),
   };
   const planes: IPlanRepository = {
     listarActivos: () => Promise.resolve([]),

@@ -107,6 +107,9 @@ export function presentResult<T>(c: Context, result: Result<T, DomainError>, suc
     case 'PAGO_NO_APROBADO':
       status = 409;
       break;
+    case 'LOGO_INVALIDO':
+      status = 422;
+      break;
     case 'APROVISIONAMIENTO_FALLIDO':
       status = 503;
       break;
