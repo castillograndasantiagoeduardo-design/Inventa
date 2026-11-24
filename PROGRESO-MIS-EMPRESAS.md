@@ -54,4 +54,5 @@
 | Fase 1 | 3 | `06a5456` | Estados de cartera B2B en `@inventa/contracts` | Export en `index.ts` |
 | Fase 1 | 4 | `f15f9ff` | `CreditoB2BDto`, `AbonoCreditoDto` y `registrarAbonoCreditoSchema` | Zod schema + DTOs |
 | Fase 1 | 5 | `6a0c8c0` | `EmpresaB2BResumenDto` y `EmpresaB2BDetalleDto` | Contratos de resumen y detalle B2B |
-| Fase 1 | 6 | `pendiente` | `SolicitarCreditoB2BInput` con datos de ganancia | Schema Zod `solicitarCreditoB2BSchema` |
+| Fase 1 | 6 | `04276fd` | `SolicitarCreditoB2BInput` con datos de ganancia | Schema Zod `solicitarCreditoB2BSchema` |
+| Fase 1 | 7 | `pendiente` | `ResumenCarteraDto`, `EmpresaEnMoraDto` y filtros de listado | Schemas de filtros y DTOs de resumen |

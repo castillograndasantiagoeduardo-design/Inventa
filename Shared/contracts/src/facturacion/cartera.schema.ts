@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import {
+  ESTADOS_CREDITO_CLIENTE,
   PLAZOS_CREDITO_DIAS,
   type EstadoCreditoCliente,
   type NivelRiesgoCredito,
@@ -156,3 +157,65 @@ export const solicitarCreditoB2BSchema = z.object({
 });
 
 export type SolicitarCreditoB2BInput = z.infer<typeof solicitarCreditoB2BSchema>;
+
+/**
+ * Resumen consolidado de cartera corporativa B2B de la sucursal.
+ */
+export interface ResumenCarteraDto {
+  totalEmpresasB2B: number;
+  empresasConCredito: number;
+  cupoTotalAprobado: number;
+  cupoTotalUtilizado: number;
+  cupoTotalDisponible: number;
+  saldoTotalPendiente: number;
+  montoTotalVencido: number;
+  empresasEnMora: number;
+  creditosVigentesCount: number;
+  creditosPagadosCount: number;
+  gananciaTotalGenerada: number;
+  avisosPendientesCount: number;
+}
+
+/**
+ * Resumen de una empresa con obligaciones vencidas (en mora).
+ */
+export interface EmpresaEnMoraDto {
+  clienteId: string;
+  nombreRazonSocial: string;
+  tipoDocumento: TipoDocumentoCliente;
+  numeroDocumento: string;
+  telefono: string | null;
+  montoVencido: number;
+  diasMoraMax: number;
+  creditosVencidosCount: number;
+  creditoMasAntiguoVencido: string;
+}
+
+const booleanoOpcional = (valor: unknown) => {
+  if (valor === undefined || valor === null || valor === '') return undefined;
+  if (typeof valor === 'boolean') return valor;
+  if (valor === 'true' || valor === '1') return true;
+  if (valor === 'false' || valor === '0') return false;
+  return valor;
+};
+
+export const filtrosEmpresasB2BSchema = z.object({
+  buscar: z.preprocess(textoOpcionalCartera, z.string().trim().max(100).optional()),
+  estadoCredito: z.preprocess(
+    textoOpcionalCartera,
+    z.enum(ESTADOS_CREDITO_CLIENTE).optional(),
+  ),
+  soloEnMora: z.preprocess(booleanoOpcional, z.boolean().optional()),
+  conCartera: z.preprocess(booleanoOpcional, z.boolean().optional()),
+});
+
+export type FiltrosEmpresasB2B = z.infer<typeof filtrosEmpresasB2BSchema>;
+
+export const filtrosCarteraB2BSchema = z.object({
+  clienteId: z.preprocess(textoOpcionalCartera, z.string().uuid().optional()),
+  estado: z.preprocess(textoOpcionalCartera, z.enum(ESTADOS_CARTERA_B2B).optional()),
+  pagina: z.coerce.number().int().min(1).default(1),
+  limite: z.coerce.number().int().min(1).max(100).default(20),
+});
+
+export type FiltrosCarteraB2B = z.infer<typeof filtrosCarteraB2BSchema>;
