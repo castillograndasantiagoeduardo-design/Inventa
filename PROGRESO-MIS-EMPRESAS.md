@@ -56,4 +56,5 @@
 | Fase 1 | 5 | `6a0c8c0` | `EmpresaB2BResumenDto` y `EmpresaB2BDetalleDto` | Contratos de resumen y detalle B2B |
 | Fase 1 | 6 | `04276fd` | `SolicitarCreditoB2BInput` con datos de ganancia | Schema Zod `solicitarCreditoB2BSchema` |
 | Fase 1 | 7 | `9ecb553` | `ResumenCarteraDto`, `EmpresaEnMoraDto` y filtros de listado | Schemas de filtros y DTOs de resumen |
-| Fase 1 | 8 | `pendiente` | `AvisoPagoCreditoDto`, `AvisarPagoInput` y `ResolverAvisoInput` | Contratos de avisos de pago completos |
+| Fase 1 | 8 | `c6853fa` | `AvisoPagoCreditoDto`, `AvisarPagoInput` y `ResolverAvisoInput` | Contratos de avisos de pago completos |
+| Fase 2 | 9 | `pendiente` | Migración `010-creditos-b2b.sql` | Tabla aditiva con checks e índices |
