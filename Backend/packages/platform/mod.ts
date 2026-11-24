@@ -20,3 +20,4 @@ export * from './src/mailer/mailer.ts';
 export * from './src/mailer/gmail-mailer.ts';
 export * from './src/crypto/reset-crypto.ts';
 export * from './src/asistente/gemini-asistente.service.ts';
+export * from './src/jwt/jwt-cuenta-token-service.ts';

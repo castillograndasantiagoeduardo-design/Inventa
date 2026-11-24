@@ -65,6 +65,20 @@ import { DrizzleMantenimientoActivoRepository } from '../../database/src/reposit
 
 
 import { JwtTokenService } from '../../platform/src/jwt/jwt-token-service.ts';
+import { JwtCuentaTokenService } from '../../platform/src/jwt/jwt-cuenta-token-service.ts';
+import {
+  CentralCuentaRepository,
+  CentralPagoRepository,
+  CentralPlanRepository,
+  CentralSuscripcionRepository,
+} from '../../database/src/repositories/suscripciones/central-suscripciones.repositories.ts';
+import {
+  RegistrarCuentaUseCase,
+  IniciarSesionCuentaUseCase,
+  ObtenerMiCuentaUseCase,
+  ListarPlanesUseCase,
+  type ITokenCuentaService,
+} from '@inventa/core';
 import { Argon2PasswordHasher } from '../../platform/src/hashing/argon2-password-hasher.ts';
 import { TotpService } from '../../platform/src/totp/totp-service.ts';
 import { PlatformMailer } from '../../platform/src/mailer/mailer.ts';
@@ -370,6 +384,14 @@ export interface AppContainer {
   };
   /** Multiempresa: resolución de la empresa de cada petición (una base de datos por empresa). */
   multiempresa: ServicioMultiempresa;
+  /** Cuentas de la web, planes y pagos (base central). */
+  suscripciones: {
+    registrarCuenta: RegistrarCuentaUseCase;
+    iniciarSesionCuenta: IniciarSesionCuentaUseCase;
+    obtenerMiCuenta: ObtenerMiCuentaUseCase;
+    listarPlanes: ListarPlanesUseCase;
+    tokenCuenta: ITokenCuentaService;
+  };
 }
 
 export interface ServicioMultiempresa {
@@ -465,6 +487,13 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
   // 2. Instanciar Servicios Técnicos
   const tokenService = new JwtTokenService(refreshTokenRepository, jwtSecret, obtenerEmpresaIdActual);
   const passwordHasher = new Argon2PasswordHasher();
+
+  // Suscripciones (base central)
+  const tokenCuentaService = new JwtCuentaTokenService(jwtSecret);
+  const cuentaRepository = new CentralCuentaRepository();
+  const planRepository = new CentralPlanRepository();
+  const suscripcionRepository = new CentralSuscripcionRepository();
+  const pagoRepository = new CentralPagoRepository();
   const totpService = new TotpService();
   const mailer = new PlatformMailer(getEnv('FRONTEND_URL') ?? 'http://localhost:3000');
 
@@ -1138,6 +1167,13 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
     },
     asistente: {
       conversar: conversarConAsistenteUseCase,
+    },
+    suscripciones: {
+      registrarCuenta: new RegistrarCuentaUseCase(cuentaRepository, passwordHasher, tokenCuentaService),
+      iniciarSesionCuenta: new IniciarSesionCuentaUseCase(cuentaRepository, passwordHasher, tokenCuentaService),
+      obtenerMiCuenta: new ObtenerMiCuentaUseCase(cuentaRepository, suscripcionRepository, planRepository),
+      listarPlanes: new ListarPlanesUseCase(planRepository),
+      tokenCuenta: tokenCuentaService,
     },
     multiempresa: {
       ejecutarConEmpresa,

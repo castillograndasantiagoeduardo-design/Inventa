@@ -54,3 +54,6 @@ export * from './logistica/mantenimiento.schema.ts';
 
 // ─── Módulo: mcp ──────────────────────────────────────────────
 export * from './mcp/index.ts';
+
+// ─── Módulo: suscripciones (cuentas, planes y pagos) ──────────
+export * from './suscripciones/cuenta.schema.ts';
