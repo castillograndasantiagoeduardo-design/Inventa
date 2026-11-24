@@ -1,4 +1,10 @@
 import { z } from 'zod';
+import type {
+  EstadoCreditoCliente,
+  NivelRiesgoCredito,
+  PlazoCreditoDias,
+  TipoDocumentoCliente,
+} from './cliente.schema.ts';
 
 /**
  * Estados de una obligación de crédito corporativo B2B.
@@ -63,3 +69,50 @@ export const registrarAbonoCreditoSchema = z.object({
 });
 
 export type RegistrarAbonoCreditoInput = z.infer<typeof registrarAbonoCreditoSchema>;
+
+/**
+ * Resumen financiero, crediticio y de rentabilidad de una empresa B2B.
+ */
+export interface EmpresaB2BResumenDto {
+  id: string;
+  tipoDocumento: TipoDocumentoCliente;
+  numeroDocumento: string;
+  nombreRazonSocial: string;
+  email: string | null;
+  telefono: string | null;
+  direccion: string | null;
+  creditoHabilitado: boolean;
+  estadoCredito: EstadoCreditoCliente;
+  nivelRiesgoCredito: NivelRiesgoCredito | null;
+  plazoCreditoDias: number | null;
+  cupoCreditoSugerido: number;
+  cupoCreditoAprobado: number;
+  cupoCreditoUtilizado: number;
+  cupoCreditoDisponible: number;
+  saldoPendiente: number;
+  gananciaNetaMensual: number | null;
+  antiguedadEmpresaMeses: number | null;
+  observacionFinanciera: string | null;
+  motivoDecisionCredito: string | null;
+  // Rentabilidad frente al crédito (calculada desde facturas emitidas - devoluciones)
+  totalFacturado: number;
+  totalDevoluciones: number;
+  gananciaGenerada: number;
+  rentabilidadSobreCredito: number | null;
+  // Resumen de cartera
+  creditosVigentesCount: number;
+  creditosPagadosCount: number;
+  creditosEnMoraCount: number;
+  montoVencido: number;
+  diasMoraMax: number;
+  antiguedadCarteraDias: number | null;
+  avisosPendientesCount: number;
+}
+
+/**
+ * Detalle completo de una empresa B2B con su historial de créditos y abonos.
+ */
+export interface EmpresaB2BDetalleDto extends EmpresaB2BResumenDto {
+  creditos: CreditoB2BDto[];
+  abonosRecientes: AbonoCreditoDto[];
+}
