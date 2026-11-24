@@ -30,6 +30,7 @@ export * from './facturacion/factura.schema.ts';
 export * from './facturacion/cotizacion-b2b.schema.ts';
 export * from './facturacion/devolucion-venta.schema.ts';
 export * from './facturacion/alerta-facturacion.schema.ts';
+export * from './facturacion/cartera.schema.ts';
 
 
 // ─── Módulo: administracion ────────────────────────────────────
