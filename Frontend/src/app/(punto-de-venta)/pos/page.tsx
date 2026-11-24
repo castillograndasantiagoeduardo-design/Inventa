@@ -24,6 +24,7 @@ import {
   usePosVenta,
   usePosClientes,
   usePosCobro,
+  posService,
   PosHeader,
   PosTurnoModal,
   PosCatalogo,
@@ -274,6 +275,22 @@ export default function PosTerminalPage() {
               return;
             }
             agregarProducto(prod);
+          }}
+          onProductoInactivado={(productoId: string) => {
+            eliminarItem(productoId);
+          }}
+          onCatalogoSincronizado={(idsActivos: Set<string>) => {
+            // Si algún producto que ya estaba en el carrito dejó de aparecer en el catálogo activo,
+            // verificamos su estado en el servidor y lo retiramos si fue inactivado.
+            items.forEach((item) => {
+              if (!idsActivos.has(item.productoId)) {
+                void posService.verificarProductoActivo(item.productoId).then((res) => {
+                  if (!res.activo) {
+                    eliminarItem(item.productoId);
+                  }
+                });
+              }
+            });
           }}
           inputBuscarRef={inputBuscarRef}
           sucursalId={sucursalId}

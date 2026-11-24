@@ -68,7 +68,7 @@ export function EditCategoryModal({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer"
+            className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text text-xs font-semibold cursor-pointer"
           >
             Cancelar
           </button>
@@ -85,21 +85,21 @@ export function EditCategoryModal({
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-xs font-semibold text-white/70 mb-1.5">
+          <label className="block text-xs font-semibold text-text-muted mb-1.5">
             Nombre de la categoría *
           </label>
           <input
             type="text"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
-            className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/15 text-white text-xs focus:outline-none focus:border-rose-500 transition-colors"
+            className="w-full h-10 px-3 rounded-xl superficie-control text-xs focus:outline-none focus:border-rose-500 transition-colors"
             required
             autoFocus
           />
         </div>
 
         {errorMsg && (
-          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs">
+          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-medium">
             {errorMsg}
           </div>
         )}

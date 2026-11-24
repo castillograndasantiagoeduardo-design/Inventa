@@ -26,7 +26,8 @@ export type FiltrosExportarProductosDTO = z.infer<typeof filtrosExportarProducto
 export const filtrosExportarKardexSchema = z.object({
   productoId: z
     .string()
-    .uuid({ message: 'El id de producto debe ser un UUID válido.' })
+    .trim()
+    .min(1)
     .optional(),
   sucursalId: z.coerce
     .number()
@@ -34,9 +35,18 @@ export const filtrosExportarKardexSchema = z.object({
     .positive({ message: 'El id de sucursal debe ser positivo.' })
     .optional(),
   tipo: z
-    .enum(['entrada', 'salida', 'ajuste_entrada', 'ajuste_salida'], {
+    .enum([
+      'entrada',
+      'salida',
+      'ajuste_entrada',
+      'ajuste_salida',
+      'ajuste_positivo',
+      'ajuste_negativo',
+      'venta',
+      'devolucion',
+    ], {
       errorMap: () => ({
-        message: "El tipo debe ser 'entrada', 'salida', 'ajuste_entrada' o 'ajuste_salida'.",
+        message: "Tipo de movimiento no válido.",
       }),
     })
     .optional(),

@@ -428,6 +428,7 @@ html[data-paleta="ambar"] {
 }
 
 /* Superficie de alta densidad (95% opacidad) para popovers y menús desplegables */
+.panel-card,
 .vidrio-popover {
   background-color: rgba(11, 17, 30, 0.95);
   backdrop-filter: blur(28px) saturate(160%);
@@ -440,6 +441,7 @@ html[data-paleta="ambar"] {
     inset 0 1px 0 rgba(255, 255, 255, 0.14);
 }
 
+.light .panel-card,
 .light .vidrio-popover {
   background-color: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(15, 23, 42, 0.14);
@@ -454,6 +456,27 @@ html[data-paleta="ambar"] {
   border: 1px solid var(--superficie-ctrl-borde);
   color: var(--text);
   transition: background-color 300ms ease, border-color 300ms ease, color 300ms ease;
+}
+
+.superficie-control::placeholder,
+.superficie-control input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Menús desplegables de selectores en toda la aplicación:
+   Fondo negro y letra blanca nítida por requerimiento */
+select {
+  color-scheme: dark !important;
+}
+
+select option {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+select optgroup {
+  background-color: #000000 !important;
+  color: #ffffff !important;
 }
 
 .superficie-control:hover {

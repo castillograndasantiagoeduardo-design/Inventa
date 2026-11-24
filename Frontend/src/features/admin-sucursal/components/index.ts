@@ -49,3 +49,4 @@ export * from './clients';
 export * from './BranchCotizacionesB2BPanel';
 export * from './staff';
 export * from './assets';
+export * from './reports';

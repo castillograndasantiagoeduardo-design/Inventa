@@ -80,13 +80,13 @@ export function Modal({ open, onClose, title, description, children, footer, siz
         tabIndex={-1}
         className={`panel-card toast-in relative w-full ${SIZE_CLASSES[size]} max-h-[90dvh] flex flex-col rounded-b-none sm:rounded-2xl outline-none pb-[env(safe-area-inset-bottom)]`}
       >
-        <header className="flex items-start justify-between gap-4 border-b border-white/10 px-5 py-4">
+        <header className="flex items-start justify-between gap-4 border-b border-border px-5 py-4">
           <div>
-            <h2 id={titleId} className="font-[family-name:var(--font-anton)] uppercase tracking-wider text-xl text-[#e9b949]">
+            <h2 id={titleId} className="text-lg font-bold text-text leading-tight tracking-normal">
               {title}
             </h2>
             {description && (
-              <p id={descriptionId} className="mt-1 text-sm text-white/60">
+              <p id={descriptionId} className="mt-1 text-xs sm:text-sm text-text-muted leading-normal">
                 {description}
               </p>
             )}
@@ -97,13 +97,13 @@ export function Modal({ open, onClose, title, description, children, footer, siz
             onClick={onClose}
             disabled={locked}
             aria-label="Cerrar"
-            className="min-h-[44px] min-w-[44px] -mr-2 -mt-1 rounded-lg text-2xl leading-none text-white/60 hover:text-white hover:bg-white/10 disabled:opacity-40 cursor-pointer"
+            className="min-h-[36px] min-w-[36px] flex items-center justify-center -mr-2 -mt-1 rounded-lg text-xl leading-none text-text-muted hover:text-text hover:bg-black/5 dark:hover:bg-white/10 transition-colors disabled:opacity-40 cursor-pointer"
           >
             ×
           </button>
         </header>
         <div className="overflow-y-auto px-5 py-4">{children}</div>
-        {footer && <footer className="flex flex-wrap justify-end gap-3 border-t border-white/10 px-5 py-4">{footer}</footer>}
+        {footer && <footer className="flex flex-wrap justify-end gap-3 border-t border-border px-5 py-4">{footer}</footer>}
       </div>
     </div>,
     document.body,

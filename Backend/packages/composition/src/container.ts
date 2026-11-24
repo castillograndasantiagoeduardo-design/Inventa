@@ -48,6 +48,7 @@ import { DrizzleEmpleadoRepository } from '../../database/src/repositories/admin
 import { DrizzleHistorialSalarioRepository } from '../../database/src/repositories/administracion/drizzle-historial-salario.repository.ts';
 import { DrizzleAlertaAdminRepository } from '../../database/src/repositories/administracion/drizzle-alerta-admin.repository.ts';
 import { DrizzleMetricasAdminRepository } from '../../database/src/repositories/administracion/drizzle-metricas-admin.repository.ts';
+import { DrizzleReportesAdminRepository } from '../../database/src/repositories/administracion/drizzle-reportes-admin.repository.ts';
 
 
 
@@ -199,6 +200,10 @@ import {
   ConsultarRankingProductosUseCase,
   ConsultarComparativoInventarioUseCase,
   ConsultarResumenDashboardUseCase,
+  GenerarReporteVentasUseCase,
+  GenerarReporteProductosUseCase,
+  GenerarReporteInventarioUseCase,
+  ExportarReporteCsvUseCase,
   CrearFacturaUseCase,
   ListarFacturasUseCase,
   ObtenerFacturaPorIdUseCase,
@@ -298,6 +303,10 @@ export interface AppContainer {
     consultarRankingProductos: ConsultarRankingProductosUseCase;
     consultarComparativoInventario: ConsultarComparativoInventarioUseCase;
     consultarResumenDashboard: ConsultarResumenDashboardUseCase;
+    generarReporteVentas: GenerarReporteVentasUseCase;
+    generarReporteProductos: GenerarReporteProductosUseCase;
+    generarReporteInventario: GenerarReporteInventarioUseCase;
+    exportarReporteCsv: ExportarReporteCsvUseCase;
   };
   inventario: {
     listarCategorias: ListarCategoriasUseCase;
@@ -497,6 +506,7 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
   const alertaStockRepository = new DrizzleAlertaStockRepository(db);
   const alertaAdminRepository = new DrizzleAlertaAdminRepository(db);
   const metricasAdminRepository = new DrizzleMetricasAdminRepository(db);
+  const reportesAdminRepository = new DrizzleReportesAdminRepository(db);
   const turnoCajaRepository = new DrizzleTurnoCajaRepository(db);
   const sucursalOperadorRepository = new DrizzleSucursalOperadorRepository(db);
   const facturaRepository = new DrizzleFacturaRepository(db);
@@ -728,6 +738,7 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
     clienteRepository,
     sucursalOperadorRepository,
     auditoriaRepository,
+    productoRepository,
   );
   const listarFacturasUseCase = new ListarFacturasUseCase(
     facturaRepository,
@@ -1100,6 +1111,23 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
       consultarResumenDashboard: new ConsultarResumenDashboardUseCase(
         metricasAdminRepository,
         metricasAdminRepository,
+      ),
+      generarReporteVentas: new GenerarReporteVentasUseCase(
+        resolverAlcanceSucursalUseCase,
+        reportesAdminRepository,
+      ),
+      generarReporteProductos: new GenerarReporteProductosUseCase(
+        resolverAlcanceSucursalUseCase,
+        reportesAdminRepository,
+      ),
+      generarReporteInventario: new GenerarReporteInventarioUseCase(
+        resolverAlcanceSucursalUseCase,
+        reportesAdminRepository,
+      ),
+      exportarReporteCsv: new ExportarReporteCsvUseCase(
+        new GenerarReporteVentasUseCase(resolverAlcanceSucursalUseCase, reportesAdminRepository),
+        new GenerarReporteProductosUseCase(resolverAlcanceSucursalUseCase, reportesAdminRepository),
+        new GenerarReporteInventarioUseCase(resolverAlcanceSucursalUseCase, reportesAdminRepository),
       ),
     },
     inventario: {

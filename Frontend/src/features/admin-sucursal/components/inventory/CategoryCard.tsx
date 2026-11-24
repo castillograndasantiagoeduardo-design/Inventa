@@ -14,17 +14,17 @@ export function CategoryCard({ categoria, onEditar, onToggleEstado }: CategoryCa
   const count = categoria.totalProductos ?? 0;
 
   return (
-    <div className="vidrio rounded-2xl p-5 flex flex-col justify-between hover:border-white/20 transition-all">
+    <div className="vidrio rounded-2xl p-5 flex flex-col justify-between hover:border-brand-500/30 transition-all">
       <div>
         <div className="flex items-start justify-between gap-3 mb-3">
-          <h3 className="text-base font-bold text-white leading-tight">
+          <h3 className="text-base font-bold text-text leading-tight">
             {categoria.nombre}
           </h3>
           <span
             className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider border ${
               isActive
-                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
-                : 'bg-white/5 text-white/40 border-white/10'
+                ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25'
+                : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-white/5 dark:text-text-muted dark:border-white/10'
             }`}
           >
             {isActive ? 'Activa' : 'Inactiva'}
@@ -32,23 +32,23 @@ export function CategoryCard({ categoria, onEditar, onToggleEstado }: CategoryCa
         </div>
 
         <div className="flex items-center gap-2 text-xs mb-4">
-          <span className="text-white/40">Código:</span>
-          <span className="font-mono text-white/70">CAT-{categoria.id}</span>
+          <span className="text-text-muted">Código:</span>
+          <span className="font-mono text-text">CAT-{categoria.id}</span>
         </div>
 
         <div className="flex items-center gap-2 text-xs">
-          <span className="text-white/40">Productos asociados:</span>
-          <span className="px-2 py-0.5 rounded-md bg-white/5 font-mono font-bold text-white/90 tabular-nums">
+          <span className="text-text-muted">Productos asociados:</span>
+          <span className="px-2 py-0.5 rounded-md superficie-control font-mono font-bold text-text tabular-nums">
             {count}
           </span>
         </div>
       </div>
 
-      <div className="pt-4 mt-4 border-t border-white/5 flex items-center justify-end gap-2">
+      <div className="pt-4 mt-4 border-t border-border flex items-center justify-end gap-2">
         <button
           type="button"
           onClick={() => onEditar(categoria)}
-          className="px-3 py-1.5 rounded-xl border border-white/10 hover:bg-white/5 text-white/80 hover:text-white text-xs font-medium transition-colors cursor-pointer"
+          className="px-3 py-1.5 rounded-xl border border-border superficie-control text-text-muted hover:text-text text-xs font-medium transition-colors cursor-pointer"
         >
           Editar
         </button>
@@ -57,8 +57,8 @@ export function CategoryCard({ categoria, onEditar, onToggleEstado }: CategoryCa
           onClick={() => onToggleEstado(categoria)}
           className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
             isActive
-              ? 'bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20'
-              : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20'
+              ? 'bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/20'
+              : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
           }`}
         >
           {isActive ? 'Inactivar' : 'Activar'}
