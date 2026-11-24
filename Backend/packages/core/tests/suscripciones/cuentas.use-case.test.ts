@@ -80,6 +80,7 @@ Deno.test('ObtenerMiCuenta: sin empresa no hay suscripción; con plan vigente la
   const suscripciones: ISuscripcionRepository = {
     vigenteDeEmpresa: (empresaId) => Promise.resolve(empresaId === 9 ? { empresaId, planId: 'tienda', iniciaEn: new Date(), venceEn: vence } : null),
     registrar: () => Promise.resolve(),
+    buscarPorPago: () => Promise.resolve(null),
   };
   const planes: IPlanRepository = {
     listarActivos: () => Promise.resolve([]),
