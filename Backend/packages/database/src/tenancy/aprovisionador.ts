@@ -39,6 +39,8 @@ export interface DatosNuevaEmpresa {
     tipoDocumento?: string;
     numeroDocumento?: string;
   };
+  /** Rol del dueño en su empresa (por defecto super-admin). */
+  rolDueno?: string;
 }
 
 export interface EmpresaAprovisionada {
@@ -122,7 +124,7 @@ export class AprovisionadorEmpresas {
         fecha_ingreso: new Date().toISOString().slice(0, 10),
       });
       const [empleado] = await db.select({ id: empleados.id_empleado }).from(empleados).where(eq(empleados.numero_documento, documento)).limit(1);
-      const [rol] = await db.select({ id: roles.id_rol }).from(roles).where(eq(roles.nombre, 'super-admin')).limit(1);
+      const [rol] = await db.select({ id: roles.id_rol }).from(roles).where(eq(roles.nombre, datos.rolDueno ?? 'super-admin')).limit(1);
       if (!empleado || !rol) throw new Error('No se pudo crear el empleado o el rol del dueño.');
       await db.insert(usuarios).values({
         empleado_id: empleado.id,
@@ -142,6 +144,26 @@ export class AprovisionadorEmpresas {
       await this.central().delete(empresas).where(eq(empresas.id_empresa, empresaId)).catch(() => {});
       throw error;
     }
+  }
+
+  /** Cambia el rol del dueño y cierra sus sesiones anteriores (tokens emitidos antes de ahora). */
+  async ajustarRolDueno(empresaId: number, email: string, rolNombre: string): Promise<void> {
+    const [empresa] = await this.central().select({ db: empresas.db_nombre }).from(empresas).where(eq(empresas.id_empresa, empresaId)).limit(1);
+    if (!empresa) throw new Error(`La empresa ${empresaId} no existe.`);
+    const db = obtenerDatabaseDeEmpresa(empresa.db);
+    const [rol] = await db.select({ id: roles.id_rol }).from(roles).where(eq(roles.nombre, rolNombre)).limit(1);
+    if (!rol) throw new Error(`El rol ${rolNombre} no existe en la empresa ${empresaId}.`);
+    const correo = DirectorioCentral.normalizar(email);
+    const [usuario] = await db.select({ id: usuarios.id_usuario, rolId: usuarios.rol_id }).from(usuarios).where(eq(usuarios.email, correo)).limit(1);
+    if (!usuario || usuario.rolId === rol.id) return;
+    // 1) Cambio de rol: el trigger trg_usuarios_marca_invalidacion_token marca tokens_invalidados_en = NOW().
+    await db.update(usuarios).set({ rol_id: rol.id }).where(eq(usuarios.id_usuario, usuario.id));
+    // 2) Sin tocar el rol (el trigger no actúa): se lleva la marca a dos segundos antes de ahora.
+    //    Así siguen invalidados los tokens viejos, pero no el que se emite enseguida tras el pago
+    //    (la regla es iat <= invalidadoEn y MySQL redondea fracciones al guardar DATETIME).
+    await db.update(usuarios)
+      .set({ tokens_invalidados_en: new Date(Date.now() - 2000) })
+      .where(eq(usuarios.id_usuario, usuario.id));
   }
 
   private async crearBaseConEsquema(dbNombre: string): Promise<void> {

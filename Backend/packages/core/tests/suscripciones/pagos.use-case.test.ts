@@ -65,12 +65,14 @@ function escenario(empresaInicial: number | null = null) {
     consultar: (ref) => Promise.resolve({ estado: resultados.get(ref) ?? 'pendiente', transaccionId: resultados.has(ref) ? `tx-${ref}` : null }),
   };
   let empresasCreadas = 0;
+  const roles: Array<[number, string]> = [];
   const aprovisionador: IAprovisionadorEmpresas = {
-    crear: () => { empresasCreadas++; return Promise.resolve({ empresaId: 40 + empresasCreadas }); },
+    crear: (d) => { empresasCreadas++; roles.push([40 + empresasCreadas, d.rolDueno]); return Promise.resolve({ empresaId: 40 + empresasCreadas }); },
+    ajustarRolDueno: (empresaId, _email, rol) => { roles.push([empresaId, rol]); return Promise.resolve(); },
     invalidarCaches: () => {},
   };
   return {
-    cuenta, pagos, periodos, resultados, empresasCreadas: () => empresasCreadas,
+    cuenta, pagos, periodos, resultados, roles, empresasCreadas: () => empresasCreadas,
     iniciar: new IniciarPagoUseCase(cuentas, planes, repoPagos, pasarela),
     confirmar: new ConfirmarPagoUseCase(cuentas, planes, repoPagos, suscripciones, pasarela, aprovisionador),
   };
@@ -124,4 +126,7 @@ Deno.test('ConfirmarPago: renovar el mismo plan suma al final; cambiar de plan e
   assertEquals(await pagar('tienda'), new Date(ahora.getTime() + 60 * DIA));
   assertEquals(await pagar('empresario'), new Date(ahora.getTime() + 30 * DIA));
   assertEquals(e.empresasCreadas(), 0);
+  // El rol del dueño sigue al plan: Tienda → admin-sucursal; Empresario → super-admin.
+  assertEquals(e.roles.at(-1), [7, 'super-admin']);
+  assertEquals(e.roles[0], [7, 'admin-sucursal']);
 });

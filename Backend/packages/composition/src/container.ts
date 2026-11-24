@@ -1194,6 +1194,7 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
           resolutorEmpresas.invalidar(creada.empresaId);
           return { empresaId: creada.empresaId };
         },
+        ajustarRolDueno: (empresaId, email, rolNombre) => aprovisionadorEmpresas.ajustarRolDueno(empresaId, email, rolNombre),
         invalidarCaches: (empresaId) => {
           resolutorEmpresas.invalidar(empresaId);
           topePermisosPlan.invalidar(empresaId);

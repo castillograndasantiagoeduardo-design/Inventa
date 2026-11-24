@@ -27,13 +27,25 @@ export interface IPasarelaPagos {
   consultar(referencia: string): Promise<{ estado: EstadoPago; transaccionId: string | null }>;
 }
 
+/**
+ * Rol del dueño según el plan: Almacén y Tienda usan el panel de Admin de sucursal;
+ * Empresario, el panel general (super-admin) con varias sedes. El plan sigue limitando
+ * los permisos efectivos (rol ∩ plan).
+ */
+export function rolDuenoParaPlan(planId: string): 'super-admin' | 'admin-sucursal' {
+  return planId === 'empresario' ? 'super-admin' : 'admin-sucursal';
+}
+
 /** Crea la empresa (base de datos propia) del primer plan que compra una cuenta. */
 export interface IAprovisionadorEmpresas {
   crear(datos: {
     nombre: string;
     nit?: string | null;
     dueno: { nombre: string; email: string; passwordHash: string };
+    rolDueno: string;
   }): Promise<{ empresaId: number }>;
+  /** Cambia el rol del dueño en su empresa (al cambiar de plan) y cierra sus sesiones anteriores. */
+  ajustarRolDueno(empresaId: number, email: string, rolNombre: string): Promise<void>;
   /** Olvida cachés de permisos/empresa tras activar o renovar. */
   invalidarCaches(empresaId: number): void;
 }
@@ -142,6 +154,7 @@ export class ConfirmarPagoUseCase {
           nombre: detalle.nombreEmpresa || `Empresa de ${cuenta.nombre}`,
           nit: detalle.nit ?? null,
           dueno: { nombre: cuenta.nombre, email: cuenta.email, passwordHash: cuenta.passwordHash },
+          rolDueno: rolDuenoParaPlan(plan.id),
         });
         empresaId = creada.empresaId;
         await this.cuentas.asignarEmpresa(cuenta.id, empresaId);
@@ -159,6 +172,10 @@ export class ConfirmarPagoUseCase {
       const iniciaEn = vigente && vigente.planId === plan.id ? vigente.venceEn : ahora;
       venceEn = new Date(iniciaEn.getTime() + plan.diasVigencia * DIA_MS);
       await this.suscripciones.registrar({ empresaId, planId: plan.id, pagoId: pago.id, iniciaEn, venceEn });
+      // Cambio de plan inmediato: el rol del dueño sigue al plan nuevo.
+      if (iniciaEn.getTime() <= ahora.getTime()) {
+        await this.aprovisionador.ajustarRolDueno(empresaId, cuenta.email, rolDuenoParaPlan(plan.id));
+      }
     }
     this.aprovisionador.invalidarCaches(empresaId);
 
