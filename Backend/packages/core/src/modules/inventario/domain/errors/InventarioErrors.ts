@@ -24,8 +24,8 @@ export class ProductoNoEncontradoError extends DomainError {
 /** Error cuando un producto está inactivo en catálogo maestro y se intenta operar sobre él. */
 export class ProductoInactivoError extends DomainError {
   public readonly code = 'PRODUCTO_INACTIVO';
-  constructor() {
-    super('El producto seleccionado está inactivo en el catálogo.');
+  constructor(mensaje: string = 'El producto seleccionado está inactivo en el catálogo.') {
+    super(mensaje);
   }
 }
 

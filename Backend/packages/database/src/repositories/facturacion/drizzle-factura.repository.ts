@@ -24,6 +24,8 @@ import {
     FiltrosFacturas,
     IFacturaRepository,
     PagoInvalidoError,
+    ProductoInactivoError,
+    ProductoNoEncontradoError,
     StockInsuficienteError,
 } from '@warengine/core';
 import {
@@ -71,6 +73,32 @@ export class DrizzleFacturaRepository implements IFacturaRepository {
                         throw new FacturacionSinTurnoAbiertoError(
                             'El turno de caja no existe o fue cerrado por supervisión antes de emitir la factura.',
                         );
+                    }
+                }
+
+                // Verificar en transacción que ningún producto esté inactivo o sea inexistente
+                const productoIds = Array.from(new Set(datos.items.map((i) => i.productoId)));
+                if (productoIds.length > 0) {
+                    const productosRows = await tx
+                        .select({
+                            id: productos.id_producto,
+                            nombre: productos.nombre,
+                            isActive: productos.is_active,
+                        })
+                        .from(productos)
+                        .where(inArray(productos.id_producto, productoIds));
+
+                    const mapaProductos = new Map(productosRows.map((p) => [p.id, p]));
+                    for (const pid of productoIds) {
+                        const prod = mapaProductos.get(pid);
+                        if (!prod) {
+                            throw new ProductoNoEncontradoError();
+                        }
+                        if (Number(prod.isActive) !== 1) {
+                            throw new ProductoInactivoError(
+                                `El producto "${prod.nombre}" se encuentra inactivo en el catálogo y no puede ser vendido.`,
+                            );
+                        }
                     }
                 }
 

@@ -92,21 +92,55 @@ export class PosService implements IPosService {
     const items: Array<Record<string, unknown>> = Array.isArray(response)
       ? response
       : (response?.items || []);
-    return items.map((p) => {
-      const cId = p.categoriaId ? Number(p.categoriaId) : null;
-      const catNombre = (p.categoriaNombre as string) || (cId ? catMap.get(cId) : null) || null;
+    return items
+      .filter((p) => p.isActive !== false && p.is_active !== 0 && p.is_active !== false && p.activo !== false)
+      .map((p) => {
+        const cId = p.categoriaId ? Number(p.categoriaId) : null;
+        const catNombre = (p.categoriaNombre as string) || (cId ? catMap.get(cId) : null) || null;
+        return {
+          id: String(p.id),
+          sku: String(p.sku || ''),
+          nombre: String(p.nombre || ''),
+          precioVenta: Number(p.precioVenta ?? p.precio_venta ?? 0),
+          precioCorporativo: Number(p.precioCorporativo ?? p.precio_corporativo ?? 0),
+          categoriaId: cId ? String(cId) : null,
+          categoriaNombre: catNombre,
+          stockActual: stockPorProducto.get(String(p.id)) ?? 0,
+          activo: true,
+        };
+      });
+  }
+
+  public async verificarProductoActivo(productoId: string): Promise<{
+    activo: boolean;
+    nombre?: string;
+    precioVenta?: number;
+  }> {
+    try {
+      const p = await this.http.get<Record<string, unknown>>(`/inventario/productos/${productoId}`);
+      const isActive =
+        p.isActive !== false &&
+        p.is_active !== 0 &&
+        p.is_active !== false &&
+        p.activo !== false;
       return {
-        id: String(p.id),
-        sku: String(p.sku || ''),
-        nombre: String(p.nombre || ''),
-        precioVenta: Number(p.precioVenta ?? p.precio_venta ?? 0),
-        precioCorporativo: Number(p.precioCorporativo ?? p.precio_corporativo ?? 0),
-        categoriaId: cId ? String(cId) : null,
-        categoriaNombre: catNombre,
-        stockActual: stockPorProducto.get(String(p.id)) ?? 0,
-        activo: Boolean(p.activo !== false),
+        activo: Boolean(isActive),
+        nombre: p.nombre ? String(p.nombre) : undefined,
+        precioVenta:
+          p.precioVenta !== undefined
+            ? Number(p.precioVenta)
+            : p.precio_venta !== undefined
+              ? Number(p.precio_venta)
+              : undefined,
       };
-    });
+    } catch (err: unknown) {
+      if ((err as { status?: number })?.status === 404) {
+        return { activo: false };
+      }
+      // 100% tolerante a microcortes de Wi-Fi o fallos transitorios de red en el local:
+      // no bloquea la interfaz del cajero; el backend validará al emitir la factura.
+      return { activo: true };
+    }
   }
 
   public async buscarClientes(texto?: string): Promise<ClienteDto[]> {
