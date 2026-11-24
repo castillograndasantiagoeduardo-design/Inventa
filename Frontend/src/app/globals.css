@@ -349,7 +349,7 @@ html[data-paleta="ambar"] {
   --hover-tabla: rgba(255, 255, 255, 0.04);
   --text: #f1f5f9;
   --text-muted: #a5b4cc;
-  --vidrio-bg: rgba(255, 255, 255, 0.025);
+  --vidrio-bg: color-mix(in srgb, var(--p-base, #070d1a) 68%, rgba(255, 255, 255, 0.04));
   --vidrio-fuerte-bg: color-mix(in srgb, var(--p-base, #070d1a) 94%, transparent);
   --vidrio-fuerte-borde: rgba(255, 255, 255, 0.12);
   --vidrio-fuerte-sombra: 0 4px 20px -2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.2);
@@ -370,7 +370,7 @@ html[data-paleta="ambar"] {
   --hover-tabla: rgba(15, 23, 42, 0.035);
   --text: #0f172a;
   --text-muted: #475569;
-  --vidrio-bg: rgba(255, 255, 255, 0.58);
+  --vidrio-bg: rgba(255, 255, 255, 0.74);
   --vidrio-fuerte-bg: color-mix(in srgb, #ffffff 92%, var(--p-base-claro, #f8fafc));
   --vidrio-fuerte-borde: rgba(15, 23, 42, 0.12);
   --vidrio-fuerte-sombra: 0 4px 20px -2px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04);
@@ -388,6 +388,8 @@ html[data-paleta="ambar"] {
 .vidrio {
   position: relative;
   background-color: var(--vidrio-bg);
+  backdrop-filter: blur(6px) saturate(130%);
+  -webkit-backdrop-filter: blur(6px) saturate(130%);
   border: 1px solid var(--vidrio-borde);
   border-top-color: var(--border-top-brillo);
   border-radius: 1rem;
@@ -712,11 +714,22 @@ body {
   position: relative;
   color: var(--text);
   background-color: var(--vidrio-bg);
+  backdrop-filter: blur(6px) saturate(130%);
+  -webkit-backdrop-filter: blur(6px) saturate(130%);
   border: 1px solid var(--vidrio-borde);
   border-top-color: var(--border-top-brillo);
   border-radius: 1rem;
   box-shadow: var(--vidrio-sombra);
   transition: border-color 300ms ease, background-color 300ms ease;
+}
+
+/* Marca de agua del logo corporativo: distinguible en el fondo pero nunca invade la lectura de KPIs ni tablas. */
+.marca-agua-img {
+  opacity: 0.1;
+}
+
+.light .marca-agua-img {
+  opacity: 0.085;
 }
 
 /* Controles de entrada de los paneles (inputs, selects y buscadores). */
