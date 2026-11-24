@@ -31,7 +31,12 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
 
   const calcularFechas = (rango: 'todos' | 'hoy' | '7dias' | '30dias' | 'custom') => {
     const hoy = new Date();
-    const formato = (d: Date) => d.toISOString().slice(0, 10);
+    const formato = (d: Date) => {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
 
     if (rango === 'hoy') {
       return { desde: formato(hoy), hasta: formato(hoy) };
@@ -192,10 +197,10 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
           >
             <option value="todos" className="bg-black text-white">Todos los tipos de movimiento</option>
             <option value="entrada" className="bg-black text-white">Entradas de mercancía</option>
-            <option value="salida" className="bg-black text-white">Salidas manuales</option>
+            <option value="salida" className="bg-black text-white">Todas las salidas</option>
+            <option value="venta" className="bg-black text-white">Ventas POS / Facturas</option>
             <option value="ajuste_positivo" className="bg-black text-white">Ajustes positivos (+)</option>
             <option value="ajuste_negativo" className="bg-black text-white">Ajustes negativos (-)</option>
-            <option value="venta" className="bg-black text-white">Ventas POS / Facturas</option>
             <option value="devolucion" className="bg-black text-white">Devoluciones</option>
           </select>
 

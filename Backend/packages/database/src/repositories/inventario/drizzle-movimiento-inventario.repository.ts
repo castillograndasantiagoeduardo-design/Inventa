@@ -1,4 +1,4 @@
-import { and, desc, eq, gte, inArray, lte, sql } from 'drizzle-orm';
+import { and, desc, eq, gte, inArray, isNotNull, isNull, like, lte, or, sql } from 'drizzle-orm';
 import { Database } from '../../client.ts';
 import {
   inventario_sucursal,
@@ -154,7 +154,19 @@ export class DrizzleMovimientoInventarioRepository implements IMovimientoInventa
     const conditions = [];
 
     if (filtros.productoId) {
-      conditions.push(eq(movimientos_inventario.producto_id, filtros.productoId));
+      const term = filtros.productoId.trim();
+      const esUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(term);
+      if (esUuid) {
+        conditions.push(eq(movimientos_inventario.producto_id, term));
+      } else {
+        conditions.push(
+          or(
+            eq(productos.sku, term),
+            like(productos.sku, `%${term}%`),
+            like(productos.nombre, `%${term}%`),
+          )!
+        );
+      }
     }
 
     if (filtros.sucursalId !== undefined) {
@@ -164,7 +176,27 @@ export class DrizzleMovimientoInventarioRepository implements IMovimientoInventa
     }
 
     if (filtros.tipo) {
-      conditions.push(eq(movimientos_inventario.tipo, filtros.tipo));
+      if (filtros.tipo === 'entrada') {
+        conditions.push(eq(movimientos_inventario.tipo, 'entrada'));
+      } else if (filtros.tipo === 'salida') {
+        conditions.push(eq(movimientos_inventario.tipo, 'salida'));
+      } else if (filtros.tipo === 'venta') {
+        conditions.push(
+          and(
+            eq(movimientos_inventario.tipo, 'salida'),
+            or(
+              isNotNull(movimientos_inventario.factura_id),
+              like(movimientos_inventario.motivo, '%Venta%'),
+            )
+          )
+        );
+      } else if (filtros.tipo === 'ajuste_entrada' || filtros.tipo === 'ajuste_positivo') {
+        conditions.push(eq(movimientos_inventario.tipo, 'ajuste_entrada'));
+      } else if (filtros.tipo === 'ajuste_salida' || filtros.tipo === 'ajuste_negativo') {
+        conditions.push(eq(movimientos_inventario.tipo, 'ajuste_salida'));
+      } else if (filtros.tipo === 'devolucion') {
+        conditions.push(isNotNull(movimientos_inventario.devolucion_id));
+      }
     }
 
     if (filtros.proveedorId !== undefined) {
@@ -176,15 +208,24 @@ export class DrizzleMovimientoInventarioRepository implements IMovimientoInventa
     }
 
     if (filtros.hasta) {
-      conditions.push(lte(movimientos_inventario.fecha, filtros.hasta));
+      const fHasta = new Date(filtros.hasta);
+      if (
+        fHasta.getUTCHours() === 0 &&
+        fHasta.getUTCMinutes() === 0 &&
+        fHasta.getUTCSeconds() === 0
+      ) {
+        fHasta.setUTCHours(23, 59, 59, 999);
+      }
+      conditions.push(lte(movimientos_inventario.fecha, fHasta));
     }
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
-    // 1. Conteo total de registros que cumplen los filtros
+    // 1. Conteo total de registros que cumplen los filtros (con leftJoin a productos por si se filtra por sku/nombre)
     const [countResult] = await this.db
       .select({ count: sql<number>`count(*)` })
       .from(movimientos_inventario)
+      .leftJoin(productos, eq(movimientos_inventario.producto_id, productos.id_producto))
       .where(whereClause);
     const total = Number(countResult?.count ?? 0);
 

@@ -11,7 +11,7 @@ import { generarCsv } from '../utils/csv-generator.ts';
 export interface ExportarKardexCsvRequest {
   productoId?: string;
   sucursalId?: number;
-  tipo?: 'entrada' | 'salida' | 'ajuste_entrada' | 'ajuste_salida';
+  tipo?: 'entrada' | 'salida' | 'ajuste_entrada' | 'ajuste_salida' | 'ajuste_positivo' | 'ajuste_negativo' | 'venta' | 'devolucion' | string;
   desde?: Date;
   hasta?: Date;
   proveedorId?: number;
