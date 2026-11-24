@@ -56,3 +56,4 @@ Ver `Docs/adr/0001-architecture-rules.md` y `Docs/context/proyecto-inventa.md` p
 - `Docs/database/` — Script SQL completo de la base de datos
 - `Docs/adr/` — Decisiones de arquitectura (Architecture Decision Records)
 - `Docs/context/proyecto-inventa.md` — Contexto vivo para desarrolladores y asistente IA
+- `Docs/context/multiempresa-y-planes.md` — Una base de datos por empresa, cuentas gratuitas, planes y pagos
