@@ -276,6 +276,10 @@ function InventarioProductosContenido() {
           setProductoSeleccionado(p);
           setMinStockModalOpen(true);
         }}
+        onCambiarEstado={(p, nuevoEstado) => {
+          cambiarEstado(p.id, nuevoEstado);
+          setProductoSeleccionado((prev) => (prev && prev.id === p.id ? { ...prev, isActive: nuevoEstado } : prev));
+        }}
         onStockActualizado={recargar}
       />
 

@@ -15,6 +15,7 @@ interface ProductDrawerProps {
   onVerHistorialPrecios: (producto: ProductoInventarioSede) => void;
   onAjustarStockMinimo?: (producto: ProductoInventarioSede) => void;
   onStockActualizado?: () => void;
+  onCambiarEstado?: (producto: ProductoInventarioSede, nuevoEstado: boolean) => void;
 }
 
 export function ProductDrawer({
@@ -27,6 +28,7 @@ export function ProductDrawer({
   onVerHistorialPrecios,
   onAjustarStockMinimo,
   onStockActualizado,
+  onCambiarEstado,
 }: ProductDrawerProps) {
   const [recientes, setRecientes] = useState<MovimientoKardexItem[]>([]);
   const [loadingRecientes, setLoadingRecientes] = useState(false);
@@ -125,6 +127,15 @@ export function ProductDrawer({
               </span>
               <span className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase border ${nivelClass}`}>
                 {nivelLabel}
+              </span>
+              <span
+                className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase border ${
+                  producto.isActive ?? true
+                    ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25'
+                    : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-white/5 dark:text-text-muted dark:border-white/10'
+                }`}
+              >
+                {producto.isActive ?? true ? 'Activo' : 'Inactivo'}
               </span>
             </div>
             <h2 className="text-lg font-bold text-text leading-snug">
@@ -317,21 +328,45 @@ export function ProductDrawer({
         </div>
 
         {/* Footer Actions */}
-        <div className="p-4 border-t border-border bg-white/95 dark:bg-[#0d0914]/90 backdrop-blur-md flex flex-wrap gap-2 sticky bottom-0">
-          <button
-            type="button"
-            onClick={() => onVerHistorialPrecios(producto)}
-            className="flex-1 py-2 px-3 rounded-xl border border-border superficie-control text-text hover:text-text text-xs font-semibold transition-colors cursor-pointer text-center"
-          >
-            Historial precios
-          </button>
-          <button
-            type="button"
-            onClick={() => onEditar(producto)}
-            className="flex-1 py-2 px-3 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold transition-colors cursor-pointer text-center shadow-lg shadow-rose-500/20"
-          >
-            Editar producto
-          </button>
+        <div className="p-4 border-t border-border bg-white/95 dark:bg-[#0d0914]/90 backdrop-blur-md flex flex-col gap-2 sticky bottom-0">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => onVerHistorialPrecios(producto)}
+              className="py-2 px-3 rounded-xl border border-border superficie-control text-text hover:text-text text-xs font-semibold transition-colors cursor-pointer text-center"
+            >
+              Historial precios
+            </button>
+            <button
+              type="button"
+              onClick={() => onVerKardex(producto)}
+              className="py-2 px-3 rounded-xl border border-border superficie-control text-text hover:text-text text-xs font-semibold transition-colors cursor-pointer text-center"
+            >
+              Ver Kardex
+            </button>
+          </div>
+          <div className="flex items-center gap-2">
+            {onCambiarEstado && (
+              <button
+                type="button"
+                onClick={() => onCambiarEstado(producto, !producto.isActive)}
+                className={`flex-1 py-2 px-3 rounded-xl border text-xs font-semibold transition-colors cursor-pointer text-center ${
+                  producto.isActive
+                    ? 'border-red-500/30 text-red-600 dark:text-red-400 bg-red-500/10 hover:bg-red-500/20'
+                    : 'border-emerald-500/30 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20'
+                }`}
+              >
+                {producto.isActive ? 'Inactivar producto' : 'Activar producto'}
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => onEditar(producto)}
+              className="flex-1 py-2 px-3 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold transition-colors cursor-pointer text-center shadow-lg shadow-rose-500/20"
+            >
+              Editar producto
+            </button>
+          </div>
         </div>
       </div>
     </div>
