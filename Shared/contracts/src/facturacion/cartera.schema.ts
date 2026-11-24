@@ -20,3 +20,46 @@ export type EstadoCreditoPersistido = (typeof ESTADOS_CREDITO_PERSISTIDO)[number
  */
 export const ESTADOS_AVISO_PAGO = ['pendiente', 'confirmado', 'rechazado'] as const;
 export type EstadoAvisoPago = (typeof ESTADOS_AVISO_PAGO)[number];
+
+/**
+ * Representación de una obligación de crédito B2B derivada de una factura a crédito.
+ */
+export interface CreditoB2BDto {
+  id: string;
+  facturaId: string;
+  facturaConsecutivo: number;
+  clienteId: string;
+  clienteNombre: string;
+  sucursalId: number;
+  monto: number;
+  saldo: number;
+  totalAbonado: number;
+  fechaEmision: string;
+  fechaVencimiento: string;
+  estado: EstadoCarteraB2B;
+  diasMora: number;
+  diasTranscurridos: number;
+  createdAt: string;
+}
+
+/**
+ * Abono aplicado a un crédito corporativo B2B (inmutable / append-only).
+ */
+export interface AbonoCreditoDto {
+  id: string;
+  creditoId: string;
+  monto: number;
+  fecha: string;
+  registradoPor: string;
+  registradoPorNombre?: string | null;
+  avisoId: string | null;
+}
+
+export const registrarAbonoCreditoSchema = z.object({
+  monto: z.coerce
+    .number({ required_error: 'El monto del abono es obligatorio.' })
+    .positive({ message: 'El monto del abono debe ser mayor a 0.' })
+    .max(999_999_999_999),
+});
+
+export type RegistrarAbonoCreditoInput = z.infer<typeof registrarAbonoCreditoSchema>;

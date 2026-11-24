@@ -51,4 +51,5 @@
 | :--- | :--- | :--- | :--- | :--- |
 | Fase 0 | 1 | `695116f` | Crear `PROGRESO-MIS-EMPRESAS.md` | Lectura de docs base y baseline (`deno task test`: 466/466 ok) |
 | Fase 0 | 2 | `a4cbed6` | Documentar diseño de cartera B2B en `Docs/modulos/facturacion.md` | Revisión de diseño y reglas de negocio |
-| Fase 1 | 3 | `pendiente` | Estados de cartera B2B en `@inventa/contracts` | Export en `index.ts` |
+| Fase 1 | 3 | `06a5456` | Estados de cartera B2B en `@inventa/contracts` | Export en `index.ts` |
+| Fase 1 | 4 | `pendiente` | `CreditoB2BDto`, `AbonoCreditoDto` y `registrarAbonoCreditoSchema` | Zod schema + DTOs |
