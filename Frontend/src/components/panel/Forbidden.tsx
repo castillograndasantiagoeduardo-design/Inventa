@@ -2,6 +2,7 @@
  * Forbidden.tsx — Estado 403 cuando el rol no tiene permiso para la vista.
  */
 
+import { ShieldAlert } from 'lucide-react';
 import { Button3D } from '@/components/ui/Button3D';
 import { EmptyState } from '@/components/ui/EmptyState';
 
@@ -13,7 +14,7 @@ export function Forbidden({ message = 'Tu rol no tiene permisos para ver esta se
   return (
     <div className="panel-card">
       <EmptyState
-        icon="⛔"
+        icon={<ShieldAlert className="w-10 h-10 mx-auto text-brand-500" />}
         title="403 · Acceso restringido"
         description={message}
         action={
