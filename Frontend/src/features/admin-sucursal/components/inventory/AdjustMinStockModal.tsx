@@ -10,7 +10,7 @@ interface AdjustMinStockModalProps {
   producto: ProductoInventarioSede | null;
   sucursalId?: number;
   onClose: () => void;
-  onGuardado: () => void;
+  onGuardado: (nuevoMinimo?: number) => void;
 }
 
 export function AdjustMinStockModal({
@@ -46,7 +46,7 @@ export function AdjustMinStockModal({
     try {
       const res = await branchInventoryService.ajustarStockMinimo(producto.id, val, sucursalId);
       if (res.ok) {
-        onGuardado();
+        onGuardado(val);
         onClose();
       } else {
         setErrorMsg(res.error || 'No fue posible actualizar el umbral de stock.');

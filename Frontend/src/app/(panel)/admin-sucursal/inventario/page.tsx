@@ -86,6 +86,16 @@ function InventarioProductosContenido() {
   const [kardexLoading, setKardexLoading] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
 
+  // Mantener productoSeleccionado sincronizado cuando la lista de productos se recarga
+  useEffect(() => {
+    if (productoSeleccionado) {
+      const actualizado = productos.find((p) => p.id === productoSeleccionado.id);
+      if (actualizado) {
+        setProductoSeleccionado(actualizado);
+      }
+    }
+  }, [productos]);
+
   // Sincronizar URL cuando cambian los filtros
   const actualizarUrl = (nuevos: Record<string, string | number | undefined | null>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -280,7 +290,12 @@ function InventarioProductosContenido() {
           cambiarEstado(p.id, nuevoEstado);
           setProductoSeleccionado((prev) => (prev && prev.id === p.id ? { ...prev, isActive: nuevoEstado } : prev));
         }}
-        onStockActualizado={recargar}
+        onStockActualizado={(nuevoMinimo) => {
+          recargar();
+          if (nuevoMinimo !== undefined) {
+            setProductoSeleccionado((prev) => (prev ? { ...prev, stockMinimo: nuevoMinimo } : null));
+          }
+        }}
       />
 
       {/* 5. Modales Operativos */}
@@ -336,7 +351,12 @@ function InventarioProductosContenido() {
         producto={productoSeleccionado}
         sucursalId={sucursalId}
         onClose={() => setMinStockModalOpen(false)}
-        onGuardado={recargar}
+        onGuardado={(nuevoMinimo) => {
+          recargar();
+          if (nuevoMinimo !== undefined) {
+            setProductoSeleccionado((prev) => (prev ? { ...prev, stockMinimo: nuevoMinimo } : null));
+          }
+        }}
       />
 
       <BranchKardexModal

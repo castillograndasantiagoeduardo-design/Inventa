@@ -14,7 +14,7 @@ interface ProductDrawerProps {
   onVerKardex: (producto: ProductoInventarioSede) => void;
   onVerHistorialPrecios: (producto: ProductoInventarioSede) => void;
   onAjustarStockMinimo?: (producto: ProductoInventarioSede) => void;
-  onStockActualizado?: () => void;
+  onStockActualizado?: (nuevoMinimo?: number) => void;
   onCambiarEstado?: (producto: ProductoInventarioSede, nuevoEstado: boolean) => void;
 }
 
@@ -32,6 +32,7 @@ export function ProductDrawer({
 }: ProductDrawerProps) {
   const [recientes, setRecientes] = useState<MovimientoKardexItem[]>([]);
   const [loadingRecientes, setLoadingRecientes] = useState(false);
+  const [stockMinimoActual, setStockMinimoActual] = useState<number>(producto?.stockMinimo ?? 0);
   const [editandoMinimo, setEditandoMinimo] = useState(false);
   const [nuevoMinimo, setNuevoMinimo] = useState<string>('');
   const [guardandoMinimo, setGuardandoMinimo] = useState(false);
@@ -45,6 +46,7 @@ export function ProductDrawer({
       return;
     }
 
+    setStockMinimoActual(producto.stockMinimo ?? 0);
     setNuevoMinimo(String(producto.stockMinimo ?? 0));
     setLoadingRecientes(true);
     branchInventoryService
@@ -58,12 +60,12 @@ export function ProductDrawer({
       .finally(() => {
         setLoadingRecientes(false);
       });
-  }, [open, producto, sucursalId]);
+  }, [open, producto?.id, producto?.stockMinimo, sucursalId]);
 
   if (!open || !producto) return null;
 
   const stock = producto.stockActual ?? 0;
-  const min = producto.stockMinimo ?? 0;
+  const min = stockMinimoActual;
   const isAgotado = stock <= 0;
   const isBajo = stock > 0 && stock <= min;
 
@@ -95,8 +97,9 @@ export function ProductDrawer({
     try {
       const res = await branchInventoryService.ajustarStockMinimo(producto.id, val, sucursalId);
       if (res.ok) {
+        setStockMinimoActual(val);
         setEditandoMinimo(false);
-        if (onStockActualizado) onStockActualizado();
+        if (onStockActualizado) onStockActualizado(val);
       } else {
         setErrorMinimo(res.error || 'Error al actualizar stock mínimo.');
       }
@@ -176,7 +179,10 @@ export function ProductDrawer({
                     </span>
                     <button
                       type="button"
-                      onClick={() => setEditandoMinimo(true)}
+                      onClick={() => {
+                        setNuevoMinimo(String(stockMinimoActual));
+                        setEditandoMinimo(true);
+                      }}
                       className="text-[11px] text-rose-500 hover:text-rose-600 dark:text-rose-400 dark:hover:text-rose-300 underline cursor-pointer"
                     >
                       Editar
@@ -201,7 +207,11 @@ export function ProductDrawer({
                     </button>
                     <button
                       type="button"
-                      onClick={() => setEditandoMinimo(false)}
+                      onClick={() => {
+                        setEditandoMinimo(false);
+                        setNuevoMinimo(String(stockMinimoActual));
+                        setErrorMinimo(null);
+                      }}
                       className="px-2 h-8 rounded-lg border border-border superficie-control text-text-muted hover:text-text text-xs cursor-pointer"
                     >
                       ✕
