@@ -88,7 +88,7 @@ export function PanelHeader({ onMenuClick }: { onMenuClick: () => void }) {
             className="flex items-center gap-2.5 pl-1.5 pr-3 py-1 rounded-xl superficie-control hover:border-brand-400/30 transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/60"
             title="Mi cuenta"
           >
-            <AvatarMarca className="w-7 h-7 rounded-lg bg-brand-600 text-btn-primario-texto flex items-center justify-center font-titulos font-semibold text-xs shadow-sm">
+            <AvatarMarca className="w-8 h-8 rounded-lg bg-brand-600 text-btn-primario-texto flex items-center justify-center font-titulos font-semibold text-xs shadow-sm">
               {iniciales}
             </AvatarMarca>
             <div className="text-left hidden lg:block leading-tight">

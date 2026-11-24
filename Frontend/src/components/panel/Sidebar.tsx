@@ -115,7 +115,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           <div className={`h-16 px-4 flex items-center border-b border-border shrink-0 ${compacto ? 'justify-center' : 'justify-between'}`}>
             <div className="flex items-center gap-3 min-w-0">
               <span className="shrink-0" title="Inventa — Super Admin">
-                <InventaLogo className="w-8 rounded-lg shadow-sm" />
+                <InventaLogo className="w-8 rounded-lg shadow-sm ring-1 ring-slate-900/10 dark:ring-white/20" />
               </span>
               {!compacto && (
                 <div className="min-w-0">

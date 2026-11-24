@@ -17,7 +17,7 @@ export function MarcaDeAgua({ className = '-z-10' }: { className?: string }) {
       <img
         src={logoUrl}
         alt=""
-        className="w-[min(60vmin,520px)] h-[min(60vmin,520px)] object-contain opacity-[0.06] dark:opacity-[0.07] grayscale-[15%] select-none"
+        className="w-[min(62vmin,540px)] h-[min(62vmin,540px)] object-contain opacity-[0.15] dark:opacity-[0.18] contrast-105 saturate-110 drop-shadow-[0_6px_24px_rgba(0,0,0,0.16)] select-none"
       />
     </div>
   );

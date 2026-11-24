@@ -19,9 +19,13 @@ export function AvatarMarca({ className, children }: AvatarMarcaProps) {
   const { logoUrl } = useMarcaEmpresa();
   if (!logoUrl) return <div className={className}>{children}</div>;
   return (
-    <div className={`${className} !bg-white/95 !text-transparent overflow-hidden p-0.5`}>
+    <div className={`${className} !bg-white !text-transparent ring-1 ring-slate-900/12 dark:ring-white/25 shadow-sm overflow-hidden p-0.5`}>
       {/* eslint-disable-next-line @next/next/no-img-element -- URL de objeto del logo, no optimizable */}
-      <img src={logoUrl} alt="Logo de la empresa" className="w-full h-full object-contain" />
+      <img
+        src={logoUrl}
+        alt="Logo de la empresa"
+        className="w-full h-full object-contain contrast-[1.05] saturate-[1.06]"
+      />
     </div>
   );
 }
