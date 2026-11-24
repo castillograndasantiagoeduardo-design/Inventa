@@ -6,6 +6,15 @@
  * Cada fila se muestra solo si la sesión tiene el permiso de su endpoint.
  */
 
+import {
+  AlertTriangle,
+  Building2,
+  DollarSign,
+  Percent,
+  Receipt,
+  TrendingUp,
+  Users2,
+} from 'lucide-react';
 import type { ResumenDashboardResponse } from '@inventa/contracts';
 import { formatCOP, formatNumero, formatPorcentaje } from '@/lib/format/moneda';
 import type { MetricasGanancias } from '../../types';
@@ -39,15 +48,35 @@ export function KpiGrid({ metricas, resumen, alertasStock }: KpiGridProps) {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <KpiCard
             destacado
-            icon="$"
+            icon={<DollarSign className="w-4 h-4" />}
             label="Ventas del periodo"
             value={errM ?? formatCOP(m?.ingresosTotales)}
-            hint={m ? `${formatNumero(m.totalFacturas)} facturas emitidas` : metricas.error ?? undefined}
+            badgeTexto={m ? `${formatNumero(m.totalFacturas)} fact.` : undefined}
+            badgeVariante="brand"
+            hint={m ? 'emitidas en el periodo' : metricas.error ?? undefined}
             loading={metricas.loading}
           />
-          <KpiCard icon="▲" label="Ganancia neta" value={errM ?? formatCOP(m?.gananciaNeta)} hint={m ? `Costo: ${formatCOP(m.costoTotal)}` : undefined} loading={metricas.loading} />
-          <KpiCard icon="%" label="Margen" value={errM ?? formatPorcentaje(m?.margenPorcentaje)} hint="Ganancia neta sobre ingresos" loading={metricas.loading} />
-          <KpiCard icon="⊡" label="Ticket promedio" value={errM ?? formatCOP(m?.ticketPromedio)} hint="Valor medio por factura" loading={metricas.loading} />
+          <KpiCard
+            icon={<TrendingUp className="w-4 h-4" />}
+            label="Ganancia neta"
+            value={errM ?? formatCOP(m?.gananciaNeta)}
+            hint={m ? `Costo: ${formatCOP(m.costoTotal)}` : undefined}
+            loading={metricas.loading}
+          />
+          <KpiCard
+            icon={<Percent className="w-4 h-4" />}
+            label="Margen"
+            value={errM ?? formatPorcentaje(m?.margenPorcentaje)}
+            hint="Ganancia neta sobre ingresos"
+            loading={metricas.loading}
+          />
+          <KpiCard
+            icon={<Receipt className="w-4 h-4" />}
+            label="Ticket promedio"
+            value={errM ?? formatCOP(m?.ticketPromedio)}
+            hint="Valor medio por factura"
+            loading={metricas.loading}
+          />
         </div>
       )}
       {(resumen.visible || alertasStock.visible) && (
@@ -55,14 +84,16 @@ export function KpiGrid({ metricas, resumen, alertasStock }: KpiGridProps) {
           {resumen.visible && (
             <>
               <KpiCard
-                icon="⌂"
+                icon={<Building2 className="w-4 h-4" />}
                 label="Sucursales operativas"
                 value={errR ?? `${r?.sucursalesActivas ?? 0} / ${r?.totalSucursales ?? 0}`}
-                hint="Activas sobre registradas"
+                badgeTexto="En línea"
+                badgeVariante="success"
+                hint="activas sobre registradas"
                 loading={resumen.loading}
               />
               <KpiCard
-                icon="☺"
+                icon={<Users2 className="w-4 h-4" />}
                 label="Usuarios activos"
                 value={errR ?? `${r?.usuariosActivos ?? 0} / ${r?.usuariosTotales ?? 0}`}
                 hint="Cuentas habilitadas en el sistema"
@@ -72,10 +103,12 @@ export function KpiGrid({ metricas, resumen, alertasStock }: KpiGridProps) {
           )}
           {alertasStock.visible && (
             <KpiCard
-              icon="⚠"
+              icon={<AlertTriangle className="w-4 h-4" />}
               label="Alertas de stock"
               value={estadoError(alertasStock) ?? formatNumero(alertasStock.data ?? 0)}
-              hint="Productos en o bajo el stock mínimo"
+              badgeTexto={(alertasStock.data ?? 0) > 0 ? 'Atención' : 'Al día'}
+              badgeVariante={(alertasStock.data ?? 0) > 0 ? 'warning' : 'success'}
+              hint="productos en o bajo stock mínimo"
               loading={alertasStock.loading}
             />
           )}

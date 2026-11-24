@@ -17,9 +17,9 @@ const AGRUPACIONES: { value: AgrupacionTendencia; label: string }[] = [
   { value: 'mes', label: 'Mes' },
 ];
 
-// Paleta validada (dataviz validate_palette, modo oscuro, superficie #14213d)
-const COLOR_VENTAS = '#b88a1f';
-const COLOR_GANANCIAS = '#5b8def';
+// Serie principal reactiva a la paleta / color del logo; serie secundaria esmeralda para ganancia neta
+const COLOR_VENTAS = 'var(--p-500, #3b6cf2)';
+const COLOR_GANANCIAS = '#10b981';
 
 interface TendenciasCardProps {
   puntos: PuntoTendenciaVenta[] | null;
@@ -139,12 +139,12 @@ export function TendenciasCard({ puntos, loading, error, denied, onRetry, agrupa
       emptyDescription="Cuando se registren facturas en el POS aparecerán aquí."
       actions={<SegmentedControl ariaLabel="Agrupación" options={AGRUPACIONES} value={agrupacion} onChange={onAgrupacionChange} />}
     >
-      <div className="mb-3 flex gap-4 text-xs text-white/70" aria-hidden="true">
+      <div className="mb-3 flex gap-4 text-xs text-text-muted" aria-hidden="true">
         <span className="flex items-center gap-2">
-          <span className="inline-block h-0.5 w-4" style={{ background: COLOR_VENTAS }} /> Ventas
+          <span className="inline-block h-2 w-2 rounded-full" style={{ background: COLOR_VENTAS }} /> Ventas
         </span>
         <span className="flex items-center gap-2">
-          <span className="inline-block h-0.5 w-4" style={{ background: COLOR_GANANCIAS }} /> Ganancia neta
+          <span className="inline-block h-2 w-2 rounded-full" style={{ background: COLOR_GANANCIAS }} /> Ganancia neta
         </span>
       </div>
       <LineChart
@@ -158,26 +158,26 @@ export function TendenciasCard({ puntos, loading, error, denied, onRetry, agrupa
         ]}
       />
       <details className="mt-3 text-sm">
-        <summary className="inline-flex min-h-[44px] cursor-pointer items-center text-xs uppercase tracking-wider text-white/60 hover:text-white font-[family-name:var(--font-ui)]">
+        <summary className="inline-flex min-h-[44px] cursor-pointer items-center text-xs uppercase tracking-wider text-text-muted hover:text-text font-sans">
           Ver tabla de datos
         </summary>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
-            <thead className="text-white/50">
+            <thead className="text-text-muted">
               <tr>
-                <th className="py-1 text-left font-normal">Periodo</th>
-                <th className="py-1 text-right font-normal">Ventas</th>
-                <th className="py-1 text-right font-normal">Ganancia</th>
-                <th className="py-1 text-right font-normal">Facturas</th>
+                <th className="py-1.5 text-left font-medium">Periodo</th>
+                <th className="py-1.5 text-right font-medium">Ventas</th>
+                <th className="py-1.5 text-right font-medium">Ganancia</th>
+                <th className="py-1.5 text-right font-medium">Facturas</th>
               </tr>
             </thead>
             <tbody>
               {datos.map((p, i) => (
-                <tr key={p.periodo} className="border-t border-white/5">
-                  <td className="py-1">{labels[i]}</td>
-                  <td className="py-1 text-right">{formatCOP(p.totalVentas)}</td>
-                  <td className="py-1 text-right">{formatCOP(p.totalGanancias)}</td>
-                  <td className="py-1 text-right">{formatNumero(p.cantidadFacturas)}</td>
+                <tr key={p.periodo} className="border-t border-border text-text">
+                  <td className="py-1.5">{labels[i]}</td>
+                  <td className="py-1.5 text-right tabular-nums">{formatCOP(p.totalVentas)}</td>
+                  <td className="py-1.5 text-right tabular-nums">{formatCOP(p.totalGanancias)}</td>
+                  <td className="py-1.5 text-right tabular-nums">{formatNumero(p.cantidadFacturas)}</td>
                 </tr>
               ))}
             </tbody>

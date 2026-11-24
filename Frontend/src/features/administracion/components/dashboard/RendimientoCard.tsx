@@ -44,7 +44,7 @@ export function RendimientoCard({ datos, loading, error, denied, onRetry, enlaza
           detail: `${formatNumero(s.totalFacturas)} facturas · ticket ${formatCOP(s.ticketPromedio)} · ganancia ${formatCOP(s.gananciaNeta)}`,
         }))}
         renderLink={enlazarDetalle ? (item, fila) => (
-          <Link href={`/dashboard/sucursales/${item.key}`} className="block rounded-lg focus-visible:outline-2 focus-visible:outline-[#e3b341]">
+          <Link href={`/dashboard/sucursales/${item.key}`} className="block rounded-xl focus-visible:outline-2 focus-visible:outline-brand-500">
             {fila}
           </Link>
         ) : undefined}
