@@ -7,6 +7,7 @@ import {
   SessionManager,
   validarSesionJwtMcp,
 } from './session/index.ts';
+import { extraerTokenDeRequest } from './session/jwt-session.ts';
 import {
   registrarCatalogoEnMcpServer,
   obtenerCatalogoCompleto,
@@ -86,7 +87,7 @@ export function createMcpHttpServer(
 
   const sessionManager = new SessionManager();
 
-  const server = http.createServer(async (req, res) => {
+  const manejarPeticion = async (req: http.IncomingMessage, res: http.ServerResponse) => {
     // 1. Manejo de cabeceras CORS
     if (aplicarCors(req, res, config)) {
       return;
@@ -308,6 +309,17 @@ export function createMcpHttpServer(
         message: 'La ruta solicitada no existe en el servidor MCP de Inventa.',
       }),
     );
+  };
+
+  // Multiempresa: cada petición se ejecuta en el contexto de la empresa firmada en su token,
+  // para que las herramientas consulten la base de esa empresa y no la de otra.
+  const server = http.createServer(async (req, res) => {
+    const mt = container.multiempresa;
+    // Contenedores simulados de tests (sin multiempresa): se atiende sin contexto de empresa.
+    if (!mt) return manejarPeticion(req, res);
+    const token = extraerTokenDeRequest(req);
+    const contexto = (token ? await mt.empresaDesdeToken(token) : null) ?? mt.contextoPorDefecto();
+    await mt.ejecutarConEmpresa(contexto, () => manejarPeticion(req, res));
   });
 
   return server;

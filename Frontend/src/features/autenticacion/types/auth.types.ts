@@ -60,7 +60,23 @@ export type LoginResult =
       tipo: 'REQUIERE_2FA';
       tempToken: string;
       message: string;
+    }
+  | {
+      /** Cuenta gratuita de la web (sin empresa): va a "Mi cuenta", no al panel. */
+      tipo: 'CUENTA';
+      cuenta: CuentaWeb;
     };
+
+/** Cuenta creada desde la web (base central). */
+export interface CuentaWeb {
+  id: string;
+  nombre: string;
+  email: string;
+  empresaId: number | null;
+  /** Color principal detectado en el logo de la empresa (#rrggbb). */
+  colorPrincipal?: string | null;
+  logoVersion?: string | null;
+}
 
 /**
  * Estado del control de mitigación de fuerza bruta / rate limit (HTTP 429).

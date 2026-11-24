@@ -18,7 +18,7 @@ export const PLANES: PlanData[] = [
       '1 sucursal / 1 caja activa',
     ],
     destacado: false,
-    cta: 'Empezar con Almacén',
+    cta: 'Comprar Almacén',
   },
   {
     id: 'tienda',
@@ -34,7 +34,7 @@ export const PLANES: PlanData[] = [
       'Kardex y traslados de mercancía',
     ],
     destacado: true,
-    cta: 'Elegir Tienda',
+    cta: 'Comprar Tienda',
   },
   {
     id: 'empresario',
@@ -50,6 +50,6 @@ export const PLANES: PlanData[] = [
       'Métricas globales y salarios',
     ],
     destacado: false,
-    cta: 'Hablar con ventas',
+    cta: 'Comprar Empresario',
   },
 ];

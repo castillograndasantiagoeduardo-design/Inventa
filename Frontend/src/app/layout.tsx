@@ -101,8 +101,9 @@ const scriptInicializacionTema = `
     var tema = localStorage.getItem('inventa-tema') || 'dark';
     d.setAttribute('data-paleta', paleta);
     d.setAttribute('data-fondo', fondo);
-    if (paleta === 'personalizada') {
-      var varsRaw = localStorage.getItem('inventa-paleta-custom-vars');
+    if (paleta === 'personalizada' || paleta === 'empresa') {
+      // 'empresa' = paleta generada del color del logo de la empresa (MarcaEmpresaProvider).
+      var varsRaw = localStorage.getItem(paleta === 'empresa' ? 'inventa-paleta-empresa-vars' : 'inventa-paleta-custom-vars');
       if (varsRaw) {
         var varsObj = JSON.parse(varsRaw);
         for (var k in varsObj) {

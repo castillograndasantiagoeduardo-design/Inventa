@@ -12,6 +12,10 @@ export const STORAGE_KEYS = {
   fondo: 'inventa-fondo',
   paletaCustom: 'inventa-paleta-custom',
   paletaCustomVars: 'inventa-paleta-custom-vars',
+  /** Variables CSS de la paleta "Mi empresa" (generada del color del logo). */
+  paletaEmpresaVars: 'inventa-paleta-empresa-vars',
+  /** Color de la marca ya aplicado (si cambia el logo, se vuelve a activar "Mi empresa"). */
+  marcaAplicada: 'inventa-marca-aplicada',
 } as const;
 
 /** Claves anteriores al rebrand (Warengine → Inventa); el layout las migra al cargar. */

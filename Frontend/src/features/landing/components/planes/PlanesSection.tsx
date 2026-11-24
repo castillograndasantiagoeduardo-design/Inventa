@@ -63,7 +63,7 @@ export function PlanesSection() {
               ))}
             </ul>
 
-            <BotonLanding href="#nosotros" variante={plan.destacado ? 'primario' : 'secundario'} className="w-full">
+            <BotonLanding href={`/cuenta/comprar?plan=${plan.id}`} variante={plan.destacado ? 'primario' : 'secundario'} className="w-full">
               {plan.cta}
             </BotonLanding>
           </li>

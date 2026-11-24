@@ -102,6 +102,17 @@ export function presentResult<T>(c: Context, result: Result<T, DomainError>, suc
     case 'COTIZACION_NO_ENCONTRADA':
       status = 404;
       break;
+    case 'EMAIL_YA_REGISTRADO':
+    case 'PAGO_YA_PROCESADO':
+    case 'PAGO_NO_APROBADO':
+      status = 409;
+      break;
+    case 'LOGO_INVALIDO':
+      status = 422;
+      break;
+    case 'APROVISIONAMIENTO_FALLIDO':
+      status = 503;
+      break;
     default:
       if (error.code.endsWith('_NO_ENCONTRADO') || error.code.endsWith('_NO_ENCONTRADA')) {
         status = 404;

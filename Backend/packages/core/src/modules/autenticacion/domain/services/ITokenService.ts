@@ -7,6 +7,8 @@ export interface AccessTokenPayload {
   usuarioId: string;
   rolId: number;
   iat: Date;
+  /** Empresa (tenant) del usuario. Ausente en tokens emitidos antes de la multiempresa. */
+  empresaId?: number;
 }
 
 export interface ITokenService {

@@ -11,6 +11,7 @@ import React from 'react';
 import { InventaLogo } from '@/components/panel/InventaLogo';
 import { InventaWordmark } from '@/components/panel/InventaWordmark';
 import type { TurnoCajaDto } from '../types/pos.types';
+import { useMarcaEmpresa } from '@/features/marca';
 
 interface PosHeaderProps {
   usuarioNombre: string;
@@ -51,13 +52,22 @@ export function PosHeader({
       })
     : null;
 
+  const { logoUrl } = useMarcaEmpresa();
+
   return (
     <header className="h-16 px-4 bg-[#0a1124] border-b border-white/10 flex items-center justify-between select-none shadow-md">
       {/* Lado izquierdo: Marca y Sucursal */}
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 flex items-center justify-center drop-shadow-[0_2px_8px_rgba(217,160,45,0.35)]">
-          <InventaLogo className="w-9 rounded-lg" />
-        </div>
+        {logoUrl ? (
+          <div className="w-10 h-10 rounded-lg bg-white/95 p-0.5 overflow-hidden flex items-center justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element -- URL de objeto del logo, no optimizable */}
+            <img src={logoUrl} alt="Logo de la empresa" className="w-full h-full object-contain" />
+          </div>
+        ) : (
+          <div className="w-10 h-10 flex items-center justify-center drop-shadow-[0_2px_8px_rgba(217,160,45,0.35)]">
+            <InventaLogo className="w-9 rounded-lg" />
+          </div>
+        )}
         <div>
           <div className="flex items-center gap-2">
             <h1 className="flex items-baseline gap-1.5">

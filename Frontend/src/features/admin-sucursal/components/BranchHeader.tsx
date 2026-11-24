@@ -18,6 +18,7 @@ import { SelectorPaleta } from './SelectorPaleta';
 import { Insignia } from './Insignia';
 import { ENABLE_GLOBAL_SEARCH } from '../config/branch-navigation.config';
 import type { DashboardPeriodo } from '../types/branch-dashboard.types';
+import { AvatarMarca } from '@/features/marca';
 
 export interface BranchHeaderProps {
   periodo?: DashboardPeriodo;
@@ -201,9 +202,9 @@ export function BranchHeader({
             role="button"
             tabIndex={0}
           >
-            <div className="w-7 h-7 rounded-lg bg-brand-600 text-btn-primario-texto flex items-center justify-center font-titulos font-semibold text-xs shadow-sm">
+            <AvatarMarca className="w-7 h-7 rounded-lg bg-brand-600 text-btn-primario-texto flex items-center justify-center font-titulos font-semibold text-xs shadow-sm">
               {iniciales}
-            </div>
+            </AvatarMarca>
             <div className="text-left hidden lg:block leading-tight">
               <div className="text-xs font-semibold text-text truncate max-w-[130px]">
                 {nombreUsuario}

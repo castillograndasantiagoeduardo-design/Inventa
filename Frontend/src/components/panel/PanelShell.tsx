@@ -16,6 +16,7 @@ import { ToastProvider } from '@/components/ui/Toast';
 import { Spinner } from '@/components/ui/Spinner';
 import { Sidebar } from './Sidebar';
 import { PanelHeader } from './PanelHeader';
+import { MarcaDeAgua } from '@/features/marca';
 
 export function PanelShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -40,7 +41,8 @@ export function PanelShell({ children }: { children: React.ReactNode }) {
 
   return (
     <ToastProvider>
-      <div className="min-h-dvh flex bg-[#0d1630] text-white">
+      <div className="min-h-dvh flex bg-[#0d1630] text-white relative isolate">
+        <MarcaDeAgua />
         <Sidebar open={menuAbierto} onClose={() => setMenuAbierto(false)} />
         <div className="flex-1 min-w-0 flex flex-col">
           <PanelHeader onMenuClick={() => setMenuAbierto(true)} />

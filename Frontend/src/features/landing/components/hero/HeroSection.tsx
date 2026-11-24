@@ -36,8 +36,8 @@ export function HeroSection() {
         </p>
 
         <div className="flex flex-wrap gap-3 pt-2">
-          <BotonLanding href="#nosotros">
-            Solicitar demo
+          <BotonLanding href="/registro">
+            Crear cuenta gratis
             <ArrowRight className="size-4" aria-hidden="true" />
           </BotonLanding>
           <BotonLanding href="#planes" variante="secundario">

@@ -53,6 +53,20 @@ export function AuthCard() {
       return;
     }
 
+    // Destino pedido antes del login (ej. volver a la compra de un plan). Solo rutas internas.
+    const destino = new URLSearchParams(globalThis.location.search).get('redirect');
+    const destinoSeguro = destino && destino.startsWith('/') && !destino.startsWith('//') ? destino : null;
+
+    // Cuenta gratuita de la web: va a "Mi cuenta" (o a donde iba).
+    if (resultado?.tipo === 'CUENTA') {
+      router.push(destinoSeguro ?? '/cuenta');
+      return;
+    }
+    if (destinoSeguro) {
+      router.push(destinoSeguro);
+      return;
+    }
+
     const rol = resultado?.tipo === 'EXITO' ? resultado.data.usuario.rolNombre : usuario?.rolNombre;
 
     // Redirección inteligente post-login según el rol

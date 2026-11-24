@@ -11,6 +11,7 @@ import { Sun, Moon, Menu, Briefcase } from 'lucide-react';
 import { useAuth } from '@/features/autenticacion';
 import { SelectorPaleta } from '@/components/SelectorPaleta';
 import { Insignia } from '@/components/Insignia';
+import { AvatarMarca } from '@/features/marca';
 
 export interface VendedorB2BHeaderProps {
   onOpenMobileMenu?: () => void;
@@ -125,9 +126,9 @@ export function VendedorB2BHeader({
             role={onOpenProfile ? 'button' : undefined}
             tabIndex={onOpenProfile ? 0 : undefined}
           >
-            <div className="w-7 h-7 rounded-lg bg-brand-600 text-btn-primario-texto flex items-center justify-center font-titulos font-semibold text-xs shadow-sm">
+            <AvatarMarca className="w-7 h-7 rounded-lg bg-brand-600 text-btn-primario-texto flex items-center justify-center font-titulos font-semibold text-xs shadow-sm">
               {iniciales}
-            </div>
+            </AvatarMarca>
             <div className="text-left hidden lg:block leading-tight">
               <div className="text-xs font-semibold text-text truncate max-w-[140px]">
                 {email || 'Vendedor'}

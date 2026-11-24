@@ -254,3 +254,12 @@ export * from './src/modules/logistica/application/use-cases/RegistrarMantenimie
 export * from './src/modules/logistica/application/use-cases/FinalizarMantenimientoUseCase.ts';
 export * from './src/modules/logistica/application/use-cases/ListarMantenimientosUseCase.ts';
 export * from './src/modules/logistica/application/use-cases/ConsultarHistorialMantenimientosUseCase.ts';
+
+// ─── Módulo: suscripciones (cuentas, planes y pagos; base central) ───────────
+export * from './src/modules/suscripciones/domain/entities/Suscripciones.ts';
+export * from './src/modules/suscripciones/domain/errors/SuscripcionesErrors.ts';
+export * from './src/modules/suscripciones/domain/repositories/ISuscripcionesPuertos.ts';
+export * from './src/modules/suscripciones/domain/services/ITokenCuentaService.ts';
+export * from './src/modules/suscripciones/application/use-cases/CuentasUseCases.ts';
+export * from './src/modules/suscripciones/application/use-cases/PagosUseCases.ts';
+export * from './src/modules/suscripciones/domain/services/IAnalizadorLogo.ts';

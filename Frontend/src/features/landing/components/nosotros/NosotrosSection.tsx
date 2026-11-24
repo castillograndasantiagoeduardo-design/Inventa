@@ -31,7 +31,7 @@ export function NosotrosSection() {
           <BotonLanding href="/acceso" variante="secundario">
             Iniciar sesión
           </BotonLanding>
-          <BotonLanding href="#planes">Ver planes</BotonLanding>
+          <BotonLanding href="/registro">Crear cuenta gratis</BotonLanding>
         </div>
       </div>
     </section>

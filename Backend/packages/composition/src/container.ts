@@ -10,7 +10,21 @@
  *   6. Devuelve un objeto con todos los casos de uso listos para usar.
  */
 
-import { getDatabase } from '../../database/src/client.ts';
+import {
+  crearDatabaseEnrutada,
+  ejecutarConEmpresa,
+  obtenerEmpresaIdActual,
+  contextoPorDefecto,
+  ResolutorEmpresas,
+  TopePermisosPlan,
+  conTopePlan,
+  DirectorioCentral,
+  conDirectorioCentral,
+  AprovisionadorEmpresas,
+  type ContextoEmpresa,
+  type DatosNuevaEmpresa,
+  type EmpresaAprovisionada,
+} from '../../database/src/tenancy/index.ts';
 import { DrizzleUsuarioRepository } from '../../database/src/repositories/autenticacion/drizzle-usuario.repository.ts';
 import { DrizzleRolRepository } from '../../database/src/repositories/autenticacion/drizzle-rol.repository.ts';
 import { DrizzleRefreshTokenRepository } from '../../database/src/repositories/autenticacion/drizzle-refresh-token.repository.ts';
@@ -51,6 +65,29 @@ import { DrizzleMantenimientoActivoRepository } from '../../database/src/reposit
 
 
 import { JwtTokenService } from '../../platform/src/jwt/jwt-token-service.ts';
+import { JwtCuentaTokenService } from '../../platform/src/jwt/jwt-cuenta-token-service.ts';
+import { PasarelaSimulada } from '../../platform/src/pagos/pasarela-simulada.ts';
+import { AnalizadorLogoPng } from '../../platform/src/marca/analizador-logo.ts';
+import {
+  CentralCuentaRepository,
+  CentralMarcaEmpresaRepository,
+  CentralPagoRepository,
+  CentralPlanRepository,
+  CentralSuscripcionRepository,
+} from '../../database/src/repositories/suscripciones/central-suscripciones.repositories.ts';
+import {
+  RegistrarCuentaUseCase,
+  IniciarSesionCuentaUseCase,
+  ObtenerMiCuentaUseCase,
+  ListarPlanesUseCase,
+  IniciarPagoUseCase,
+  ConfirmarPagoUseCase,
+  ConsultarPagoUseCase,
+  ActualizarLogoCuentaUseCase,
+  ObtenerMarcaEmpresaUseCase,
+  type ITokenCuentaService,
+  type IAprovisionadorEmpresas,
+} from '@inventa/core';
 import { Argon2PasswordHasher } from '../../platform/src/hashing/argon2-password-hasher.ts';
 import { TotpService } from '../../platform/src/totp/totp-service.ts';
 import { PlatformMailer } from '../../platform/src/mailer/mailer.ts';
@@ -354,6 +391,49 @@ export interface AppContainer {
   asistente: {
     conversar: ConversarConAsistenteUseCase;
   };
+  /** Multiempresa: resolución de la empresa de cada petición (una base de datos por empresa). */
+  multiempresa: ServicioMultiempresa;
+  /** Cuentas de la web, planes y pagos (base central). */
+  suscripciones: {
+    registrarCuenta: RegistrarCuentaUseCase;
+    iniciarSesionCuenta: IniciarSesionCuentaUseCase;
+    obtenerMiCuenta: ObtenerMiCuentaUseCase;
+    listarPlanes: ListarPlanesUseCase;
+    tokenCuenta: ITokenCuentaService;
+    iniciarPago: IniciarPagoUseCase;
+    confirmarPago: ConfirmarPagoUseCase;
+    consultarPago: ConsultarPagoUseCase;
+    actualizarLogo: ActualizarLogoCuentaUseCase;
+    obtenerMarcaEmpresa: ObtenerMarcaEmpresaUseCase;
+    /** Bytes del logo PNG (null si no hay). */
+    logoDeCuenta(cuentaId: string): Promise<Uint8Array | null>;
+    logoDeEmpresa(empresaId: number): Promise<Uint8Array | null>;
+    /** Pasarela de demostración (página de pago propia y tarjetas de prueba). */
+    pasarelaSimulada: PasarelaSimulada;
+    /** Abre la sesión del panel del dueño en su empresa (tras pagar, sin pedir de nuevo la clave). */
+    emitirSesionDueno(empresaId: number, email: string): Promise<{ accessToken: string; refreshToken: string } | null>;
+  };
+}
+
+export interface ServicioMultiempresa {
+  /** Ejecuta fn con la empresa indicada como contexto (todas las consultas van a su base). */
+  ejecutarConEmpresa<T>(contexto: ContextoEmpresa, fn: () => T): T;
+  /** Empresa por defecto (instalación de una sola empresa / empresa n.º 1). */
+  contextoPorDefecto(): ContextoEmpresa;
+  /** Empresa firmada en un access token válido; null si el token es inválido o no trae empresa. */
+  empresaDesdeToken(accessToken: string): Promise<ContextoEmpresa | null>;
+  /** Empresa a la que pertenece un correo (directorio central). */
+  empresaDesdeEmail(email: string): Promise<ContextoEmpresa | null>;
+  /** Empresa por id. */
+  empresaPorId(empresaId: number): Promise<ContextoEmpresa | null>;
+  /** Crea la base de datos de una empresa nueva con su sede principal y su dueño. */
+  aprovisionarEmpresa(datos: DatosNuevaEmpresa): Promise<EmpresaAprovisionada>;
+  /** Plan vigente de una empresa (null si no tiene suscripción vigente). */
+  planVigente(empresaId: number): Promise<{ planId: string; venceEn: Date } | null>;
+  /** Olvida cachés de empresa y de tope de permisos (tras activar o renovar un plan). */
+  invalidarCaches(empresaId?: number): void;
+  /** Id de la empresa de la petición en curso (o la empresa por defecto). */
+  empresaActual(): number;
 }
 
 function leerEnteroPositivo(
@@ -385,18 +465,25 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
 
   const jwtSecret = validarYObtenerJwtSecret(getEnv('JWT_SECRET'));
 
-  const db = getDatabase();
+  // Multiempresa: el db se enruta en cada consulta a la base de la empresa de la petición.
+  const db = crearDatabaseEnrutada();
+  const resolutorEmpresas = new ResolutorEmpresas();
+  const topePermisosPlan = new TopePermisosPlan();
+  const directorioCentral = new DirectorioCentral();
+  const aprovisionadorEmpresas = new AprovisionadorEmpresas(undefined, directorioCentral);
 
   // 1. Instanciar Repositorios
   const usuarioRepository = new DrizzleUsuarioRepository(db);
-  const rolRepository = new DrizzleRolRepository(db);
+  // Permisos efectivos = rol ∩ plan vigente de la empresa (sin tope en la empresa por defecto).
+  const rolRepository = conTopePlan(new DrizzleRolRepository(db), topePermisosPlan);
   const refreshTokenRepository = new DrizzleRefreshTokenRepository(db);
   const intentoLoginRepository = new DrizzleIntentoLoginRepository(db);
   const sucursalRepository = new DrizzleSucursalRepository(db);
   const areaRepository = new DrizzleAreaRepository(db);
   const empleadoRepository = new DrizzleEmpleadoRepository(db);
   const historialSalarioRepository = new DrizzleHistorialSalarioRepository(db);
-  const gestionUsuarioRepository = new DrizzleGestionUsuarioRepository(db);
+  // Correos únicos entre empresas + registro en el directorio central.
+  const gestionUsuarioRepository = conDirectorioCentral(new DrizzleGestionUsuarioRepository(db), directorioCentral);
   const clienteRepository = new DrizzleClienteRepository(db);
   const categoriaRepository = new DrizzleCategoriaRepository(db);
   const proveedorRepository = new DrizzleProveedorRepository(db);
@@ -421,8 +508,18 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
   const asignacionActivoRepository = new DrizzleAsignacionActivoRepository(db);
   const mantenimientoActivoRepository = new DrizzleMantenimientoActivoRepository(db);
   // 2. Instanciar Servicios Técnicos
-  const tokenService = new JwtTokenService(refreshTokenRepository, jwtSecret);
+  const tokenService = new JwtTokenService(refreshTokenRepository, jwtSecret, obtenerEmpresaIdActual);
   const passwordHasher = new Argon2PasswordHasher();
+
+  // Suscripciones (base central)
+  const tokenCuentaService = new JwtCuentaTokenService(jwtSecret);
+  const cuentaRepository = new CentralCuentaRepository();
+  const planRepository = new CentralPlanRepository();
+  const suscripcionRepository = new CentralSuscripcionRepository();
+  const pagoRepository = new CentralPagoRepository();
+  const marcaEmpresaRepository = new CentralMarcaEmpresaRepository();
+  const analizadorLogo = new AnalizadorLogoPng();
+  const pasarelaSimulada = new PasarelaSimulada(pagoRepository, getEnv('FRONTEND_URL') ?? 'http://localhost:3000');
   const totpService = new TotpService();
   const mailer = new PlatformMailer(getEnv('FRONTEND_URL') ?? 'http://localhost:3000');
 
@@ -1096,6 +1193,65 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
     },
     asistente: {
       conversar: conversarConAsistenteUseCase,
+    },
+    suscripciones: {
+      registrarCuenta: new RegistrarCuentaUseCase(cuentaRepository, passwordHasher, tokenCuentaService, analizadorLogo),
+      iniciarSesionCuenta: new IniciarSesionCuentaUseCase(cuentaRepository, passwordHasher, tokenCuentaService),
+      obtenerMiCuenta: new ObtenerMiCuentaUseCase(cuentaRepository, suscripcionRepository, planRepository),
+      listarPlanes: new ListarPlanesUseCase(planRepository),
+      tokenCuenta: tokenCuentaService,
+      iniciarPago: new IniciarPagoUseCase(cuentaRepository, planRepository, pagoRepository, pasarelaSimulada),
+      confirmarPago: new ConfirmarPagoUseCase(cuentaRepository, planRepository, pagoRepository, suscripcionRepository, pasarelaSimulada, {
+        crear: async (datos) => {
+          const creada = await aprovisionadorEmpresas.crear(datos);
+          resolutorEmpresas.invalidar(creada.empresaId);
+          return { empresaId: creada.empresaId };
+        },
+        ajustarRolDueno: (empresaId, email, rolNombre) => aprovisionadorEmpresas.ajustarRolDueno(empresaId, email, rolNombre),
+        invalidarCaches: (empresaId) => {
+          resolutorEmpresas.invalidar(empresaId);
+          topePermisosPlan.invalidar(empresaId);
+        },
+      } satisfies IAprovisionadorEmpresas),
+      pasarelaSimulada,
+      consultarPago: new ConsultarPagoUseCase(pagoRepository, planRepository),
+      actualizarLogo: new ActualizarLogoCuentaUseCase(cuentaRepository, analizadorLogo),
+      obtenerMarcaEmpresa: new ObtenerMarcaEmpresaUseCase(marcaEmpresaRepository),
+      logoDeCuenta: (cuentaId) => cuentaRepository.obtenerLogo(cuentaId),
+      logoDeEmpresa: (empresaId) => marcaEmpresaRepository.obtenerLogo(empresaId),
+      emitirSesionDueno: async (empresaId, email) => {
+        const contexto = await resolutorEmpresas.porId(empresaId);
+        if (!contexto) return null;
+        return ejecutarConEmpresa(contexto, async () => {
+          const usuario = await usuarioRepository.findByEmail(email);
+          return usuario ? tokenService.generarTokens(usuario.id, usuario.rolId) : null;
+        });
+      },
+    },
+    multiempresa: {
+      ejecutarConEmpresa,
+      contextoPorDefecto,
+      empresaPorId: (empresaId) => resolutorEmpresas.porId(empresaId),
+      empresaDesdeEmail: (email) => resolutorEmpresas.porEmail(email),
+      aprovisionarEmpresa: async (datos) => {
+        const creada = await aprovisionadorEmpresas.crear(datos);
+        resolutorEmpresas.invalidar(creada.empresaId);
+        return creada;
+      },
+      planVigente: (empresaId) => topePermisosPlan.planVigente(empresaId),
+      invalidarCaches: (empresaId) => {
+        resolutorEmpresas.invalidar(empresaId);
+        topePermisosPlan.invalidar(empresaId);
+      },
+      empresaActual: () => obtenerEmpresaIdActual() ?? contextoPorDefecto().empresaId,
+      empresaDesdeToken: async (accessToken) => {
+        try {
+          const payload = await tokenService.validarAccessToken(accessToken);
+          return payload.empresaId ? await resolutorEmpresas.porId(payload.empresaId) : null;
+        } catch {
+          return null;
+        }
+      },
     },
   };
 }
