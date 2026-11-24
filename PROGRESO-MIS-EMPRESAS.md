@@ -62,4 +62,5 @@
 | Fase 2 | 11 | `47f9f38` | Migración `012-avisos-pago-credito-b2b.sql` | Tabla aditiva de avisos con checks de estado |
 | Fase 2 | 12 | `69c7fa7` | `cartera.schema.ts` con el esquema Drizzle de las tablas nuevas | Export en `schema/index.ts` sin tocar `facturacion.schema.ts` |
 | Fase 2 | 13 | `3c4b237` | Registrar 010, 011 y 012 en `aprovisionador.ts` y `Docs/database/README.md` | `tenancy.test.ts` + tablas creadas en BD local |
-| Fase 3 | 14 | `pendiente` | Entidad `CreditoB2B` con estado derivado y días de mora | `credito-b2b.entity.test.ts` |
+| Fase 3 | 14 | `8b29b28` | Entidad `CreditoB2B` con estado derivado y días de mora | `credito-b2b.entity.test.ts` |
+| Fase 3 | 15 | `pendiente` | Puerto `ICarteraRepository` | Contrato de persistencia en `core/` |
