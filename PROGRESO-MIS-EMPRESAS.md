@@ -87,7 +87,8 @@
 | Fase 5 | 36 | `9979da0` | `CarteraKPIs`, `EmpresaB2BTabla` y `MisEmpresasView` con filtros | `npm run build` + push origin |
 | Fase 5 | 37 | `aeb661a` | Detalle de empresa `EmpresaB2BDetalle` + `EmpresaB2BHistorial` | `npm run build` ok |
 | Fase 5 | 38 | `0f155dd` | Panel `CarteraPanel` de créditos activos y tiempo pagando | `npm run build` ok |
-| Fase 5 | 39 | `-` | Panel `MoraPanel` de empresas en mora | `npm run build` ok |
+| Fase 5 | 39 | `3b0c803` | Panel `MoraPanel` de empresas en mora | `npm run build` + push origin |
+| Fase 5 | 40 | `-` | Modal `SoltarCreditoModal` con datos de ganancia y simulación | `npm run build` ok |
 
 ---
 

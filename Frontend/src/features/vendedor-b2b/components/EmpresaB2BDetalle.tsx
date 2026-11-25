@@ -20,18 +20,23 @@ import { Tarjeta } from '@/components/Tarjeta';
 import { Insignia } from '@/components/Insignia';
 import { formatCOP, formatPorcentaje } from '@/lib/format/moneda';
 import { useEmpresaB2BDetalle } from '../hooks';
-import type { CreditoB2BDto } from '../types';
+import type { CreditoB2BDto, SolicitarCreditoB2BInput } from '../types';
 import { BADGE_ESTADO_CREDITO, BADGE_RIESGO } from './carteraBadges';
 import { EmpresaB2BHistorial } from './EmpresaB2BHistorial';
+import { SoltarCreditoModal } from './SoltarCreditoModal';
 
 export interface EmpresaB2BDetalleProps {
   clienteId: string;
 }
 
 export function EmpresaB2BDetalle({ clienteId }: EmpresaB2BDetalleProps) {
-  const { detalle, cargando, error, sinPermiso } = useEmpresaB2BDetalle(clienteId);
+  const { detalle, cargando, error, sinPermiso, solicitarCredito } = useEmpresaB2BDetalle(clienteId);
   const [creditoAviso, setCreditoAviso] = useState<CreditoB2BDto | null>(null);
   const [modalSolicitud, setModalSolicitud] = useState(false);
+
+  const handleSolicitarCredito = async (_id: string, payload: SolicitarCreditoB2BInput) => {
+    await solicitarCredito(payload);
+  };
 
   if (cargando) {
     return (
@@ -169,9 +174,16 @@ export function EmpresaB2BDetalle({ clienteId }: EmpresaB2BDetalleProps) {
         onAvisarPago={(cred) => setCreditoAviso(cred)}
       />
 
-      {(creditoAviso || modalSolicitud) && (
+      <SoltarCreditoModal
+        open={modalSolicitud}
+        empresa={detalle}
+        onClose={() => setModalSolicitud(false)}
+        onSubmit={handleSolicitarCredito}
+      />
+
+      {creditoAviso && (
         <div className="sr-only" aria-hidden="true">
-          {creditoAviso?.id}
+          {creditoAviso.id}
         </div>
       )}
     </div>

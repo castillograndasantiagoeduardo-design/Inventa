@@ -5,14 +5,15 @@
  */
 
 import React, { useState } from 'react';
-import { AlertTriangle, Building2, Clock, ShieldAlert, RefreshCw } from 'lucide-react';
+import { AlertTriangle, Building2, CheckCircle2, Clock, ShieldAlert, RefreshCw, X } from 'lucide-react';
 import { Tarjeta } from '@/components/Tarjeta';
 import { useEmpresasB2B, useCarteraB2B } from '../hooks';
-import type { CreditoB2BDto, EmpresaB2BResumenDto } from '../types';
+import type { CreditoB2BDto, EmpresaB2BResumenDto, SolicitarCreditoB2BInput } from '../types';
 import { CarteraKPIs } from './CarteraKPIs';
 import { EmpresaB2BTabla } from './EmpresaB2BTabla';
 import { CarteraPanel } from './CarteraPanel';
 import { MoraPanel } from './MoraPanel';
+import { SoltarCreditoModal } from './SoltarCreditoModal';
 
 type TabMisEmpresas = 'empresas' | 'cartera' | 'mora';
 
@@ -20,6 +21,7 @@ export function MisEmpresasView() {
   const [tab, setTab] = useState<TabMisEmpresas>('empresas');
   const [empresaSolicitud, setEmpresaSolicitud] = useState<EmpresaB2BResumenDto | null>(null);
   const [creditoAviso, setCreditoAviso] = useState<CreditoB2BDto | null>(null);
+  const [notificacion, setNotificacion] = useState<string | null>(null);
 
   const {
     empresas,
@@ -31,6 +33,7 @@ export function MisEmpresasView() {
     error,
     sinPermiso,
     recargar,
+    solicitarCredito,
   } = useEmpresasB2B();
 
   const {
@@ -55,6 +58,13 @@ export function MisEmpresasView() {
     void recargar();
     void cargarCartera();
     void cargarMora();
+  };
+
+  const handleSolicitarCredito = async (clienteId: string, payload: SolicitarCreditoB2BInput) => {
+    const res = await solicitarCredito(clienteId, payload);
+    setNotificacion(
+      `Solicitud enviada para ${res.cliente.nombreRazonSocial} (cupo sugerido $${res.evaluacionCredito.cupoSugerido.toLocaleString('es-CO')} COP). Quedó pendiente de aprobación.`,
+    );
   };
 
   if (sinPermiso) {
@@ -91,6 +101,23 @@ export function MisEmpresasView() {
           <span>Actualizar</span>
         </button>
       </div>
+
+      {notificacion && (
+        <div className="vidrio p-4 rounded-xl border border-green-500/30 bg-green-500/10 text-green-800 dark:text-green-200 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+            <p className="text-xs font-sans">{notificacion}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setNotificacion(null)}
+            className="p-1 rounded-lg hover:bg-green-500/10 cursor-pointer shrink-0"
+            aria-label="Cerrar notificación"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
       {error && (
         <div className="vidrio p-4 rounded-xl border border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300 flex items-center gap-3">
@@ -171,10 +198,16 @@ export function MisEmpresasView() {
         <MoraPanel empresasMora={mora} cargando={cargandoMora} error={errorMora} />
       )}
 
-      {(empresaSolicitud || creditoAviso) && (
+      <SoltarCreditoModal
+        open={Boolean(empresaSolicitud)}
+        empresa={empresaSolicitud}
+        onClose={() => setEmpresaSolicitud(null)}
+        onSubmit={handleSolicitarCredito}
+      />
+
+      {creditoAviso && (
         <div className="sr-only" aria-hidden="true">
-          {empresaSolicitud?.nombreRazonSocial}
-          {creditoAviso?.id}
+          {creditoAviso.id}
         </div>
       )}
     </div>
