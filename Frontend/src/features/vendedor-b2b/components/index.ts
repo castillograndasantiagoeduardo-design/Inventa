@@ -8,4 +8,8 @@ export * from './NuevoClienteB2BModal';
 export * from './ComprobanteB2BModal';
 export * from './HistorialVentasB2BModal';
 export * from './MisCotizacionesB2BModal';
+export * from './CarteraKPIs';
+export * from './EmpresaB2BTabla';
+export * from './MisEmpresasView';
+export * from './EmpresaB2BDetalle';
 export * from './vendedor-b2b.navigation.config';
