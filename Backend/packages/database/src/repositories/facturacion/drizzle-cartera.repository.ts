@@ -1,4 +1,4 @@
-import { and, desc, eq, inArray, sql, type SQL } from 'drizzle-orm';
+import { and, desc, eq, inArray, isNull, sql, type SQL } from 'drizzle-orm';
 import { alias } from 'drizzle-orm/mysql-core';
 import type {
   AbonoCreditoDto,
@@ -21,7 +21,13 @@ import {
   avisos_pago_credito_b2b,
   creditos_b2b,
 } from '../../schema/cartera.schema.ts';
-import { clientes, facturas } from '../../schema/facturacion.schema.ts';
+import {
+  clientes,
+  devoluciones_ventas,
+  factura_items,
+  facturas,
+} from '../../schema/facturacion.schema.ts';
+import { productos } from '../../schema/inventario.schema.ts';
 import { usuarios } from '../../schema/autenticacion.schema.ts';
 import { empleados } from '../../schema/administracion.schema.ts';
 
@@ -283,11 +289,84 @@ export class DrizzleCarteraRepository implements ICarteraRepository {
     return resultado;
   }
 
-  public obtenerRentabilidadPorClientes(
-    _clienteIds: string[],
-    _sucursalId?: number,
+  public async obtenerRentabilidadPorClientes(
+    clienteIds: string[],
+    sucursalId?: number,
   ): Promise<Record<string, RentabilidadClienteRaw>> {
-    return Promise.resolve({});
+    if (clienteIds.length === 0) return {};
+
+    const condBase: SQL[] = [
+      inArray(facturas.cliente_id, clienteIds),
+      eq(facturas.estado, 'emitida'),
+      isNull(facturas.deleted_at),
+    ];
+    if (sucursalId !== undefined) {
+      condBase.push(eq(facturas.sucursal_id, sucursalId));
+    }
+
+    const [facturadoRows, gananciaRows, devolucionRows] = await Promise.all([
+      this.db
+        .select({
+          clienteId: facturas.cliente_id,
+          totalFacturado: sql<number>`COALESCE(SUM(${facturas.total}), 0)`,
+        })
+        .from(facturas)
+        .where(and(...condBase))
+        .groupBy(facturas.cliente_id),
+      this.db
+        .select({
+          clienteId: facturas.cliente_id,
+          gananciaBruta: sql<number>`COALESCE(SUM((${factura_items.precio_unitario} - COALESCE(${productos.precio_compra}, 0)) * ${factura_items.cantidad} - ${factura_items.descuento}), 0)`,
+        })
+        .from(factura_items)
+        .innerJoin(facturas, eq(factura_items.factura_id, facturas.id_factura))
+        .innerJoin(productos, eq(factura_items.producto_id, productos.id_producto))
+        .where(and(...condBase, isNull(factura_items.deleted_at)))
+        .groupBy(facturas.cliente_id),
+      this.db
+        .select({
+          clienteId: facturas.cliente_id,
+          totalDevoluciones: sql<number>`COALESCE(SUM(${devoluciones_ventas.monto_reembolso}), 0)`,
+          gananciaRevertida: sql<number>`COALESCE(SUM((${factura_items.precio_unitario} - COALESCE(${productos.precio_compra}, 0)) * ${devoluciones_ventas.cantidad}), 0)`,
+        })
+        .from(devoluciones_ventas)
+        .innerJoin(facturas, eq(devoluciones_ventas.factura_id, facturas.id_factura))
+        .innerJoin(
+          factura_items,
+          eq(devoluciones_ventas.factura_item_id, factura_items.id_factura_item),
+        )
+        .innerJoin(productos, eq(factura_items.producto_id, productos.id_producto))
+        .where(and(...condBase, isNull(devoluciones_ventas.deleted_at)))
+        .groupBy(facturas.cliente_id),
+    ]);
+
+    const mapa: Record<string, RentabilidadClienteRaw> = {};
+    const asegurar = (clienteId: string): RentabilidadClienteRaw => {
+      if (!mapa[clienteId]) {
+        mapa[clienteId] = {
+          clienteId,
+          totalFacturado: 0,
+          totalDevoluciones: 0,
+          gananciaBrutaFacturas: 0,
+          gananciaRevertidaDevoluciones: 0,
+        };
+      }
+      return mapa[clienteId];
+    };
+
+    for (const r of facturadoRows) {
+      asegurar(r.clienteId).totalFacturado = Number(r.totalFacturado ?? 0);
+    }
+    for (const r of gananciaRows) {
+      asegurar(r.clienteId).gananciaBrutaFacturas = Number(r.gananciaBruta ?? 0);
+    }
+    for (const r of devolucionRows) {
+      const entry = asegurar(r.clienteId);
+      entry.totalDevoluciones = Number(r.totalDevoluciones ?? 0);
+      entry.gananciaRevertidaDevoluciones = Number(r.gananciaRevertida ?? 0);
+    }
+
+    return mapa;
   }
 
   public registrarCreditoFactura(_params: {

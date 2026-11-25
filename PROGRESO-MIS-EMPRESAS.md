@@ -74,6 +74,7 @@
 | Fase 3 | 23 | `ab71622` | `RegistrarAbonoCreditoUseCase` + errores de cartera + auditoría | `registrar-abono-credito.use-case.test.ts` (3/3) + lint ok |
 | Fase 3 | 24 | `cf4285c` | `AvisarPagoCreditoUseCase` + pruebas y auditoría | `avisar-pago-credito.use-case.test.ts` (3/3) + lint ok |
 | Fase 3 | 25 | `dce4d0f` | `ResolverAvisoPagoUseCase` + exports en `core/mod.ts` | `resolver-aviso-pago.use-case.test.ts` (4/4) + push origin |
+| Fase 4 | 26 | `a2dfa81` | `DrizzleCarteraRepository` (métodos de lectura) | `deno check` + `deno lint` ok |
 
 ---
 
