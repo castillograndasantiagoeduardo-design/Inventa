@@ -17,9 +17,12 @@ export function toProductoResponse(producto: Producto, permisos?: string[]): Pro
     ...(puedeVerCostos
       ? {
           proveedorId: producto.proveedorId,
+          proveedorNombre: producto.proveedorNombre,
           precioCompra: producto.precioCompra,
         }
-      : {}),
+      : {
+          proveedorNombre: producto.proveedorNombre,
+        }),
     precioVenta: producto.precioVenta,
     precioCorporativo: producto.precioCorporativo,
     precioCorporativoActualizadoEn: producto.precioCorporativoActualizadoEn
@@ -30,6 +33,7 @@ export function toProductoResponse(producto: Producto, permisos?: string[]): Pro
     isActive: producto.isActive,
     ...(producto.advertencia ? { advertencia: producto.advertencia } : {}),
     ...(producto.categoriaNombre !== undefined ? { categoriaNombre: producto.categoriaNombre } : {}),
+    ...(producto.proveedorNombre !== undefined ? { proveedorNombre: producto.proveedorNombre } : {}),
     ...(producto.stockActual !== undefined ? { stockActual: producto.stockActual } : {}),
     ...(producto.stockMinimo !== undefined ? { stockMinimo: producto.stockMinimo } : {}),
     ...(producto.estadoStock !== undefined ? { estadoStock: producto.estadoStock } : {}),

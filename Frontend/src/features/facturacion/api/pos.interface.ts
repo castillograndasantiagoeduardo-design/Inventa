@@ -54,6 +54,15 @@ export interface IPosService {
   buscarProductos(query: string | undefined, sucursalId: number): Promise<ProductoPos[]>;
 
   /**
+   * Verifica inmediatamente en el servidor si un producto sigue activo en el catálogo maestro.
+   */
+  verificarProductoActivo(productoId: string): Promise<{
+    activo: boolean;
+    nombre?: string;
+    precioVenta?: number;
+  }>;
+
+  /**
    * Busca clientes en el directorio (por documento, nombre o email).
    */
   buscarClientes(texto?: string): Promise<ClienteDto[]>;

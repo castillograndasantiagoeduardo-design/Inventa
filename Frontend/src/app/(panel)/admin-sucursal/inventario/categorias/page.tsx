@@ -84,10 +84,10 @@ export default function AdminSucursalInventarioCategoriasPage() {
               placeholder="Buscar categoría..."
               value={busqueda}
               onChange={(e) => setBusqueda(e.target.value)}
-              className="w-full h-10 px-3.5 pl-9 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3.5 pl-9 rounded-xl superficie-control text-xs placeholder:text-text-muted focus:outline-none focus:border-rose-500"
             />
             <svg
-              className="w-4 h-4 absolute left-3 top-3 text-white/40 pointer-events-none"
+              className="w-4 h-4 absolute left-3 top-3 text-text-muted pointer-events-none"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -105,11 +105,11 @@ export default function AdminSucursalInventarioCategoriasPage() {
             value={filtroEstado}
             onChange={(e) => setFiltroEstado(e.target.value as any)}
             aria-label="Filtrar por estado"
-            className="h-10 w-full sm:w-auto px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
+            className="h-10 w-full sm:w-auto px-3 rounded-xl superficie-control text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
           >
-            <option value="todas">Todas las categorías</option>
-            <option value="activas">Solo activas</option>
-            <option value="inactivas">Solo inactivas</option>
+            <option value="todas" className="bg-black text-white">Todas las categorías</option>
+            <option value="activas" className="bg-black text-white">Solo activas</option>
+            <option value="inactivas" className="bg-black text-white">Solo inactivas</option>
           </select>
         </div>
 

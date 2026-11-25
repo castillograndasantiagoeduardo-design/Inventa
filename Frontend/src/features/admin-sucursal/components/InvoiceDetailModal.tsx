@@ -85,88 +85,111 @@ export function InvoiceDetailModal({
     <Modal
       open={isOpen}
       onClose={onClose}
-      title={factura ? `Comprobante ${factura.folioFormateado}` : 'Detalle de Factura'}
+      title={factura ? `Comprobante ${factura.folioFormateado}` : 'Detalle de factura'}
       description={factura ? `Emisión: ${factura.fechaFormateada}` : undefined}
       size="lg"
       footer={
-        <div className="flex w-full items-center justify-between gap-3">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 rounded-xl border border-white/20 text-slate-300 hover:text-white hover:bg-white/[0.05] transition-colors text-xs font-semibold cursor-pointer"
-          >
-            Cerrar
-          </button>
-
-          {factura && !esAnulada && (
-            <div className="flex items-center gap-2">
-              {tieneUnidadesDevolvibles && (
-                <button
-                  type="button"
-                  onClick={() => onDevolucionClick(factura)}
-                  className="px-4 py-2 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
-                >
-                  Registrar Devolución
-                </button>
-              )}
+        <div className="flex w-full items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            {factura && !esAnulada && (
               <button
                 type="button"
                 onClick={() => onAnularClick(factura)}
-                className="px-4 py-2 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-red-400 hover:text-red-300 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer"
+                className="px-3.5 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-500 dark:text-red-400 text-xs font-semibold cursor-pointer border border-red-500/20 transition-colors"
               >
-                Anular Factura
+                Anular factura
               </button>
-            </div>
-          )}
+            )}
+          </div>
+
+          <div className="flex items-center gap-2 ml-auto">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text transition-colors text-xs font-semibold cursor-pointer"
+            >
+              Cerrar
+            </button>
+
+            {factura && !esAnulada && tieneUnidadesDevolvibles && (
+              <button
+                type="button"
+                onClick={() => onDevolucionClick(factura)}
+                className="px-4 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-semibold transition-colors cursor-pointer shadow-lg shadow-rose-500/20"
+              >
+                Registrar devolución
+              </button>
+            )}
+          </div>
         </div>
       }
     >
       {isLoading ? (
-        <div className="py-12 flex flex-col items-center justify-center gap-3 text-slate-400">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-[#e3b341] border-t-transparent" />
+        <div className="py-12 flex flex-col items-center justify-center gap-3 text-text-muted">
+          <div className="h-6 w-6 animate-spin rounded-full border-2 border-rose-500 border-t-transparent" />
           <p className="text-xs">Consultando comprobante en el servidor...</p>
         </div>
       ) : error ? (
-        <div className="p-4 rounded-xl bg-red-500/15 border border-red-500/30 text-red-200 text-xs">
+        <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/25 text-red-600 dark:text-red-300 text-xs">
           {error}
         </div>
       ) : factura ? (
-        <div className="space-y-5">
+        <div className="space-y-4 text-xs">
           {/* Banner de Estado Anulada */}
           {esAnulada && (
-            <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-300 text-xs flex items-center gap-2.5">
+            <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/25 text-red-600 dark:text-red-300 text-xs flex items-center gap-2.5">
               <span className="text-base" aria-hidden="true">🚫</span>
               <div>
-                <p className="font-bold text-white uppercase">Factura Anulada Administrativamente</p>
-                <p className="text-[11px] text-red-300/90 mt-0.5">
+                <p className="font-semibold text-text">Factura anulada administrativamente</p>
+                <p className="text-[11px] text-text-muted mt-0.5">
                   El importe total fue revertido y las unidades de stock fueron restituidas al Kardex de la sede.
                 </p>
               </div>
             </div>
           )}
 
-          {/* Estado y tipo */}
-          <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-white/[0.02] border border-white/[0.06]">
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-400">Estado:</span>
-              <span
-                className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono border ${
-                  esAnulada
-                    ? 'bg-red-500/15 text-red-400 border-red-500/30'
-                    : 'bg-[#10b981]/15 text-[#10b981] border-[#10b981]/30'
-                }`}
-              >
-                {esAnulada ? 'Factura Anulada' : 'Emitida · Válida'}
+          {/* Información general: Cliente, Cajero, Estado y Canal */}
+          <div className="vidrio rounded-xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-3 border border-border">
+            <div>
+              <span className="text-text-muted block">Cliente / Titular</span>
+              <span className="text-text font-semibold text-sm block mt-0.5">
+                {factura.clienteNombre || 'Consumidor Final'}
+              </span>
+              <span className="text-text-muted font-mono text-[11px]">
+                Doc: {factura.clienteDocumento || '222222222222'}
               </span>
             </div>
 
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-slate-400">Tipo de Venta:</span>
+            <div>
+              <span className="text-text-muted block">Cajero / Operador</span>
+              <span className="text-text font-semibold text-sm block mt-0.5">
+                {factura.cajeroNombre || 'Cajero de turno'}
+              </span>
+              <span className="text-text-muted font-mono text-[11px]">
+                {factura.turnoCajaId ? `Turno #${factura.turnoCajaId.slice(0, 8)}` : 'Venta B2B directa'}
+              </span>
+            </div>
+
+            <div>
+              <span className="text-text-muted block">Estado</span>
               <span
-                className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase font-mono border ${
+                className={`inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider font-mono border ${
+                  esAnulada
+                    ? 'bg-red-500/15 text-red-600 dark:text-red-400 border-red-500/30'
+                    : 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
+                }`}
+              >
+                {esAnulada ? 'Anulada' : 'Emitida · Válida'}
+              </span>
+            </div>
+
+            <div>
+              <span className="text-text-muted block">Tipo de venta</span>
+              <span
+                className={`inline-block mt-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase font-mono border ${
                   factura.tipoVenta === 'B2B'
-                    ? 'bg-purple-500/15 text-purple-300 border-purple-500/30'
-                    : 'bg-blue-500/15 text-blue-300 border-blue-500/30'
+                    ? 'bg-purple-500/15 text-purple-700 dark:text-purple-300 border-purple-500/30'
+                    : 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30'
                 }`}
               >
                 {factura.tipoVenta || 'POS'}
@@ -174,53 +197,36 @@ export function InvoiceDetailModal({
             </div>
           </div>
 
-          {/* Bloque Metadatos Cliente y Operador */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-1 text-xs">
-              <span className="text-[10px] text-slate-400 uppercase font-mono block">Cliente / Titular</span>
-              <p className="font-bold text-white text-sm">{factura.clienteNombre || 'Consumidor Final'}</p>
-              <p className="text-slate-300 font-mono text-[11px]">Doc: {factura.clienteDocumento || '222222222222'}</p>
-            </div>
-
-            <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-1 text-xs">
-              <span className="text-[10px] text-slate-400 uppercase font-mono block">Cajero / Operador</span>
-              <p className="font-bold text-white text-sm">{factura.cajeroNombre || 'Cajero de Turno'}</p>
-              <p className="text-slate-300 font-mono text-[11px]">
-                {factura.turnoCajaId ? `Turno: ${factura.turnoCajaId.slice(0, 8)}...` : 'Venta B2B Directa'}
-              </p>
-            </div>
-          </div>
-
           {/* Tabla de Productos Facturados */}
-          <div className="space-y-2">
-            <h3 className="text-xs font-bold text-slate-200 uppercase tracking-wider">
-              Productos y Servicios Facturados
-            </h3>
+          <div className="vidrio rounded-xl p-4 space-y-2.5 border border-border">
+            <div className="text-[11px] font-semibold uppercase tracking-wider text-text-muted">
+              Productos y servicios facturados
+            </div>
 
-            <div className="rounded-xl border border-white/[0.08] overflow-hidden bg-white/[0.01]">
+            <div className="rounded-xl border border-border overflow-hidden">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="border-b border-white/[0.06] bg-white/[0.02] text-slate-400 text-[10px] uppercase font-mono">
+                  <tr className="border-b border-border superficie-control text-text-muted text-[10px] uppercase font-mono">
                     <th scope="col" className="py-2.5 px-3">Producto / Descripción</th>
                     <th scope="col" className="py-2.5 px-3 text-center">Cant.</th>
                     <th scope="col" className="py-2.5 px-3 text-right">Precio Unit.</th>
                     <th scope="col" className="py-2.5 px-3 text-right">Subtotal</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.04]">
+                <tbody className="divide-y divide-border">
                   {factura.items.map((it) => (
-                    <tr key={it.id} className="hover:bg-white/[0.02] transition-colors">
+                    <tr key={it.id} className="hover:bg-slate-900/5 dark:hover:bg-white/[0.02] transition-colors">
                       <td className="py-2.5 px-3">
-                        <span className="font-semibold text-white block">{it.productoNombre}</span>
-                        <span className="text-[10px] text-slate-400 font-mono">ID: {it.productoId.slice(0, 8)}</span>
+                        <span className="font-semibold text-text block">{it.productoNombre}</span>
+                        <span className="text-[10px] text-text-muted font-mono">ID: {it.productoId.slice(0, 8)}</span>
                       </td>
-                      <td className="py-2.5 px-3 text-center font-mono font-bold text-slate-200">
+                      <td className="py-2.5 px-3 text-center font-mono font-bold text-text">
                         {it.cantidad}
                       </td>
-                      <td className="py-2.5 px-3 text-right font-mono text-slate-300">
+                      <td className="py-2.5 px-3 text-right font-mono text-text-muted">
                         {formatCOP(it.precioUnitario)}
                       </td>
-                      <td className="py-2.5 px-3 text-right font-mono font-bold text-white">
+                      <td className="py-2.5 px-3 text-right font-mono font-bold text-text">
                         {formatCOP(it.subtotal)}
                       </td>
                     </tr>
@@ -231,61 +237,64 @@ export function InvoiceDetailModal({
           </div>
 
           {/* Medios de Pago y Totales */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-2">
-              <span className="text-[10px] text-slate-400 uppercase font-mono block">Medios de Pago Asentados</span>
-              <div className="space-y-1.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="vidrio rounded-xl p-4 border border-border space-y-2">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-text-muted block">
+                Medios de pago asentados
+              </span>
+              <div className="space-y-1.5 pt-1">
                 {factura.pagos.map((p) => (
                   <div key={p.id} className="flex justify-between items-center text-xs">
-                    <span className="capitalize text-slate-300 font-medium">
-                      💳 {p.medioPago.replace('_', ' ')}
+                    <span className="capitalize text-text-muted font-medium">
+                      {p.medioPago.replace('_', ' ')}
                     </span>
-                    <span className="font-mono font-bold text-white">{formatCOP(p.monto)}</span>
+                    <span className="font-mono font-bold text-text">{formatCOP(p.monto)}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-2 text-xs">
-              <div className="flex justify-between text-slate-400">
-                <span>Subtotal Neto:</span>
-                <span className="font-mono text-slate-200">{formatCOP(factura.subtotal)}</span>
+            <div className="vidrio rounded-xl p-4 border border-border space-y-2 text-xs">
+              <div className="flex justify-between text-text-muted">
+                <span>Subtotal neto</span>
+                <span className="font-mono text-text">{formatCOP(factura.subtotal)}</span>
               </div>
-              <div className="flex justify-between text-slate-400">
-                <span>IVA (0% / 19%):</span>
-                <span className="font-mono text-slate-200">{formatCOP(factura.iva)}</span>
+              <div className="flex justify-between text-text-muted">
+                <span>IVA (0% / 19%)</span>
+                <span className="font-mono text-text">{formatCOP(factura.iva)}</span>
               </div>
-              <div className="flex justify-between text-sm font-bold pt-2 border-t border-white/[0.06] text-white">
-                <span className="uppercase tracking-wider">Total Facturado:</span>
-                <span className="font-mono text-[#e3b341] text-base">{factura.totalFormateado}</span>
+              <div className="flex justify-between items-baseline text-sm font-bold pt-2 border-t border-border text-text">
+                <span>Total facturado</span>
+                <span className="font-mono text-emerald-600 dark:text-emerald-400 text-base">
+                  {factura.totalFormateado}
+                </span>
               </div>
             </div>
           </div>
 
           {/* Sección de Devoluciones Asociadas */}
           {factura.devoluciones && factura.devoluciones.length > 0 && (
-            <div className="space-y-2 pt-2 border-t border-white/[0.08]">
-              <h3 className="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
-                <span>↩️</span>
-                <span>Devoluciones Registradas ({factura.devoluciones.length})</span>
-              </h3>
+            <div className="vidrio rounded-xl p-4 border border-border space-y-2.5">
+              <div className="text-[11px] font-semibold uppercase tracking-wider text-text-muted">
+                Devoluciones registradas ({factura.devoluciones.length})
+              </div>
               <div className="space-y-2">
                 {factura.devoluciones.map((dev) => (
                   <div
                     key={dev.id}
-                    className="p-3 rounded-xl bg-amber-500/[0.06] border border-amber-500/20 text-xs space-y-1"
+                    className="p-3 rounded-xl superficie-control border border-border text-xs space-y-1"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="font-mono text-[11px] text-slate-400">{dev.fechaFormateada}</span>
-                      <span className="font-mono font-bold text-amber-300">
+                      <span className="font-mono text-[11px] text-text-muted">{dev.fechaFormateada}</span>
+                      <span className="font-mono font-bold text-rose-600 dark:text-rose-400">
                         Reembolso: {dev.montoReembolsoFormateado}
                       </span>
                     </div>
-                    <div className="flex justify-between items-center text-slate-300 text-[11px]">
+                    <div className="flex justify-between items-center text-text text-[11px]">
                       <span>Cantidad: {dev.cantidad} unidad(es)</span>
                       <span>Stock reingresado: {dev.reingresaStock ? 'Sí' : 'No'}</span>
                     </div>
-                    <p className="text-slate-400 text-[11px] italic">Motivo: {dev.motivo}</p>
+                    <p className="text-text-muted text-[11px]">Motivo: {dev.motivo}</p>
                   </div>
                 ))}
               </div>

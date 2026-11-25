@@ -43,7 +43,7 @@ export function EntryDetailModal({
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer ml-auto"
+            className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text text-xs font-semibold cursor-pointer ml-auto"
           >
             Cerrar
           </button>
@@ -52,58 +52,58 @@ export function EntryDetailModal({
     >
       <div className="space-y-4 text-xs">
         {/* Info general */}
-        <div className="vidrio rounded-xl p-4 grid grid-cols-2 gap-3">
+        <div className="vidrio rounded-xl p-4 grid grid-cols-2 gap-3 border border-border">
           <div>
-            <span className="text-white/40 block">Fecha de ingreso</span>
-            <span className="text-white font-medium">
+            <span className="text-text-muted block">Fecha de ingreso</span>
+            <span className="text-text font-medium">
               {new Date(entrada.fecha).toLocaleString()}
             </span>
           </div>
           <div>
-            <span className="text-white/40 block">Registrado por</span>
-            <span className="text-white font-medium">
+            <span className="text-text-muted block">Registrado por</span>
+            <span className="text-text font-medium">
               {entrada.usuarioNombre || `Usuario #${entrada.usuarioId || 'N/A'}`}
             </span>
           </div>
           <div>
-            <span className="text-white/40 block">Proveedor</span>
-            <span className="text-white font-medium">
+            <span className="text-text-muted block">Proveedor</span>
+            <span className="text-text font-medium">
               {entrada.proveedorNombre || (entrada.proveedorId ? `Proveedor #${entrada.proveedorId}` : 'No asignado')}
             </span>
           </div>
           <div>
-            <span className="text-white/40 block">Sede</span>
-            <span className="text-white font-medium">
+            <span className="text-text-muted block">Sede</span>
+            <span className="text-text font-medium">
               {entrada.sucursalNombre || `Sede #${entrada.sucursalId}`}
             </span>
           </div>
         </div>
 
         {/* Producto y cantidad */}
-        <div className="vidrio rounded-xl p-4 space-y-2">
-          <div className="text-[11px] font-semibold uppercase tracking-wider text-white/50">
+        <div className="vidrio rounded-xl p-4 space-y-2 border border-border">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-text-muted">
             Mercancía asentada
           </div>
-          <div className="flex items-center justify-between py-2 border-b border-white/5">
+          <div className="flex items-center justify-between py-2 border-b border-border">
             <div>
-              <div className="font-semibold text-white text-sm">
+              <div className="font-semibold text-text text-sm">
                 {entrada.productoNombre}
               </div>
-              <div className="font-mono text-white/40 text-[11px]">
+              <div className="font-mono text-text-muted text-[11px]">
                 SKU: {entrada.productoSku}
               </div>
             </div>
             <div className="text-right">
-              <span className="font-mono text-lg font-bold text-emerald-400">
+              <span className="font-mono text-lg font-bold text-emerald-500 dark:text-emerald-400">
                 +{entrada.cantidad}
               </span>
-              <div className="text-[10px] text-white/40">unidades</div>
+              <div className="text-[10px] text-text-muted">unidades</div>
             </div>
           </div>
 
           <div className="pt-2">
-            <span className="text-white/40 block">Motivo / Documento</span>
-            <p className="text-white/80 mt-0.5">
+            <span className="text-text-muted block">Motivo / Documento</span>
+            <p className="text-text mt-0.5">
               {entrada.motivo || 'Ingreso regular por reposición de inventario.'}
             </p>
           </div>

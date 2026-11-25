@@ -53,14 +53,16 @@ export function FacturasFilterBar({
   const hayFiltrosActivos =
     Boolean(valores.texto) ||
     valores.estado !== 'todas' ||
-    valores.tipo !== 'todos';
+    valores.tipo !== 'todos' ||
+    Boolean(valores.desde) ||
+    Boolean(valores.hasta);
 
   return (
     <FilterBar
       search={
         <div className="relative w-full min-w-[220px]">
           <Search
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+            className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted"
             size={16}
             aria-hidden="true"
           />
@@ -71,7 +73,7 @@ export function FacturasFilterBar({
             placeholder="Buscar por folio, cliente, documento..."
             disabled={disabled}
             aria-label="Buscar facturas"
-            className="w-full pl-9 pr-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-xs text-slate-200 placeholder-slate-400 focus:outline-none focus:border-[#e3b341]/60 focus:ring-1 focus:ring-[#e3b341]/30 transition-all disabled:opacity-40"
+            className="w-full pl-9 pr-3 py-2 rounded-xl superficie-control border border-border text-xs text-text placeholder:text-text-muted focus:outline-none focus:border-brand-500/60 focus:ring-1 focus:ring-brand-500/30 transition-all disabled:opacity-40"
           />
         </div>
       }
@@ -85,15 +87,15 @@ export function FacturasFilterBar({
             }
             disabled={disabled}
             aria-label="Filtrar por estado"
-            className="px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-xs text-slate-200 focus:outline-none focus:border-[#e3b341]/60 transition-all cursor-pointer disabled:opacity-40"
+            className="px-3 py-2 rounded-xl superficie-control border border-border text-xs text-text focus:outline-none focus:border-brand-500/60 transition-all cursor-pointer disabled:opacity-40"
           >
-            <option value="todas" className="bg-[#0b1329] text-white">
+            <option value="todas" className="bg-black text-white">
               Todos los estados
             </option>
-            <option value="emitida" className="bg-[#0b1329] text-white">
+            <option value="emitida" className="bg-black text-white">
               Emitida
             </option>
-            <option value="anulada" className="bg-[#0b1329] text-white">
+            <option value="anulada" className="bg-black text-white">
               Anulada
             </option>
           </select>
@@ -106,38 +108,38 @@ export function FacturasFilterBar({
             }
             disabled={disabled}
             aria-label="Filtrar por tipo de venta"
-            className="px-3 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-xs text-slate-200 focus:outline-none focus:border-[#e3b341]/60 transition-all cursor-pointer disabled:opacity-40"
+            className="px-3 py-2 rounded-xl superficie-control border border-border text-xs text-text focus:outline-none focus:border-brand-500/60 transition-all cursor-pointer disabled:opacity-40"
           >
-            <option value="todos" className="bg-[#0b1329] text-white">
+            <option value="todos" className="bg-black text-white">
               Todos los canales
             </option>
-            <option value="POS" className="bg-[#0b1329] text-white">
+            <option value="POS" className="bg-black text-white">
               POS (Mostrador)
             </option>
-            <option value="B2B" className="bg-[#0b1329] text-white">
+            <option value="B2B" className="bg-black text-white">
               B2B (Corporativo)
             </option>
           </select>
 
           {/* Rango de fechas */}
-          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white/[0.03] border border-white/[0.08] text-xs text-slate-300">
-            <Calendar size={14} className="text-slate-400" aria-hidden="true" />
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl superficie-control border border-border text-xs text-text">
+            <Calendar size={14} className="text-text-muted" aria-hidden="true" />
             <input
               type="date"
               value={valores.desde}
               onChange={(e) => onChange({ desde: e.target.value })}
               disabled={disabled}
               aria-label="Fecha inicio"
-              className="bg-transparent text-xs text-slate-200 focus:outline-none cursor-pointer"
+              className="bg-transparent text-xs text-text focus:outline-none cursor-pointer"
             />
-            <span className="text-slate-500">—</span>
+            <span className="text-text-muted">—</span>
             <input
               type="date"
               value={valores.hasta}
               onChange={(e) => onChange({ hasta: e.target.value })}
               disabled={disabled}
               aria-label="Fecha fin"
-              className="bg-transparent text-xs text-slate-200 focus:outline-none cursor-pointer"
+              className="bg-transparent text-xs text-text focus:outline-none cursor-pointer"
             />
           </div>
         </div>
@@ -149,7 +151,7 @@ export function FacturasFilterBar({
             onClick={onLimpiar}
             disabled={disabled}
             aria-label="Limpiar filtros"
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-white/10 hover:border-white/20 text-slate-400 hover:text-white transition-colors text-xs font-medium cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text transition-colors text-xs font-medium cursor-pointer"
           >
             <X size={14} aria-hidden="true" />
             <span>Limpiar</span>

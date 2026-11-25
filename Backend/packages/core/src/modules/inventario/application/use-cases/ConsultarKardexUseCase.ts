@@ -11,7 +11,7 @@ import { ActorAuditoria } from '../../../auditoria/domain/entities/LogAuditoria.
 export interface ConsultarKardexRequest {
   productoId?: string;
   sucursalId?: number;
-  tipo?: 'entrada' | 'salida' | 'ajuste_entrada' | 'ajuste_salida';
+  tipo?: 'entrada' | 'salida' | 'ajuste_entrada' | 'ajuste_salida' | 'ajuste_positivo' | 'ajuste_negativo' | 'venta' | 'devolucion' | string;
   desde?: Date;
   hasta?: Date;
   limit: number;

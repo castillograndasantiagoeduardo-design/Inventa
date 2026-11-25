@@ -110,7 +110,7 @@ export function RegisterStockEntryModal({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer disabled:opacity-40"
+            className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text text-xs font-semibold cursor-pointer disabled:opacity-40"
           >
             Cancelar
           </button>
@@ -127,23 +127,23 @@ export function RegisterStockEntryModal({
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {errorMsg && (
-          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs">
+          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-medium">
             {errorMsg}
           </div>
         )}
 
         <div>
-          <label className="block text-xs font-semibold text-white/70 mb-1">
+          <label className="block text-xs font-semibold text-text-muted mb-1">
             Producto *
           </label>
           <select
             value={productoId}
             onChange={(e) => setProductoId(e.target.value)}
-            className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
+            className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
             required
           >
             {productos.map((p) => (
-              <option key={p.id} value={p.id}>
+              <option key={p.id} value={p.id} className="bg-black text-white">
                 {p.nombre} ({p.sku}) — Stock actual: {p.stockActual ?? 0}
               </option>
             ))}
@@ -152,17 +152,17 @@ export function RegisterStockEntryModal({
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Proveedor (Remisión / Compra)
             </label>
             <select
               value={proveedorId}
               onChange={(e) => setProveedorId(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
             >
-              <option value="">Sin proveedor específico</option>
+              <option value="" className="bg-black text-white">Sin proveedor específico</option>
               {proveedores.map((pr) => (
-                <option key={pr.id} value={pr.id}>
+                <option key={pr.id} value={pr.id} className="bg-black text-white">
                   {pr.nombre}
                 </option>
               ))}
@@ -170,7 +170,7 @@ export function RegisterStockEntryModal({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Cantidad a ingresar *
             </label>
             <input
@@ -180,7 +180,7 @@ export function RegisterStockEntryModal({
               placeholder="Ej. 50"
               value={cantidad}
               onChange={(e) => setCantidad(e.target.value === '' ? '' : parseInt(e.target.value, 10))}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text font-mono text-xs focus:outline-none focus:border-rose-500"
               required
             />
           </div>
@@ -188,18 +188,18 @@ export function RegisterStockEntryModal({
 
         {/* Resumen de saldo calculado */}
         {productoSeleccionado && (
-          <div className="vidrio rounded-xl p-3 flex items-center justify-between text-xs">
-            <span className="text-white/60">Saldo resultante en sede:</span>
+          <div className="vidrio rounded-xl p-3 flex items-center justify-between text-xs border border-border">
+            <span className="text-text-muted">Saldo resultante en sede:</span>
             <div className="font-mono">
-              <span className="text-white/50">{stockPrevio}</span>
-              <span className="text-emerald-400 font-bold mx-1.5">+{cantNum}</span>
-              <span className="text-white font-bold text-sm">➔ {stockResultante}</span>
+              <span className="text-text-muted">{stockPrevio}</span>
+              <span className="text-emerald-500 dark:text-emerald-400 font-bold mx-1.5">+{cantNum}</span>
+              <span className="text-text font-bold text-sm">➔ {stockResultante}</span>
             </div>
           </div>
         )}
 
         <div>
-          <label className="block text-xs font-semibold text-white/70 mb-1">
+          <label className="block text-xs font-semibold text-text-muted mb-1">
             Motivo / Factura de compra / Remisión
           </label>
           <input
@@ -207,7 +207,7 @@ export function RegisterStockEntryModal({
             placeholder="Ej. Factura #FC-9842 del proveedor"
             value={motivo}
             onChange={(e) => setMotivo(e.target.value)}
-            className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500"
+            className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-rose-500"
           />
         </div>
       </form>
