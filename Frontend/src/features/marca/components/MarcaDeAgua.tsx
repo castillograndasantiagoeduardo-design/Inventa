@@ -7,10 +7,20 @@
 
 import React from 'react';
 import { useMarcaEmpresa } from '../hooks/useMarcaEmpresa';
+import { calcularDimensionesMarcaAgua } from '../lib/normalizar-logo';
 
 export function MarcaDeAgua({ className = '-z-10' }: { className?: string }) {
-  const { logoUrl } = useMarcaEmpresa();
+  const { logoUrl, proporcion, tonoLogo } = useMarcaEmpresa();
   if (!logoUrl) return null;
+
+  const { ancho, alto } = calcularDimensionesMarcaAgua(proporcion);
+  const claseTono =
+    tonoLogo === 'oscuro'
+      ? 'marca-agua-oscura'
+      : tonoLogo === 'claro'
+      ? 'marca-agua-clara'
+      : '';
+
   return (
     <div
       aria-hidden="true"
@@ -20,7 +30,8 @@ export function MarcaDeAgua({ className = '-z-10' }: { className?: string }) {
       <img
         src={logoUrl}
         alt=""
-        className="marca-agua-img object-contain select-none"
+        style={{ width: `${ancho}px`, height: `${alto}px` }}
+        className={`marca-agua-img ${claseTono} object-contain select-none`}
       />
     </div>
   );
