@@ -5,3 +5,5 @@ export * from './ClientDrawer';
 export * from './CreateClientModal';
 export * from './EditClientModal';
 export * from './ManageCreditModal';
+export * from './AvisosPagoTab';
+export * from './AbonoCreditoDirectoModal';
