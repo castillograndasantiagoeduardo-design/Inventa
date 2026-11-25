@@ -10,6 +10,7 @@ export * from './HistorialVentasB2BModal';
 export * from './MisCotizacionesB2BModal';
 export * from './CarteraKPIs';
 export * from './EmpresaB2BTabla';
+export * from './EmpresaB2BHistorial';
 export * from './MisEmpresasView';
 export * from './EmpresaB2BDetalle';
 export * from './vendedor-b2b.navigation.config';

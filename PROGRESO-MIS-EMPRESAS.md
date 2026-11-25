@@ -84,7 +84,8 @@
 | Fase 5 | 33 | `22ad360` | Tipos y servicio HTTP `carteras.service.ts` en `vendedor-b2b` | `npm run build` ok |
 | Fase 5 | 34 | `dadd5ff` | Hooks `useEmpresasB2B`, `useCarteraB2B` y `useEmpresaB2BDetalle` | `npm run build` ok |
 | Fase 5 | 35 | `431c34c` | Ítem "Mis empresas" en sidebar + rutas `/vendedor-b2b/empresas` y `[id]` | `npm run build` ok |
-| Fase 5 | 36 | `-` | `CarteraKPIs`, `EmpresaB2BTabla` y `MisEmpresasView` con filtros | `npm run build` ok |
+| Fase 5 | 36 | `9979da0` | `CarteraKPIs`, `EmpresaB2BTabla` y `MisEmpresasView` con filtros | `npm run build` + push origin |
+| Fase 5 | 37 | `-` | Detalle de empresa `EmpresaB2BDetalle` + `EmpresaB2BHistorial` | `npm run build` ok |
 
 ---
 
