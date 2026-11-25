@@ -70,6 +70,16 @@ export interface DatosDecisionCreditoCliente {
     motivoDecisionCredito: string | null;
 }
 
+export interface DatosSolicitudCreditoCliente {
+    gananciaNetaMensual: number;
+    antiguedadEmpresaMeses: number | null;
+    plazoCreditoDias: number;
+    cupoCreditoSugerido: number;
+    nivelRiesgoCredito: NivelRiesgoCredito;
+    estadoCredito: EstadoCreditoCliente;
+    observacionFinanciera: string | null;
+}
+
 export interface IClienteRepository {
     buscar(filtros: FiltrosClientes): Promise<Cliente[]>;
     buscarPaginado?(filtros: FiltrosClientesPaginado): Promise<ClientesPaginadosResultado>;
@@ -77,6 +87,7 @@ export interface IClienteRepository {
     findById(id: string): Promise<Cliente | null>;
     crear(datos: DatosCliente): Promise<Cliente>;
     actualizar(id: string, datos: DatosActualizarCliente): Promise<Cliente>;
+    solicitarCredito?(id: string, datos: DatosSolicitudCreditoCliente): Promise<Cliente>;
     decidirCredito?(id: string, datos: DatosDecisionCreditoCliente): Promise<Cliente>;
     listarCreditosPendientes?(): Promise<Cliente[]>;
     registrarConsumoCredito?(id: string, monto: number): Promise<void>;

@@ -48,13 +48,13 @@ import { DrizzleEmpleadoRepository } from '../../database/src/repositories/admin
 import { DrizzleHistorialSalarioRepository } from '../../database/src/repositories/administracion/drizzle-historial-salario.repository.ts';
 import { DrizzleAlertaAdminRepository } from '../../database/src/repositories/administracion/drizzle-alerta-admin.repository.ts';
 import { DrizzleMetricasAdminRepository } from '../../database/src/repositories/administracion/drizzle-metricas-admin.repository.ts';
-import { DrizzleReportesAdminRepository } from '../../database/src/repositories/administracion/drizzle-reportes-admin.repository.ts';
 
 
 
 import { DrizzleSucursalOperadorRepository } from '../../database/src/repositories/facturacion/drizzle-sucursal-operador.repository.ts';
 import { DrizzleFacturaRepository } from '../../database/src/repositories/facturacion/drizzle-factura.repository.ts';
 import { DrizzleCotizacionB2BRepository } from '../../database/src/repositories/facturacion/drizzle-cotizacion-b2b.repository.ts';
+import { DrizzleCarteraRepository } from '../../database/src/repositories/facturacion/drizzle-cartera.repository.ts';
 import { DrizzleDevolucionVentaRepository } from '../../database/src/repositories/facturacion/drizzle-devolucion-venta.repository.ts';
 import { DrizzlePasswordResetRepository } from '../../database/src/repositories/autenticacion/drizzle-password-reset.repository.ts';
 import { DrizzleLogMcpToolRepository } from '../../database/src/repositories/mcp-audit/drizzle-log-mcp-tool.repository.ts';
@@ -155,6 +155,15 @@ import {
   AvalarCotizacionB2BUseCase,
   FacturarCotizacionB2BUseCase,
   ActualizarEstadoPedidoB2BUseCase,
+  ListarEmpresasB2BUseCase,
+  ObtenerEmpresaB2BDetalleUseCase,
+  ListarCarteraUseCase,
+  ListarEmpresasEnMoraUseCase,
+  SolicitarCreditoB2BUseCase,
+  RegistrarAbonoCreditoUseCase,
+  AvisarPagoCreditoUseCase,
+  ResolverAvisoPagoUseCase,
+  ListarAvisosPagoUseCase,
   ListarCategoriasUseCase,
   ObtenerCategoriaPorIdUseCase,
   CrearCategoriaUseCase,
@@ -201,10 +210,6 @@ import {
   ConsultarRankingProductosUseCase,
   ConsultarComparativoInventarioUseCase,
   ConsultarResumenDashboardUseCase,
-  GenerarReporteVentasUseCase,
-  GenerarReporteProductosUseCase,
-  GenerarReporteInventarioUseCase,
-  ExportarReporteCsvUseCase,
   CrearFacturaUseCase,
   ListarFacturasUseCase,
   ObtenerFacturaPorIdUseCase,
@@ -304,10 +309,6 @@ export interface AppContainer {
     consultarRankingProductos: ConsultarRankingProductosUseCase;
     consultarComparativoInventario: ConsultarComparativoInventarioUseCase;
     consultarResumenDashboard: ConsultarResumenDashboardUseCase;
-    generarReporteVentas: GenerarReporteVentasUseCase;
-    generarReporteProductos: GenerarReporteProductosUseCase;
-    generarReporteInventario: GenerarReporteInventarioUseCase;
-    exportarReporteCsv: ExportarReporteCsvUseCase;
   };
   inventario: {
     listarCategorias: ListarCategoriasUseCase;
@@ -374,6 +375,15 @@ export interface AppContainer {
     avalarCotizacionB2B: AvalarCotizacionB2BUseCase;
     facturarCotizacionB2B: FacturarCotizacionB2BUseCase;
     actualizarEstadoPedidoB2B: ActualizarEstadoPedidoB2BUseCase;
+    listarEmpresasB2B: ListarEmpresasB2BUseCase;
+    obtenerEmpresaB2BDetalle: ObtenerEmpresaB2BDetalleUseCase;
+    listarCartera: ListarCarteraUseCase;
+    listarEmpresasEnMora: ListarEmpresasEnMoraUseCase;
+    solicitarCreditoB2B: SolicitarCreditoB2BUseCase;
+    registrarAbonoCredito: RegistrarAbonoCreditoUseCase;
+    avisarPagoCredito: AvisarPagoCreditoUseCase;
+    resolverAvisoPago: ResolverAvisoPagoUseCase;
+    listarAvisosPago: ListarAvisosPagoUseCase;
   };
   logistica: {
     crearCategoriaActivo: CrearCategoriaActivoUseCase;
@@ -508,11 +518,11 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
   const alertaStockRepository = new DrizzleAlertaStockRepository(db);
   const alertaAdminRepository = new DrizzleAlertaAdminRepository(db);
   const metricasAdminRepository = new DrizzleMetricasAdminRepository(db);
-  const reportesAdminRepository = new DrizzleReportesAdminRepository(db);
   const turnoCajaRepository = new DrizzleTurnoCajaRepository(db);
   const sucursalOperadorRepository = new DrizzleSucursalOperadorRepository(db);
   const facturaRepository = new DrizzleFacturaRepository(db);
   const cotizacionB2BRepository = new DrizzleCotizacionB2BRepository(db);
+  const carteraRepository = new DrizzleCarteraRepository(db);
   const devolucionVentaRepository = new DrizzleDevolucionVentaRepository(db);
   const passwordResetRepository = new DrizzlePasswordResetRepository(db);
   const categoriaActivoRepository = new DrizzleCategoriaActivoRepository(db);
@@ -740,6 +750,7 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
     clienteRepository,
     sucursalOperadorRepository,
     auditoriaRepository,
+    carteraRepository,
     productoRepository,
   );
   const listarFacturasUseCase = new ListarFacturasUseCase(
@@ -1031,6 +1042,49 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
     auditoriaRepository,
   );
 
+  const listarEmpresasB2BUseCase = new ListarEmpresasB2BUseCase(
+    clienteRepository,
+    carteraRepository,
+    sucursalOperadorRepository,
+  );
+  const obtenerEmpresaB2BDetalleUseCase = new ObtenerEmpresaB2BDetalleUseCase(
+    clienteRepository,
+    carteraRepository,
+    sucursalOperadorRepository,
+  );
+  const listarCarteraUseCase = new ListarCarteraUseCase(
+    carteraRepository,
+    sucursalOperadorRepository,
+  );
+  const listarEmpresasEnMoraUseCase = new ListarEmpresasEnMoraUseCase(
+    clienteRepository,
+    carteraRepository,
+    sucursalOperadorRepository,
+  );
+  const solicitarCreditoB2BUseCase = new SolicitarCreditoB2BUseCase(
+    clienteRepository,
+    auditoriaRepository,
+    alertaAdminRepository,
+    sucursalOperadorRepository,
+    topeCreditoB2B,
+  );
+  const registrarAbonoCreditoUseCase = new RegistrarAbonoCreditoUseCase(
+    carteraRepository,
+    auditoriaRepository,
+  );
+  const avisarPagoCreditoUseCase = new AvisarPagoCreditoUseCase(
+    carteraRepository,
+    auditoriaRepository,
+  );
+  const resolverAvisoPagoUseCase = new ResolverAvisoPagoUseCase(
+    carteraRepository,
+    auditoriaRepository,
+  );
+  const listarAvisosPagoUseCase = new ListarAvisosPagoUseCase(
+    carteraRepository,
+    sucursalOperadorRepository,
+  );
+
   const logMcpToolRepository = new DrizzleLogMcpToolRepository(db);
   const registrarLogMcpToolUseCase = new RegistrarLogMcpToolUseCase(logMcpToolRepository);
   const consultarLogsMcpToolsUseCase = new ConsultarLogsMcpToolsUseCase(logMcpToolRepository);
@@ -1114,23 +1168,6 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
         metricasAdminRepository,
         metricasAdminRepository,
       ),
-      generarReporteVentas: new GenerarReporteVentasUseCase(
-        resolverAlcanceSucursalUseCase,
-        reportesAdminRepository,
-      ),
-      generarReporteProductos: new GenerarReporteProductosUseCase(
-        resolverAlcanceSucursalUseCase,
-        reportesAdminRepository,
-      ),
-      generarReporteInventario: new GenerarReporteInventarioUseCase(
-        resolverAlcanceSucursalUseCase,
-        reportesAdminRepository,
-      ),
-      exportarReporteCsv: new ExportarReporteCsvUseCase(
-        new GenerarReporteVentasUseCase(resolverAlcanceSucursalUseCase, reportesAdminRepository),
-        new GenerarReporteProductosUseCase(resolverAlcanceSucursalUseCase, reportesAdminRepository),
-        new GenerarReporteInventarioUseCase(resolverAlcanceSucursalUseCase, reportesAdminRepository),
-      ),
     },
     inventario: {
       listarCategorias: listarCategoriasUseCase,
@@ -1197,6 +1234,15 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
       avalarCotizacionB2B: avalarCotizacionB2BUseCase,
       facturarCotizacionB2B: facturarCotizacionB2BUseCase,
       actualizarEstadoPedidoB2B: actualizarEstadoPedidoB2BUseCase,
+      listarEmpresasB2B: listarEmpresasB2BUseCase,
+      obtenerEmpresaB2BDetalle: obtenerEmpresaB2BDetalleUseCase,
+      listarCartera: listarCarteraUseCase,
+      listarEmpresasEnMora: listarEmpresasEnMoraUseCase,
+      solicitarCreditoB2B: solicitarCreditoB2BUseCase,
+      registrarAbonoCredito: registrarAbonoCreditoUseCase,
+      avisarPagoCredito: avisarPagoCreditoUseCase,
+      resolverAvisoPago: resolverAvisoPagoUseCase,
+      listarAvisosPago: listarAvisosPagoUseCase,
     },  
     logistica: {
       crearCategoriaActivo: crearCategoriaActivoUseCase,

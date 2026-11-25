@@ -27,6 +27,8 @@ export const PERMISSIONS = {
   FACTURACION_COTIZAR_B2B: 'facturacion:cotizar-b2b',
   FACTURACION_AVALAR_COTIZACION_B2B: 'facturacion:avalar-cotizacion-b2b',
   FACTURACION_APROBAR_CREDITO_B2B: 'facturacion:aprobar-credito-b2b',
+  FACTURACION_AVISAR_PAGO_CREDITO: 'facturacion:avisar-pago-credito',
+  FACTURACION_REGISTRAR_ABONO_CREDITO: 'facturacion:registrar-abono-credito',
   CAJA_CIERRE_ADMINISTRATIVO: 'caja:cierre-administrativo',
 
   // Administración

@@ -2,7 +2,9 @@
 
 import React, { Suspense, useMemo, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Plus, Users, UserPlus } from 'lucide-react';
+import { BellRing, Plus, Users, UserPlus, Wallet } from 'lucide-react';
+import { PERMISSIONS } from '@inventa/contracts';
+import { usePermissions } from '@/features/autenticacion';
 import { PageHeader, Pagination, LoadingState, EmptyState, ErrorState } from '@/features/admin-sucursal/components/shared';
 import {
   ClientSummaryChips,
@@ -12,6 +14,8 @@ import {
   CreateClientModal,
   EditClientModal,
   ManageCreditModal,
+  AvisosPagoTab,
+  AbonoCreditoDirectoModal,
 } from '@/features/admin-sucursal/components/clients';
 import { useBranchClients } from '@/features/admin-sucursal/hooks/useBranchClients';
 import type {
@@ -43,6 +47,10 @@ function ClientesView() {
   const limite = 20;
 
   // Modales y Drawer
+  const { tienePermiso } = usePermissions();
+  const puedeAbonar = tienePermiso(PERMISSIONS.FACTURACION_REGISTRAR_ABONO_CREDITO);
+  const [vistaTab, setVistaTab] = useState<'directorio' | 'avisos'>('directorio');
+  const [modalAbonoAbierto, setModalAbonoAbierto] = useState(false);
   const [modalCrearAbierto, setModalCrearAbierto] = useState(false);
   const [clienteAEditar, setClienteAEditar] = useState<ClienteDto | null>(null);
   const [clienteCredito, setClienteCredito] = useState<ClienteDto | null>(null);
@@ -138,16 +146,60 @@ function ClientesView() {
         title="Clientes"
         description="Directorio de clientes B2C y corporativos B2B, estado crediticio e historial de compras."
         actions={
-          <button
-            type="button"
-            onClick={() => setModalCrearAbierto(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-black bg-[#e3b341] hover:bg-[#d4a331] transition-colors shadow-lg shadow-[#e3b341]/20 cursor-pointer"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Nuevo cliente</span>
-          </button>
+          <div className="flex flex-wrap items-center gap-2">
+            {puedeAbonar && (
+              <button
+                type="button"
+                onClick={() => setModalAbonoAbierto(true)}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-medium text-text superficie-control hover:text-brand-400 transition-colors cursor-pointer"
+              >
+                <Wallet className="w-4 h-4" />
+                <span>Registrar abono B2B</span>
+              </button>
+            )}
+            <button
+              type="button"
+              onClick={() => setModalCrearAbierto(true)}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-black bg-[#e3b341] hover:bg-[#d4a331] transition-colors shadow-lg shadow-[#e3b341]/20 cursor-pointer"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Nuevo cliente</span>
+            </button>
+          </div>
         }
       />
+
+      <div className="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          onClick={() => setVistaTab('directorio')}
+          className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+            vistaTab === 'directorio'
+              ? 'bg-brand-600 text-white'
+              : 'superficie-control text-text-muted hover:text-text'
+          }`}
+        >
+          <Users className="w-3.5 h-3.5" />
+          <span>Directorio de clientes</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setVistaTab('avisos')}
+          className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+            vistaTab === 'avisos'
+              ? 'bg-brand-600 text-white'
+              : 'superficie-control text-text-muted hover:text-text'
+          }`}
+        >
+          <BellRing className="w-3.5 h-3.5" />
+          <span>Avisos de pago B2B</span>
+        </button>
+      </div>
+
+      {vistaTab === 'avisos' ? (
+        <AvisosPagoTab puedeResolver={puedeAbonar} onResuelto={() => void recargar()} />
+      ) : (
+        <>
 
       {/* Chips de resumen */}
       <ClientSummaryChips
@@ -236,6 +288,15 @@ function ClientesView() {
           )}
         </div>
       )}
+        </>
+      )}
+
+      {/* Modal Abono Directo B2B */}
+      <AbonoCreditoDirectoModal
+        open={modalAbonoAbierto}
+        onClose={() => setModalAbonoAbierto(false)}
+        onAbonoRegistrado={() => void recargar()}
+      />
 
       {/* Panel lateral / Drawer Ficha */}
       <ClientDrawer

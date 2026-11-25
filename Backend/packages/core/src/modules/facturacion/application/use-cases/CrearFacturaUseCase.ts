@@ -20,6 +20,7 @@ import { OperadorSinSucursalError } from '../../domain/errors/TurnoCajaErrors.ts
 import { IFacturaRepository } from '../../domain/repositories/IFacturaRepository.ts';
 import { ITurnoCajaRepository } from '../../domain/repositories/ITurnoCajaRepository.ts';
 import { IClienteRepository } from '../../domain/repositories/IClienteRepository.ts';
+import { ICarteraRepository } from '../../domain/repositories/ICarteraRepository.ts';
 import { ISucursalOperadorRepository } from '../../domain/repositories/ISucursalOperadorRepository.ts';
 import { IAuditor } from '../../../auditoria/domain/repositories/IAuditoriaRepository.ts';
 import {
@@ -58,6 +59,7 @@ export class CrearFacturaUseCase {
         private readonly clienteRepository: IClienteRepository,
         private readonly sucursalOperadorRepository: ISucursalOperadorRepository,
         private readonly auditor: IAuditor,
+        private readonly carteraRepository?: ICarteraRepository,
         private readonly productoRepository?: IProductoRepository,
     ) { }
 
@@ -210,6 +212,18 @@ export class CrearFacturaUseCase {
         // 6.b Registrar consumo del cupo de crédito corporativo aprobado si aplica
         if (tienePagoCredito && this.clienteRepository.registrarConsumoCredito) {
             await this.clienteRepository.registrarConsumoCredito(cliente.id, montoCredito);
+        }
+
+        // 6.c Registrar obligación de cartera B2B cuando la factura tiene pago a crédito corporativo
+        if (tienePagoCredito && this.carteraRepository) {
+            await this.carteraRepository.registrarCreditoFactura({
+                facturaId: facturaGuardada.id,
+                clienteId: cliente.id,
+                sucursalId,
+                monto: montoCredito,
+                fechaEmision: facturaGuardada.fecha,
+                plazoDias: cliente.plazoCreditoDias ?? 30,
+            });
         }
 
         // 7. Registro de auditoría
