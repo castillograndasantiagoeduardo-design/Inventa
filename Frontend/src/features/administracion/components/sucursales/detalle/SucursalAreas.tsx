@@ -12,7 +12,7 @@ import { SectionCard } from '@/components/ui/SectionCard';
 import { Spinner } from '@/components/ui/Spinner';
 import { useAreas } from '../../../hooks/useAreas';
 
-const BTN = 'min-h-[44px] min-w-[44px] rounded-lg px-2 text-xs uppercase tracking-wider font-[family-name:var(--font-ui)] cursor-pointer';
+const BTN = 'min-h-[40px] min-w-[40px] rounded-lg px-2 text-xs uppercase tracking-wider font-sans font-medium cursor-pointer transition-colors';
 
 export function SucursalAreas({ sucursalId }: { sucursalId: number }) {
   const a = useAreas(sucursalId);
@@ -39,13 +39,13 @@ export function SucursalAreas({ sucursalId }: { sucursalId: number }) {
       >
         <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {a.areas.map((area) => (
-            <li key={area.id} className="flex items-center justify-between gap-2 rounded-xl border border-white/10 bg-[#0d1630] pl-4 pr-1">
-              <span className="truncate text-sm text-white">{area.nombre}</span>
+            <li key={area.id} className="flex items-center justify-between gap-2 rounded-xl superficie-control pl-4 pr-1 py-0.5">
+              <span className="truncate text-sm font-medium text-text">{area.nombre}</span>
               <span className="flex shrink-0">
-                <button type="button" className={`${BTN} text-[#e9b949] hover:bg-[#e3b341]/15`} onClick={() => a.abrirEditar(area)} aria-label={`Renombrar ${area.nombre}`}>
+                <button type="button" className={`${BTN} text-brand-600 dark:text-brand-300 hover:bg-brand-500/15`} onClick={() => a.abrirEditar(area)} aria-label={`Renombrar ${area.nombre}`}>
                   Editar
                 </button>
-                <button type="button" className={`${BTN} text-red-300 hover:bg-red-500/15`} onClick={() => a.solicitarEliminar(area)} aria-label={`Eliminar ${area.nombre}`}>
+                <button type="button" className={`${BTN} text-red-600 dark:text-red-300 hover:bg-red-500/15`} onClick={() => a.solicitarEliminar(area)} aria-label={`Eliminar ${area.nombre}`}>
                   ✕
                 </button>
               </span>
@@ -73,7 +73,7 @@ export function SucursalAreas({ sucursalId }: { sucursalId: number }) {
         }
       >
         <form id={formId} onSubmit={handleSubmit} noValidate className="flex flex-col gap-3">
-          {errorGeneral && <p role="alert" className="text-sm text-red-300">{errorGeneral}</p>}
+          {errorGeneral && <p role="alert" className="text-sm text-red-600 dark:text-red-300">{errorGeneral}</p>}
           <TextField
             label="Nombre del área"
             required
@@ -96,7 +96,7 @@ export function SucursalAreas({ sucursalId }: { sucursalId: number }) {
         onCancel={a.cancelarEliminar}
         message={
           <p>
-            ¿Eliminar el área <strong className="text-white">{a.aEliminar?.nombre}</strong>? Solo es posible si no tiene empleados asignados.
+            ¿Eliminar el área <strong className="text-text">{a.aEliminar?.nombre}</strong>? Solo es posible si no tiene empleados asignados.
           </p>
         }
       />

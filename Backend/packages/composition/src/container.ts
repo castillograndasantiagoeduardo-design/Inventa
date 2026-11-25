@@ -85,6 +85,7 @@ import {
   ConfirmarPagoUseCase,
   ConsultarPagoUseCase,
   ActualizarLogoCuentaUseCase,
+  ActualizarLogoEmpresaUseCase,
   ObtenerMarcaEmpresaUseCase,
   type ITokenCuentaService,
   type IAprovisionadorEmpresas,
@@ -413,6 +414,7 @@ export interface AppContainer {
     confirmarPago: ConfirmarPagoUseCase;
     consultarPago: ConsultarPagoUseCase;
     actualizarLogo: ActualizarLogoCuentaUseCase;
+    actualizarLogoEmpresa: ActualizarLogoEmpresaUseCase;
     obtenerMarcaEmpresa: ObtenerMarcaEmpresaUseCase;
     /** Bytes del logo PNG (null si no hay). */
     logoDeCuenta(cuentaId: string): Promise<Uint8Array | null>;
@@ -1244,6 +1246,7 @@ export function createContainer(_env?: Record<string, string>): AppContainer {
       pasarelaSimulada,
       consultarPago: new ConsultarPagoUseCase(pagoRepository, planRepository),
       actualizarLogo: new ActualizarLogoCuentaUseCase(cuentaRepository, analizadorLogo),
+      actualizarLogoEmpresa: new ActualizarLogoEmpresaUseCase(marcaEmpresaRepository, analizadorLogo, auditoriaRepository),
       obtenerMarcaEmpresa: new ObtenerMarcaEmpresaUseCase(marcaEmpresaRepository),
       logoDeCuenta: (cuentaId) => cuentaRepository.obtenerLogo(cuentaId),
       logoDeEmpresa: (empresaId) => marcaEmpresaRepository.obtenerLogo(empresaId),

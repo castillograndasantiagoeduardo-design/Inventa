@@ -99,6 +99,13 @@ const scriptInicializacionTema = `
     var paleta = localStorage.getItem('inventa-paleta') || 'zafiro';
     var fondo = localStorage.getItem('inventa-fondo') || 'malla';
     var tema = localStorage.getItem('inventa-tema') || 'dark';
+    var transpRaw = localStorage.getItem('inventa-transparencia-cards');
+    if (transpRaw !== null) {
+      var transp = Math.max(0, Math.min(95, Number(transpRaw)));
+      if (!isNaN(transp)) {
+        d.style.setProperty('--card-opacidad', (100 - transp) + '%');
+      }
+    }
     d.setAttribute('data-paleta', paleta);
     d.setAttribute('data-fondo', fondo);
     if (paleta === 'personalizada' || paleta === 'empresa') {

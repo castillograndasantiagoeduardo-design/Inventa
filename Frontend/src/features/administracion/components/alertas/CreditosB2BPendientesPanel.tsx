@@ -10,9 +10,9 @@ import type { ClienteDto } from '@inventa/contracts';
 import { apiClient, ApiError } from '@/lib/api';
 
 const RIESGO_BADGE = {
-  bajo: 'bg-green-500/12 text-green-300 ring-green-500/30',
-  medio: 'bg-amber-500/12 text-amber-300 ring-amber-500/30',
-  alto: 'bg-red-500/12 text-red-300 ring-red-500/30',
+  bajo: 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 ring-emerald-500/30',
+  medio: 'bg-amber-500/15 text-amber-600 dark:text-amber-300 ring-amber-500/30',
+  alto: 'bg-red-500/15 text-red-600 dark:text-red-300 ring-red-500/30',
 } as const;
 
 export function CreditosB2BPendientesPanel() {
@@ -108,12 +108,12 @@ export function CreditosB2BPendientesPanel() {
       </div>
 
       {error && (
-        <div className="p-3 rounded-xl bg-red-500/12 border border-red-500/30 text-red-300 text-xs">
+        <div className="p-3 rounded-xl bg-red-500/12 border border-red-500/30 text-red-600 dark:text-red-300 text-xs">
           {error}
         </div>
       )}
       {mensajeOk && (
-        <div className="p-3 rounded-xl bg-green-500/12 border border-green-500/30 text-green-300 text-xs">
+        <div className="p-3 rounded-xl bg-emerald-500/12 border border-emerald-500/30 text-emerald-600 dark:text-emerald-300 text-xs">
           {mensajeOk}
         </div>
       )}
@@ -162,7 +162,7 @@ export function CreditosB2BPendientesPanel() {
                   </div>
                   <div>
                     <span className="text-[11px] text-text-muted block">Cupo sugerido (reglas)</span>
-                    <span className="text-sm font-semibold tabular-nums text-brand-300">
+                    <span className="text-sm font-semibold tabular-nums text-brand-600 dark:text-brand-300">
                       ${(cli.cupoCreditoSugerido ?? 0).toLocaleString('es-CO')} COP
                     </span>
                   </div>
@@ -215,7 +215,7 @@ export function CreditosB2BPendientesPanel() {
                     type="button"
                     disabled={ocupado}
                     onClick={() => void decidir(cli, 'rechazar')}
-                    className="px-4 py-2 rounded-xl border border-red-500/40 text-red-300 hover:bg-red-500/15 font-medium cursor-pointer disabled:opacity-50"
+                    className="px-4 py-2 rounded-xl border border-red-500/40 text-red-600 dark:text-red-300 hover:bg-red-500/15 font-medium cursor-pointer disabled:opacity-50"
                   >
                     Rechazar crédito
                   </button>

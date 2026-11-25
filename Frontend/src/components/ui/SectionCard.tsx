@@ -71,8 +71,8 @@ export function SectionCard({
     <section className={`panel-card p-5 ${className}`}>
       <header className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h2 className="font-[family-name:var(--font-anton)] uppercase tracking-wider text-lg text-white">{title}</h2>
-          {subtitle && <p className="text-xs text-white/55">{subtitle}</p>}
+          <h2 className="font-titulos font-semibold tracking-[-0.005em] text-lg text-text">{title}</h2>
+          {subtitle && <p className="text-xs text-text-muted">{subtitle}</p>}
         </div>
         {actions}
       </header>

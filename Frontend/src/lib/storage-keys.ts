@@ -16,6 +16,8 @@ export const STORAGE_KEYS = {
   paletaEmpresaVars: 'inventa-paleta-empresa-vars',
   /** Color de la marca ya aplicado (si cambia el logo, se vuelve a activar "Mi empresa"). */
   marcaAplicada: 'inventa-marca-aplicada',
+  /** Porcentaje de transparencia de las tarjetas .vidrio / .panel-card (0 a 95). */
+  transparenciaCards: 'inventa-transparencia-cards',
 } as const;
 
 /** Claves anteriores al rebrand (Warengine → Inventa); el layout las migra al cargar. */

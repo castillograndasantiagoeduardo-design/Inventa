@@ -12,12 +12,15 @@ export function MarcaDeAgua({ className = '-z-10' }: { className?: string }) {
   const { logoUrl } = useMarcaEmpresa();
   if (!logoUrl) return null;
   return (
-    <div aria-hidden="true" className={`pointer-events-none fixed inset-0 flex items-center justify-center ${className}`}>
+    <div
+      aria-hidden="true"
+      className={`pointer-events-none fixed inset-0 overflow-hidden flex items-center justify-center md:pl-56 ${className}`}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element -- URL de objeto del logo, no optimizable */}
       <img
         src={logoUrl}
         alt=""
-        className="w-[min(60vmin,520px)] h-[min(60vmin,520px)] object-contain opacity-[0.06] dark:opacity-[0.07] grayscale-[15%] select-none"
+        className="marca-agua-img object-contain select-none"
       />
     </div>
   );

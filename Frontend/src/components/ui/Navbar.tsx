@@ -29,7 +29,7 @@ export function Navbar({ activeTab, onNavigate }: NavbarProps) {
         <InventaLogo className="w-[clamp(32px,3.4vw,56px)] rounded-lg" />
         {/* En móvil solo el isotipo: la palabra no cabe junto al menú */}
         <span className="hidden md:inline-flex">
-          <InventaWordmark className="text-[clamp(22px,2.2vw,38px)] text-white" />
+          <InventaWordmark className="text-[clamp(22px,2.2vw,38px)] text-text" />
         </span>
       </a>
 
@@ -39,10 +39,10 @@ export function Navbar({ activeTab, onNavigate }: NavbarProps) {
           <li>
             <button type="button"
               onClick={() => onNavigate('inicio')}
-              className={`font-[family-name:var(--font-ui)] text-[clamp(12px,1.5vw,26px)] tracking-wider pb-1 transition-colors border-b-2 cursor-pointer ${
+              className={`font-sans text-[clamp(12px,1.5vw,26px)] tracking-wider pb-1 transition-colors border-b-2 cursor-pointer ${
                 activeTab === 'inicio'
                   ? 'text-[var(--ac,var(--gold))] border-[var(--ac,var(--gold))]'
-                  : 'text-white/90 border-transparent hover:text-[var(--gold)]'
+                  : 'text-text border-transparent hover:text-[var(--gold)]'
               }`}
             >
               INICIO
@@ -51,10 +51,10 @@ export function Navbar({ activeTab, onNavigate }: NavbarProps) {
           <li>
             <button type="button"
               onClick={() => onNavigate('alcance')}
-              className={`font-[family-name:var(--font-ui)] text-[clamp(12px,1.5vw,26px)] tracking-wider pb-1 transition-colors border-b-2 cursor-pointer ${
+              className={`font-sans text-[clamp(12px,1.5vw,26px)] tracking-wider pb-1 transition-colors border-b-2 cursor-pointer ${
                 activeTab === 'alcance'
                   ? 'text-[var(--ac,var(--gold))] border-[var(--ac,var(--gold))]'
-                  : 'text-white/90 border-transparent hover:text-[var(--gold)]'
+                  : 'text-text border-transparent hover:text-[var(--gold)]'
               }`}
             >
               ALCANCE
@@ -63,10 +63,10 @@ export function Navbar({ activeTab, onNavigate }: NavbarProps) {
           <li>
             <button type="button"
               onClick={() => onNavigate('planes')}
-              className={`font-[family-name:var(--font-ui)] text-[clamp(12px,1.5vw,26px)] tracking-wider pb-1 transition-colors border-b-2 cursor-pointer ${
+              className={`font-sans text-[clamp(12px,1.5vw,26px)] tracking-wider pb-1 transition-colors border-b-2 cursor-pointer ${
                 activeTab === 'planes'
                   ? 'text-[var(--ac,var(--gold))] border-[var(--ac,var(--gold))]'
-                  : 'text-white/90 border-transparent hover:text-[var(--gold)]'
+                  : 'text-text border-transparent hover:text-[var(--gold)]'
               }`}
             >
               PLANES
@@ -75,10 +75,10 @@ export function Navbar({ activeTab, onNavigate }: NavbarProps) {
           <li>
             <button type="button"
               onClick={() => onNavigate('nosotros')}
-              className={`font-[family-name:var(--font-ui)] text-[clamp(12px,1.5vw,26px)] tracking-wider pb-1 transition-colors border-b-2 cursor-pointer ${
+              className={`font-sans text-[clamp(12px,1.5vw,26px)] tracking-wider pb-1 transition-colors border-b-2 cursor-pointer ${
                 activeTab === 'nosotros'
                   ? 'text-[var(--ac,var(--gold))] border-[var(--ac,var(--gold))]'
-                  : 'text-white/90 border-transparent hover:text-[var(--gold)]'
+                  : 'text-text border-transparent hover:text-[var(--gold)]'
               }`}
             >
               NOSOTROS

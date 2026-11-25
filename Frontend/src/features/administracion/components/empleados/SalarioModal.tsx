@@ -35,8 +35,8 @@ export function SalarioModal({ empleado, onClose, onAumentoRegistrado }: Salario
     >
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         <form onSubmit={enviar} noValidate className="flex flex-col gap-4">
-          <h3 className="font-[family-name:var(--font-anton)] uppercase tracking-wider text-[#e9b949]">Registrar aumento</h3>
-          {errorGeneral && <p role="alert" className="text-sm text-red-300">{errorGeneral}</p>}
+          <h3 className="font-titulos font-semibold text-base text-brand-600 dark:text-brand-300">Registrar aumento</h3>
+          {errorGeneral && <p role="alert" className="text-sm text-red-600 dark:text-red-300">{errorGeneral}</p>}
           <TextField
             label="Nuevo sueldo (COP)"
             required
@@ -72,20 +72,20 @@ export function SalarioModal({ empleado, onClose, onAumentoRegistrado }: Salario
         </form>
 
         <section aria-label="Historial salarial">
-          <h3 className="mb-3 font-[family-name:var(--font-anton)] uppercase tracking-wider text-white">Historial</h3>
+          <h3 className="mb-3 font-titulos font-semibold text-base text-text">Historial</h3>
           {cargando && <Skeleton className="h-12 w-full" lines={3} />}
-          {!cargando && denegado && <p className="text-sm text-amber-200">Acceso restringido: tu rol no puede ver el historial salarial.</p>}
-          {!cargando && error && !denegado && <p className="text-sm text-red-300">{error}</p>}
-          {!cargando && !error && registros.length === 0 && <p className="text-sm text-white/50">Aún no hay registros salariales.</p>}
+          {!cargando && denegado && <p className="text-sm text-amber-600 dark:text-amber-300">Acceso restringido: tu rol no puede ver el historial salarial.</p>}
+          {!cargando && error && !denegado && <p className="text-sm text-red-600 dark:text-red-300">{error}</p>}
+          {!cargando && !error && registros.length === 0 && <p className="text-sm text-text-muted">Aún no hay registros salariales.</p>}
           <ol className="flex flex-col gap-2">
             {registros.map((r, i) => (
-              <li key={r.id} className={`rounded-xl border px-4 py-3 ${i === 0 ? 'border-[#e3b341]/40 bg-[#e3b341]/5' : 'border-white/10'}`}>
+              <li key={r.id} className={`rounded-xl border px-4 py-3 ${i === 0 ? 'border-brand-500/40 bg-brand-500/10' : 'superficie-control'}`}>
                 <div className="flex items-baseline justify-between gap-3">
-                  <strong className="font-[family-name:var(--font-anton)] text-lg tracking-wide text-white">{formatCOP(r.sueldo)}</strong>
-                  <span className="text-xs text-white/55">{formatFecha(r.fechaEfectiva)}</span>
+                  <strong className="font-titulos font-semibold text-lg tabular-nums text-text">{formatCOP(r.sueldo)}</strong>
+                  <span className="text-xs text-text-muted">{formatFecha(r.fechaEfectiva)}</span>
                 </div>
-                {r.motivo && <p className="mt-1 text-sm text-white/70">{r.motivo}</p>}
-                {r.registradorNombre && <p className="mt-1 text-[11px] text-white/45">Registrado por {r.registradorNombre}</p>}
+                {r.motivo && <p className="mt-1 text-sm text-text">{r.motivo}</p>}
+                {r.registradorNombre && <p className="mt-1 text-[11px] text-text-muted">Registrado por {r.registradorNombre}</p>}
               </li>
             ))}
           </ol>

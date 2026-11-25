@@ -1,13 +1,17 @@
 import { assert, assertEquals } from 'jsr:@std/assert@1';
 import {
+  ActualizarLogoEmpresaUseCase,
   Cuenta,
+  IAuditor,
   ICuentaRepository,
+  IMarcaEmpresaRepository,
   IPasswordService,
   IPlanRepository,
   ISuscripcionRepository,
   ITokenCuentaService,
   IAnalizadorLogo,
   LogoValidado,
+  MarcaEmpresa,
   IniciarSesionCuentaUseCase,
   ObtenerMiCuentaUseCase,
   Plan,
@@ -117,4 +121,42 @@ Deno.test('RegistrarCuenta: exige un logo PNG válido y guarda su color principa
   assert(ok.isSuccess);
   assertEquals(ok.value.cuenta.colorPrincipal, '#2a9d8f');
   assertEquals(await repo.obtenerLogo(ok.value.cuenta.id), PNG);
+});
+
+Deno.test('ActualizarLogoEmpresa: actualiza logo y color de la empresa activa y registra auditoría', async () => {
+  const eventos: unknown[] = [];
+  const auditor: IAuditor = {
+    registrar: (e) => {
+      eventos.push(e);
+      return Promise.resolve();
+    },
+  };
+  let marcaActual: MarcaEmpresa | null = { colorPrincipal: '#112233', logoVersion: 'v0' };
+  let bytesLogo: Uint8Array | null = null;
+  const marcas: IMarcaEmpresaRepository = {
+    obtener: (id) => Promise.resolve(id === 1 ? marcaActual : null),
+    obtenerLogo: (id) => Promise.resolve(id === 1 ? bytesLogo : null),
+    actualizarLogo: (id, logo) => {
+      if (id !== 1) return Promise.resolve(false);
+      marcaActual = { colorPrincipal: logo.colorPrincipal, logoVersion: logo.version };
+      bytesLogo = logo.png;
+      return Promise.resolve(true);
+    },
+  };
+
+  const uc = new ActualizarLogoEmpresaUseCase(marcas, analizador, auditor);
+  const actor = { usuarioId: 'super-1', ip: '127.0.0.1' };
+
+  const invalido = await uc.execute({ empresaId: 1, logoPng: new Uint8Array([0xff, 0xd8]), actor });
+  assertEquals(invalido.isFailure && invalido.error.code, 'LOGO_INVALIDO');
+  assertEquals(eventos.length, 0);
+
+  const inexistente = await uc.execute({ empresaId: 99, logoPng: PNG, actor });
+  assertEquals(inexistente.isFailure && inexistente.error.code, 'EMPRESA_NO_ENCONTRADA');
+
+  const ok = await uc.execute({ empresaId: 1, logoPng: PNG, actor });
+  assert(ok.isSuccess);
+  assertEquals(ok.value.colorPrincipal, '#2a9d8f');
+  assertEquals(bytesLogo, PNG);
+  assertEquals(eventos.length, 1);
 });

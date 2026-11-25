@@ -13,7 +13,7 @@
  */
 
 import { Hono } from 'hono';
-import { actualizarLogoSchema, iniciarPagoSchema, pagoSimuladoSchema, registroCuentaSchema } from '@inventa/contracts';
+import { PERMISSIONS, actualizarLogoSchema, iniciarPagoSchema, pagoSimuladoSchema, registroCuentaSchema } from '@inventa/contracts';
 import { decodeBase64 } from 'jsr:@std/encoding@^1/base64';
 import { authMiddleware } from '../middlewares/auth.middleware.ts';
 import type { Context } from 'hono';
@@ -24,6 +24,8 @@ import type { AppContainer } from '@inventa/composition';
 import { createIpRateLimiter } from '../middlewares/rate-limit.middleware.ts';
 import { presentResult } from '../presenters/result.presenter.ts';
 import { safeHandler } from '../utils/handler.ts';
+import { obtenerIdentidad } from '../utils/identidad.ts';
+import { obtenerIp } from '../utils/ip.ts';
 import { cerrarSesionCuenta, cuentaMiddleware, fijarSesionCuenta, obtenerCuentaId } from '../utils/cuenta-sesion.ts';
 
 /** Bytes del PNG a partir de base64 (acepta el prefijo data:image/png;base64,). */
@@ -122,6 +124,22 @@ export function createSuscripcionesRoutes(container: AppContainer) {
 
   api.get('/empresa/logo', authMiddleware(container), safeHandler(async (c) =>
     responderLogo(c, await container.suscripciones.logoDeEmpresa(container.multiempresa.empresaActual()))));
+
+  api.put('/empresa/logo', authMiddleware(container, PERMISSIONS.ADMIN_GESTIONAR_SUCURSALES), registroRateLimiter, safeHandler(async (c) => {
+    const validacion = actualizarLogoSchema.safeParse(await c.req.json().catch(() => null));
+    if (!validacion.success) return c.json({ error: 'VALIDATION_ERROR', issues: validacion.error.errors }, 400);
+    const identidad = obtenerIdentidad(c);
+    const resultado = await container.suscripciones.actualizarLogoEmpresa.execute({
+      empresaId: container.multiempresa.empresaActual(),
+      logoPng: decodificarLogo(validacion.data.logoPng),
+      actor: {
+        usuarioId: identidad.usuarioId,
+        ip: obtenerIp(c),
+        permisos: identidad.permisos,
+      },
+    });
+    return presentResult(c, resultado);
+  }));
 
   // ─── Pagos ────────────────────────────────────────────────────────────────
   const pagosRateLimiter = createIpRateLimiter({

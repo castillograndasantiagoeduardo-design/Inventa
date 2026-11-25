@@ -1,7 +1,9 @@
 'use client';
 
 /**
- * PanelShell.tsx — Marco del panel administrativo (sidebar + header + contenido).
+ * PanelShell.tsx — Marco del panel del Super Admin con el estilo de /admin-sucursal
+ * (Glassmorphism Ejecutivo): fondo ambiental, logo de la empresa de fondo, sidebar
+ * flotante y header de vidrio.
  *
  * - Espera la rehidratación de la sesión (GET /auth/verificar) antes de pintar.
  * - Si la sesión no es válida redirige a /acceso (el middleware ya cubre la mayoría
@@ -14,9 +16,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/features/autenticacion';
 import { ToastProvider } from '@/components/ui/Toast';
 import { Spinner } from '@/components/ui/Spinner';
+import { FondoAmbiental } from '@/components/FondoAmbiental';
+import { MarcaDeAgua } from '@/features/marca';
 import { Sidebar } from './Sidebar';
 import { PanelHeader } from './PanelHeader';
-import { MarcaDeAgua } from '@/features/marca';
 
 export function PanelShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -32,7 +35,8 @@ export function PanelShell({ children }: { children: React.ReactNode }) {
 
   if (isLoading || !isAuthenticated) {
     return (
-      <div className="min-h-dvh flex flex-col items-center justify-center gap-3 bg-[#0d1630] text-[#e9b949] font-[family-name:var(--font-ui)]">
+      <div className="min-h-dvh flex flex-col items-center justify-center gap-3 bg-bg text-text-muted font-sans relative isolate">
+        <FondoAmbiental />
         <Spinner size={36} label="Cargando sesión" />
         <span className="text-sm">{isLoading ? 'Verificando sesión…' : 'Redirigiendo al acceso…'}</span>
       </div>
@@ -41,14 +45,17 @@ export function PanelShell({ children }: { children: React.ReactNode }) {
 
   return (
     <ToastProvider>
-      <div className="min-h-dvh flex bg-[#0d1630] text-white relative isolate">
+      <div className="min-h-screen bg-bg text-text font-sans relative isolate overflow-x-clip transition-colors duration-300">
+        <FondoAmbiental />
         <MarcaDeAgua />
-        <Sidebar open={menuAbierto} onClose={() => setMenuAbierto(false)} />
-        <div className="flex-1 min-w-0 flex flex-col">
-          <PanelHeader onMenuClick={() => setMenuAbierto(true)} />
-          <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 py-6 pb-[calc(1.5rem+env(safe-area-inset-bottom))]">
-            {children}
-          </main>
+        <div className="flex items-start p-4 sm:p-5 lg:p-6 gap-6 max-w-[1680px] mx-auto min-h-screen">
+          <div className="md:sticky md:top-4 md:self-start z-30 shrink-0">
+            <Sidebar open={menuAbierto} onClose={() => setMenuAbierto(false)} />
+          </div>
+          <div className="flex-1 min-w-0 flex flex-col gap-6">
+            <PanelHeader onMenuClick={() => setMenuAbierto(true)} />
+            <main className="flex-1 w-full pb-[env(safe-area-inset-bottom)]">{children}</main>
+          </div>
         </div>
       </div>
     </ToastProvider>

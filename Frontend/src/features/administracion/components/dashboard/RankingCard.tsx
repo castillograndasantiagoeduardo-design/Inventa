@@ -42,7 +42,7 @@ export function RankingCard({ items, loading, error, denied, onRetry, orden, onO
     >
       <BarList
         ariaLabel={orden === 'mas_vendidos' ? 'Productos más vendidos' : 'Productos menos vendidos'}
-        color={orden === 'mas_vendidos' ? '#e3b341' : '#8fa3c7'}
+        color={orden === 'mas_vendidos' ? 'var(--p-500, #3b6cf2)' : '#64748b'}
         items={datos.map((p, i) => ({
           key: p.productoId,
           label: `${i + 1}. ${p.nombre}`,

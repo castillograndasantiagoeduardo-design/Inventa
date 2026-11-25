@@ -15,7 +15,7 @@ interface AuditoriaFiltrosProps {
   error: string | null;
 }
 
-const ETIQUETA = 'flex flex-col gap-1 text-[11px] uppercase tracking-wider text-white/60 font-[family-name:var(--font-ui)]';
+const ETIQUETA = 'flex flex-col gap-1 text-[11px] uppercase tracking-wider text-text-muted font-sans font-medium';
 const vacio = (v: string) => (v === '' ? undefined : v);
 
 export function AuditoriaFiltros({ filtros, onCambio, opcionesActor, error }: AuditoriaFiltrosProps) {
@@ -67,7 +67,7 @@ export function AuditoriaFiltros({ filtros, onCambio, opcionesActor, error }: Au
         </label>
       </div>
       {error && (
-        <p role="alert" className="mt-2 text-sm text-red-300">
+        <p role="alert" className="mt-2 text-sm text-red-600 dark:text-red-300">
           {error}
         </p>
       )}
