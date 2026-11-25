@@ -53,6 +53,7 @@ export function VendedorB2BHeader({
 
   const email = usuario?.email || '';
   const emailPrefix = email ? email.split('@')[0] : '';
+  const nombreVisible = usuario?.nombre || emailPrefix || 'Vendedor';
   const iniciales = (
     usuario?.nombre
       ? usuario.nombre
@@ -126,12 +127,12 @@ export function VendedorB2BHeader({
             role={onOpenProfile ? 'button' : undefined}
             tabIndex={onOpenProfile ? 0 : undefined}
           >
-            <AvatarMarca className="w-7 h-7 rounded-lg bg-brand-600 text-btn-primario-texto flex items-center justify-center font-titulos font-semibold text-xs shadow-sm">
+            <AvatarMarca className="w-8 h-8 rounded-lg bg-brand-600 text-btn-primario-texto flex items-center justify-center font-titulos font-semibold text-xs shadow-sm">
               {iniciales}
             </AvatarMarca>
             <div className="text-left hidden lg:block leading-tight">
               <div className="text-xs font-semibold text-text truncate max-w-[140px]">
-                {email || 'Vendedor'}
+                {nombreVisible}
               </div>
               <div className="text-[10px] text-text-muted truncate max-w-[140px] capitalize">
                 {rol}
