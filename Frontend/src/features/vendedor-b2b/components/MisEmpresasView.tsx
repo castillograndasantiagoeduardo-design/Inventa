@@ -12,6 +12,7 @@ import type { CreditoB2BDto, EmpresaB2BResumenDto } from '../types';
 import { CarteraKPIs } from './CarteraKPIs';
 import { EmpresaB2BTabla } from './EmpresaB2BTabla';
 import { CarteraPanel } from './CarteraPanel';
+import { MoraPanel } from './MoraPanel';
 
 type TabMisEmpresas = 'empresas' | 'cartera' | 'mora';
 
@@ -43,7 +44,9 @@ export function MisEmpresasView() {
     resumenCartera,
     mora,
     cargandoCartera,
+    cargandoMora,
     errorCartera,
+    errorMora,
     cargarCartera,
     cargarMora,
   } = useCarteraB2B();
@@ -165,11 +168,7 @@ export function MisEmpresasView() {
       )}
 
       {tab === 'mora' && (
-        <Tarjeta titulo="Empresas en mora">
-          <p className="text-xs font-sans text-text-muted">
-            Panel de mora y seguimiento de cobro.
-          </p>
-        </Tarjeta>
+        <MoraPanel empresasMora={mora} cargando={cargandoMora} error={errorMora} />
       )}
 
       {(empresaSolicitud || creditoAviso) && (
