@@ -82,6 +82,8 @@
 | Fase 4 | 31 | `6cf3bce` | Endpoints POST/PUT de solicitud, abonos y avisos + OpenAPI + tests RBAC | `facturacion-roles-matriz` (12/12) + check + lint ok |
 | Fase 4 | 32 | `1b5297a` | Escenarios `Http/32-mis-empresas-b2b.http` + cartera en `demo.seed.ts` | `deno task test` (492/492) + push origin |
 | Fase 5 | 33 | `22ad360` | Tipos y servicio HTTP `carteras.service.ts` en `vendedor-b2b` | `npm run build` ok |
+| Fase 5 | 34 | `dadd5ff` | Hooks `useEmpresasB2B`, `useCarteraB2B` y `useEmpresaB2BDetalle` | `npm run build` ok |
+| Fase 5 | 35 | `-` | Ítem "Mis empresas" en sidebar + rutas `/vendedor-b2b/empresas` y `[id]` | `npm run build` ok |
 
 ---
 
