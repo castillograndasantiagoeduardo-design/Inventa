@@ -26,7 +26,7 @@ const TONO_ROL: Record<string, BadgeTone> = {
   'vendedor-b2b': 'neutral',
 };
 
-const BTN = 'min-h-[44px] rounded-lg px-2.5 text-xs uppercase tracking-wider font-[family-name:var(--font-ui)] cursor-pointer';
+const BTN = 'min-h-[40px] rounded-lg px-2.5 text-xs uppercase tracking-wider font-sans font-medium transition-colors cursor-pointer';
 
 export function columnasUsuarios(o: Opciones): DataTableColumn<UsuarioGestionado>[] {
   return [
@@ -35,8 +35,8 @@ export function columnasUsuarios(o: Opciones): DataTableColumn<UsuarioGestionado
       header: 'Usuario',
       render: (u) => (
         <div>
-          <p className="font-medium text-white">{u.nombre}</p>
-          <p className="text-xs text-white/50">{u.email}</p>
+          <p className="font-medium text-text">{u.nombre}</p>
+          <p className="text-xs text-text-muted">{u.email}</p>
         </div>
       ),
     },
@@ -48,7 +48,7 @@ export function columnasUsuarios(o: Opciones): DataTableColumn<UsuarioGestionado
         <div>
           <p>{u.sucursalNombre}</p>
           {u.sucursalesAdicionales?.length > 0 && (
-            <p className="text-xs text-white/50" title={u.sucursalesAdicionales.map((s) => s.nombre).join(', ')}>
+            <p className="text-xs text-text-muted" title={u.sucursalesAdicionales.map((s) => s.nombre).join(', ')}>
               + {u.sucursalesAdicionales.length} adicional{u.sucursalesAdicionales.length > 1 ? 'es' : ''}
             </p>
           )}
@@ -67,22 +67,22 @@ export function columnasUsuarios(o: Opciones): DataTableColumn<UsuarioGestionado
       render: (u) => (
         <div className="flex flex-wrap justify-end gap-1">
           {o.puedeAsignarRoles && (
-            <button type="button" onClick={() => o.onRol(u)} className={`${BTN} text-[#e9b949] hover:bg-[#e3b341]/15`}>
+            <button type="button" onClick={() => o.onRol(u)} className={`${BTN} text-brand-600 dark:text-brand-300 hover:bg-brand-500/15`}>
               Rol
             </button>
           )}
           {o.puedeGestionar && (
             <>
-              <button type="button" onClick={() => o.onSucursales(u)} className={`${BTN} text-sky-300 hover:bg-sky-500/15`}>
+              <button type="button" onClick={() => o.onSucursales(u)} className={`${BTN} text-sky-600 dark:text-sky-300 hover:bg-sky-500/15`}>
                 Sedes
               </button>
-              <button type="button" onClick={() => o.onPassword(u)} className={`${BTN} text-white/70 hover:bg-white/10`}>
+              <button type="button" onClick={() => o.onPassword(u)} className={`${BTN} text-text-muted hover:bg-slate-900/6 dark:hover:bg-white/10 hover:text-text`}>
                 Clave
               </button>
               <button
                 type="button"
                 onClick={() => o.onEstado(u)}
-                className={`${BTN} ${u.isActive ? 'text-red-300 hover:bg-red-500/15' : 'text-emerald-300 hover:bg-emerald-500/15'}`}
+                className={`${BTN} ${u.isActive ? 'text-red-600 dark:text-red-300 hover:bg-red-500/15' : 'text-emerald-600 dark:text-emerald-300 hover:bg-emerald-500/15'}`}
               >
                 {u.isActive ? 'Desactivar' : 'Activar'}
               </button>

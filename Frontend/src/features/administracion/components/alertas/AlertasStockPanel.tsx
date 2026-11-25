@@ -19,8 +19,8 @@ const COLUMNAS: DataTableColumn<AlertaStock>[] = [
     header: 'Producto',
     render: (a) => (
       <div>
-        <p className="font-medium text-white">{a.nombre}</p>
-        <p className="text-xs text-white/50">SKU {a.sku}</p>
+        <p className="font-medium text-text">{a.nombre}</p>
+        <p className="text-xs text-text-muted font-mono">SKU {a.sku}</p>
       </div>
     ),
   },

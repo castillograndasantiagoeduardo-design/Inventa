@@ -222,26 +222,26 @@ export function RevisarCreditoAlertaModal({
       footer={footer}
     >
       {cargando && (
-        <div className="flex items-center justify-center gap-3 py-10 text-sm text-white/70">
+        <div className="flex items-center justify-center gap-3 py-10 text-sm text-text-muted">
           <Spinner size={22} />
           <span>Cargando información de la empresa solicitante...</span>
         </div>
       )}
 
       {!cargando && errorCarga && (
-        <div className="rounded-xl border border-red-400/30 bg-red-500/10 p-4 text-sm text-red-200">
+        <div className="rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-600 dark:text-red-200">
           {errorCarga}
         </div>
       )}
 
       {!cargando && cliente && (
-        <div className="space-y-4 text-xs text-white/80">
+        <div className="space-y-4 text-xs text-text">
           {/* Cabecera de la empresa */}
-          <div className="flex flex-wrap items-start justify-between gap-3 rounded-xl border border-white/10 bg-white/5 p-4">
+          <div className="flex flex-wrap items-start justify-between gap-3 rounded-xl superficie-control p-4">
             <div>
-              <p className="text-[11px] uppercase tracking-wider text-white/50">Razón Social</p>
-              <h3 className="text-base font-semibold text-white">{cliente.nombreRazonSocial}</h3>
-              <p className="mt-0.5 font-mono text-xs text-white/65">
+              <p className="text-[11px] uppercase tracking-wider text-text-muted">Razón Social</p>
+              <h3 className="text-base font-semibold font-titulos text-text">{cliente.nombreRazonSocial}</h3>
+              <p className="mt-0.5 font-mono text-xs text-text-muted">
                 {cliente.tipoDocumento} {cliente.numeroDocumento} · Cliente {cliente.tipoCliente}
               </p>
             </div>
@@ -254,65 +254,65 @@ export function RevisarCreditoAlertaModal({
           </div>
 
           {/* Datos de contacto y ubicación */}
-          <div className="grid grid-cols-1 gap-3 rounded-xl border border-white/10 bg-black/20 p-4 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 rounded-xl superficie-control p-4 sm:grid-cols-2">
             <div>
-              <span className="block text-[11px] text-white/50">Dirección comercial</span>
-              <span className="font-medium text-white">{cliente.direccion || 'No registrada'}</span>
+              <span className="block text-[11px] text-text-muted">Dirección comercial</span>
+              <span className="font-medium text-text">{cliente.direccion || 'No registrada'}</span>
             </div>
             <div>
-              <span className="block text-[11px] text-white/50">Teléfono</span>
-              <span className="font-medium text-white">{cliente.telefono || 'No registrado'}</span>
+              <span className="block text-[11px] text-text-muted">Teléfono</span>
+              <span className="font-medium text-text">{cliente.telefono || 'No registrado'}</span>
             </div>
             <div>
-              <span className="block text-[11px] text-white/50">Correo electrónico</span>
-              <span className="font-medium text-white">{cliente.email || 'No registrado'}</span>
+              <span className="block text-[11px] text-text-muted">Correo electrónico</span>
+              <span className="font-medium text-text">{cliente.email || 'No registrado'}</span>
             </div>
             <div>
-              <span className="block text-[11px] text-white/50">Registrada por</span>
-              <span className="font-medium text-white">
+              <span className="block text-[11px] text-text-muted">Registrada por</span>
+              <span className="font-medium text-text">
                 {alerta?.usuarioEmail ?? 'Operador comercial'}
               </span>
             </div>
           </div>
 
           {/* Evaluación financiera */}
-          <div className="grid grid-cols-1 gap-3 rounded-xl border border-[#e3b341]/30 bg-[#e3b341]/5 p-4 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-3 rounded-xl border border-brand-500/35 bg-brand-500/8 p-4 sm:grid-cols-3">
             <div>
-              <span className="block text-[11px] text-white/60">Ganancia neta mensual</span>
-              <span className="text-sm font-semibold tabular-nums text-white">
+              <span className="block text-[11px] text-text-muted">Ganancia neta mensual</span>
+              <span className="text-sm font-semibold tabular-nums text-text">
                 ${(cliente.gananciaNetaMensual ?? 0).toLocaleString('es-CO')} COP
               </span>
             </div>
             <div>
-              <span className="block text-[11px] text-white/60">Cupo sugerido (reglas)</span>
-              <span className="text-sm font-semibold tabular-nums text-[#e9b949]">
+              <span className="block text-[11px] text-text-muted">Cupo sugerido (reglas)</span>
+              <span className="text-sm font-semibold tabular-nums text-brand-600 dark:text-brand-300">
                 ${(cliente.cupoCreditoSugerido ?? 0).toLocaleString('es-CO')} COP
               </span>
             </div>
             <div>
-              <span className="block text-[11px] text-white/60">Antigüedad / Plazo</span>
-              <span className="text-sm font-semibold tabular-nums text-white">
+              <span className="block text-[11px] text-text-muted">Antigüedad / Plazo</span>
+              <span className="text-sm font-semibold tabular-nums text-text">
                 {cliente.antiguedadEmpresaMeses ?? 'N/D'} meses · {cliente.plazoCreditoDias ?? 30} días
               </span>
             </div>
           </div>
 
           {cliente.observacionFinanciera && (
-            <div className="rounded-xl border border-white/10 bg-white/5 p-3">
-              <span className="block text-[11px] text-white/50">Respaldo financiero declarado</span>
-              <p className="mt-1 text-xs text-white/85">{cliente.observacionFinanciera}</p>
+            <div className="rounded-xl superficie-control p-3">
+              <span className="block text-[11px] text-text-muted">Respaldo financiero declarado</span>
+              <p className="mt-1 text-xs text-text">{cliente.observacionFinanciera}</p>
             </div>
           )}
 
           {/* Formulario de decisión directa si está pendiente */}
           {pendienteDecision ? (
-            <div className="space-y-3 rounded-xl border border-emerald-400/25 bg-emerald-500/5 p-4">
-              <p className="text-xs text-emerald-200">
+            <div className="space-y-3 rounded-xl border border-emerald-500/30 bg-emerald-500/8 p-4">
+              <p className="text-xs text-emerald-700 dark:text-emerald-200">
                 Al aprobar, el cupo queda <strong>liberado de inmediato</strong> para que el vendedor B2B pueda cotizar a crédito corporativo sin pasos adicionales.
               </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <div className="sm:col-span-2">
-                  <label className="mb-1 block text-[11px] text-white/70">
+                  <label className="mb-1 block text-[11px] text-text-muted">
                     Cupo final a liberar (COP)
                   </label>
                   <input
@@ -325,7 +325,7 @@ export function RevisarCreditoAlertaModal({
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-[11px] text-white/70">Plazo (días)</label>
+                  <label className="mb-1 block text-[11px] text-text-muted">Plazo (días)</label>
                   <select
                     value={plazoDias}
                     onChange={(e) => setPlazoDias(Number(e.target.value) as PlazoCreditoDias)}
@@ -340,7 +340,7 @@ export function RevisarCreditoAlertaModal({
                 </div>
               </div>
               <div>
-                <label className="mb-1 block text-[11px] text-white/70">
+                <label className="mb-1 block text-[11px] text-text-muted">
                   Nota / motivo de decisión (opcional al aprobar, obligatorio al rechazar)
                 </label>
                 <input
@@ -353,17 +353,17 @@ export function RevisarCreditoAlertaModal({
               </div>
             </div>
           ) : (
-            <div className="rounded-xl border border-white/10 bg-white/5 p-4 space-y-1">
-              <p className="text-xs font-semibold text-white">
+            <div className="rounded-xl superficie-control p-4 space-y-1">
+              <p className="text-xs font-semibold text-text">
                 {estadoCredito === 'aprobado'
                   ? `Crédito ya aprobado y activo por $${(cliente.cupoCreditoAprobado ?? 0).toLocaleString('es-CO')} COP (Disponible: $${(cliente.cupoCreditoDisponible ?? 0).toLocaleString('es-CO')} COP).`
                   : 'Esta solicitud de crédito ya fue rechazada.'}
               </p>
               {cliente.motivoDecisionCredito && (
-                <p className="text-xs text-white/65">Motivo: {cliente.motivoDecisionCredito}</p>
+                <p className="text-xs text-text-muted">Motivo: {cliente.motivoDecisionCredito}</p>
               )}
               {cliente.creditoAprobadoEn && (
-                <p className="text-[11px] text-white/45">
+                <p className="text-[11px] text-text-muted">
                   Decidido el {formatFechaHora(cliente.creditoAprobadoEn)}
                 </p>
               )}
@@ -371,7 +371,7 @@ export function RevisarCreditoAlertaModal({
           )}
 
           {errorAccion && (
-            <div className="rounded-xl border border-red-400/30 bg-red-500/15 p-3 text-xs text-red-200">
+            <div className="rounded-xl border border-red-500/30 bg-red-500/15 p-3 text-xs text-red-600 dark:text-red-200">
               {errorAccion}
             </div>
           )}

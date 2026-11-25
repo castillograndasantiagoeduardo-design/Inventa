@@ -76,20 +76,20 @@ export function LineChart({ labels, series, formatY, formatTooltip = formatY, he
         tabIndex={0}
         onKeyDown={onKeyDown}
         onBlur={() => setActivo(null)}
-        className="block outline-none focus-visible:ring-2 focus-visible:ring-[#e3b341] rounded-lg"
+        className="block outline-none focus-visible:ring-2 focus-visible:ring-brand-500 rounded-lg"
       >
         <g transform={`translate(${M.left},${M.top})`}>
           {ticksY.map((t) => (
             <g key={t}>
-              <line x1={0} x2={w} y1={y(t)} y2={y(t)} stroke="rgba(255,255,255,0.08)" />
-              <text x={-10} y={y(t)} dy="0.32em" textAnchor="end" className="fill-white/50 text-[11px]">
+              <line x1={0} x2={w} y1={y(t)} y2={y(t)} stroke="var(--border)" />
+              <text x={-10} y={y(t)} dy="0.32em" textAnchor="end" className="fill-text-muted text-[11px]">
                 {formatY(t)}
               </text>
             </g>
           ))}
           {labels.map((l, i) =>
             i % pasoX === 0 || i === n - 1 ? (
-              <text key={`${l}-${i}`} x={x(i)} y={h + 18} textAnchor="middle" className="fill-white/50 text-[11px]">
+              <text key={`${l}-${i}`} x={x(i)} y={h + 18} textAnchor="middle" className="fill-text-muted text-[11px]">
                 {l}
               </text>
             ) : null,
@@ -98,7 +98,7 @@ export function LineChart({ labels, series, formatY, formatTooltip = formatY, he
             const puntos = s.values.map((v, i) => `${x(i)},${y(v)}`).join(' ');
             return (
               <g key={s.key}>
-                {s.area && n > 1 && <polygon points={`0,${h} ${puntos} ${x(n - 1)},${h}`} fill={s.color} fillOpacity={0.18} />}
+                {s.area && n > 1 && <polygon points={`0,${h} ${puntos} ${x(n - 1)},${h}`} fill={s.color} fillOpacity={0.16} />}
                 {s.area && n === 1 && (
                   <rect
                     x={0}
@@ -110,12 +110,12 @@ export function LineChart({ labels, series, formatY, formatTooltip = formatY, he
                   />
                 )}
                 {n > 1 && (
-                  <polyline points={puntos} fill="none" stroke={s.color} strokeWidth={2} strokeLinejoin="round" strokeLinecap="round" />
+                  <polyline points={puntos} fill="none" stroke={s.color} strokeWidth={2.25} strokeLinejoin="round" strokeLinecap="round" />
                 )}
                 {n === 1 && (
                   <>
                     <line x1={0} x2={w} y1={y(s.values[0])} y2={y(s.values[0])} stroke={s.color} strokeWidth={2} strokeDasharray="4 4" opacity={0.6} />
-                    <circle cx={x(0)} cy={y(s.values[0])} r={6} fill={s.color} stroke="#14213d" strokeWidth={2} />
+                    <circle cx={x(0)} cy={y(s.values[0])} r={6} fill={s.color} stroke="var(--bg)" strokeWidth={2} />
                   </>
                 )}
               </g>
@@ -123,9 +123,9 @@ export function LineChart({ labels, series, formatY, formatTooltip = formatY, he
           })}
           {activo !== null && (
             <g pointerEvents="none">
-              <line x1={x(activo)} x2={x(activo)} y1={0} y2={h} stroke="rgba(255,255,255,0.35)" />
+              <line x1={x(activo)} x2={x(activo)} y1={0} y2={h} stroke="var(--border-hover)" strokeDasharray="3 3" />
               {series.map((s) => (
-                <circle key={s.key} cx={x(activo)} cy={y(s.values[activo])} r={5} fill={s.color} stroke="#14213d" strokeWidth={2} />
+                <circle key={s.key} cx={x(activo)} cy={y(s.values[activo])} r={5} fill={s.color} stroke="var(--bg)" strokeWidth={2} />
               ))}
             </g>
           )}
@@ -143,15 +143,15 @@ export function LineChart({ labels, series, formatY, formatTooltip = formatY, he
       {activo !== null && (
         <div
           role="status"
-          className="pointer-events-none absolute top-2 z-10 min-w-[160px] rounded-lg border border-white/15 bg-[#0a1226]/95 px-3 py-2 text-xs shadow-xl"
-          style={{ left: Math.min(Math.max(tooltipIzq - 80, 0), Math.max(ancho - 170, 0)) }}
+          className="pointer-events-none absolute top-2 z-10 min-w-[168px] vidrio-popover px-3 py-2 text-xs"
+          style={{ left: Math.min(Math.max(tooltipIzq - 80, 0), Math.max(ancho - 176, 0)) }}
         >
-          <p className="mb-1 text-white/60">{labels[activo]}</p>
+          <p className="mb-1 text-text-muted font-medium">{labels[activo]}</p>
           {series.map((s) => (
             <p key={s.key} className="flex items-center gap-2">
-              <span className="inline-block h-0.5 w-3" style={{ background: s.color }} aria-hidden="true" />
-              <strong className="text-white">{formatTooltip(s.values[activo])}</strong>
-              <span className="text-white/55">{s.label}</span>
+              <span className="inline-block h-2 w-2 rounded-full shrink-0" style={{ background: s.color }} aria-hidden="true" />
+              <strong className="text-text tabular-nums">{formatTooltip(s.values[activo])}</strong>
+              <span className="text-text-muted">{s.label}</span>
             </p>
           ))}
         </div>

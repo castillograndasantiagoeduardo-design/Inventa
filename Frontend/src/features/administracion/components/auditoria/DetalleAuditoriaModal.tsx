@@ -23,21 +23,21 @@ function TablaCambios({ antes, despues }: { antes: Objeto; despues: Objeto }) {
   return (
     <div className="overflow-x-auto">
       <table className="w-full min-w-[480px] text-sm">
-        <thead className="text-[11px] uppercase tracking-wider text-white/55 font-[family-name:var(--font-ui)]">
+        <thead className="text-[11px] uppercase tracking-wider text-text-muted font-sans">
           <tr>
             <th className="py-2 text-left font-medium">Campo</th>
             <th className="py-2 text-left font-medium">Antes</th>
             <th className="py-2 text-left font-medium">Después</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-white/5">
+        <tbody className="divide-y divide-border">
           {claves.map((k) => {
             const cambio = mostrar(antes[k]) !== mostrar(despues[k]);
             return (
-              <tr key={k} className={cambio ? 'bg-[#e3b341]/5' : ''}>
-                <td className="py-2 pr-3 font-medium text-white/80">{k}</td>
-                <td className="py-2 pr-3 break-all text-red-200/80">{mostrar(antes[k])}</td>
-                <td className={`py-2 break-all ${cambio ? 'text-emerald-200' : 'text-white/70'}`}>{mostrar(despues[k])}</td>
+              <tr key={k} className={cambio ? 'bg-brand-500/8' : ''}>
+                <td className="py-2 pr-3 font-medium text-text">{k}</td>
+                <td className="py-2 pr-3 break-all text-red-600 dark:text-red-300">{mostrar(antes[k])}</td>
+                <td className={`py-2 break-all ${cambio ? 'text-emerald-600 dark:text-emerald-300 font-medium' : 'text-text-muted'}`}>{mostrar(despues[k])}</td>
               </tr>
             );
           })}
@@ -60,22 +60,22 @@ export function DetalleAuditoriaModal({ log, onClose }: { log: LogAuditoria | nu
         <div className="flex flex-col gap-5">
           <div className="flex flex-wrap items-center gap-3 text-sm">
             <Badge tone={TONO_ACCION[log.accion] ?? 'neutral'}>{etiquetaAccion(log.accion)}</Badge>
-            <span className="text-white/80">{etiquetaEntidad(log.entidad)}</span>
-            {log.entidadId && <code className="rounded bg-white/5 px-2 py-0.5 text-xs text-white/60">{log.entidadId}</code>}
-            <span className="text-white/55">por {log.usuarioNombre ?? 'Sistema / anónimo'}</span>
-            {log.ip && <span className="text-white/45">IP {log.ip}</span>}
+            <span className="font-medium text-text">{etiquetaEntidad(log.entidad)}</span>
+            {log.entidadId && <code className="rounded-lg superficie-control px-2 py-0.5 text-xs font-mono text-text-muted">{log.entidadId}</code>}
+            <span className="text-text-muted">por {log.usuarioNombre ?? 'Sistema / anónimo'}</span>
+            {log.ip && <span className="text-text-muted font-mono text-xs">IP {log.ip}</span>}
           </div>
 
           {tieneDiff ? (
             <TablaCambios antes={antes} despues={despues} />
           ) : (
-            <p className="text-sm text-white/55">Este evento no registra cambios de campos.</p>
+            <p className="text-sm text-text-muted">Este evento no registra cambios de campos.</p>
           )}
 
           {Object.keys(resto).length > 0 && (
             <div>
-              <h3 className="mb-2 text-[11px] uppercase tracking-wider text-white/55 font-[family-name:var(--font-ui)]">Información adicional</h3>
-              <pre className="max-h-60 overflow-auto rounded-xl bg-black/30 p-3 text-xs text-white/75">{JSON.stringify(resto, null, 2)}</pre>
+              <h3 className="mb-2 text-[11px] uppercase tracking-wider text-text-muted font-sans font-medium">Información adicional</h3>
+              <pre className="max-h-60 overflow-auto rounded-xl superficie-control p-3 text-xs font-mono text-text">{JSON.stringify(resto, null, 2)}</pre>
             </div>
           )}
         </div>

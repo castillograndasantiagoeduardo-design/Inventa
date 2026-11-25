@@ -121,7 +121,7 @@ export function EditProductModal({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer disabled:opacity-40"
+            className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text text-xs font-semibold cursor-pointer disabled:opacity-40"
           >
             Cancelar
           </button>
@@ -138,33 +138,33 @@ export function EditProductModal({
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {errorMsg && (
-          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs">
+          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-medium">
             {errorMsg}
           </div>
         )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Código SKU (Inmutable)
             </label>
             <input
               type="text"
               value={sku}
               disabled
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white/50 font-mono text-xs cursor-not-allowed"
+              className="w-full h-10 px-3 rounded-xl border border-border bg-black/5 dark:bg-white/5 text-text-muted font-mono text-xs cursor-not-allowed opacity-70"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Nombre comercial *
             </label>
             <input
               type="text"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-rose-500"
               required
             />
           </div>
@@ -172,7 +172,7 @@ export function EditProductModal({
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Precio Venta POS *
             </label>
             <input
@@ -181,13 +181,13 @@ export function EditProductModal({
               step="0.01"
               value={precioVenta}
               onChange={(e) => setPrecioVenta(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text font-mono text-xs focus:outline-none focus:border-rose-500"
               required
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Precio Compra
             </label>
             <input
@@ -196,12 +196,12 @@ export function EditProductModal({
               step="0.01"
               value={precioCompra}
               onChange={(e) => setPrecioCompra(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text font-mono text-xs focus:outline-none focus:border-rose-500"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Precio B2B Corporativo
             </label>
             <input
@@ -210,31 +210,31 @@ export function EditProductModal({
               step="0.01"
               value={precioCorporativo}
               onChange={(e) => setPrecioCorporativo(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text font-mono text-xs focus:outline-none focus:border-rose-500"
             />
           </div>
         </div>
 
         {margen !== null && (
-          <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-between text-xs">
-            <span className="text-white/60">Margen comercial estimado:</span>
-            <span className="font-mono font-bold text-emerald-400">{margen}%</span>
+          <div className="p-2.5 rounded-xl border border-border superficie-control flex items-center justify-between text-xs">
+            <span className="text-text-muted">Margen comercial estimado:</span>
+            <span className="font-mono font-bold text-emerald-500 dark:text-emerald-400">{margen}%</span>
           </div>
         )}
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Categoría
             </label>
             <select
               value={categoriaId}
               onChange={(e) => setCategoriaId(e.target.value ? Number(e.target.value) : '')}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
             >
-              <option value="">Sin categoría asignada</option>
+              <option value="" className="bg-black text-white">Sin categoría asignada</option>
               {categorias.map((c) => (
-                <option key={c.id} value={c.id}>
+                <option key={c.id} value={c.id} className="bg-black text-white">
                   {c.nombre}
                 </option>
               ))}
@@ -242,17 +242,17 @@ export function EditProductModal({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Proveedor asignado
             </label>
             <select
               value={proveedorId}
               onChange={(e) => setProveedorId(e.target.value ? Number(e.target.value) : '')}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
             >
-              <option value="">Sin proveedor asignado</option>
+              <option value="" className="bg-black text-white">Sin proveedor asignado</option>
               {proveedores.map((p) => (
-                <option key={p.id} value={p.id}>
+                <option key={p.id} value={p.id} className="bg-black text-white">
                   {p.nombre}
                 </option>
               ))}
@@ -260,9 +260,9 @@ export function EditProductModal({
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-white/5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-border">
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Stock Mínimo en Sede
             </label>
             <input
@@ -270,12 +270,12 @@ export function EditProductModal({
               min="0"
               value={stockMinimoSede}
               onChange={(e) => setStockMinimoSede(e.target.value)}
-              className="w-full h-10 px-3 rounded-xl bg-white/5 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3 rounded-xl superficie-control text-text font-mono text-xs focus:outline-none focus:border-rose-500"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-white/70 mb-1">
+            <label className="block text-xs font-semibold text-text-muted mb-1">
               Estado del producto
             </label>
             <div className="flex items-center gap-3 h-10">
@@ -283,7 +283,7 @@ export function EditProductModal({
                 type="button"
                 onClick={() => setIsActive(!isActive)}
                 className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${
-                  isActive ? 'bg-emerald-500' : 'bg-white/20'
+                  isActive ? 'bg-emerald-500' : 'bg-slate-300 dark:bg-white/20'
                 }`}
               >
                 <span
@@ -292,7 +292,7 @@ export function EditProductModal({
                   }`}
                 />
               </button>
-              <span className="text-xs text-white/70">
+              <span className="text-xs text-text-muted">
                 {isActive ? 'Activo para venta y POS' : 'Inactivo / Oculto'}
               </span>
             </div>

@@ -30,29 +30,17 @@ import type {
   EstadoFacturaSede,
 } from '@/features/admin-sucursal/types/branch-invoicing.types';
 
-function getFechasDefault() {
-  const hoy = new Date();
-  const hace7Dias = new Date();
-  hace7Dias.setDate(hace7Dias.getDate() - 7);
-  return {
-    desde: hace7Dias.toISOString().slice(0, 10),
-    hasta: hoy.toISOString().slice(0, 10),
-  };
-}
-
 export default function FacturasPage() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  const fechasDef = useMemo(() => getFechasDefault(), []);
-
-  // 1. Leer estado desde searchParams de la URL
+  // 1. Leer estado desde searchParams de la URL (sin forzar recorte de fechas por defecto para mostrar todo el historial reciente)
   const texto = searchParams.get('texto') || '';
   const estado = (searchParams.get('estado') as EstadoFacturaSede | 'todas') || 'todas';
   const tipo = (searchParams.get('tipo') as 'POS' | 'B2B' | 'todos') || 'todos';
-  const desde = searchParams.get('desde') || fechasDef.desde;
-  const hasta = searchParams.get('hasta') || fechasDef.hasta;
+  const desde = searchParams.get('desde') || '';
+  const hasta = searchParams.get('hasta') || '';
   const page = parseInt(searchParams.get('page') || '1', 10) || 1;
 
   // 2. Función para actualizar la URL de forma sincronizada
@@ -118,8 +106,8 @@ export default function FacturasPage() {
       texto: undefined,
       estado: undefined,
       tipo: undefined,
-      desde: fechasDef.desde,
-      hasta: fechasDef.hasta,
+      desde: undefined,
+      hasta: undefined,
       page: 1,
     });
   };
@@ -167,7 +155,7 @@ export default function FacturasPage() {
             <button
               type="button"
               onClick={handleLimpiarFiltros}
-              className="px-3 py-1.5 rounded-lg border border-white/20 text-slate-300 hover:text-white hover:bg-white/[0.05] transition-colors text-xs font-semibold cursor-pointer"
+              className="px-3 py-1.5 rounded-lg border border-border superficie-control text-text-muted hover:text-text transition-colors text-xs font-semibold cursor-pointer"
             >
               Limpiar filtros
             </button>

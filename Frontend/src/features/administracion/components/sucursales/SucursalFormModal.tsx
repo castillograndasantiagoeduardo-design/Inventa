@@ -47,7 +47,7 @@ export function SucursalFormModal({ open, sucursal, onClose, onGuardado }: Sucur
     >
       <form id={formId} onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
         {errorGeneral && (
-          <p role="alert" className="rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+          <p role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-600 dark:text-red-200">
             {errorGeneral}
           </p>
         )}

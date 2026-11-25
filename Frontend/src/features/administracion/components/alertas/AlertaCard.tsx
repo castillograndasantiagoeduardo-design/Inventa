@@ -38,12 +38,12 @@ export function AlertaCard({ alerta, procesando, onCambiar, onRevisarCredito }: 
     <article className={`panel-card flex flex-col gap-3 p-4 ${urgente && alerta.estado !== 'atendido' ? 'ring-1 ring-red-400/50' : ''}`}>
       <header className="flex flex-wrap items-start justify-between gap-2">
         <div>
-          <h3 className="font-medium text-white">
+          <h3 className="font-semibold text-text">
             {alerta.motivo === 'SOLICITUD_CREDITO_B2B'
               ? 'Solicitud de Crédito B2B — Revisión de Empresa'
               : alerta.motivo}
           </h3>
-          <p className="text-xs text-white/50">
+          <p className="text-xs text-text-muted">
             {alerta.sucursalNombre ?? `Sucursal ${alerta.sucursalId}`} · {formatFechaHora(alerta.fechaCreacion)}
           </p>
         </div>
@@ -53,10 +53,10 @@ export function AlertaCard({ alerta, procesando, onCambiar, onRevisarCredito }: 
         </div>
       </header>
 
-      {descripcionLimpia && <p className="text-sm text-white/75">{descripcionLimpia}</p>}
+      {descripcionLimpia && <p className="text-sm text-text">{descripcionLimpia}</p>}
 
       <footer className="flex flex-wrap items-center justify-between gap-3">
-        <span className="text-xs text-white/45">
+        <span className="text-xs text-text-muted">
           Reportada por {alerta.usuarioEmail ?? 'un operador'}
           {alerta.fechaAtencion && ` · atendida ${formatFechaHora(alerta.fechaAtencion)}`}
         </span>

@@ -49,6 +49,7 @@ export const ENTIDADES_AUDITORIA = {
   CREDITOS_B2B: 'creditos_b2b',
   ABONOS_CREDITO_B2B: 'abonos_credito_b2b',
   AVISOS_PAGO_CREDITO_B2B: 'avisos_pago_credito_b2b',
+  EMPRESAS: 'empresas',
 } as const;
 
 export type EntidadAuditoria = (typeof ENTIDADES_AUDITORIA)[keyof typeof ENTIDADES_AUDITORIA];
@@ -76,4 +77,5 @@ export const ENTIDADES_AUDITORIA_VALORES = [
   ENTIDADES_AUDITORIA.CREDITOS_B2B,
   ENTIDADES_AUDITORIA.ABONOS_CREDITO_B2B,
   ENTIDADES_AUDITORIA.AVISOS_PAGO_CREDITO_B2B,
+  ENTIDADES_AUDITORIA.EMPRESAS,
 ] as const;

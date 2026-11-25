@@ -47,7 +47,7 @@ export function CambiarRolModal({ usuario, roles, onClose, onHecho }: CambiarRol
     >
       <form id={formId} onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
         {errorGeneral && (
-          <p role="alert" className="rounded-lg border border-red-400/30 bg-red-500/10 px-3 py-2 text-sm text-red-200">
+          <p role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-600 dark:text-red-200">
             {errorGeneral}
           </p>
         )}
@@ -60,7 +60,7 @@ export function CambiarRolModal({ usuario, roles, onClose, onHecho }: CambiarRol
           options={roles.map((r) => ({ value: r.id, label: etiquetaRol(r.nombre) }))}
           hint={roles.find((r) => String(r.id) === valores.rolId)?.descripcion ?? undefined}
         />
-        <p className="text-xs text-white/55">Al cambiar el rol se cierran las sesiones activas del usuario para aplicar los nuevos permisos.</p>
+        <p className="text-xs text-text-muted">Al cambiar el rol se cierran las sesiones activas del usuario para aplicar los nuevos permisos.</p>
       </form>
     </Modal>
   );

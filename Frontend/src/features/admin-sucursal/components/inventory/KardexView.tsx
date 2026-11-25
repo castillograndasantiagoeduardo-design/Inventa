@@ -31,7 +31,12 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
 
   const calcularFechas = (rango: 'todos' | 'hoy' | '7dias' | '30dias' | 'custom') => {
     const hoy = new Date();
-    const formato = (d: Date) => d.toISOString().slice(0, 10);
+    const formato = (d: Date) => {
+      const year = d.getFullYear();
+      const month = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
 
     if (rango === 'hoy') {
       return { desde: formato(hoy), hasta: formato(hoy) };
@@ -135,7 +140,7 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
                 className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-colors cursor-pointer ${
                   rangoRapido === r.id
                     ? 'bg-rose-500 text-white shadow-md shadow-rose-500/20'
-                    : 'bg-white/5 hover:bg-white/10 text-white/70'
+                    : 'superficie-control text-text-muted hover:text-text'
                 }`}
               >
                 {r.label}
@@ -148,7 +153,7 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
             type="button"
             onClick={handleExportarCsv}
             disabled={isExporting}
-            className="px-3.5 py-1.5 rounded-xl border border-white/15 bg-white/5 hover:bg-white/10 text-white text-xs font-semibold transition-colors cursor-pointer disabled:opacity-40 flex items-center gap-1.5"
+            className="px-3.5 py-1.5 rounded-xl border border-border superficie-control text-text hover:text-text text-xs font-semibold transition-colors cursor-pointer disabled:opacity-40 flex items-center gap-1.5"
           >
             <span>📥</span>
             <span>{isExporting ? 'Exportando...' : 'Exportar Kardex (CSV)'}</span>
@@ -156,7 +161,7 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
         </div>
 
         {/* Filtros secundarios: tipo, fechas personalizadas, producto */}
-        <div className="flex flex-wrap gap-2.5 items-center pt-2 border-t border-white/5">
+        <div className="flex flex-wrap gap-2.5 items-center pt-2 border-t border-border">
           {rangoRapido === 'custom' && (
             <div className="flex items-center gap-2">
               <input
@@ -166,9 +171,9 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
                   setFechaDesde(e.target.value);
                   setPage(1);
                 }}
-                className="h-9 px-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500"
+                className="h-9 px-2.5 rounded-xl superficie-control text-xs focus:outline-none focus:border-rose-500"
               />
-              <span className="text-white/40 text-xs">hasta</span>
+              <span className="text-text-muted text-xs">hasta</span>
               <input
                 type="date"
                 value={fechaHasta}
@@ -176,7 +181,7 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
                   setFechaHasta(e.target.value);
                   setPage(1);
                 }}
-                className="h-9 px-2.5 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500"
+                className="h-9 px-2.5 rounded-xl superficie-control text-xs focus:outline-none focus:border-rose-500"
               />
             </div>
           )}
@@ -188,15 +193,15 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
               setPage(1);
             }}
             aria-label="Filtrar por tipo de movimiento"
-            className="h-9 px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
+            className="h-9 px-3 rounded-xl superficie-control text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
           >
-            <option value="todos">Todos los tipos de movimiento</option>
-            <option value="entrada">Entradas de mercancía</option>
-            <option value="salida">Salidas manuales</option>
-            <option value="ajuste_positivo">Ajustes positivos (+)</option>
-            <option value="ajuste_negativo">Ajustes negativos (-)</option>
-            <option value="venta">Ventas POS / Facturas</option>
-            <option value="devolucion">Devoluciones</option>
+            <option value="todos" className="bg-black text-white">Todos los tipos de movimiento</option>
+            <option value="entrada" className="bg-black text-white">Entradas de mercancía</option>
+            <option value="salida" className="bg-black text-white">Todas las salidas</option>
+            <option value="venta" className="bg-black text-white">Ventas POS / Facturas</option>
+            <option value="ajuste_positivo" className="bg-black text-white">Ajustes positivos (+)</option>
+            <option value="ajuste_negativo" className="bg-black text-white">Ajustes negativos (-)</option>
+            <option value="devolucion" className="bg-black text-white">Devoluciones</option>
           </select>
 
           <input
@@ -207,7 +212,7 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
               setProductoId(e.target.value);
               setPage(1);
             }}
-            className="h-9 px-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 text-xs focus:outline-none focus:border-rose-500 w-full sm:w-64"
+            className="h-9 px-3 rounded-xl superficie-control text-xs placeholder:text-text-muted focus:outline-none focus:border-rose-500 w-full sm:w-64"
           />
 
           {(productoId || tipo !== 'todos' || fechaDesde || fechaHasta) && (
@@ -246,7 +251,7 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-white/[0.08] text-white/50 uppercase tracking-wider text-[11px]">
+                <tr className="border-b border-border text-text-muted uppercase tracking-wider text-[11px]">
                   <th className="py-3 px-4">Fecha / Hora</th>
                   <th className="py-3 px-4">Producto</th>
                   <th className="py-3 px-4">Tipo</th>
@@ -256,29 +261,29 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
                   <th className="py-3 px-4">Responsable</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/[0.04]">
+              <tbody className="divide-y divide-border">
                 {items.map((m) => {
                   const isPositive = m.cantidad > 0;
-                  let badgeColor = 'bg-white/5 text-white/70 border-white/10';
+                  let badgeColor = 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-white/5 dark:text-text-muted dark:border-white/10';
                   if (m.tipo.includes('entrada') || m.tipo.includes('positivo')) {
-                    badgeColor = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
+                    badgeColor = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20';
                   } else if (m.tipo.includes('salida') || m.tipo.includes('negativo') || m.tipo.includes('venta')) {
-                    badgeColor = 'bg-red-500/10 text-red-400 border-red-500/20';
+                    badgeColor = 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20';
                   } else if (m.tipo.includes('devolucion')) {
-                    badgeColor = 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+                    badgeColor = 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20';
                   }
 
                   return (
-                    <tr key={m.id} className="hover:bg-white/[0.02]">
-                      <td className="py-3 px-4 text-white/60 whitespace-nowrap">
+                    <tr key={m.id} className="hover:bg-slate-900/5 dark:hover:bg-white/[0.02] transition-colors">
+                      <td className="py-3 px-4 text-text-muted whitespace-nowrap">
                         {new Date(m.fecha).toLocaleString()}
                       </td>
                       <td className="py-3 px-4">
-                        <div className="font-semibold text-white">
+                        <div className="font-semibold text-text">
                           {m.productoNombre || `Producto #${m.productoId}`}
                         </div>
                         {m.productoSku && (
-                          <div className="text-[11px] font-mono text-white/40">
+                          <div className="text-[11px] font-mono text-text-muted">
                             {m.productoSku}
                           </div>
                         )}
@@ -289,17 +294,17 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
                         </span>
                       </td>
                       <td className="py-3 px-4 text-right font-mono font-bold">
-                        <span className={isPositive ? 'text-emerald-400' : 'text-red-400'}>
+                        <span className={isPositive ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}>
                           {isPositive ? `+${m.cantidad}` : m.cantidad}
                         </span>
                       </td>
-                      <td className="py-3 px-4 text-right font-mono text-white/80 tabular-nums">
+                      <td className="py-3 px-4 text-right font-mono text-text tabular-nums">
                         {m.stockResultante !== undefined ? m.stockResultante : '-'}
                       </td>
-                      <td className="py-3 px-4 text-white/70 max-w-xs truncate">
+                      <td className="py-3 px-4 text-text-muted max-w-xs truncate">
                         {m.motivo || (m.facturaId ? `Factura #${m.facturaId}` : '-')}
                       </td>
-                      <td className="py-3 px-4 text-white/60">
+                      <td className="py-3 px-4 text-text-muted">
                         {m.usuarioNombre || (m.usuarioId ? `Usuario #${m.usuarioId}` : '-')}
                       </td>
                     </tr>
@@ -311,7 +316,7 @@ export function KardexView({ sucursalId, productoIdInicial = '' }: KardexViewPro
         )}
 
         {total > limit && (
-          <div className="p-4 border-t border-white/[0.08]">
+          <div className="p-4 border-t border-border">
             <Pagination
               page={page}
               totalPages={totalPages}

@@ -5,8 +5,15 @@
 import { DomainError, Result } from '@inventa/shared-kernel';
 import type { IPasswordService } from '../../../autenticacion/domain/services/IPasswordService.ts';
 import { CredencialesInvalidasError } from '../../../autenticacion/domain/errors/AutenticacionErrors.ts';
+import { ACCIONES_AUDITORIA, type ActorAuditoria, ENTIDADES_AUDITORIA } from '../../../auditoria/domain/entities/LogAuditoria.ts';
+import type { IAuditor } from '../../../auditoria/domain/repositories/IAuditoriaRepository.ts';
 import type { Cuenta, Plan } from '../../domain/entities/Suscripciones.ts';
-import { CorreoYaRegistradoError, CuentaNoEncontradaError, LogoInvalidoError } from '../../domain/errors/SuscripcionesErrors.ts';
+import {
+  CorreoYaRegistradoError,
+  CuentaNoEncontradaError,
+  EmpresaNoEncontradaError,
+  LogoInvalidoError,
+} from '../../domain/errors/SuscripcionesErrors.ts';
 import type {
   ICuentaRepository,
   IMarcaEmpresaRepository,
@@ -131,5 +138,53 @@ export class ObtenerMarcaEmpresaUseCase {
 
   async execute(empresaId: number): Promise<Result<MarcaEmpresa, DomainError>> {
     return Result.ok((await this.marcas.obtener(empresaId)) ?? { colorPrincipal: null, logoVersion: null });
+  }
+}
+
+/** Cambia el logo de la empresa activa desde el panel del Super Admin y registra auditoría. */
+export class ActualizarLogoEmpresaUseCase {
+  constructor(
+    private readonly marcas: IMarcaEmpresaRepository,
+    private readonly analizador: IAnalizadorLogo,
+    private readonly auditor: IAuditor,
+  ) {}
+
+  async execute(datos: {
+    empresaId: number;
+    logoPng: Uint8Array;
+    actor: ActorAuditoria;
+  }): Promise<Result<MarcaEmpresa, DomainError>> {
+    const logo = validarLogo(this.analizador, datos.logoPng);
+    if (logo.isFailure) return Result.fail(logo.error);
+
+    const antes = await this.marcas.obtener(datos.empresaId);
+    if (!antes) return Result.fail(new EmpresaNoEncontradaError());
+
+    const actualizada = await this.marcas.actualizarLogo(datos.empresaId, logo.value);
+    if (!actualizada) return Result.fail(new EmpresaNoEncontradaError());
+
+    const nuevaMarca: MarcaEmpresa = {
+      colorPrincipal: logo.value.colorPrincipal,
+      logoVersion: logo.value.version,
+    };
+
+    await this.auditor.registrar({
+      actor: datos.actor,
+      accion: ACCIONES_AUDITORIA.EDITAR,
+      entidad: ENTIDADES_AUDITORIA.EMPRESAS,
+      entidadId: String(datos.empresaId),
+      detalles: {
+        antes: {
+          colorPrincipal: antes.colorPrincipal,
+          logoVersion: antes.logoVersion,
+        },
+        despues: {
+          colorPrincipal: nuevaMarca.colorPrincipal,
+          logoVersion: nuevaMarca.logoVersion,
+        },
+      },
+    });
+
+    return Result.ok(nuevaMarca);
   }
 }

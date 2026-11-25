@@ -5,7 +5,7 @@
  * Vista principal rediseñada con glassmorphism, KPIs interactivos y acciones modales.
  */
 
-import React, { Suspense, useState, useEffect } from 'react';
+import React, { Suspense, useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { usePermissions } from '@/features/autenticacion';
 import { useBranchInventory } from '@/features/admin-sucursal';
@@ -86,6 +86,16 @@ function InventarioProductosContenido() {
   const [kardexLoading, setKardexLoading] = useState(false);
   const [isExporting, setIsExporting] = useState(false);
 
+  // Mantener productoSeleccionado sincronizado cuando la lista de productos se recarga
+  useEffect(() => {
+    if (productoSeleccionado) {
+      const actualizado = productos.find((p) => p.id === productoSeleccionado.id);
+      if (actualizado) {
+        setProductoSeleccionado(actualizado);
+      }
+    }
+  }, [productos]);
+
   // Sincronizar URL cuando cambian los filtros
   const actualizarUrl = (nuevos: Record<string, string | number | undefined | null>) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -151,17 +161,17 @@ function InventarioProductosContenido() {
   };
 
   // Consultar Kardex para el modal rápido
-  const handleConsultarKardexRapido = async (params: any) => {
+  const handleConsultarKardexRapido = useCallback(async (params: any) => {
     setKardexLoading(true);
     try {
       const res = await branchInventoryService.consultarKardex(params);
-      setKardexMovimientos(res.items);
+      setKardexMovimientos(res?.items || []);
     } catch {
       setKardexMovimientos([]);
     } finally {
       setKardexLoading(false);
     }
-  };
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -257,6 +267,7 @@ function InventarioProductosContenido() {
         open={drawerOpen}
         producto={productoSeleccionado}
         sucursalId={sucursalId}
+        proveedores={proveedores}
         onClose={() => setDrawerOpen(false)}
         onEditar={(p) => {
           setDrawerOpen(false);
@@ -276,7 +287,16 @@ function InventarioProductosContenido() {
           setProductoSeleccionado(p);
           setMinStockModalOpen(true);
         }}
-        onStockActualizado={recargar}
+        onCambiarEstado={(p, nuevoEstado) => {
+          cambiarEstado(p.id, nuevoEstado);
+          setProductoSeleccionado((prev) => (prev && prev.id === p.id ? { ...prev, isActive: nuevoEstado } : prev));
+        }}
+        onStockActualizado={(nuevoMinimo) => {
+          recargar();
+          if (nuevoMinimo !== undefined) {
+            setProductoSeleccionado((prev) => (prev ? { ...prev, stockMinimo: nuevoMinimo } : null));
+          }
+        }}
       />
 
       {/* 5. Modales Operativos */}
@@ -286,6 +306,7 @@ function InventarioProductosContenido() {
         onProductoCreado={recargar}
         sucursalId={sucursalId}
         categorias={categorias}
+        proveedores={proveedores}
       />
 
       <EditProductModal
@@ -330,8 +351,14 @@ function InventarioProductosContenido() {
       <AdjustMinStockModal
         open={minStockModalOpen}
         producto={productoSeleccionado}
+        sucursalId={sucursalId}
         onClose={() => setMinStockModalOpen(false)}
-        onGuardado={recargar}
+        onGuardado={(nuevoMinimo) => {
+          recargar();
+          if (nuevoMinimo !== undefined) {
+            setProductoSeleccionado((prev) => (prev ? { ...prev, stockMinimo: nuevoMinimo } : null));
+          }
+        }}
       />
 
       <BranchKardexModal

@@ -96,10 +96,10 @@ export function ProductsFilterBar({
             placeholder="Buscar por nombre o código..."
             value={texto}
             onChange={(e) => setTexto(e.target.value)}
-            className="w-full h-10 px-3.5 pl-9 rounded-xl bg-white/[0.04] border border-white/10 text-white placeholder-white/40 text-xs focus:outline-none focus:border-rose-500/60 transition-colors"
+            className="w-full h-10 px-3.5 pl-9 rounded-xl superficie-control text-xs placeholder:text-text-muted focus:outline-none focus:border-rose-500/60 transition-colors"
           />
           <svg
-            className="w-4 h-4 absolute left-3 top-3 text-white/40 pointer-events-none"
+            className="w-4 h-4 absolute left-3 top-3 text-text-muted pointer-events-none"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -117,16 +117,16 @@ export function ProductsFilterBar({
           value={categoriaSeleccionada}
           onChange={handleCategoriaChange}
           aria-label="Filtrar por categoría"
-          className="h-10 w-full sm:w-auto px-3 rounded-xl bg-white/[0.04] border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500/60 transition-colors cursor-pointer"
+          className="h-10 w-full sm:w-auto px-3 rounded-xl superficie-control text-xs focus:outline-none focus:border-rose-500/60 transition-colors cursor-pointer"
         >
-          <option value="todas" className="bg-[#0f172a] text-white">
+          <option value="todas" className="bg-black text-white">
             Todas las categorías
           </option>
-          <option value="-1" className="bg-[#0f172a] text-white">
+          <option value="-1" className="bg-black text-white">
             Sin categoría
           </option>
           {categorias.map((c) => (
-            <option key={c.id} value={c.id} className="bg-[#0f172a] text-white">
+            <option key={c.id} value={c.id} className="bg-black text-white">
               {c.nombre}
             </option>
           ))}
@@ -136,15 +136,15 @@ export function ProductsFilterBar({
           value={estadoSeleccionado}
           onChange={handleEstadoChange}
           aria-label="Filtrar por estado del producto"
-          className="h-10 w-full sm:w-auto px-3 rounded-xl bg-white/[0.04] border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500/60 transition-colors cursor-pointer"
+          className="h-10 w-full sm:w-auto px-3 rounded-xl superficie-control text-xs focus:outline-none focus:border-rose-500/60 transition-colors cursor-pointer"
         >
-          <option value="activo" className="bg-[#0f172a] text-white">
+          <option value="activo" className="bg-black text-white">
             Activos
           </option>
-          <option value="inactivo" className="bg-[#0f172a] text-white">
+          <option value="inactivo" className="bg-black text-white">
             Inactivos
           </option>
-          <option value="todos" className="bg-[#0f172a] text-white">
+          <option value="todos" className="bg-black text-white">
             Todos
           </option>
         </select>
@@ -155,7 +155,7 @@ export function ProductsFilterBar({
         <button
           type="button"
           onClick={onImportarCsv}
-          className="h-10 px-3.5 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-white text-xs font-medium transition-colors cursor-pointer"
+          className="h-10 px-3.5 rounded-xl border border-border superficie-control text-text hover:text-text text-xs font-medium transition-colors cursor-pointer"
         >
           Importar CSV
         </button>
@@ -164,7 +164,7 @@ export function ProductsFilterBar({
           type="button"
           onClick={onExportarCsv}
           disabled={isExporting}
-          className="h-10 px-3.5 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-white text-xs font-medium transition-colors cursor-pointer disabled:opacity-50"
+          className="h-10 px-3.5 rounded-xl border border-border superficie-control text-text hover:text-text text-xs font-medium transition-colors cursor-pointer disabled:opacity-50"
         >
           {isExporting ? 'Exportando...' : 'Exportar CSV'}
         </button>
@@ -172,7 +172,7 @@ export function ProductsFilterBar({
         <button
           type="button"
           onClick={onRegistrarEntrada}
-          className="h-10 px-3.5 rounded-xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] text-white text-xs font-medium transition-colors cursor-pointer"
+          className="h-10 px-3.5 rounded-xl border border-border superficie-control text-text hover:text-text text-xs font-medium transition-colors cursor-pointer"
         >
           Entrada de mercancía
         </button>

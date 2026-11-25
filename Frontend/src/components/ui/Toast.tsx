@@ -32,7 +32,7 @@ const DURACION_MS = 4500;
 const TONE_CLASSES: Record<ToastTone, string> = {
   success: 'border-emerald-400/40 bg-emerald-950/90 text-emerald-100',
   error: 'border-red-400/40 bg-red-950/90 text-red-100',
-  info: 'border-[#e3b341]/40 bg-[#14213d]/95 text-white',
+  info: 'vidrio-popover border-brand-500/40 text-text',
 };
 
 const TONE_ICON: Record<ToastTone, string> = { success: '✔', error: '✖', info: 'ℹ' };

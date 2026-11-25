@@ -10,7 +10,12 @@ import {
     FacturacionSinTurnoAbiertoError,
     PagoInvalidoError,
 } from '../../domain/errors/FacturacionErrors.ts';
-import { StockInsuficienteError } from '../../../inventario/domain/errors/InventarioErrors.ts';
+import {
+    ProductoInactivoError,
+    ProductoNoEncontradoError,
+    StockInsuficienteError,
+} from '../../../inventario/domain/errors/InventarioErrors.ts';
+import { IProductoRepository } from '../../../inventario/domain/repositories/IProductoRepository.ts';
 import { OperadorSinSucursalError } from '../../domain/errors/TurnoCajaErrors.ts';
 import { IFacturaRepository } from '../../domain/repositories/IFacturaRepository.ts';
 import { ITurnoCajaRepository } from '../../domain/repositories/ITurnoCajaRepository.ts';
@@ -55,6 +60,7 @@ export class CrearFacturaUseCase {
         private readonly sucursalOperadorRepository: ISucursalOperadorRepository,
         private readonly auditor: IAuditor,
         private readonly carteraRepository?: ICarteraRepository,
+        private readonly productoRepository?: IProductoRepository,
     ) { }
 
     public async execute(request: CrearFacturaRequest): Promise<CrearFacturaResponse> {
@@ -108,6 +114,24 @@ export class CrearFacturaUseCase {
             return Result.fail(
                 new CupoCreditoInsuficienteError(cliente.cupoCreditoDisponible, montoCredito),
             );
+        }
+
+        // 3.b Validar que todos los productos de la venta existan y estén activos en el catálogo maestro
+        if (this.productoRepository) {
+            const idsUnicos = Array.from(new Set(request.items.map((i) => i.productoId)));
+            for (const productoId of idsUnicos) {
+                const producto = await this.productoRepository.findById(productoId);
+                if (!producto) {
+                    return Result.fail(new ProductoNoEncontradoError());
+                }
+                if (!producto.isActive) {
+                    return Result.fail(
+                        new ProductoInactivoError(
+                            `El producto "${producto.nombre}" se encuentra inactivo en el catálogo y no puede ser vendido.`,
+                        ),
+                    );
+                }
+            }
         }
 
         // 4. Totales calculados en el dominio
@@ -174,6 +198,8 @@ export class CrearFacturaUseCase {
         } catch (error) {
             if (
                 error instanceof StockInsuficienteError ||
+                error instanceof ProductoInactivoError ||
+                error instanceof ProductoNoEncontradoError ||
                 error instanceof CreditoNoHabilitadoError ||
                 error instanceof PagoInvalidoError ||
                 error instanceof FacturacionSinTurnoAbiertoError

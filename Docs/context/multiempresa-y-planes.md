@@ -47,10 +47,10 @@ Para cambiar qué incluye un plan basta editar `plan_permisos` en la base centra
 - El servidor detecta su **color principal** (`AnalizadorLogoPng`): ignora transparencias, blancos y negros,
   prefiere los colores saturados y ajusta la luminosidad para que sirva de acento en claro y oscuro.
 - Logo y color se guardan en `cuentas` (base central) y se copian a `empresas` al comprar el plan.
-  Se pueden cambiar en **Mi cuenta → Marca de tu empresa** (`PUT /cuentas/logo`).
+  Se pueden cambiar en **Mi cuenta → Marca de tu empresa** (`PUT /cuentas/logo`) o directamente desde el panel del Super Admin en **`/dashboard/cuenta`** (`PUT /empresa/logo`, con auditoría en la base de la empresa y sincronización en la base central).
 - En el panel (`features/marca`): el color genera la paleta **"Mi empresa"** (se activa sola la primera vez
   y se puede cambiar en el selector), el logo reemplaza las iniciales del perfil y aparece tenue de fondo
-  en todas las vistas del panel y el POS. Endpoints: `GET /empresa/marca` y `GET /empresa/logo?v=<versión>`.
+  en todas las vistas del panel (Super Admin, Admin de Sucursal, Vendedor B2B) y el POS. Endpoints: `GET /empresa/marca`, `GET /empresa/logo?v=<versión>` y `PUT /empresa/logo`.
 
 ## Puesta en marcha (una vez por equipo)
 

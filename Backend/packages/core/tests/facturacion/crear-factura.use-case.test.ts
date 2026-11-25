@@ -439,3 +439,65 @@ Deno.test('CrearFactura: venta a crédito corporativo registra la obligación en
     assertEquals(registrados[0].monto, 600_000);
     assertEquals(registrados[0].plazoDias, 45);
 });
+
+Deno.test('CrearFactura: rechaza venta si alguno de los productos está inactivo en el catálogo', async () => {
+    const cliente = makeCliente('cli-1', 'B2C');
+    const { facturaRepo, turnoRepo, clienteRepo, sucursalRepo, auditor, facturasGuardadas } = (() => {
+        const base = armar({
+            turnosAbiertos: { 'usr-cajero-1': makeTurno('turno-1', 'usr-cajero-1') },
+            clientes: { 'cli-1': cliente },
+            sucursalId: 1,
+        });
+        return {
+            ...base,
+            facturaRepo: (base.useCase as any).facturaRepository,
+            turnoRepo: (base.useCase as any).turnoRepository,
+            clienteRepo: (base.useCase as any).clienteRepository,
+            sucursalRepo: (base.useCase as any).sucursalOperadorRepository,
+        };
+    })();
+
+    const productoInactivoId = crypto.randomUUID();
+    const productoRepoFake: any = {
+        findById: (id: string) =>
+            Promise.resolve(
+                id === productoInactivoId
+                    ? { id, sku: 'INA-01', nombre: 'Mouse Inactivo', isActive: false }
+                    : { id, sku: 'ACT-01', nombre: 'Teclado Activo', isActive: true },
+            ),
+    };
+
+    const useCaseConProducto = new CrearFacturaUseCase(
+        facturaRepo,
+        turnoRepo,
+        clienteRepo,
+        sucursalRepo,
+        auditor,
+        undefined,
+        productoRepoFake,
+    );
+
+    const result = await useCaseConProducto.execute({
+        clienteId: 'cli-1',
+        items: [
+            {
+                productoId: productoInactivoId,
+                cantidad: 1,
+                precioUnitario: 25000,
+            },
+        ],
+        pagos: [
+            {
+                medioPago: 'efectivo',
+                monto: 25000,
+            },
+        ],
+        esB2B: false,
+        actor: actorCajeroConTurno,
+    });
+
+    assertEquals(result.isFailure, true);
+    assertEquals(result.error.code, 'PRODUCTO_INACTIVO');
+    assertEquals(facturasGuardadas.length, 0);
+    assertEquals(auditor.eventos.length, 0);
+});

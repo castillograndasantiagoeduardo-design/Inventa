@@ -69,7 +69,7 @@ export function DataTable<T>({
       <div className="overflow-x-auto">
         <table className="w-full min-w-[640px] text-sm">
           {caption && <caption className="sr-only">{caption}</caption>}
-          <thead className="bg-white/[0.03] text-[11px] uppercase tracking-wider text-white/60 font-[family-name:var(--font-ui)]">
+          <thead className="bg-slate-900/3 dark:bg-white/3 text-[11px] uppercase tracking-wider text-text-muted font-sans">
             <tr>
               {columns.map((col) => {
                 const activo = sort?.key === col.key;
@@ -80,7 +80,7 @@ export function DataTable<T>({
                       <button
                         type="button"
                         onClick={() => alternarOrden(col.key)}
-                        className={`inline-flex min-h-[44px] items-center gap-1 uppercase tracking-wider cursor-pointer hover:text-white ${activo ? 'text-[#e9b949]' : ''}`}
+                        className={`inline-flex min-h-[44px] items-center gap-1 uppercase tracking-wider cursor-pointer hover:text-text ${activo ? 'text-brand-600 dark:text-brand-300' : ''}`}
                       >
                         {col.header}
                         <span aria-hidden="true">{activo ? (sort!.direction === 'asc' ? '▲' : '▼') : '↕'}</span>
@@ -93,7 +93,7 @@ export function DataTable<T>({
               })}
             </tr>
           </thead>
-          <tbody className="divide-y divide-white/5">
+          <tbody className="divide-y divide-border">
             {loading &&
               Array.from({ length: 5 }, (_, i) => (
                 <tr key={`sk-${i}`}>
@@ -106,9 +106,9 @@ export function DataTable<T>({
               ))}
             {!loading &&
               rows.map((row) => (
-                <tr key={rowKey(row)} className="hover:bg-white/[0.03] transition-colors">
+                <tr key={rowKey(row)} className="hover:bg-slate-900/3 dark:hover:bg-white/3 transition-colors">
                   {columns.map((col) => (
-                    <td key={col.key} className={`px-4 py-3 text-white/85 ${ALIGN[col.align ?? 'left']} ${col.className ?? ''}`}>
+                    <td key={col.key} className={`px-4 py-3 text-text ${ALIGN[col.align ?? 'left']} ${col.className ?? ''}`}>
                       {col.render ? col.render(row) : String((row as Record<string, unknown>)[col.key] ?? '—')}
                     </td>
                   ))}

@@ -231,4 +231,15 @@ export class CentralMarcaEmpresaRepository implements IMarcaEmpresaRepository {
     const [f] = await this.central().select({ png: empresas.logo_png }).from(empresas).where(eq(empresas.id_empresa, empresaId)).limit(1);
     return f?.png ?? null;
   }
+
+  async actualizarLogo(empresaId: number, logo: LogoValidado): Promise<boolean> {
+    const valores = { logo_png: logo.png, logo_version: logo.version, color_principal: logo.colorPrincipal };
+    const [res] = await this.central().update(empresas).set(valores).where(eq(empresas.id_empresa, empresaId));
+    if (res.affectedRows === 0) {
+      const [existe] = await this.central().select({ id: empresas.id_empresa }).from(empresas).where(eq(empresas.id_empresa, empresaId)).limit(1);
+      if (!existe) return false;
+    }
+    await this.central().update(cuentas).set(valores).where(eq(cuentas.empresa_id, empresaId));
+    return true;
+  }
 }

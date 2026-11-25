@@ -128,11 +128,11 @@ export function UsuariosView() {
         message={
           estado.objetivo?.isActive ? (
             <p>
-              <strong className="text-white">{estado.objetivo?.nombre}</strong> no podrá iniciar sesión y se cerrarán sus sesiones activas.
+              <strong className="text-text">{estado.objetivo?.nombre}</strong> no podrá iniciar sesión y se cerrarán sus sesiones activas.
             </p>
           ) : (
             <p>
-              <strong className="text-white">{estado.objetivo?.nombre}</strong> podrá volver a iniciar sesión.
+              <strong className="text-text">{estado.objetivo?.nombre}</strong> podrá volver a iniciar sesión.
             </p>
           )
         }

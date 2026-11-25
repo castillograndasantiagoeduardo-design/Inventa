@@ -18,6 +18,8 @@ export interface ICuentaRepository {
 export interface IMarcaEmpresaRepository {
   obtener(empresaId: number): Promise<MarcaEmpresa | null>;
   obtenerLogo(empresaId: number): Promise<Uint8Array | null>;
+  /** Actualiza el logo y color de la empresa (y sincroniza la cuenta asociada si existe). Devuelve false si la empresa no existe. */
+  actualizarLogo(empresaId: number, logo: LogoValidado): Promise<boolean>;
 }
 
 export interface IPlanRepository {

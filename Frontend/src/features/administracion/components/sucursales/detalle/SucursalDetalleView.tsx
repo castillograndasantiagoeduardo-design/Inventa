@@ -24,7 +24,7 @@ import { SucursalUsuarios } from './SucursalUsuarios';
 import { SucursalVentasRecientes } from './SucursalVentasRecientes';
 
 const VOLVER = (
-  <Link href="/dashboard/sucursales" className="inline-flex min-h-[44px] items-center text-white/60 hover:text-[#e9b949]">
+  <Link href="/dashboard/sucursales" className="inline-flex min-h-[40px] items-center text-text-muted hover:text-brand-600 dark:hover:text-brand-300 transition-colors">
     ← Sucursales
   </Link>
 );

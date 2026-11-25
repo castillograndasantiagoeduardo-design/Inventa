@@ -24,6 +24,7 @@ Antes de implementar o modificar código en cualquier módulo, consulta los docu
 
 ### 🏛️ Arquitectura y Reglas Fundamentales
 * **[Docs/context/arquitectura-inventa.md](Docs/context/arquitectura-inventa.md):** Documento técnico integral de arquitectura (Clean Architecture, DDD, dependencias entre paquetes, triggers de base de datos).
+* **[Docs/context/multiempresa-y-planes.md](Docs/context/multiempresa-y-planes.md):** Multiempresa (base central + una base por empresa), cuentas, planes, pagos y marca/logo corporativo (`GET/PUT /cuentas/logo`, `GET /empresa/marca`, `GET/PUT /empresa/logo`).
 * **[Docs/adr/0001-architecture-rules.md](Docs/adr/0001-architecture-rules.md):** Matriz estricta de dependencias entre paquetes del monorepo.
 * **[Docs/adr/0002-auditoria.md](Docs/adr/0002-auditoria.md):** Especificación del sistema unificado de auditoría transversal `IAuditor`.
 * **[Docs/context/proyecto-inventa.md](Docs/context/proyecto-inventa.md):** Especificación funcional y de requisitos completa del sistema.

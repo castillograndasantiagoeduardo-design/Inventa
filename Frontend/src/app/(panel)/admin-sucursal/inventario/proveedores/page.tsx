@@ -79,10 +79,10 @@ export default function AdminSucursalInventarioProveedoresPage() {
                 setBusqueda(e.target.value);
                 setPage(1);
               }}
-              className="w-full h-10 px-3.5 pl-9 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/40 text-xs focus:outline-none focus:border-rose-500"
+              className="w-full h-10 px-3.5 pl-9 rounded-xl superficie-control text-xs placeholder:text-text-muted focus:outline-none focus:border-rose-500"
             />
             <svg
-              className="w-4 h-4 absolute left-3 top-3 text-white/40 pointer-events-none"
+              className="w-4 h-4 absolute left-3 top-3 text-text-muted pointer-events-none"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -103,11 +103,11 @@ export default function AdminSucursalInventarioProveedoresPage() {
               setPage(1);
             }}
             aria-label="Filtrar por estado"
-            className="h-10 w-full sm:w-auto px-3 rounded-xl bg-white/5 border border-white/10 text-white text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
+            className="h-10 w-full sm:w-auto px-3 rounded-xl superficie-control text-xs focus:outline-none focus:border-rose-500 cursor-pointer"
           >
-            <option value="todos">Todos los estados</option>
-            <option value="activo">Solo activos</option>
-            <option value="inactivo">Solo inactivos</option>
+            <option value="todos" className="bg-black text-white">Todos los estados</option>
+            <option value="activo" className="bg-black text-white">Solo activos</option>
+            <option value="inactivo" className="bg-black text-white">Solo inactivos</option>
           </select>
         </div>
 
@@ -148,37 +148,37 @@ export default function AdminSucursalInventarioProveedoresPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-white/[0.08] text-white/50 uppercase tracking-wider text-[11px]">
+                  <tr className="border-b border-border text-text-muted uppercase tracking-wider text-[11px]">
                     <th className="py-3 px-4">Razón Social / Proveedor</th>
                     <th className="py-3 px-4">Contacto / Teléfono / Asesor</th>
                     <th className="py-3 px-4 text-center">Estado</th>
                     <th className="py-3 px-4 text-right">Acciones</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-white/[0.04]">
+                <tbody className="divide-y divide-border">
                   {itemsPaginados.map((p) => {
                     const isActive = p.isActive ?? true;
                     return (
-                      <tr key={p.id} className="hover:bg-white/[0.02]">
+                      <tr key={p.id} className="hover:bg-slate-900/5 dark:hover:bg-white/[0.02] transition-colors">
                         <td className="py-3 px-4">
-                          <div className="font-semibold text-white">
+                          <div className="font-semibold text-text">
                             {p.nombre}
                           </div>
-                          <div className="text-[11px] font-mono text-white/40">
+                          <div className="text-[11px] font-mono text-text-muted">
                             ID #{p.id}
                           </div>
                         </td>
-                        <td className="py-3 px-4 text-white/70">
+                        <td className="py-3 px-4 text-text-muted">
                           {p.contacto || (
-                            <span className="text-white/30 italic">Sin datos de contacto</span>
+                            <span className="text-text-muted/60 italic">Sin datos de contacto</span>
                           )}
                         </td>
                         <td className="py-3 px-4 text-center">
                           <span
                             className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider border ${
                               isActive
-                                ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/25'
-                                : 'bg-white/5 text-white/40 border-white/10'
+                                ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25'
+                                : 'bg-slate-100 text-slate-500 border-slate-200 dark:bg-white/5 dark:text-text-muted dark:border-white/10'
                             }`}
                           >
                             {isActive ? 'Activo' : 'Inactivo'}
@@ -192,7 +192,7 @@ export default function AdminSucursalInventarioProveedoresPage() {
                                 setProveedorSeleccionado(p);
                                 setEditModalOpen(true);
                               }}
-                              className="px-2.5 py-1 rounded-lg border border-white/10 hover:bg-white/5 text-white/80 hover:text-white text-[11px] font-medium transition-colors cursor-pointer"
+                              className="px-2.5 py-1 rounded-lg border border-border superficie-control text-text-muted hover:text-text text-[11px] font-medium transition-colors cursor-pointer"
                             >
                               Editar
                             </button>
@@ -201,8 +201,8 @@ export default function AdminSucursalInventarioProveedoresPage() {
                               onClick={() => handleToggleEstado(p)}
                               className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-colors cursor-pointer ${
                                 isActive
-                                  ? 'bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20'
-                                  : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20'
+                                  ? 'bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-500/20'
+                                  : 'bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
                               }`}
                             >
                               {isActive ? 'Inactivar' : 'Activar'}
@@ -217,7 +217,7 @@ export default function AdminSucursalInventarioProveedoresPage() {
             </div>
 
             {total > limit && (
-              <div className="p-4 border-t border-white/[0.08]">
+              <div className="p-4 border-t border-border">
                 <Pagination
                   page={page}
                   totalPages={totalPages}

@@ -12,13 +12,13 @@ interface PaginationProps {
 }
 
 const BTN =
-  'min-h-[44px] min-w-[44px] rounded-lg border border-white/15 px-3 text-sm hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer';
+  'min-h-[44px] min-w-[44px] rounded-lg border border-border px-3 text-sm hover:bg-slate-900/6 dark:hover:bg-white/10 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer';
 
 export function Pagination({ page, totalPages, total, onPageChange }: PaginationProps) {
   return (
-    <nav aria-label="Paginación" className="flex items-center justify-between gap-3 border-t border-white/10 px-4 py-2 text-xs text-white/60">
+    <nav aria-label="Paginación" className="flex items-center justify-between gap-3 border-t border-border px-4 py-2 text-xs text-text-muted">
       <span>
-        Página <strong className="text-white">{page}</strong> de {totalPages}
+        Página <strong className="text-text">{page}</strong> de {totalPages}
         {total !== undefined && <> · {total} registros</>}
       </span>
       <div className="flex gap-2">

@@ -42,6 +42,7 @@ export const ENTIDADES_AUDITORIA = {
   CREDITOS_B2B: 'creditos_b2b',
   ABONOS_CREDITO_B2B: 'abonos_credito_b2b',
   AVISOS_PAGO_CREDITO_B2B: 'avisos_pago_credito_b2b',
+  EMPRESAS: 'empresas',
 } as const;
 
 /** Quién ejecuta la operación y desde dónde. Lo arma la capa HTTP a partir del token. */

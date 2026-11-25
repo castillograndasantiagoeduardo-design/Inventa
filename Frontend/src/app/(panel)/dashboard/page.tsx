@@ -31,7 +31,7 @@ export default function DashboardPage() {
 
   if (esAdminSucursal) {
     return (
-      <div className="panel-card flex items-center justify-center p-8 text-white/70">
+      <div className="panel-card flex items-center justify-center p-8 text-text-muted">
         <p>Redirigiendo al panel de administración de sucursal...</p>
       </div>
     );
@@ -39,7 +39,7 @@ export default function DashboardPage() {
 
   if (esVendedorB2B) {
     return (
-      <div className="panel-card flex items-center justify-center p-8 text-white/70">
+      <div className="panel-card flex items-center justify-center p-8 text-text-muted">
         <p>Redirigiendo a la terminal de ventas B2B...</p>
       </div>
     );

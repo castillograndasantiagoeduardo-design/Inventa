@@ -33,18 +33,18 @@ export function FormField({ label, error, hint, required, className = '', childr
 
   return (
     <div className={`flex flex-col gap-1.5 ${className}`}>
-      <label htmlFor={id} className="text-xs uppercase tracking-wider text-white/70 font-[family-name:var(--font-ui)]">
+      <label htmlFor={id} className="text-xs uppercase tracking-wider text-text-muted font-sans">
         {label}
-        {required && <span className="text-[#e9b949]"> *</span>}
+        {required && <span className="text-brand-600 dark:text-brand-300"> *</span>}
       </label>
       {children({ id, 'aria-invalid': Boolean(error), 'aria-describedby': describedBy })}
       {hint && !error && (
-        <p id={hintId} className="text-xs text-white/50">
+        <p id={hintId} className="text-xs text-text-muted">
           {hint}
         </p>
       )}
       {error && (
-        <p id={errorId} role="alert" className="text-xs text-red-300">
+        <p id={errorId} role="alert" className="text-xs text-red-600 dark:text-red-300">
           {error}
         </p>
       )}

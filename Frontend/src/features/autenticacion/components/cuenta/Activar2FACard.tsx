@@ -15,17 +15,17 @@ export function Activar2FACard() {
   const { valores, errores, errorGeneral, enviando, setCampo, handleSubmit } = form;
 
   return (
-    <section className="panel-card p-5" aria-labelledby="titulo-activar-2fa">
-      <h2 id="titulo-activar-2fa" className="font-[family-name:var(--font-anton)] uppercase tracking-wider text-lg text-white">
+    <section className="panel-card p-5 sm:p-6" aria-labelledby="titulo-activar-2fa">
+      <h2 id="titulo-activar-2fa" className="font-titulos font-semibold tracking-[-0.005em] text-lg text-text">
         Verificación en dos pasos
       </h2>
-      <p className="mt-1 text-sm text-white/60">
+      <p className="mt-1 text-sm text-text-muted">
         Protege tu cuenta con un código temporal de Google Authenticator, Microsoft Authenticator o similar. Si ya la tenías activa,
         configurarla de nuevo reemplaza el secreto anterior.
       </p>
 
       {activado && !config && (
-        <p role="status" className="mt-4 rounded-lg border border-emerald-400/30 bg-emerald-500/10 px-3 py-2 text-sm text-emerald-200">
+        <p role="status" className="mt-4 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-3.5 py-2.5 text-sm text-emerald-700 dark:text-emerald-200">
           ✔ Activada. En tu próximo inicio de sesión se pedirá el código de 6 dígitos.
         </p>
       )}
@@ -41,17 +41,19 @@ export function Activar2FACard() {
         <div className="mt-5 grid grid-cols-1 gap-6 md:grid-cols-[auto_1fr]">
           <div className="flex flex-col items-center gap-2">
             <QrCode value={config.otpauthUrl} size={200} ariaLabel="Código QR para configurar la app de autenticación" />
-            <a href={config.otpauthUrl} className="inline-flex min-h-[44px] items-center text-xs text-[#e9b949] underline">
+            <a href={config.otpauthUrl} className="inline-flex min-h-[44px] items-center text-xs text-brand-600 dark:text-brand-300 underline">
               Abrir en la app (móvil)
             </a>
           </div>
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-4">
-            <ol className="list-decimal pl-5 text-sm text-white/75 space-y-1">
+            <ol className="list-decimal pl-5 text-sm text-text space-y-1">
               <li>Escanea el QR con tu app de autenticación.</li>
               <li>Si no puedes escanear, ingresa este secreto manualmente:</li>
             </ol>
-            <code className="break-all rounded-lg bg-black/30 px-3 py-2 text-sm tracking-widest text-[#e9b949] select-all">{config.secretBase32}</code>
-            {errorGeneral && <p role="alert" className="text-sm text-red-300">{errorGeneral}</p>}
+            <code className="break-all rounded-xl superficie-control px-3 py-2 text-sm font-mono tracking-widest text-brand-600 dark:text-brand-300 select-all">
+              {config.secretBase32}
+            </code>
+            {errorGeneral && <p role="alert" className="text-sm text-red-600 dark:text-red-300">{errorGeneral}</p>}
             <TextField
               label="Código de 6 dígitos"
               required
