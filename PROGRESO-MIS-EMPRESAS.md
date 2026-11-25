@@ -73,6 +73,7 @@
 | Fase 3 | 22 | `aca42df` | Registrar obligación de cartera B2B al facturar a crédito | `crear-factura.use-case.test.ts` (7/7) + `cotizacion-b2b-y-credito` (5/5) |
 | Fase 3 | 23 | `ab71622` | `RegistrarAbonoCreditoUseCase` + errores de cartera + auditoría | `registrar-abono-credito.use-case.test.ts` (3/3) + lint ok |
 | Fase 3 | 24 | `cf4285c` | `AvisarPagoCreditoUseCase` + pruebas y auditoría | `avisar-pago-credito.use-case.test.ts` (3/3) + lint ok |
+| Fase 3 | 25 | `dce4d0f` | `ResolverAvisoPagoUseCase` + exports en `core/mod.ts` | `resolver-aviso-pago.use-case.test.ts` (4/4) + push origin |
 
 ---
 
