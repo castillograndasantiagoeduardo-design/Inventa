@@ -41,11 +41,15 @@ import {
 
 import { emitirAlertaFacturacionController } from '../controllers/facturacion/alerta-facturacion.controller.ts';
 import {
+    avisarPagoCreditoController,
     listarAvisosPagoController,
     listarCarteraB2BController,
     listarEmpresasB2BController,
     listarEmpresasEnMoraController,
     obtenerEmpresaB2BDetalleController,
+    registrarAbonoCreditoController,
+    resolverAvisoPagoController,
+    solicitarCreditoB2BController,
 } from '../controllers/facturacion/cartera-b2b.controller.ts';
 
 export function createFacturacionRoutes(container: AppContainer): Hono {
@@ -68,6 +72,10 @@ export function createFacturacionRoutes(container: AppContainer): Hono {
     api.get('/cartera-b2b', authMiddleware(container, PERMISSIONS.FACTURACION_CONSULTAR), listarCarteraB2BController(container));
     api.get('/mora-b2b', authMiddleware(container, PERMISSIONS.FACTURACION_CONSULTAR), listarEmpresasEnMoraController(container));
     api.get('/avisos-pago', authMiddleware(container, PERMISSIONS.FACTURACION_CONSULTAR), listarAvisosPagoController(container));
+    api.post('/clientes/:id/solicitar-credito', authMiddleware(container, PERMISSIONS.FACTURACION_GESTIONAR_CLIENTES), solicitarCreditoB2BController(container));
+    api.post('/creditos-b2b/:id/abonos', authMiddleware(container, PERMISSIONS.FACTURACION_REGISTRAR_ABONO_CREDITO), registrarAbonoCreditoController(container));
+    api.post('/creditos-b2b/:id/avisar-pago', authMiddleware(container, PERMISSIONS.FACTURACION_AVISAR_PAGO_CREDITO), avisarPagoCreditoController(container));
+    api.put('/avisos-pago/:id/resolver', authMiddleware(container, PERMISSIONS.FACTURACION_REGISTRAR_ABONO_CREDITO), resolverAvisoPagoController(container));
 
     // Cotizaciones B2B con aval del Admin de Sucursal (Modo A: Cotizar -> Aval -> Facturar y Pedido en Proceso)
     api.post('/cotizaciones-b2b', authMiddleware(container, PERMISSIONS.FACTURACION_COTIZAR_B2B), crearCotizacionB2BController(container));

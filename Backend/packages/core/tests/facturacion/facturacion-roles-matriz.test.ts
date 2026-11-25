@@ -157,6 +157,22 @@ function crearMockContainer(cajeroTieneTurno = true): AppContainer {
             decidirCreditoClienteB2B: {
                 execute: () => Promise.resolve(Result.ok({ id: 'cli-1', creditoHabilitado: true } as any)),
             },
+            solicitarCreditoB2B: {
+                execute: () => Promise.resolve(Result.ok({
+                    cliente: { toJSON: () => ({ id: 'cli-1', estadoCredito: 'pendiente_aprobacion' }) },
+                    evaluacionCredito: { cupoSugerido: 4_500_000, nivelRiesgo: 'medio', viable: true },
+                    alertaSuperAdminEnviada: true,
+                } as any)),
+            },
+            avisarPagoCredito: {
+                execute: () => Promise.resolve(Result.ok({ id: 'aviso-1', estado: 'pendiente', monto: 200_000 } as any)),
+            },
+            registrarAbonoCredito: {
+                execute: () => Promise.resolve(Result.ok({ abono: { id: 'abono-1' }, credito: { id: 'cred-1', saldo: 300_000 } } as any)),
+            },
+            resolverAvisoPago: {
+                execute: () => Promise.resolve(Result.ok({ decision: 'confirmar', aviso: { id: 'aviso-1', estado: 'confirmado' } } as any)),
+            },
         },
     } as unknown as AppContainer;
 }
@@ -342,4 +358,51 @@ Deno.test('Matriz Admin-Sucursal y Super-Admin: acceso autorizado a facturacion 
         });
         assertEquals(resListar.status, 200);
     }
+});
+
+// ─── 4. SEPARACIÓN DE FUNCIONES CARTERA B2B ─────────────────────────────────
+Deno.test('Matriz Cartera B2B: vendedor avisa pago (201) pero recibe 403 al abonar o resolver; admin abona (201) y resuelve (200)', async () => {
+    const app = createFacturacionRoutes(crearMockContainer());
+
+    const resSol = await app.request('/clientes/cli-1/solicitar-credito', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer token-vendedor-b2b', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ gananciaNetaMensual: 15_000_000, antiguedadEmpresaMeses: 24, plazoCreditoDias: 30 }),
+    });
+    assertEquals(resSol.status, 200);
+
+    const resAvisar = await app.request('/creditos-b2b/cred-1/avisar-pago', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer token-vendedor-b2b', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ monto: 200_000, referencia: 'TRF-001' }),
+    });
+    assertEquals(resAvisar.status, 201);
+
+    const resAbonoVend = await app.request('/creditos-b2b/cred-1/abonos', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer token-vendedor-b2b', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ monto: 200_000 }),
+    });
+    assertEquals(resAbonoVend.status, 403);
+
+    const resResolverVend = await app.request('/avisos-pago/aviso-1/resolver', {
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer token-vendedor-b2b', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ decision: 'confirmar' }),
+    });
+    assertEquals(resResolverVend.status, 403);
+
+    const resAbonoAdmin = await app.request('/creditos-b2b/cred-1/abonos', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer token-admin-sucursal', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ monto: 200_000 }),
+    });
+    assertEquals(resAbonoAdmin.status, 201);
+
+    const resResolverAdmin = await app.request('/avisos-pago/aviso-1/resolver', {
+        method: 'PUT',
+        headers: { 'Authorization': 'Bearer token-admin-sucursal', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ decision: 'confirmar' }),
+    });
+    assertEquals(resResolverAdmin.status, 200);
 });
