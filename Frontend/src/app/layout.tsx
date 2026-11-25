@@ -104,7 +104,6 @@ const scriptInicializacionTema = `
       var transp = Math.max(0, Math.min(95, Number(transpRaw)));
       if (!isNaN(transp)) {
         d.style.setProperty('--card-opacidad', (100 - transp) + '%');
-        d.style.setProperty('--card-blur', Math.round(((100 - transp) / 100) * 6) + 'px');
       }
     }
     d.setAttribute('data-paleta', paleta);

@@ -105,7 +105,7 @@ const ROLES_COLOR: Array<{
   { id: 'luz3', etiqueta: 'Brillo terciario' },
 ];
 
-const TRANSPARENCIA_CARDS_DEFECTO = 30;
+const TRANSPARENCIA_CARDS_DEFECTO = 65;
 const TRANSPARENCIA_CARDS_MIN = 0;
 const TRANSPARENCIA_CARDS_MAX = 95;
 
@@ -157,7 +157,6 @@ export function SelectorPaleta() {
           if (!Number.isNaN(valor)) {
             setTransparenciaCards(valor);
             html.style.setProperty('--card-opacidad', `${100 - valor}%`);
-            html.style.setProperty('--card-blur', `${Math.round(((100 - valor) / 100) * 6)}px`);
           }
         }
       } catch {}
@@ -282,10 +281,6 @@ export function SelectorPaleta() {
     );
     setTransparenciaCards(acotado);
     document.documentElement.style.setProperty('--card-opacidad', `${100 - acotado}%`);
-    document.documentElement.style.setProperty(
-      '--card-blur',
-      `${Math.round(((100 - acotado) / 100) * 6)}px`,
-    );
     try {
       localStorage.setItem(STORAGE_KEYS.transparenciaCards, String(acotado));
     } catch {}
@@ -533,7 +528,7 @@ export function SelectorPaleta() {
                   <button
                     type="button"
                     onClick={() => cambiarTransparenciaCards(TRANSPARENCIA_CARDS_DEFECTO)}
-                    title="Restablecer transparencia (30%)"
+                    title="Restablecer transparencia (65%)"
                     aria-label="Restablecer transparencia de tarjetas"
                     className="p-1 rounded-md superficie-control text-text-muted hover:text-text transition-colors cursor-pointer"
                   >
