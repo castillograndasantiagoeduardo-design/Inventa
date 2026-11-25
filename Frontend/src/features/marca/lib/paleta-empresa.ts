@@ -13,6 +13,7 @@ import {
   mezclarHex,
   type ConfiguracionPaletaPersonalizada,
 } from '@/lib/generadorPaleta';
+import { esRutaConAparienciaPersonalizable } from '@/lib/apariencia-ruta';
 import { STORAGE_KEYS } from '@/lib/storage-keys';
 
 export const ID_PALETA_EMPRESA = 'empresa';
@@ -28,17 +29,19 @@ export function configDesdeColor(color: string): ConfiguracionPaletaPersonalizad
   };
 }
 
-/** Activa la paleta "Mi empresa" en el documento y la deja como preferida. */
+/** Activa la paleta "Mi empresa" en el documento (solo si estamos en un panel) y la deja como preferida. */
 export function activarPaletaEmpresa(color: string): void {
   const config = configDesdeColor(color);
-  limpiarVariablesPersonalizadasEnDom();
-  aplicarVariablesPersonalizadasEnDom(config);
-  document.documentElement.setAttribute('data-paleta', ID_PALETA_EMPRESA);
   try {
     localStorage.setItem(STORAGE_KEYS.paletaEmpresaVars, JSON.stringify(generarVariablesDesdeConfig(config)));
     localStorage.setItem(STORAGE_KEYS.paleta, ID_PALETA_EMPRESA);
     localStorage.setItem(STORAGE_KEYS.marcaAplicada, color);
   } catch {}
+  if (typeof window !== 'undefined' && esRutaConAparienciaPersonalizable(window.location.pathname)) {
+    limpiarVariablesPersonalizadasEnDom();
+    aplicarVariablesPersonalizadasEnDom(config);
+    document.documentElement.setAttribute('data-paleta', ID_PALETA_EMPRESA);
+  }
 }
 
 /** Llega la marca de la empresa: la activa si es nueva o si ya era la paleta elegida. */

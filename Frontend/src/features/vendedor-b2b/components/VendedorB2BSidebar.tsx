@@ -63,7 +63,7 @@ export function VendedorB2BSidebar({
 
   const handleLogout = async () => {
     await logout();
-    router.push('/acceso');
+    router.replace('/acceso');
   };
 
   const handleItemClick = (item: VendedorB2BNavItemConfig, isMobileDrawer = false) => {
@@ -173,7 +173,7 @@ export function VendedorB2BSidebar({
           >
             <div className="flex items-center gap-3 min-w-0">
               <span className="shrink-0" title="Inventa — Vendedor B2B">
-                <InventaLogo className="w-8 rounded-lg shadow-sm" />
+                <InventaLogo className="w-8 rounded-lg shadow-sm ring-1 ring-slate-900/10 dark:ring-white/20" />
               </span>
 
               {!isCollapsed && (

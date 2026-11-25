@@ -12,8 +12,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button3D } from '@/components/ui/Button3D';
-import { GlassCard } from './GlassCard';
-import { ShieldIcon, UsersRoundIcon } from './Icons';
+import { AvatarMarca } from '@/features/marca';
+import { Insignia } from './Insignia';
+import { ShieldIcon } from './Icons';
 import type { EmpleadoSede } from '../types/branch-staff.types';
 
 interface AdminProfileModalProps {
@@ -81,27 +82,24 @@ export function AdminProfileModal({
   const inicial = perfil?.nombre ? perfil.nombre.charAt(0).toUpperCase() : 'A';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#050b18]/80 backdrop-blur-md animate-in fade-in duration-200">
-      <div className="relative w-full max-w-lg rounded-2xl bg-[#0d1630] border border-[#e3b341]/30 shadow-[0_20px_50px_rgba(0,0,0,0.7)] overflow-hidden">
-        
-        {/* 1. Cabecera con Avatar de Identidad y Rol */}
-        <div className="relative px-6 py-5 bg-gradient-to-b from-[#18264d] to-[#0d1630] border-b border-white/[0.08]">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3.5">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-tr from-[#b88a1f] to-[#e3b341] text-[#0d1630] font-black text-xl font-[family-name:var(--font-ui)] shadow-lg shadow-amber-500/20">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="relative w-full max-w-lg vidrio-popover text-text overflow-hidden">
+        {/* 1. Cabecera con Avatar de Identidad / Logo de Empresa y Rol */}
+        <div className="relative px-6 py-5 border-b border-border">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3.5 min-w-0">
+              <AvatarMarca className="h-12 w-12 rounded-xl bg-brand-600 text-btn-primario-texto flex items-center justify-center font-titulos font-bold text-lg shadow-sm shrink-0">
                 {inicial}
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-bold text-white uppercase font-[family-name:var(--font-anton)] tracking-wider">
-                    {perfil?.nombre || 'Mi Perfil Administrativo'}
-                  </h2>
-                </div>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="px-2 py-0.5 rounded-full bg-[#e3b341]/15 text-[#e3b341] border border-[#e3b341]/30 text-[10px] font-bold uppercase tracking-wider font-[family-name:var(--font-ui)]">
+              </AvatarMarca>
+              <div className="min-w-0">
+                <h2 className="text-lg font-semibold font-titulos text-text truncate">
+                  {perfil?.nombre || 'Mi Perfil Administrativo'}
+                </h2>
+                <div className="flex flex-wrap items-center gap-2 mt-1">
+                  <Insignia variante="brand" tamano="sm">
                     {rolNombre}
-                  </span>
-                  <span className="text-[11px] text-slate-400 font-[family-name:var(--font-archivo)]">
+                  </Insignia>
+                  <span className="text-xs text-text-muted truncate">
                     {perfil?.sucursalNombre || 'Sede Principal'}
                   </span>
                 </div>
@@ -109,9 +107,11 @@ export function AdminProfileModal({
             </div>
 
             <button
+              type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="h-8 w-8 rounded-lg bg-white/[0.04] border border-white/[0.08] text-slate-400 hover:text-white hover:bg-white/[0.08] transition-colors flex items-center justify-center cursor-pointer text-sm"
+              aria-label="Cerrar modal"
+              className="h-8 w-8 rounded-lg superficie-control text-text-muted hover:text-text transition-colors flex items-center justify-center cursor-pointer text-sm shrink-0"
             >
               ✕
             </button>
@@ -121,24 +121,24 @@ export function AdminProfileModal({
         {/* 2. Cuerpo del Formulario */}
         <form onSubmit={handleSubmit} className="p-6 space-y-5">
           {errorMsg && (
-            <div className="p-3 rounded-xl bg-red-500/15 border border-red-500/30 text-red-200 text-xs">
+            <div className="p-3 rounded-xl bg-red-500/12 border border-red-500/30 text-red-600 dark:text-red-200 text-xs">
               {errorMsg}
             </div>
           )}
 
           {successMsg && (
-            <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-200 text-xs font-semibold">
+            <div className="p-3 rounded-xl bg-emerald-500/12 border border-emerald-500/30 text-emerald-600 dark:text-emerald-200 text-xs font-semibold">
               {successMsg}
             </div>
           )}
 
           {/* Bloque A: Datos Institucionales Inmutables (Segregación RBAC) */}
-          <div className="p-3.5 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-2.5">
+          <div className="p-3.5 rounded-xl superficie-control space-y-2.5">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] uppercase font-bold text-slate-400 font-[family-name:var(--font-ui)] tracking-wider">
+              <span className="text-[10px] uppercase font-semibold text-text-muted tracking-wider">
                 Credenciales del Sistema
               </span>
-              <span className="flex items-center gap-1 text-[10px] text-amber-400 font-semibold">
+              <span className="flex items-center gap-1 text-[10px] text-brand-600 dark:text-brand-300 font-semibold">
                 <ShieldIcon size={11} />
                 Gestionado por Superadmin
               </span>
@@ -146,26 +146,26 @@ export function AdminProfileModal({
 
             <div className="grid grid-cols-2 gap-2.5 text-xs">
               <div>
-                <span className="text-[10px] text-slate-400 block font-mono">Documento</span>
-                <span className="font-semibold text-white font-mono">
+                <span className="text-[10px] text-text-muted block font-mono">Documento</span>
+                <span className="font-semibold text-text font-mono">
                   {perfil?.tipoDocumento} {perfil?.numeroDocumento}
                 </span>
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 block font-mono">Correo Corporativo</span>
-                <span className="font-semibold text-white truncate block">
+                <span className="text-[10px] text-text-muted block font-mono">Correo Corporativo</span>
+                <span className="font-semibold text-text truncate block">
                   {email}
                 </span>
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 block font-mono">Cargo Laboral</span>
-                <span className="font-semibold text-slate-200">
+                <span className="text-[10px] text-text-muted block font-mono">Cargo Laboral</span>
+                <span className="font-semibold text-text">
                   {perfil?.cargo || 'Administrador de Sucursal'}
                 </span>
               </div>
               <div>
-                <span className="text-[10px] text-slate-400 block font-mono">Fecha de Ingreso</span>
-                <span className="font-semibold text-slate-200 font-mono">
+                <span className="text-[10px] text-text-muted block font-mono">Fecha de Ingreso</span>
+                <span className="font-semibold text-text font-mono">
                   {perfil?.fechaIngreso || '2026-10-25'}
                 </span>
               </div>
@@ -174,12 +174,12 @@ export function AdminProfileModal({
 
           {/* Bloque B: Datos de Contacto Personal Editables */}
           <div className="space-y-3.5">
-            <h3 className="text-xs font-bold text-white uppercase tracking-wider font-[family-name:var(--font-archivo)]">
+            <h3 className="text-xs font-semibold text-text uppercase tracking-wider">
               Información de Contacto Personal
             </h3>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1 font-[family-name:var(--font-archivo)]">
+              <label className="block text-xs font-medium text-text-muted mb-1">
                 Teléfono de Contacto
               </label>
               <input
@@ -187,12 +187,12 @@ export function AdminProfileModal({
                 value={telefono}
                 onChange={(e) => setTelefono(e.target.value)}
                 placeholder="Ej. +57 310 123 4567"
-                className="w-full h-10 px-3 rounded-xl bg-white/[0.04] border border-white/[0.1] text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#e3b341]/60 focus:ring-1 focus:ring-[#e3b341]/40"
+                className="panel-input text-xs"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1 font-[family-name:var(--font-archivo)]">
+              <label className="block text-xs font-medium text-text-muted mb-1">
                 Dirección de Residencia
               </label>
               <input
@@ -200,31 +200,31 @@ export function AdminProfileModal({
                 value={direccion}
                 onChange={(e) => setDireccion(e.target.value)}
                 placeholder="Ej. Carrera 15 # 93-40, Apto 502"
-                className="w-full h-10 px-3 rounded-xl bg-white/[0.04] border border-white/[0.1] text-xs text-white placeholder-slate-400 focus:outline-none focus:border-[#e3b341]/60 focus:ring-1 focus:ring-[#e3b341]/40"
+                className="panel-input text-xs"
               />
             </div>
           </div>
 
           {/* Aviso de Seguridad Informativo */}
-          <p className="text-[11px] text-slate-400 leading-relaxed">
+          <p className="text-[11px] text-text-muted leading-relaxed">
             * Para solicitar cambios de sede asignada, variación salarial o reasignación de credenciales, contacta a la mesa directiva a través del Super Administrador.
           </p>
 
           {/* 3. Acciones de Cierre y Guardado */}
-          <div className="flex items-center justify-end gap-3 pt-3 border-t border-white/[0.06]">
-            <button
+          <div className="flex items-center justify-end gap-3 pt-3 border-t border-border">
+            <Button3D
               type="button"
+              size="panel-sm"
+              variant="navy"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2 rounded-xl border border-white/20 text-slate-300 hover:text-white hover:bg-white/[0.05] transition-colors text-xs font-semibold cursor-pointer"
             >
               Cerrar
-            </button>
+            </Button3D>
             <Button3D
               type="submit"
-              size="sm"
+              size="panel-sm"
               disabled={isSubmitting}
-              className="font-bold font-[family-name:var(--font-ui)] tracking-wide uppercase text-xs"
             >
               {isSubmitting ? 'Guardando...' : 'Guardar Contacto'}
             </Button3D>

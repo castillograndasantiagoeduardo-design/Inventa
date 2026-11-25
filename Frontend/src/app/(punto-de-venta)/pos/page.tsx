@@ -18,6 +18,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/features/autenticacion';
+import { FondoAmbiental } from '@/components/FondoAmbiental';
 import { MarcaDeAgua } from '@/features/marca';
 import {
   usePosTurno,
@@ -42,7 +43,7 @@ import {
 
 export default function PosTerminalPage() {
   const router = useRouter();
-  const { usuario, logout, isLoading: isAuthLoading } = useAuth();
+  const { usuario, isAuthenticated, logout, isLoading: isAuthLoading } = useAuth();
 
   // 1. Hooks de estado de la terminal
   const {
@@ -222,15 +223,24 @@ export default function PosTerminalPage() {
 
   const handleLogout = async () => {
     await logout();
-    router.push('/acceso');
+    router.replace('/acceso');
   };
 
-  if (isAuthLoading || isTurnoLoading) {
+  useEffect(() => {
+    if (!isAuthLoading && !isAuthenticated) {
+      router.replace('/acceso');
+    }
+  }, [isAuthLoading, isAuthenticated, router]);
+
+  if (isAuthLoading || isTurnoLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-[#0d1630] flex flex-col items-center justify-center text-white gap-3 select-none">
-        <div className="w-10 h-10 border-3 border-[#e3b341] border-t-transparent rounded-full animate-spin"></div>
-        <p className="font-[family-name:var(--font-ui)] text-sm text-[#e3b341] tracking-wider uppercase">
-          Iniciando Terminal de Punto de Venta...
+      <div className="min-h-screen bg-bg text-text flex flex-col items-center justify-center gap-3 select-none relative isolate">
+        <FondoAmbiental />
+        <div className="w-10 h-10 border-3 border-brand-500 border-t-transparent rounded-full animate-spin" />
+        <p className="font-sans text-sm text-text-muted tracking-wider uppercase">
+          {!isAuthLoading && !isAuthenticated
+            ? 'Cerrando sesión...'
+            : 'Iniciando Terminal de Punto de Venta...'}
         </p>
       </div>
     );
@@ -239,9 +249,10 @@ export default function PosTerminalPage() {
   // La sede sale de la sesión (empleado vinculado); sin sede no se puede operar la caja
   if (!usuario?.sucursalId) {
     return (
-      <div className="min-h-screen bg-[#0d1630] flex flex-col items-center justify-center text-white gap-4 p-6 text-center">
-        <p className="text-lg font-semibold text-rose-300">Tu usuario no tiene una sucursal asignada.</p>
-        <p className="text-sm text-white/60 max-w-md">Pide al administrador que vincule tu cuenta a una sede antes de abrir turno.</p>
+      <div className="min-h-screen bg-bg text-text flex flex-col items-center justify-center gap-4 p-6 text-center relative isolate">
+        <FondoAmbiental />
+        <p className="text-lg font-semibold text-red-600 dark:text-rose-300">Tu usuario no tiene una sucursal asignada.</p>
+        <p className="text-sm text-text-muted max-w-md">Pide al administrador que vincule tu cuenta a una sede antes de abrir turno.</p>
         <button type="button" onClick={handleLogout} className="btn-3d btn-3d-panel px-5 py-2 text-sm">Cerrar sesión</button>
       </div>
     );
@@ -251,11 +262,12 @@ export default function PosTerminalPage() {
   const sucursalNombre = usuario.sucursalNombre ?? `Sucursal #${usuario.sucursalId}`;
 
   return (
-    <div className="h-screen flex flex-col bg-[#0d1630] text-white overflow-hidden relative isolate">
-      <MarcaDeAgua />
+    <div className="h-screen flex flex-col bg-bg text-text font-sans overflow-hidden relative isolate transition-colors duration-300">
+      <FondoAmbiental />
+      <MarcaDeAgua alineacion="pos" />
       {/* 1. Barra Superior de Control */}
       <PosHeader
-        usuarioNombre={usuario?.email?.split('@')[0] || 'Cajero'}
+        usuarioNombre={usuario?.nombre || usuario?.email?.split('@')[0] || 'Cajero'}
         usuarioEmail={usuario?.email || ''}
         sucursalNombre={sucursalNombre}
         turno={turno}

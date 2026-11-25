@@ -9,6 +9,7 @@ import {
   IBM_Plex_Mono,
 } from "next/font/google";
 import { AuthProvider } from "@/features/autenticacion";
+import { SincronizadorAparienciaRuta } from "@/components/SincronizadorAparienciaRuta";
 import "./globals.css";
 
 // Títulos, encabezados y cifras KPI: Plus Jakarta Sans
@@ -96,29 +97,37 @@ const scriptInicializacionTema = `
   } catch (e) {}
   try {
     var d = document.documentElement;
-    var paleta = localStorage.getItem('inventa-paleta') || 'zafiro';
-    var fondo = localStorage.getItem('inventa-fondo') || 'malla';
+    var ruta = window.location.pathname || '/';
+    var esPanel = /^\/(dashboard|admin-sucursal|vendedor-b2b|pos)(\/|$)/.test(ruta);
     var tema = localStorage.getItem('inventa-tema') || 'dark';
-    var transpRaw = localStorage.getItem('inventa-transparencia-cards');
-    if (transpRaw !== null) {
-      var transp = Math.max(0, Math.min(95, Number(transpRaw)));
-      if (!isNaN(transp)) {
-        d.style.setProperty('--card-opacidad', (100 - transp) + '%');
+    if (esPanel) {
+      var paleta = localStorage.getItem('inventa-paleta') || 'zafiro';
+      var fondo = localStorage.getItem('inventa-fondo') || 'malla';
+      var transpRaw = localStorage.getItem('inventa-transparencia-cards');
+      if (transpRaw !== null) {
+        var transp = Math.max(0, Math.min(95, Number(transpRaw)));
+        if (!isNaN(transp)) {
+          d.style.setProperty('--card-opacidad', (100 - transp) + '%');
+        }
       }
-    }
-    d.setAttribute('data-paleta', paleta);
-    d.setAttribute('data-fondo', fondo);
-    if (paleta === 'personalizada' || paleta === 'empresa') {
-      // 'empresa' = paleta generada del color del logo de la empresa (MarcaEmpresaProvider).
-      var varsRaw = localStorage.getItem(paleta === 'empresa' ? 'inventa-paleta-empresa-vars' : 'inventa-paleta-custom-vars');
-      if (varsRaw) {
-        var varsObj = JSON.parse(varsRaw);
-        for (var k in varsObj) {
-          if (Object.prototype.hasOwnProperty.call(varsObj, k)) {
-            d.style.setProperty(k, varsObj[k]);
+      d.setAttribute('data-paleta', paleta);
+      d.setAttribute('data-fondo', fondo);
+      if (paleta === 'personalizada' || paleta === 'empresa') {
+        // 'empresa' = paleta generada del color del logo de la empresa (MarcaEmpresaProvider).
+        var varsRaw = localStorage.getItem(paleta === 'empresa' ? 'inventa-paleta-empresa-vars' : 'inventa-paleta-custom-vars');
+        if (varsRaw) {
+          var varsObj = JSON.parse(varsRaw);
+          for (var k in varsObj) {
+            if (Object.prototype.hasOwnProperty.call(varsObj, k)) {
+              d.style.setProperty(k, varsObj[k]);
+            }
           }
         }
       }
+    } else {
+      d.setAttribute('data-paleta', 'zafiro');
+      d.setAttribute('data-fondo', 'malla');
+      d.style.removeProperty('--card-opacidad');
     }
     if (tema === 'light') {
       d.classList.add('light');
@@ -148,6 +157,7 @@ export default function RootLayout({
         <script dangerouslySetInnerHTML={{ __html: scriptInicializacionTema }} />
       </head>
       <body className="min-h-full flex flex-col bg-bg text-text font-sans overflow-x-hidden selection:bg-brand-500 selection:text-btn-primario-texto">
+        <SincronizadorAparienciaRuta />
         <AuthProvider>{children}</AuthProvider>
       </body>
     </html>

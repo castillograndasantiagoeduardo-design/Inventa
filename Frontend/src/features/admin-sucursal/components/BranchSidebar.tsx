@@ -16,7 +16,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { InventaLogo } from '@/components/panel/InventaLogo';
 import { InventaWordmark } from '@/components/panel/InventaWordmark';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/features/autenticacion';
 import {
   LayoutDashboard,
@@ -65,9 +65,15 @@ export function BranchSidebar({
   onCloseMobile,
   className = '',
 }: BranchSidebarProps) {
+  const router = useRouter();
   const { logout, tienePermiso } = useAuth();
   const pathname = usePathname() || '';
   const [colapsado, setColapsado] = useState(false);
+
+  const cerrarSesion = async () => {
+    await logout();
+    router.replace('/acceso');
+  };
 
   const renderItem = (item: BranchNavItemConfig, isMobileDrawer = false) => {
     const isCollapsed = !isMobileDrawer && colapsado;
@@ -127,7 +133,7 @@ export function BranchSidebar({
           >
             <div className="flex items-center gap-3 min-w-0">
               <span className="shrink-0" title="Inventa — Admin. de sucursal">
-                <InventaLogo className="w-8 rounded-lg shadow-sm" />
+                <InventaLogo className="w-8 rounded-lg shadow-sm ring-1 ring-slate-900/10 dark:ring-white/20" />
               </span>
 
               {!isCollapsed && (
@@ -228,7 +234,7 @@ export function BranchSidebar({
 
           <button
             type="button"
-            onClick={() => logout()}
+            onClick={cerrarSesion}
             title={isCollapsed ? 'Cerrar sesión' : undefined}
             className={`w-full flex items-center gap-3 rounded-xl text-xs font-sans font-medium text-text-muted hover:text-text hover:bg-slate-900/5 dark:hover:bg-white/6 transition-colors cursor-pointer ${
               isCollapsed ? 'justify-center p-2.5' : 'px-3 py-2.5'

@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   AlertTriangle,
   Building2,
@@ -52,10 +52,16 @@ const BOTON_ICONO =
   'p-1.5 rounded-lg text-text-muted hover:text-text hover:bg-slate-900/5 dark:hover:bg-white/8 transition-colors shrink-0 cursor-pointer';
 
 export function Sidebar({ open, onClose }: SidebarProps) {
+  const router = useRouter();
   const pathname = usePathname() || '';
   const items = usePanelMenu();
   const { logout } = useAuth();
   const [colapsado, setColapsado] = useState(false);
+
+  const cerrarSesion = async () => {
+    await logout();
+    router.replace('/acceso');
+  };
 
   const renderItem = (item: PanelMenuItem, enCajon: boolean) => {
     const compacto = !enCajon && colapsado;
@@ -181,7 +187,7 @@ export function Sidebar({ open, onClose }: SidebarProps) {
           )}
           <button
             type="button"
-            onClick={() => logout()}
+            onClick={cerrarSesion}
             title={compacto ? 'Cerrar sesión' : undefined}
             className={`w-full flex items-center gap-3 rounded-xl text-xs font-sans font-medium text-text-muted hover:text-text hover:bg-slate-900/5 dark:hover:bg-white/6 transition-colors cursor-pointer ${
               compacto ? 'justify-center p-2.5' : 'px-3 py-2.5'

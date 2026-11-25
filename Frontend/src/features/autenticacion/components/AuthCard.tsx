@@ -62,12 +62,21 @@ export function AuthCard() {
       router.push(destinoSeguro ?? '/cuenta');
       return;
     }
-    if (destinoSeguro) {
-      router.push(destinoSeguro);
-      return;
-    }
 
     const rol = resultado?.tipo === 'EXITO' ? resultado.data.usuario.rolNombre : usuario?.rolNombre;
+
+    if (destinoSeguro) {
+      const incompatibleConRol =
+        (destinoSeguro.startsWith('/admin-sucursal') && rol !== 'admin-sucursal') ||
+        (destinoSeguro.startsWith('/dashboard') && rol !== 'super-admin' && rol !== 'superadmin') ||
+        (destinoSeguro.startsWith('/vendedor-b2b') && rol !== 'vendedor-b2b') ||
+        (destinoSeguro.startsWith('/pos') && rol !== 'cajero' && rol !== 'super-admin' && rol !== 'superadmin');
+
+      if (!incompatibleConRol) {
+        router.push(destinoSeguro);
+        return;
+      }
+    }
 
     // Redirección inteligente post-login según el rol
     if (rol === 'cajero') {

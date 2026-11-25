@@ -71,10 +71,10 @@ export function SelectorLogoPng({
           mensaje ? 'border-red-500/70' : 'border-border'
         }`}
       >
-        <div className="size-16 shrink-0 rounded-xl bg-white ring-1 ring-slate-900/12 dark:ring-white/25 shadow-sm flex items-center justify-center overflow-hidden">
+        <div className="w-24 h-14 shrink-0 rounded-xl bg-white ring-1 ring-slate-900/12 dark:ring-white/25 shadow-sm flex items-center justify-center overflow-hidden p-1.5">
           {valor ? (
             // eslint-disable-next-line @next/next/no-img-element -- vista previa local (data URL)
-            <img src={valor} alt="Vista previa del logo" className="w-full h-full object-contain p-1 contrast-[1.05] saturate-[1.06]" />
+            <img src={valor} alt="Vista previa del logo" className="w-full h-full object-contain contrast-[1.05] saturate-[1.06]" />
           ) : (
             <ImageUp className="size-6 text-slate-400" aria-hidden="true" />
           )}

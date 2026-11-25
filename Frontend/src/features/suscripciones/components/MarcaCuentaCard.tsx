@@ -9,7 +9,7 @@
 import React, { useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { ApiError } from '@/lib/api';
-import { SelectorLogoPng, marcaStore } from '@/features/marca';
+import { SelectorLogoPng, marcaStore, normalizarLogoBlob } from '@/features/marca';
 import { suscripcionesService } from '../api/suscripciones.service';
 
 interface MarcaCuentaCardProps {
@@ -25,16 +25,21 @@ export function MarcaCuentaCard({ colorPrincipal, logoVersion, onCambio }: Marca
   const [guardando, setGuardando] = useState(false);
   const [aviso, setAviso] = useState<string | null>(null);
 
-  // El logo se pide con la sesión de la cuenta y se muestra como URL de objeto.
+  // El logo se pide con la sesión de la cuenta, se normaliza (recorte de bordes vacíos) y se expone como URL de objeto.
   useEffect(() => {
     if (!logoVersion) return;
     let url: string | null = null;
     let vivo = true;
     fetch(suscripcionesService.urlLogo(logoVersion), { credentials: 'include' })
       .then((r) => (r.ok ? r.blob() : null))
-      .then((blob) => {
+      .then(async (blob) => {
         if (!blob || !vivo) return;
-        url = URL.createObjectURL(blob);
+        const normalizado = await normalizarLogoBlob(blob);
+        if (!vivo) {
+          URL.revokeObjectURL(normalizado.url);
+          return;
+        }
+        url = normalizado.url;
         setLogoActual(url);
       })
       .catch(() => null);

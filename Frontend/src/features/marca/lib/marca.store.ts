@@ -8,14 +8,23 @@
 
 import { env } from '@/lib/config/env';
 import { activarPaletaEmpresa, aplicarPaletaEmpresa, retirarPaletaEmpresa } from './paleta-empresa';
+import { normalizarLogoBlob, type TonoLogo } from './normalizar-logo';
 
 export interface EstadoMarca {
   colorPrincipal: string | null;
   logoUrl: string | null;
+  proporcion: number;
+  tonoLogo: TonoLogo;
   cargada: boolean;
 }
 
-const INICIAL: EstadoMarca = { colorPrincipal: null, logoUrl: null, cargada: false };
+const INICIAL: EstadoMarca = {
+  colorPrincipal: null,
+  logoUrl: null,
+  proporcion: 1,
+  tonoLogo: 'color',
+  cargada: false,
+};
 let estado: EstadoMarca = INICIAL;
 let carga: Promise<void> | null = null;
 const oyentes = new Set<() => void>();
@@ -35,13 +44,20 @@ async function cargar(): Promise<void> {
     const marca = (await r.json()) as { colorPrincipal: string | null; logoVersion: string | null };
 
     let logoUrl: string | null = null;
+    let proporcion = 1;
+    let tonoLogo: TonoLogo = 'color';
     if (marca.logoVersion) {
       const l = await fetch(`${base()}/empresa/logo?v=${encodeURIComponent(marca.logoVersion)}`, { credentials: 'include' });
-      if (l.ok) logoUrl = URL.createObjectURL(await l.blob());
+      if (l.ok) {
+        const normalizado = await normalizarLogoBlob(await l.blob());
+        logoUrl = normalizado.url;
+        proporcion = normalizado.proporcion;
+        tonoLogo = normalizado.tonoLogo;
+      }
     }
     if (marca.colorPrincipal) aplicarPaletaEmpresa(marca.colorPrincipal);
     else retirarPaletaEmpresa();
-    publicar({ colorPrincipal: marca.colorPrincipal, logoUrl, cargada: true });
+    publicar({ colorPrincipal: marca.colorPrincipal, logoUrl, proporcion, tonoLogo, cargada: true });
   } catch {
     publicar({ ...INICIAL, cargada: true });
   }

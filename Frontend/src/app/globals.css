@@ -746,20 +746,28 @@ body {
   transition: border-color 300ms ease, background-color 80ms ease;
 }
 
-/* Marca de agua del logo corporativo: grande, nítida y visible a través del cristal. */
+/* Marca de agua del logo corporativo: equilibrada por área óptica para logos verticales, cuadrados y panorámicos. */
 .marca-agua-img {
-  width: min(78vw, 1320px);
-  height: min(122vh, 1320px);
-  max-width: none;
-  max-height: none;
-  flex-shrink: 0;
-  opacity: 0.28;
-  filter: contrast(1.06) saturate(1.08) drop-shadow(0 0 14px rgba(255, 255, 255, 0.14));
+  max-width: min(64vw, 700px);
+  max-height: min(52vh, 420px);
+  object-fit: contain;
+  opacity: 0.24;
+  filter: contrast(1.05) saturate(1.06) drop-shadow(0 0 12px rgba(255, 255, 255, 0.12));
 }
 
 .light .marca-agua-img {
-  opacity: 0.24;
-  filter: contrast(1.06) saturate(1.08) drop-shadow(0 6px 18px rgba(15, 23, 42, 0.12));
+  opacity: 0.2;
+  filter: contrast(1.05) saturate(1.06) drop-shadow(0 6px 18px rgba(15, 23, 42, 0.1));
+}
+
+/* Logos negros puros sobre modo oscuro se invierten a claro para no perderse en el fondo. */
+.dark .marca-agua-oscura {
+  filter: invert(1) brightness(1.05) drop-shadow(0 0 12px rgba(255, 255, 255, 0.12));
+}
+
+/* Logos blancos puros sobre modo claro se invierten a grafito para no perderse en fondo blanco. */
+.light .marca-agua-clara {
+  filter: invert(1) brightness(0.3) drop-shadow(0 4px 12px rgba(15, 23, 42, 0.1));
 }
 
 /* Controles de entrada de los paneles (inputs, selects y buscadores). */

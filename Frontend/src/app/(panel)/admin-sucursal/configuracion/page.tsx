@@ -1,19 +1,29 @@
 'use client';
 
 /**
- * /admin-sucursal/configuracion — Vista en construcción para configuración de cuenta y sede.
+ * /admin-sucursal/configuracion — Identidad corporativa de la empresa y seguridad de la cuenta (2FA)
+ * para el Administrador de Sucursal.
  */
 
 import React from 'react';
-import { Settings } from 'lucide-react';
-import { ModuleUnderConstruction } from '@/features/admin-sucursal';
+import { PageHeader } from '@/components/panel/PageHeader';
+import { MarcaEmpresaCard } from '@/features/marca';
+import { ToastProvider } from '@/components/ui/Toast';
+import { Activar2FACard } from '@/features/autenticacion/components/cuenta/Activar2FACard';
+import { Desactivar2FACard } from '@/features/autenticacion/components/cuenta/Desactivar2FACard';
 
 export default function AdminSucursalConfiguracionPage() {
   return (
-    <ModuleUnderConstruction
-      title="Configuración"
-      subtitle="Preferencias operativas, seguridad de la cuenta (2FA) y parámetros de la sede"
-      icon={<Settings className="w-5 h-5" />}
-    />
+    <ToastProvider>
+      <div className="flex flex-col gap-6">
+        <PageHeader
+          title="Configuración"
+          subtitle="Identidad corporativa de la empresa y seguridad de acceso (2FA)"
+        />
+        <MarcaEmpresaCard />
+        <Activar2FACard />
+        <Desactivar2FACard />
+      </div>
+    </ToastProvider>
   );
 }
