@@ -725,6 +725,8 @@ body {
 
 /* Marca de agua del logo corporativo: grande, nítida y visible a través del cristal. */
 .marca-agua-img {
+  width: min(88vmin, 880px);
+  height: min(88vmin, 880px);
   opacity: 0.28;
   filter: contrast(1.06) saturate(1.08) drop-shadow(0 0 14px rgba(255, 255, 255, 0.14));
 }

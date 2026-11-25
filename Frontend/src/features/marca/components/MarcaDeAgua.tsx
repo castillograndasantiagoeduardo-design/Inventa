@@ -20,7 +20,7 @@ export function MarcaDeAgua({ className = '-z-10' }: { className?: string }) {
       <img
         src={logoUrl}
         alt=""
-        className="marca-agua-img w-[min(70vmin,640px)] h-[min(70vmin,640px)] object-contain select-none"
+        className="marca-agua-img object-contain select-none"
       />
     </div>
   );
