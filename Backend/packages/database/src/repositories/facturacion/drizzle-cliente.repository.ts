@@ -7,6 +7,7 @@ import {
     DatosActualizarCliente,
     DatosCliente,
     DatosDecisionCreditoCliente,
+    DatosSolicitudCreditoCliente,
     FiltrosClientes,
     FiltrosClientesPaginado,
     IClienteRepository,
@@ -357,6 +358,28 @@ export class DrizzleClienteRepository implements IClienteRepository {
         const actualizado = await this.findById(id);
         if (!actualizado) {
             throw new Error(`Cliente no encontrado tras decisión de crédito: ${id}`);
+        }
+        return actualizado;
+    }
+
+    public async solicitarCredito(id: string, datos: DatosSolicitudCreditoCliente): Promise<Cliente> {
+        await this.db
+            .update(clientes)
+            .set({
+                ganancia_neta_mensual: datos.gananciaNetaMensual.toFixed(2),
+                antiguedad_empresa_meses: datos.antiguedadEmpresaMeses,
+                plazo_credito_dias: datos.plazoCreditoDias,
+                cupo_credito_sugerido: datos.cupoCreditoSugerido.toFixed(2),
+                nivel_riesgo_credito: datos.nivelRiesgoCredito,
+                estado_credito: datos.estadoCredito,
+                observacion_financiera: datos.observacionFinanciera,
+                credito_habilitado: 0,
+            })
+            .where(eq(clientes.id_cliente, id));
+
+        const actualizado = await this.findById(id);
+        if (!actualizado) {
+            throw new Error(`Cliente no encontrado tras solicitud de crédito: ${id}`);
         }
         return actualizado;
     }
