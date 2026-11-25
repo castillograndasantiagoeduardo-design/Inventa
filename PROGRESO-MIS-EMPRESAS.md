@@ -79,6 +79,7 @@
 | Fase 4 | 28 | `6cdba50` | Escritura atómica de cartera, abonos y avisos (Unit of Work) | `deno check` + `deno lint` ok |
 | Fase 4 | 29 | `54c235d` | Wiring en `createContainer`, permisos nuevos y `autenticacion.seed` | `container.ts` check + `seed-roles-permisos.test` (2/2) + matriz (11/11) |
 | Fase 4 | 30 | `c2ba348` | Endpoints GET `empresas-b2b`, `cartera-b2b`, `mora-b2b` y `avisos-pago` | `deno check` + `deno lint` ok |
+| Fase 4 | 31 | `6cf3bce` | Endpoints POST/PUT de solicitud, abonos y avisos + OpenAPI + tests RBAC | `facturacion-roles-matriz` (12/12) + check + lint ok |
 
 ---
 

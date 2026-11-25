@@ -162,6 +162,12 @@ export const CLIENTES_DEMO = [
   {
     tipoDocumento: 'NIT', numero: '900123456-7', nombre: 'Restaurante El Fogón S.A.S.', tipo: 'B2B' as const,
     telefono: '601 222 3344', direccion: 'Av 19 # 104-30, Bogotá', email: 'compras@elfogon.local',
+    creditoHabilitado: true,
+  },
+  {
+    tipoDocumento: 'NIT', numero: '901654321-8', nombre: 'Supermercado La Esquina B2B S.A.S.', tipo: 'B2B' as const,
+    telefono: '601 555 8899', direccion: 'Cra 7 # 45-12, Bogotá', email: 'gerencia@laesquinab2b.local',
+    creditoHabilitado: false,
   },
 ];
 
