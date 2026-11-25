@@ -81,6 +81,7 @@
 | Fase 4 | 30 | `c2ba348` | Endpoints GET `empresas-b2b`, `cartera-b2b`, `mora-b2b` y `avisos-pago` | `deno check` + `deno lint` ok |
 | Fase 4 | 31 | `6cf3bce` | Endpoints POST/PUT de solicitud, abonos y avisos + OpenAPI + tests RBAC | `facturacion-roles-matriz` (12/12) + check + lint ok |
 | Fase 4 | 32 | `1b5297a` | Escenarios `Http/32-mis-empresas-b2b.http` + cartera en `demo.seed.ts` | `deno task test` (492/492) + push origin |
+| Fase 5 | 33 | `22ad360` | Tipos y servicio HTTP `carteras.service.ts` en `vendedor-b2b` | `npm run build` ok |
 
 ---
 
