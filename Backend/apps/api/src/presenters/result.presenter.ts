@@ -91,11 +91,16 @@ export function presentResult<T>(c: Context, result: Result<T, DomainError>, suc
     case 'COTIZACION_ESTADO_INVALIDO':
     case 'COTIZACION_VENCIDA':
     case 'COTIZACION_STOCK_INSUFICIENTE':
+    case 'CREDITO_YA_PAGADO':
+    case 'AVISO_DUPLICADO_PENDIENTE':
+    case 'AVISO_YA_RESUELTO':
       status = 409;
       break;
     case 'CUPO_CREDITO_INSUFICIENTE':
     case 'DECISION_CREDITO_INVALIDA':
     case 'ESTADO_PEDIDO_INVALIDO':
+    case 'MONTO_SUPERA_SALDO':
+    case 'MOTIVO_RECHAZO_REQUERIDO':
       status = 422;
       break;
     case 'ITEM_FACTURA_NO_ENCONTRADO':
