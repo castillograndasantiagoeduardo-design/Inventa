@@ -8,15 +8,17 @@ import React, { useState } from 'react';
 import { AlertTriangle, Building2, Clock, ShieldAlert, RefreshCw } from 'lucide-react';
 import { Tarjeta } from '@/components/Tarjeta';
 import { useEmpresasB2B, useCarteraB2B } from '../hooks';
-import type { EmpresaB2BResumenDto } from '../types';
+import type { CreditoB2BDto, EmpresaB2BResumenDto } from '../types';
 import { CarteraKPIs } from './CarteraKPIs';
 import { EmpresaB2BTabla } from './EmpresaB2BTabla';
+import { CarteraPanel } from './CarteraPanel';
 
 type TabMisEmpresas = 'empresas' | 'cartera' | 'mora';
 
 export function MisEmpresasView() {
   const [tab, setTab] = useState<TabMisEmpresas>('empresas');
   const [empresaSolicitud, setEmpresaSolicitud] = useState<EmpresaB2BResumenDto | null>(null);
+  const [creditoAviso, setCreditoAviso] = useState<CreditoB2BDto | null>(null);
 
   const {
     empresas,
@@ -30,7 +32,21 @@ export function MisEmpresasView() {
     recargar,
   } = useEmpresasB2B();
 
-  const { mora, cargarCartera, cargarMora } = useCarteraB2B();
+  const {
+    creditos,
+    totalCreditos,
+    pagina,
+    setPagina,
+    limite,
+    estadoFiltro,
+    cambiarEstadoFiltro,
+    resumenCartera,
+    mora,
+    cargandoCartera,
+    errorCartera,
+    cargarCartera,
+    cargarMora,
+  } = useCarteraB2B();
 
   const handleRecargar = () => {
     void recargar();
@@ -133,11 +149,19 @@ export function MisEmpresasView() {
       )}
 
       {tab === 'cartera' && (
-        <Tarjeta titulo="Cartera y tiempo pagando">
-          <p className="text-xs font-sans text-text-muted">
-            Panel de cartera disponible para seguimiento de obligaciones.
-          </p>
-        </Tarjeta>
+        <CarteraPanel
+          creditos={creditos}
+          totalCreditos={totalCreditos}
+          pagina={pagina}
+          limite={limite}
+          estadoFiltro={estadoFiltro}
+          resumen={resumenCartera}
+          cargando={cargandoCartera}
+          error={errorCartera}
+          onCambiarEstado={cambiarEstadoFiltro}
+          onCambiarPagina={setPagina}
+          onAvisarPago={(cred) => setCreditoAviso(cred)}
+        />
       )}
 
       {tab === 'mora' && (
@@ -148,9 +172,10 @@ export function MisEmpresasView() {
         </Tarjeta>
       )}
 
-      {empresaSolicitud && (
+      {(empresaSolicitud || creditoAviso) && (
         <div className="sr-only" aria-hidden="true">
-          {empresaSolicitud.nombreRazonSocial}
+          {empresaSolicitud?.nombreRazonSocial}
+          {creditoAviso?.id}
         </div>
       )}
     </div>
