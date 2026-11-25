@@ -75,6 +75,8 @@
 | Fase 3 | 24 | `cf4285c` | `AvisarPagoCreditoUseCase` + pruebas y auditoría | `avisar-pago-credito.use-case.test.ts` (3/3) + lint ok |
 | Fase 3 | 25 | `dce4d0f` | `ResolverAvisoPagoUseCase` + exports en `core/mod.ts` | `resolver-aviso-pago.use-case.test.ts` (4/4) + push origin |
 | Fase 4 | 26 | `a2dfa81` | `DrizzleCarteraRepository` (métodos de lectura) | `deno check` + `deno lint` ok |
+| Fase 4 | 27 | `e1842c8` | Consulta agregada de rentabilidad por cliente | `deno check` + `deno lint` ok |
+| Fase 4 | 28 | `-` | Escritura atómica de cartera, abonos y avisos (Unit of Work) | `deno check` + `deno lint` ok |
 
 ---
 

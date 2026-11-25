@@ -369,7 +369,7 @@ export class DrizzleCarteraRepository implements ICarteraRepository {
     return mapa;
   }
 
-  public registrarCreditoFactura(_params: {
+  public async registrarCreditoFactura(params: {
     facturaId: string;
     clienteId: string;
     sucursalId: number;
@@ -377,31 +377,220 @@ export class DrizzleCarteraRepository implements ICarteraRepository {
     fechaEmision: Date;
     plazoDias: number;
   }): Promise<CreditoB2B> {
-    return Promise.reject(new Error('Implementado en el paso de escritura atómica.'));
+    const id = crypto.randomUUID();
+    const fechaVencimiento = new Date(
+      params.fechaEmision.getTime() + params.plazoDias * 86_400_000,
+    );
+    const montoFijo = Math.round(params.monto * 100) / 100;
+
+    await this.db.insert(creditos_b2b).values({
+      id_credito: id,
+      factura_id: params.facturaId,
+      cliente_id: params.clienteId,
+      sucursal_id: params.sucursalId,
+      monto: montoFijo.toFixed(2),
+      saldo: montoFijo.toFixed(2),
+      fecha_emision: params.fechaEmision,
+      fecha_vencimiento: fechaVencimiento,
+      estado: 'vigente',
+    });
+
+    const creado = await this.obtenerCreditoPorId(id);
+    if (!creado) {
+      throw new Error(`No se pudo recuperar el crédito B2B recién registrado: ${id}`);
+    }
+    return creado;
   }
 
-  public crearAvisoPago(_params: {
+  public async crearAvisoPago(params: {
     creditoId: string;
     monto: number;
     referencia: string;
     nota: string | null;
     avisadoPor: string;
   }): Promise<AvisoPagoCreditoDto> {
-    return Promise.reject(new Error('Implementado en el paso de escritura atómica.'));
+    const id = crypto.randomUUID();
+    await this.db.insert(avisos_pago_credito_b2b).values({
+      id_aviso: id,
+      credito_id: params.creditoId,
+      monto: (Math.round(params.monto * 100) / 100).toFixed(2),
+      referencia: params.referencia,
+      nota: params.nota,
+      estado: 'pendiente',
+      avisado_por: params.avisadoPor,
+      fecha_aviso: new Date(),
+    });
+
+    const creado = await this.obtenerAvisoPorId(id);
+    if (!creado) {
+      throw new Error(`No se pudo recuperar el aviso de pago recién creado: ${id}`);
+    }
+    return creado;
   }
 
-  public registrarAbonoAtomico(
-    _params: RegistrarAbonoAtomicoParams,
+  public async registrarAbonoAtomico(
+    params: RegistrarAbonoAtomicoParams,
   ): Promise<RegistrarAbonoAtomicoResult> {
-    return Promise.reject(new Error('Implementado en el paso de escritura atómica.'));
+    return await this.db.transaction(async (tx) => {
+      const [creditoRow] = await tx
+        .select()
+        .from(creditos_b2b)
+        .where(eq(creditos_b2b.id_credito, params.creditoId))
+        .for('update');
+
+      if (!creditoRow) {
+        throw new Error(`Crédito B2B no encontrado en transacción: ${params.creditoId}`);
+      }
+
+      const [clienteRow] = await tx
+        .select()
+        .from(clientes)
+        .where(eq(clientes.id_cliente, params.clienteId))
+        .for('update');
+
+      if (!clienteRow) {
+        throw new Error(`Cliente no encontrado en transacción: ${params.clienteId}`);
+      }
+
+      const [saldoCarteraAntesRow] = await tx
+        .select({ totalSaldo: sql<number>`COALESCE(SUM(${creditos_b2b.saldo}), 0)` })
+        .from(creditos_b2b)
+        .where(eq(creditos_b2b.cliente_id, params.clienteId));
+
+      const saldoActual = Number(creditoRow.saldo);
+      const montoAplicado = Math.min(saldoActual, Math.round(params.monto * 100) / 100);
+      const nuevoSaldo = Math.max(0, Math.round((saldoActual - montoAplicado) * 100) / 100);
+      const nuevoEstado: EstadoCreditoPersistido = nuevoSaldo <= 0.001 ? 'pagado' : 'vigente';
+      const ahora = new Date();
+      const abonoId = crypto.randomUUID();
+
+      await tx.insert(abonos_credito_b2b).values({
+        id_abono: abonoId,
+        credito_id: params.creditoId,
+        monto: montoAplicado.toFixed(2),
+        fecha: ahora,
+        registrado_por: params.registradoPor,
+        aviso_id: params.avisoId ?? null,
+      });
+
+      await tx
+        .update(creditos_b2b)
+        .set({
+          saldo: nuevoSaldo.toFixed(2),
+          estado: nuevoEstado,
+          updated_at: ahora,
+        })
+        .where(eq(creditos_b2b.id_credito, params.creditoId));
+
+      if (params.avisoId) {
+        const [avisoRes] = await tx
+          .update(avisos_pago_credito_b2b)
+          .set({
+            estado: 'confirmado',
+            revisado_por: params.registradoPor,
+            fecha_revision: ahora,
+          })
+          .where(
+            and(
+              eq(avisos_pago_credito_b2b.id_aviso, params.avisoId),
+              eq(avisos_pago_credito_b2b.estado, 'pendiente'),
+            ),
+          );
+
+        if (Number(avisoRes.affectedRows) === 0) {
+          throw new Error(`El aviso de pago ya fue resuelto o no existe: ${params.avisoId}`);
+        }
+      }
+
+      const cupoUtilizadoAntes = Number(clienteRow.cupo_credito_utilizado ?? 0);
+      const cupoUtilizadoDespues = Math.max(
+        0,
+        Math.round((cupoUtilizadoAntes - montoAplicado) * 100) / 100,
+      );
+
+      await tx
+        .update(clientes)
+        .set({
+          cupo_credito_utilizado: cupoUtilizadoDespues.toFixed(2),
+        })
+        .where(eq(clientes.id_cliente, params.clienteId));
+
+      const [creditoJoined] = await tx
+        .select({
+          credito: creditos_b2b,
+          facturaConsecutivo: facturas.consecutivo,
+          clienteNombre: clientes.nombre_razon_social,
+        })
+        .from(creditos_b2b)
+        .innerJoin(facturas, eq(creditos_b2b.factura_id, facturas.id_factura))
+        .innerJoin(clientes, eq(creditos_b2b.cliente_id, clientes.id_cliente))
+        .where(eq(creditos_b2b.id_credito, params.creditoId))
+        .limit(1);
+
+      const [registradorRow] = await tx
+        .select({
+          empleadoNombre: empleados.nombre,
+          usuarioEmail: usuarios.email,
+        })
+        .from(usuarios)
+        .leftJoin(empleados, eq(usuarios.empleado_id, empleados.id_empleado))
+        .where(eq(usuarios.id_usuario, params.registradoPor))
+        .limit(1);
+
+      const saldoClienteAntes = Number(saldoCarteraAntesRow?.totalSaldo ?? 0);
+      const saldoClienteDespues = Math.max(
+        0,
+        Math.round((saldoClienteAntes - montoAplicado) * 100) / 100,
+      );
+
+      return {
+        abono: {
+          id: abonoId,
+          creditoId: params.creditoId,
+          monto: montoAplicado,
+          fecha: ahora.toISOString(),
+          registradoPor: params.registradoPor,
+          registradoPorNombre: registradorRow?.empleadoNombre ?? registradorRow?.usuarioEmail ?? null,
+          avisoId: params.avisoId ?? null,
+        },
+        creditoActualizado: this.mapCredito(
+          creditoJoined.credito,
+          creditoJoined.facturaConsecutivo,
+          creditoJoined.clienteNombre,
+        ),
+        saldoClienteAntes,
+        saldoClienteDespues,
+        cupoUtilizadoAntes,
+        cupoUtilizadoDespues,
+      };
+    });
   }
 
-  public rechazarAvisoPago(_params: {
+  public async rechazarAvisoPago(params: {
     avisoId: string;
     revisadoPor: string;
     motivoRechazo: string;
   }): Promise<AvisoPagoCreditoDto> {
-    return Promise.reject(new Error('Implementado en el paso de escritura atómica.'));
+    await this.db
+      .update(avisos_pago_credito_b2b)
+      .set({
+        estado: 'rechazado',
+        revisado_por: params.revisadoPor,
+        fecha_revision: new Date(),
+        motivo_rechazo: params.motivoRechazo,
+      })
+      .where(
+        and(
+          eq(avisos_pago_credito_b2b.id_aviso, params.avisoId),
+          eq(avisos_pago_credito_b2b.estado, 'pendiente'),
+        ),
+      );
+
+    const actualizado = await this.obtenerAvisoPorId(params.avisoId);
+    if (!actualizado) {
+      throw new Error(`No se pudo recuperar el aviso rechazado: ${params.avisoId}`);
+    }
+    return actualizado;
   }
 
   private mapCredito(
