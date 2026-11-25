@@ -14,6 +14,7 @@ export * from './EmpresaB2BHistorial';
 export * from './CarteraPanel';
 export * from './MoraPanel';
 export * from './SoltarCreditoModal';
+export * from './AvisarPagoModal';
 export * from './MisEmpresasView';
 export * from './EmpresaB2BDetalle';
 export * from './vendedor-b2b.navigation.config';

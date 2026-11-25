@@ -8,12 +8,18 @@ import React, { useState } from 'react';
 import { AlertTriangle, Building2, CheckCircle2, Clock, ShieldAlert, RefreshCw, X } from 'lucide-react';
 import { Tarjeta } from '@/components/Tarjeta';
 import { useEmpresasB2B, useCarteraB2B } from '../hooks';
-import type { CreditoB2BDto, EmpresaB2BResumenDto, SolicitarCreditoB2BInput } from '../types';
+import type {
+  AvisarPagoInput,
+  CreditoB2BDto,
+  EmpresaB2BResumenDto,
+  SolicitarCreditoB2BInput,
+} from '../types';
 import { CarteraKPIs } from './CarteraKPIs';
 import { EmpresaB2BTabla } from './EmpresaB2BTabla';
 import { CarteraPanel } from './CarteraPanel';
 import { MoraPanel } from './MoraPanel';
 import { SoltarCreditoModal } from './SoltarCreditoModal';
+import { AvisarPagoModal } from './AvisarPagoModal';
 
 type TabMisEmpresas = 'empresas' | 'cartera' | 'mora';
 
@@ -52,6 +58,7 @@ export function MisEmpresasView() {
     errorMora,
     cargarCartera,
     cargarMora,
+    avisarPago,
   } = useCarteraB2B();
 
   const handleRecargar = () => {
@@ -64,6 +71,14 @@ export function MisEmpresasView() {
     const res = await solicitarCredito(clienteId, payload);
     setNotificacion(
       `Solicitud enviada para ${res.cliente.nombreRazonSocial} (cupo sugerido $${res.evaluacionCredito.cupoSugerido.toLocaleString('es-CO')} COP). Quedó pendiente de aprobación.`,
+    );
+  };
+
+  const handleAvisarPago = async (creditoId: string, payload: AvisarPagoInput) => {
+    const aviso = await avisarPago(creditoId, payload);
+    await recargar();
+    setNotificacion(
+      `Aviso de pago ${aviso.referencia} registrado en estado pendiente para revisión del Administrador de Sucursal.`,
     );
   };
 
@@ -205,11 +220,12 @@ export function MisEmpresasView() {
         onSubmit={handleSolicitarCredito}
       />
 
-      {creditoAviso && (
-        <div className="sr-only" aria-hidden="true">
-          {creditoAviso.id}
-        </div>
-      )}
+      <AvisarPagoModal
+        open={Boolean(creditoAviso)}
+        credito={creditoAviso}
+        onClose={() => setCreditoAviso(null)}
+        onSubmit={handleAvisarPago}
+      />
     </div>
   );
 }

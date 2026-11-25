@@ -11,38 +11,70 @@ import Link from 'next/link';
 import {
   AlertTriangle,
   ArrowLeft,
+  CheckCircle2,
   ShieldAlert,
   Sparkles,
   TrendingUp,
   Wallet,
+  X,
 } from 'lucide-react';
 import { Tarjeta } from '@/components/Tarjeta';
 import { Insignia } from '@/components/Insignia';
 import { formatCOP, formatPorcentaje } from '@/lib/format/moneda';
 import { useEmpresaB2BDetalle } from '../hooks';
-import type { CreditoB2BDto, SolicitarCreditoB2BInput } from '../types';
+import type { AvisarPagoInput, CreditoB2BDto, SolicitarCreditoB2BInput } from '../types';
 import { BADGE_ESTADO_CREDITO, BADGE_RIESGO } from './carteraBadges';
 import { EmpresaB2BHistorial } from './EmpresaB2BHistorial';
 import { SoltarCreditoModal } from './SoltarCreditoModal';
+import { AvisarPagoModal } from './AvisarPagoModal';
 
 export interface EmpresaB2BDetalleProps {
   clienteId: string;
 }
 
 export function EmpresaB2BDetalle({ clienteId }: EmpresaB2BDetalleProps) {
-  const { detalle, cargando, error, sinPermiso, solicitarCredito } = useEmpresaB2BDetalle(clienteId);
+  const { detalle, cargando, error, sinPermiso, solicitarCredito, avisarPago } =
+    useEmpresaB2BDetalle(clienteId);
   const [creditoAviso, setCreditoAviso] = useState<CreditoB2BDto | null>(null);
   const [modalSolicitud, setModalSolicitud] = useState(false);
+  const [notificacion, setNotificacion] = useState<string | null>(null);
 
   const handleSolicitarCredito = async (_id: string, payload: SolicitarCreditoB2BInput) => {
-    await solicitarCredito(payload);
+    const res = await solicitarCredito(payload);
+    setNotificacion(
+      `Solicitud enviada (cupo sugerido ${formatCOP(res.evaluacionCredito.cupoSugerido)}). Quedó pendiente de aprobación.`,
+    );
+  };
+
+  const handleAvisarPago = async (creditoId: string, payload: AvisarPagoInput) => {
+    const aviso = await avisarPago(creditoId, payload);
+    setNotificacion(
+      `Aviso de pago ${aviso.referencia} registrado en estado pendiente para revisión administrativa.`,
+    );
   };
 
   if (cargando) {
     return (
       <div className="space-y-4">
         <div className="vidrio h-24 rounded-2xl animate-pulse" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {notificacion && (
+        <div className="vidrio p-4 rounded-xl border border-green-500/30 bg-green-500/10 text-green-800 dark:text-green-200 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+            <p className="text-xs font-sans">{notificacion}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setNotificacion(null)}
+            className="p-1 rounded-lg hover:bg-green-500/10 cursor-pointer shrink-0"
+            aria-label="Cerrar notificación"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[0, 1, 2].map((i) => (
             <div key={i} className="vidrio h-36 rounded-2xl animate-pulse" />
           ))}
@@ -114,6 +146,23 @@ export function EmpresaB2BDetalle({ clienteId }: EmpresaB2BDetalleProps) {
         )}
       </div>
 
+      {notificacion && (
+        <div className="vidrio p-4 rounded-xl border border-green-500/30 bg-green-500/10 text-green-800 dark:text-green-200 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+            <p className="text-xs font-sans">{notificacion}</p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setNotificacion(null)}
+            className="p-1 rounded-lg hover:bg-green-500/10 cursor-pointer shrink-0"
+            aria-label="Cerrar notificación"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Tarjeta>
           <div className="flex items-center justify-between">
@@ -181,11 +230,12 @@ export function EmpresaB2BDetalle({ clienteId }: EmpresaB2BDetalleProps) {
         onSubmit={handleSolicitarCredito}
       />
 
-      {creditoAviso && (
-        <div className="sr-only" aria-hidden="true">
-          {creditoAviso.id}
-        </div>
-      )}
+      <AvisarPagoModal
+        open={Boolean(creditoAviso)}
+        credito={creditoAviso}
+        onClose={() => setCreditoAviso(null)}
+        onSubmit={handleAvisarPago}
+      />
     </div>
   );
 }
