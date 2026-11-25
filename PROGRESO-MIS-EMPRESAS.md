@@ -68,4 +68,13 @@
 | Fase 3 | 17 | `fce1704` | `ListarEmpresasB2BUseCase` + pruebas | `listar-empresas-b2b.use-case.test.ts` (1/1) |
 | Fase 3 | 18 | `b9aa284` | `ObtenerEmpresaB2BDetalleUseCase` + pruebas | `obtener-empresa-b2b-detalle.use-case.test.ts` (2/2) |
 | Fase 3 | 19 | `0527125` | `ListarCarteraUseCase` + pruebas | `listar-cartera.use-case.test.ts` (1/1) |
-| Fase 3 | 20 | `pendiente` | `ListarEmpresasEnMoraUseCase` + pruebas | `listar-empresas-en-mora.use-case.test.ts` |
+| Fase 3 | 20 | `f8d7f04` | `ListarEmpresasEnMoraUseCase` + pruebas | `listar-empresas-en-mora.use-case.test.ts` (1/1) |
+| Fase 3 | 21 | `d1e57aa` | `SolicitarCreditoB2BUseCase` + pruebas y auditoría | `solicitar-credito-b2b.use-case.test.ts` (3/3) + lint ok |
+
+---
+
+## 5. Punto de Retoma
+
+- **Último commit completado:** Paso 20 (`f8d7f04`) — Fase 3 (`ListarEmpresasEnMoraUseCase`).
+- **Próximo paso:** Paso 21 — `feat(core): SolicitarCreditoB2BUseCase con auditoría` (y continuar del 21 al 43).
+- **Rama actual:** `Actualizaciones` (sin merge a `main`).
