@@ -72,6 +72,7 @@
 | Fase 3 | 21 | `d1e57aa` | `SolicitarCreditoB2BUseCase` + pruebas y auditoría | `solicitar-credito-b2b.use-case.test.ts` (3/3) + lint ok |
 | Fase 3 | 22 | `aca42df` | Registrar obligación de cartera B2B al facturar a crédito | `crear-factura.use-case.test.ts` (7/7) + `cotizacion-b2b-y-credito` (5/5) |
 | Fase 3 | 23 | `ab71622` | `RegistrarAbonoCreditoUseCase` + errores de cartera + auditoría | `registrar-abono-credito.use-case.test.ts` (3/3) + lint ok |
+| Fase 3 | 24 | `cf4285c` | `AvisarPagoCreditoUseCase` + pruebas y auditoría | `avisar-pago-credito.use-case.test.ts` (3/3) + lint ok |
 
 ---
 
