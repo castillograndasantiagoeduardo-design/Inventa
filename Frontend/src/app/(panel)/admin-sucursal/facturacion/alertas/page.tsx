@@ -83,7 +83,7 @@ export default function AlertasPage() {
   return (
     <div className="space-y-4">
       {/* Selector de Pestañas / Filtro de Estado */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl border border-white/[0.08] bg-white/[0.02] vidrio">
+      <div className="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl border border-border vidrio">
         <div className="flex flex-wrap items-center gap-1.5">
           {estadosPills.map((pill) => {
             const activo = filtroEstado === pill.id;
@@ -92,10 +92,10 @@ export default function AlertasPage() {
                 key={pill.id}
                 type="button"
                 onClick={() => setFiltroEstado(pill.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
                   activo
-                    ? 'bg-[#e3b341] text-slate-950 shadow-sm'
-                    : 'text-slate-400 hover:text-white hover:bg-white/[0.05]'
+                    ? 'bg-brand-600/15 dark:bg-brand-500/20 border border-brand-600/35 dark:border-brand-400/40 text-brand-700 dark:text-slate-100 shadow-xs'
+                    : 'border border-transparent text-text-muted hover:text-text hover:bg-slate-900/5 dark:hover:bg-white/[0.05]'
                 }`}
               >
                 {pill.label}
@@ -104,7 +104,7 @@ export default function AlertasPage() {
           })}
         </div>
 
-        <span className="text-xs text-slate-400 font-mono">
+        <span className="text-xs text-text-muted font-mono">
           {alertas.length} alerta(s)
         </span>
       </div>
@@ -137,7 +137,7 @@ export default function AlertasPage() {
                 className={`p-4 rounded-2xl border transition-all vidrio ${
                   esUrgente
                     ? 'border-red-500/30 bg-red-500/[0.03]'
-                    : 'border-white/[0.08] bg-white/[0.02]'
+                    : 'border-border'
                 }`}
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
@@ -146,8 +146,8 @@ export default function AlertasPage() {
                       <span
                         className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase font-mono border ${
                           esUrgente
-                            ? 'bg-red-500/20 text-red-300 border-red-500/40'
-                            : 'bg-blue-500/20 text-blue-300 border-blue-500/30'
+                            ? 'bg-red-500/20 text-red-600 dark:text-red-300 border-red-500/40'
+                            : 'bg-blue-500/15 text-blue-700 dark:text-blue-300 border-blue-500/30'
                         }`}
                       >
                         {alerta.prioridad}
@@ -156,16 +156,16 @@ export default function AlertasPage() {
                       <span
                         className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase font-mono border ${
                           esAtendida
-                            ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
+                            ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30'
                             : esVisto
-                            ? 'bg-sky-500/20 text-sky-300 border-sky-500/30'
-                            : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
+                            ? 'bg-sky-500/15 text-sky-700 dark:text-sky-300 border-sky-500/30'
+                            : 'bg-brand-500/15 text-brand-700 dark:text-brand-300 border-brand-500/30'
                         }`}
                       >
                         {alerta.estado}
                       </span>
 
-                      <span className="text-[11px] text-slate-400 font-mono">
+                      <span className="text-[11px] text-text-muted font-mono">
                         {new Date(alerta.fechaCreacion).toLocaleDateString('es-CO', {
                           day: '2-digit',
                           month: 'short',
@@ -175,24 +175,24 @@ export default function AlertasPage() {
                       </span>
                     </div>
 
-                    <h3 className="text-sm font-bold text-white flex items-center gap-1.5">
+                    <h3 className="text-sm font-bold text-text flex items-center gap-1.5">
                       {esUrgente ? (
-                        <AlertCircle size={16} className="text-red-400 shrink-0" aria-hidden="true" />
+                        <AlertCircle size={16} className="text-red-500 dark:text-red-400 shrink-0" aria-hidden="true" />
                       ) : (
-                        <Bell size={16} className="text-[#e3b341] shrink-0" aria-hidden="true" />
+                        <Bell size={16} className="text-brand-600 dark:text-brand-400 shrink-0" aria-hidden="true" />
                       )}
                       <span>{alerta.motivo}</span>
                     </h3>
 
                     {alerta.descripcion && (
-                      <p className="text-xs text-slate-300 leading-relaxed">
+                      <p className="text-xs text-text-muted leading-relaxed">
                         {alerta.descripcion}
                       </p>
                     )}
 
-                    <div className="pt-1 text-[11px] text-slate-400">
+                    <div className="pt-1 text-[11px] text-text-muted">
                       <span>Emitida por: </span>
-                      <strong className="text-slate-300">
+                      <strong className="text-text font-semibold">
                         {alerta.usuarioNombre || alerta.usuarioEmail || 'Cajero de turno'}
                       </strong>
                     </div>

@@ -148,3 +148,54 @@ export class EstadoPedidoInvalidoError extends DomainError {
     super(mensaje);
   }
 }
+
+export class CreditoB2BNoEncontradoError extends DomainError {
+  public readonly code = 'CREDITO_NO_ENCONTRADO';
+  constructor() {
+    super('La obligación de crédito B2B no existe.');
+  }
+}
+
+export class CreditoYaPagadoError extends DomainError {
+  public readonly code = 'CREDITO_YA_PAGADO';
+  constructor() {
+    super('Esta obligación de crédito ya se encuentra pagada en su totalidad.');
+  }
+}
+
+export class MontoSuperaSaldoError extends DomainError {
+  public readonly code = 'MONTO_SUPERA_SALDO';
+  constructor(saldoDisponible: number, montoSolicitado: number) {
+    super(
+      `El monto ($${montoSolicitado.toLocaleString('es-CO')}) supera el saldo pendiente del crédito ($${saldoDisponible.toLocaleString('es-CO')}).`,
+    );
+  }
+}
+
+export class AvisoDuplicadoPendienteError extends DomainError {
+  public readonly code = 'AVISO_DUPLICADO_PENDIENTE';
+  constructor(referencia: string) {
+    super(`Ya existe un aviso de pago pendiente con la referencia "${referencia}" para este crédito.`);
+  }
+}
+
+export class AvisoNoEncontradoError extends DomainError {
+  public readonly code = 'AVISO_NO_ENCONTRADO';
+  constructor() {
+    super('El aviso de pago no existe.');
+  }
+}
+
+export class AvisoYaResueltoError extends DomainError {
+  public readonly code = 'AVISO_YA_RESUELTO';
+  constructor() {
+    super('Este aviso de pago ya fue revisado y resuelto previamente.');
+  }
+}
+
+export class MotivoRechazoRequeridoError extends DomainError {
+  public readonly code = 'MOTIVO_RECHAZO_REQUERIDO';
+  constructor() {
+    super('Para rechazar un aviso de pago debes indicar un motivo (mínimo 5 caracteres).');
+  }
+}

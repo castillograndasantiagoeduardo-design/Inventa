@@ -35,7 +35,7 @@ export interface FiltrosKardex {
   sucursalId?: number;
   sucursalIds?: number[];
   proveedorId?: number;
-  tipo?: 'entrada' | 'salida' | 'ajuste_entrada' | 'ajuste_salida';
+  tipo?: 'entrada' | 'salida' | 'ajuste_entrada' | 'ajuste_salida' | 'ajuste_positivo' | 'ajuste_negativo' | 'venta' | 'devolucion' | string;
   desde?: Date;
   hasta?: Date;
   limit: number;

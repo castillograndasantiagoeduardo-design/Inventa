@@ -6,30 +6,105 @@
  */
 
 import type {
+  AbonoCreditoDto,
+  AvisoPagoCreditoDto,
+  AvisarPagoInput,
   ClienteDto,
   CotizacionB2BDto,
   CrearClienteInput,
   CrearCotizacionB2BInput,
+  CreditoB2BDto,
+  EmpresaB2BDetalleDto,
+  EmpresaB2BResumenDto,
+  EmpresaEnMoraDto,
+  EstadoAvisoPago,
+  EstadoCarteraB2B,
   EvaluacionCreditoB2BDto,
   FacturaDto,
+  FiltrosAvisosPago,
+  FiltrosCarteraB2B,
+  FiltrosEmpresasB2B,
   MedioPago,
   PlazoCreditoDias,
   ProductoResponse,
+  RegistrarAbonoCreditoInput,
+  ResolverAvisoInput,
+  ResumenCarteraDto,
   SimularCreditoB2BInput,
+  SolicitarCreditoB2BInput,
 } from '@inventa/contracts';
 
 export type {
+  AbonoCreditoDto,
+  AvisoPagoCreditoDto,
+  AvisarPagoInput,
   ClienteDto,
   CotizacionB2BDto,
   CrearClienteInput,
   CrearCotizacionB2BInput,
+  CreditoB2BDto,
+  EmpresaB2BDetalleDto,
+  EmpresaB2BResumenDto,
+  EmpresaEnMoraDto,
+  EstadoAvisoPago,
+  EstadoCarteraB2B,
   EvaluacionCreditoB2BDto,
   FacturaDto,
+  FiltrosAvisosPago,
+  FiltrosCarteraB2B,
+  FiltrosEmpresasB2B,
   MedioPago,
   PlazoCreditoDias,
   ProductoResponse,
+  RegistrarAbonoCreditoInput,
+  ResolverAvisoInput,
+  ResumenCarteraDto,
   SimularCreditoB2BInput,
+  SolicitarCreditoB2BInput,
 };
+
+export interface ListarEmpresasB2BResponseDto {
+  empresas: EmpresaB2BResumenDto[];
+  resumen: ResumenCarteraDto;
+}
+
+export interface ListarCarteraResponseDto {
+  items: CreditoB2BDto[];
+  total: number;
+  pagina: number;
+  limite: number;
+  resumen: {
+    vigentes: number;
+    pagados: number;
+    enMora: number;
+    saldoTotal: number;
+  };
+}
+
+export interface ListarAvisosPagoResponseDto {
+  items: AvisoPagoCreditoDto[];
+  total: number;
+  pagina: number;
+  limite: number;
+}
+
+export interface SolicitarCreditoB2BResponseDto {
+  cliente: ClienteDto;
+  evaluacionCredito: EvaluacionCreditoB2BDto;
+  alertaSuperAdminEnviada: boolean;
+}
+
+export interface RegistrarAbonoCreditoResponseDto {
+  abono: AbonoCreditoDto;
+  credito: CreditoB2BDto;
+}
+
+export interface ResolverAvisoPagoResponseDto {
+  decision: 'confirmar' | 'rechazar';
+  aviso: AvisoPagoCreditoDto;
+  abono?: AbonoCreditoDto;
+  credito?: CreditoB2BDto;
+}
 
 export interface CrearClienteResultadoDto {
   cliente: ClienteDto;

@@ -1,4 +1,6 @@
 import { assertEquals } from 'jsr:@std/assert';
+import type { ICarteraRepository } from '../../src/modules/facturacion/domain/repositories/ICarteraRepository.ts';
+import { CreditoB2B } from '../../src/modules/facturacion/domain/entities/CreditoB2B.ts';
 import {
     ACCIONES_AUDITORIA,
     ActorAuditoria,
@@ -323,5 +325,179 @@ Deno.test('CrearFactura: rechaza venta B2B si el cliente es B2C', async () => {
 
     assertEquals(result.isFailure, true);
     assertEquals(result.error.code, 'CLIENTE_REQUERIDO_B2B');
+    assertEquals(auditor.eventos.length, 0);
+});
+
+Deno.test('CrearFactura: venta a crédito corporativo registra la obligación en cartera B2B', async () => {
+    const clienteB2B = new Cliente(
+        'cli-b2b-cred',
+        'NIT',
+        '900555666',
+        'Empresa Credito SAS',
+        'B2B',
+        'pagos@empresacredito.co',
+        '3105556677',
+        'Cra 10 # 20-30',
+        true,
+        20_000_000,
+        24,
+        45,
+        5_000_000,
+        5_000_000,
+        0,
+        'medio',
+        'aprobado',
+    );
+    const registrados: Array<{ facturaId: string; clienteId: string; sucursalId: number; monto: number; plazoDias: number }> = [];
+
+    const carteraRepo = {
+        registrarCreditoFactura: (params: {
+            facturaId: string;
+            clienteId: string;
+            sucursalId: number;
+            monto: number;
+            fechaEmision: Date;
+            plazoDias: number;
+        }) => {
+            registrados.push(params);
+            return Promise.resolve(
+                new CreditoB2B(
+                    'cred-nuevo',
+                    params.facturaId,
+                    1,
+                    params.clienteId,
+                    clienteB2B.nombreRazonSocial,
+                    params.sucursalId,
+                    params.monto,
+                    params.monto,
+                    params.fechaEmision,
+                    new Date(params.fechaEmision.getTime() + params.plazoDias * 86_400_000),
+                ),
+            );
+        },
+    } as unknown as ICarteraRepository;
+
+    const { auditor } = armar({ clientes: { 'cli-b2b-cred': clienteB2B } });
+    const facturasGuardadas: Factura[] = [];
+    const uc = new CrearFacturaUseCase(
+        {
+            obtenerSiguienteConsecutivo: () => Promise.resolve(1),
+            crear: (datos) => {
+                const f = new Factura(
+                    datos.factura.id,
+                    1,
+                    datos.factura.clienteId,
+                    datos.factura.usuarioId,
+                    datos.factura.sucursalId,
+                    datos.factura.turnoCajaId,
+                    datos.factura.subtotal,
+                    datos.factura.iva,
+                    datos.factura.total,
+                    'emitida',
+                    null,
+                    new Date(),
+                    datos.items,
+                    datos.pagos,
+                );
+                facturasGuardadas.push(f);
+                return Promise.resolve(f);
+            },
+            findById: () => Promise.resolve(null),
+            listar: () => Promise.resolve([]),
+            anular: () => Promise.resolve(null),
+        },
+        {
+            buscarAbiertoDeUsuario: () => Promise.resolve(null),
+            abrir: () => Promise.resolve(makeTurno()),
+            findById: () => Promise.resolve(null),
+            cerrar: () => Promise.resolve(makeTurno()),
+        },
+        {
+            findById: (id: string) => Promise.resolve(id === clienteB2B.id ? clienteB2B : null),
+            findByDocumento: () => Promise.resolve(null),
+            buscar: () => Promise.resolve([]),
+            crear: () => Promise.resolve(clienteB2B),
+            actualizar: () => Promise.resolve(clienteB2B),
+        },
+        { obtenerSucursalId: () => Promise.resolve(2) },
+        auditor,
+        carteraRepo,
+    );
+
+    const res = await uc.execute({
+        clienteId: clienteB2B.id,
+        esB2B: true,
+        items: [{ productoId: crypto.randomUUID(), cantidad: 2, precioUnitario: 300_000 }],
+        pagos: [{ medioPago: 'credito_corporativo', monto: 600_000 }],
+        actor: actorVendedorB2B,
+    });
+
+    assertEquals(res.isSuccess, true);
+    assertEquals(registrados.length, 1);
+    assertEquals(registrados[0].clienteId, clienteB2B.id);
+    assertEquals(registrados[0].sucursalId, 2);
+    assertEquals(registrados[0].monto, 600_000);
+    assertEquals(registrados[0].plazoDias, 45);
+});
+
+Deno.test('CrearFactura: rechaza venta si alguno de los productos está inactivo en el catálogo', async () => {
+    const cliente = makeCliente('cli-1', 'B2C');
+    const { facturaRepo, turnoRepo, clienteRepo, sucursalRepo, auditor, facturasGuardadas } = (() => {
+        const base = armar({
+            turnosAbiertos: { 'usr-cajero-1': makeTurno('turno-1', 'usr-cajero-1') },
+            clientes: { 'cli-1': cliente },
+            sucursalId: 1,
+        });
+        return {
+            ...base,
+            facturaRepo: (base.useCase as any).facturaRepository,
+            turnoRepo: (base.useCase as any).turnoRepository,
+            clienteRepo: (base.useCase as any).clienteRepository,
+            sucursalRepo: (base.useCase as any).sucursalOperadorRepository,
+        };
+    })();
+
+    const productoInactivoId = crypto.randomUUID();
+    const productoRepoFake: any = {
+        findById: (id: string) =>
+            Promise.resolve(
+                id === productoInactivoId
+                    ? { id, sku: 'INA-01', nombre: 'Mouse Inactivo', isActive: false }
+                    : { id, sku: 'ACT-01', nombre: 'Teclado Activo', isActive: true },
+            ),
+    };
+
+    const useCaseConProducto = new CrearFacturaUseCase(
+        facturaRepo,
+        turnoRepo,
+        clienteRepo,
+        sucursalRepo,
+        auditor,
+        undefined,
+        productoRepoFake,
+    );
+
+    const result = await useCaseConProducto.execute({
+        clienteId: 'cli-1',
+        items: [
+            {
+                productoId: productoInactivoId,
+                cantidad: 1,
+                precioUnitario: 25000,
+            },
+        ],
+        pagos: [
+            {
+                medioPago: 'efectivo',
+                monto: 25000,
+            },
+        ],
+        esB2B: false,
+        actor: actorCajeroConTurno,
+    });
+
+    assertEquals(result.isFailure, true);
+    assertEquals(result.error.code, 'PRODUCTO_INACTIVO');
+    assertEquals(facturasGuardadas.length, 0);
     assertEquals(auditor.eventos.length, 0);
 });

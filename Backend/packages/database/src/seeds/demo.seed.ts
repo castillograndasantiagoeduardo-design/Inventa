@@ -19,11 +19,16 @@
  */
 
 import * as argon2 from 'argon2';
-import { and, eq, sql } from 'drizzle-orm';
+import { and, desc, eq, sql } from 'drizzle-orm';
 import { closeDatabase, Database, getDatabase } from '../client.ts';
 import { areas, empleados, sucursales } from '../schema/administracion.schema.ts';
 import { alertas_admin, historial_salarios, roles, usuarios } from '../schema/autenticacion.schema.ts';
 import { clientes, factura_items, factura_pagos, facturas } from '../schema/facturacion.schema.ts';
+import {
+  abonos_credito_b2b,
+  avisos_pago_credito_b2b,
+  creditos_b2b,
+} from '../schema/cartera.schema.ts';
 import { categorias, inventario_sucursal, movimientos_inventario, productos, proveedores } from '../schema/inventario.schema.ts';
 import { turnos_caja } from '../schema/turnos-caja.schema.ts';
 import {
@@ -289,6 +294,7 @@ async function asegurarClientes(db: Database): Promise<string[]> {
       .limit(1);
     const id = existente?.id ?? crypto.randomUUID();
     if (!existente) {
+      const conCredito = 'creditoHabilitado' in c ? Boolean(c.creditoHabilitado) : false;
       await db.insert(clientes).values({
         id_cliente: id,
         tipo_documento: c.tipoDocumento,
@@ -298,7 +304,7 @@ async function asegurarClientes(db: Database): Promise<string[]> {
         email: 'email' in c ? c.email : null,
         telefono: 'telefono' in c ? c.telefono : null,
         direccion: 'direccion' in c ? c.direccion : null,
-        credito_habilitado: c.tipo === 'B2B' ? 1 : 0,
+        credito_habilitado: conCredito ? 1 : 0,
       });
     }
     ids.push(id);
@@ -449,6 +455,187 @@ async function asegurarAlertas(db: Database, sucursalId: number, usuarioId: stri
   }
 }
 
+/**
+ * Siembra cartera corporativa B2B de demostración (crédito en mora con abono parcial,
+ * crédito vigente con aviso de pago pendiente) sobre el cliente B2B habilitado, si aún no existe.
+ */
+async function asegurarCarteraB2BDemo(
+  db: Database,
+  sucursalId: number,
+  vendedorId: string,
+  adminId: string,
+  clienteB2BId: string,
+  _productoIds: Map<string, string>,
+) {
+  const [{ n }] = await db
+    .select({ n: sql<number>`COUNT(*)` })
+    .from(creditos_b2b)
+    .where(eq(creditos_b2b.cliente_id, clienteB2BId));
+  if (Number(n) > 0) return;
+
+  const [invDisponible] = await db
+    .select({
+      productoId: inventario_sucursal.producto_id,
+      stockActual: inventario_sucursal.stock_actual,
+      precioVenta: productos.precio_venta,
+    })
+    .from(inventario_sucursal)
+    .innerJoin(productos, eq(inventario_sucursal.producto_id, productos.id_producto))
+    .where(eq(inventario_sucursal.sucursal_id, sucursalId))
+    .orderBy(desc(inventario_sucursal.stock_actual))
+    .limit(1);
+
+  if (!invDisponible || invDisponible.stockActual < 2) return;
+
+  const productoId = invDisponible.productoId;
+  const precioUnitario = Number(invDisponible.precioVenta);
+  const cantMora = Math.min(5, Math.max(1, Math.floor((invDisponible.stockActual - 1) / 2)));
+  const cantVigente = Math.min(3, Math.max(1, invDisponible.stockActual - cantMora));
+
+  await db
+    .update(clientes)
+    .set({
+      credito_habilitado: 1,
+      estado_credito: 'aprobado',
+      ganancia_neta_mensual: dinero(18_000_000),
+      antiguedad_empresa_meses: 28,
+      plazo_credito_dias: 30,
+      cupo_credito_sugerido: dinero(4_200_000),
+      cupo_credito_aprobado: dinero(4_500_000),
+      cupo_credito_utilizado: dinero(750_000),
+      nivel_riesgo_credito: 'medio',
+      credito_aprobado_por: adminId,
+      credito_aprobado_en: new Date(Date.now() - 45 * 86_400_000),
+      motivo_decision_credito: 'Cupo inicial aprobado para cartera B2B demo',
+    })
+    .where(eq(clientes.id_cliente, clienteB2BId));
+
+  const [{ maxConsecutivo }] = await db
+    .select({ maxConsecutivo: sql<number>`COALESCE(MAX(${facturas.consecutivo}), 0)` })
+    .from(facturas)
+    .where(eq(facturas.sucursal_id, sucursalId));
+  let consecutivo = Number(maxConsecutivo ?? 0);
+
+  const ahora = new Date();
+  const emisionMora = new Date(ahora.getTime() - 42 * 86_400_000);
+  const vencimientoMora = new Date(ahora.getTime() - 12 * 86_400_000);
+  const emisionVigente = new Date(ahora.getTime() - 8 * 86_400_000);
+  const vencimientoVigente = new Date(ahora.getTime() + 22 * 86_400_000);
+
+  const facturaMoraId = crypto.randomUUID();
+  const facturaVigenteId = crypto.randomUUID();
+  const creditoMoraId = crypto.randomUUID();
+  const creditoVigenteId = crypto.randomUUID();
+
+  const montoMora = precioUnitario * cantMora;
+  const abonoParcial = Math.round(montoMora * 0.4);
+  const saldoMora = montoMora - abonoParcial;
+  const montoVigente = precioUnitario * cantVigente;
+
+  await db.transaction(async (tx) => {
+    consecutivo++;
+    await tx.insert(facturas).values({
+      id_factura: facturaMoraId,
+      consecutivo,
+      cliente_id: clienteB2BId,
+      usuario_id: vendedorId,
+      sucursal_id: sucursalId,
+      turno_caja_id: null,
+      subtotal: dinero(montoMora),
+      iva: dinero(0),
+      total: dinero(montoMora),
+      estado: 'emitida',
+      fecha: emisionMora,
+    });
+    await tx.insert(factura_items).values({
+      factura_id: facturaMoraId,
+      producto_id: productoId,
+      cantidad: cantMora,
+      precio_unitario: dinero(precioUnitario),
+      subtotal: dinero(montoMora),
+    });
+    await tx.insert(factura_pagos).values({
+      factura_id: facturaMoraId,
+      medio_pago: 'credito_corporativo',
+      monto: dinero(montoMora),
+      fecha: emisionMora,
+    });
+    await tx.insert(creditos_b2b).values({
+      id_credito: creditoMoraId,
+      factura_id: facturaMoraId,
+      cliente_id: clienteB2BId,
+      sucursal_id: sucursalId,
+      monto: dinero(montoMora),
+      saldo: dinero(saldoMora),
+      fecha_emision: emisionMora,
+      fecha_vencimiento: vencimientoMora,
+      estado: 'vigente',
+    });
+    await tx.insert(abonos_credito_b2b).values({
+      credito_id: creditoMoraId,
+      monto: dinero(abonoParcial),
+      fecha: new Date(ahora.getTime() - 20 * 86_400_000),
+      registrado_por: adminId,
+      aviso_id: null,
+    });
+
+    consecutivo++;
+    await tx.insert(facturas).values({
+      id_factura: facturaVigenteId,
+      consecutivo,
+      cliente_id: clienteB2BId,
+      usuario_id: vendedorId,
+      sucursal_id: sucursalId,
+      turno_caja_id: null,
+      subtotal: dinero(montoVigente),
+      iva: dinero(0),
+      total: dinero(montoVigente),
+      estado: 'emitida',
+      fecha: emisionVigente,
+    });
+    await tx.insert(factura_items).values({
+      factura_id: facturaVigenteId,
+      producto_id: productoId,
+      cantidad: cantVigente,
+      precio_unitario: dinero(precioUnitario),
+      subtotal: dinero(montoVigente),
+    });
+    await tx.insert(factura_pagos).values({
+      factura_id: facturaVigenteId,
+      medio_pago: 'credito_corporativo',
+      monto: dinero(montoVigente),
+      fecha: emisionVigente,
+    });
+    await tx.insert(creditos_b2b).values({
+      id_credito: creditoVigenteId,
+      factura_id: facturaVigenteId,
+      cliente_id: clienteB2BId,
+      sucursal_id: sucursalId,
+      monto: dinero(montoVigente),
+      saldo: dinero(montoVigente),
+      fecha_emision: emisionVigente,
+      fecha_vencimiento: vencimientoVigente,
+      estado: 'vigente',
+    });
+    await tx.insert(avisos_pago_credito_b2b).values({
+      credito_id: creditoVigenteId,
+      monto: dinero(Math.max(1000, Math.round(montoVigente * 0.5))),
+      referencia: 'TRF-DEMO-9012',
+      nota: 'Transferencia enviada por el cliente para revisión',
+      estado: 'pendiente',
+      avisado_por: vendedorId,
+      fecha_aviso: new Date(ahora.getTime() - 3 * 3_600_000),
+    });
+  });
+
+  await db
+    .update(clientes)
+    .set({ cupo_credito_utilizado: dinero(saldoMora + montoVigente) })
+    .where(eq(clientes.id_cliente, clienteB2BId));
+
+  console.log('   ✔ Cartera B2B demo sembrada (1 obligación en mora con abono + 1 vigente con aviso pendiente)');
+}
+
 // ─── Orquestación ────────────────────────────────────────────────────────────
 
 export async function seedDemo(db: Database): Promise<void> {
@@ -485,6 +672,13 @@ export async function seedDemo(db: Database): Promise<void> {
     await ajustarMinimos(db, sucursalId, s.clave, productoIds);
   }
   await asegurarAlertas(db, sedes.norte, cajeros.norte);
+
+  const vendedorB2bId = cuentas.get('vendedor.b2b@inventa.local')!;
+  const adminNorteId = cuentas.get('admin.norte@inventa.local')!;
+  const clienteB2BId = clienteIds[3];
+  if (clienteB2BId) {
+    await asegurarCarteraB2BDemo(db, sedes.centro, vendedorB2bId, adminNorteId, clienteB2BId, productoIds);
+  }
 
   console.log('\n✅ Datos de demostración listos.');
   console.log('   Usuarios: admin.norte, cajero1, cajero2 y vendedor.b2b (@inventa.local) con SEED_DEMO_PASSWORD.');

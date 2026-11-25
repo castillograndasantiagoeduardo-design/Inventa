@@ -13,6 +13,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/features/autenticacion';
 import { Insignia } from '@/components/Insignia';
 import {
+  Building2,
   Store,
   FileText,
   Receipt,
@@ -41,6 +42,7 @@ export interface VendedorB2BSidebarProps {
 
 const NAV_ICONS: Record<VendedorB2BNavIconName, React.ReactNode> = {
   catalogo: <Store className="w-4 h-4 shrink-0" />,
+  empresas: <Building2 className="w-4 h-4 shrink-0" />,
   cotizaciones: <FileText className="w-4 h-4 shrink-0" />,
   historial: <Receipt className="w-4 h-4 shrink-0" />,
   panel: <LayoutDashboard className="w-4 h-4 shrink-0" />,
@@ -68,9 +70,11 @@ export function VendedorB2BSidebar({
     if (isMobileDrawer) onCloseMobile?.();
 
     if (item.action === 'cotizaciones') {
-      onAbrirCotizaciones?.();
+      if (onAbrirCotizaciones) onAbrirCotizaciones();
+      else router.push('/vendedor-b2b');
     } else if (item.action === 'historial') {
-      onAbrirHistorial?.();
+      if (onAbrirHistorial) onAbrirHistorial();
+      else router.push('/vendedor-b2b');
     } else if (item.action === 'panel') {
       router.push('/dashboard');
     }

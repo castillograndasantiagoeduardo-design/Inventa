@@ -246,6 +246,31 @@ class InMemoryProductoRepository implements Partial<IProductoRepository> {
   public async findById(id: string): Promise<Producto | null> {
     return this.productos.get(id) ?? null;
   }
+
+  public async actualizar(id: string, cambios: any): Promise<any> {
+    const p = this.productos.get(id);
+    if (!p) return null;
+    const updated = new Producto(
+      p.id,
+      cambios.sku ?? p.sku,
+      cambios.nombre ?? p.nombre,
+      cambios.categoriaId !== undefined ? cambios.categoriaId : p.categoriaId,
+      cambios.proveedorId !== undefined ? cambios.proveedorId : p.proveedorId,
+      cambios.precioCompra ?? p.precioCompra,
+      cambios.precioVenta ?? p.precioVenta,
+      cambios.precioCorporativo !== undefined ? cambios.precioCorporativo : p.precioCorporativo,
+      p.precioCorporativoActualizadoEn,
+      cambios.isActive !== undefined ? cambios.isActive : p.isActive,
+      p.advertencia,
+      p.categoriaNombre,
+      p.stockActual,
+      p.stockMinimo,
+      p.estadoStock,
+      cambios.proveedorNombre ?? p.proveedorNombre,
+    );
+    this.productos.set(id, updated);
+    return updated;
+  }
 }
 
 class InMemorySucursalRepository implements Partial<ISucursalRepository> {

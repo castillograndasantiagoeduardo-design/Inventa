@@ -44,6 +44,7 @@ Para autorizar peticiones interactivas en esta consola:
     { name: 'Inventario - Movimientos & Kardex', description: 'Entradas, salidas, ajustes, transferencias y Kardex' },
     { name: 'Inventario - Stock Mínimo', description: 'Configuración de umbrales de stock por sucursal' },
     { name: 'Facturación - Clientes', description: 'Gestión de clientes mostrador B2C y corporativos B2B' },
+    { name: 'Facturación - Cartera B2B', description: 'Cartera corporativa, rentabilidad, mora, avisos de pago y abonos' },
     { name: 'Facturación - Turnos de Caja', description: 'Apertura y cierre de turnos de caja' },
     { name: 'Facturación - Ventas', description: 'Emisión de facturas B2C y B2B' },
     { name: 'Facturación - Alertas', description: 'Notificaciones operativas de facturación al administrador' },
@@ -1637,6 +1638,83 @@ Para autorizar peticiones interactivas en esta consola:
           content: { 'application/json': { schema: { $ref: '#/components/schemas/ActualizarClienteRequest' } } },
         },
         responses: { 200: { description: 'Cliente actualizado' } },
+      },
+    },
+    '/ventas/clientes/{id}/solicitar-credito': {
+      post: {
+        tags: ['Facturación - Cartera B2B'],
+        summary: 'Solicitar crédito B2B ("Soltar crédito") con datos de ganancia y evaluación',
+        security: [{ bearerAuth: [] }, { cookieAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: { 200: { description: 'Solicitud registrada en pendiente_aprobacion' }, 422: { description: 'Regla de negocio violada' } },
+      },
+    },
+    '/ventas/empresas-b2b': {
+      get: {
+        tags: ['Facturación - Cartera B2B'],
+        summary: 'Listar empresas B2B con crédito, rentabilidad y resumen de cartera',
+        security: [{ bearerAuth: [] }, { cookieAuth: [] }],
+        responses: { 200: { description: 'Listado de empresas B2B y KPIs de cartera' } },
+      },
+    },
+    '/ventas/empresas-b2b/{id}': {
+      get: {
+        tags: ['Facturación - Cartera B2B'],
+        summary: 'Detalle de empresa B2B con cartera, abonos y avisos de pago',
+        security: [{ bearerAuth: [] }, { cookieAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: { 200: { description: 'Detalle de empresa B2B' }, 404: { description: 'Empresa no encontrada' } },
+      },
+    },
+    '/ventas/cartera-b2b': {
+      get: {
+        tags: ['Facturación - Cartera B2B'],
+        summary: 'Listar obligaciones de cartera B2B (vigentes, pagadas, en mora)',
+        security: [{ bearerAuth: [] }, { cookieAuth: [] }],
+        responses: { 200: { description: 'Cartera paginada con tiempo transcurrido y resumen' } },
+      },
+    },
+    '/ventas/mora-b2b': {
+      get: {
+        tags: ['Facturación - Cartera B2B'],
+        summary: 'Listar empresas B2B con obligaciones vencidas (en mora)',
+        security: [{ bearerAuth: [] }, { cookieAuth: [] }],
+        responses: { 200: { description: 'Empresas ordenadas por días de mora y saldo vencido' } },
+      },
+    },
+    '/ventas/creditos-b2b/{id}/abonos': {
+      post: {
+        tags: ['Facturación - Cartera B2B'],
+        summary: 'Registrar abono directo de cartera B2B (Admin de Sucursal / Super Admin)',
+        security: [{ bearerAuth: [] }, { cookieAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: { 201: { description: 'Abono registrado atómicamente' }, 403: { description: 'Sin permiso' }, 422: { description: 'Monto supera el saldo' } },
+      },
+    },
+    '/ventas/creditos-b2b/{id}/avisar-pago': {
+      post: {
+        tags: ['Facturación - Cartera B2B'],
+        summary: 'Reportar aviso de pago desde Vendedor B2B (sin alterar saldos)',
+        security: [{ bearerAuth: [] }, { cookieAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: { 201: { description: 'Aviso de pago creado en estado pendiente' }, 409: { description: 'Referencia duplicada pendiente' } },
+      },
+    },
+    '/ventas/avisos-pago': {
+      get: {
+        tags: ['Facturación - Cartera B2B'],
+        summary: 'Listar avisos de pago de cartera B2B',
+        security: [{ bearerAuth: [] }, { cookieAuth: [] }],
+        responses: { 200: { description: 'Listado paginado de avisos de pago' } },
+      },
+    },
+    '/ventas/avisos-pago/{id}/resolver': {
+      put: {
+        tags: ['Facturación - Cartera B2B'],
+        summary: 'Confirmar o rechazar un aviso de pago (Admin de Sucursal / Super Admin)',
+        security: [{ bearerAuth: [] }, { cookieAuth: [] }],
+        parameters: [{ name: 'id', in: 'path', required: true, schema: { type: 'string', format: 'uuid' } }],
+        responses: { 200: { description: 'Aviso resuelto' }, 403: { description: 'Sin permiso' }, 409: { description: 'Aviso ya resuelto' } },
       },
     },
 

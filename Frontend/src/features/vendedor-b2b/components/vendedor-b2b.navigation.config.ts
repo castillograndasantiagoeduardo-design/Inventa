@@ -7,6 +7,7 @@ export type VendedorB2BNavCategory = 'MENÚ' | 'OPERACIONES' | 'SISTEMA';
 
 export type VendedorB2BNavIconName =
   | 'catalogo'
+  | 'empresas'
   | 'cotizaciones'
   | 'historial'
   | 'panel';
@@ -37,6 +38,13 @@ export const VENDEDOR_B2B_NAV_ITEMS: readonly VendedorB2BNavItemConfig[] = [
     icon: 'catalogo',
     categoria: 'MENÚ',
     exact: true,
+  },
+  {
+    id: 'mis-empresas',
+    label: 'Mis empresas',
+    href: '/vendedor-b2b/empresas',
+    icon: 'empresas',
+    categoria: 'MENÚ',
   },
   // OPERACIONES
   {

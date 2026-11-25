@@ -68,7 +68,7 @@ export function VoidStockEntryModal({
             type="button"
             onClick={handleClose}
             disabled={isSubmitting}
-            className="px-4 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-semibold cursor-pointer"
+            className="px-4 py-2 rounded-xl border border-border superficie-control text-text-muted hover:text-text text-xs font-semibold cursor-pointer"
           >
             Cancelar
           </button>
@@ -85,8 +85,8 @@ export function VoidStockEntryModal({
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Advertencia Crítica */}
-        <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-200 text-xs space-y-1.5">
-          <div className="font-bold flex items-center gap-1.5 text-red-400">
+        <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-500 dark:text-red-200 text-xs space-y-1.5">
+          <div className="font-bold flex items-center gap-1.5 text-red-600 dark:text-red-400">
             <span>⚠️</span> Acción irreversible
           </div>
           <p>
@@ -95,25 +95,25 @@ export function VoidStockEntryModal({
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-white/70 mb-1.5">
+          <label className="block text-xs font-semibold text-text-muted mb-1.5">
             Motivo de anulación * (mínimo 5 caracteres)
           </label>
           <textarea
             rows={3}
             value={motivo}
             onChange={(e) => setMotivo(e.target.value)}
-            className="w-full p-3 rounded-xl bg-white/5 border border-white/15 text-white text-xs focus:outline-none focus:border-red-500 transition-colors resize-none placeholder-white/30"
+            className="w-full p-3 rounded-xl superficie-control text-text text-xs focus:outline-none focus:border-red-500 transition-colors resize-none placeholder:text-text-muted"
             placeholder="Ej. Factura del proveedor duplicada o ingresada por error..."
             required
             autoFocus
           />
-          <p className="text-[11px] text-white/40 mt-1">
+          <p className="text-[11px] text-text-muted mt-1">
             {motivo.trim().length}/5 caracteres requeridos.
           </p>
         </div>
 
         {errorMsg && (
-          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-300 text-xs">
+          <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-medium">
             {errorMsg}
           </div>
         )}

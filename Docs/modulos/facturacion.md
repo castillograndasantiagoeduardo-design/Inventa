@@ -696,3 +696,42 @@ El archivo [Http/26-cotizaciones-b2b-y-credito.http](../../Http/26-cotizaciones-
 5. `PUT /ventas/cotizaciones-b2b/:id/avalar` y `PUT /ventas/cotizaciones-b2b/:id/rechazar`: aval o rechazo por el Admin de Sucursal (`facturacion:avalar-cotizacion-b2b`).
 6. `POST /ventas/cotizaciones-b2b/:id/facturar`: conversión de cotización avalada a factura emitida (descontando Kardex y cupo) y transición a `estadoPedido: 'en_proceso'`.
 7. `PUT /ventas/cotizaciones-b2b/:id/estado-pedido`: seguimiento de despacho (`en_proceso` → `despachado` → `entregado`).
+
+---
+
+## 14. Cartera B2B, Ganancia, Mora, Abonos y Avisos de Pago
+
+### 14.1 Modelo de Cartera B2B (Aditivo)
+- **`creditos_b2b`**: Una obligación por cada factura emitida con medio de pago `credito_corporativo` (`factura_id`, `cliente_id`, `sucursal_id`, `monto`, `saldo`, `fecha_emision`, `fecha_vencimiento = fecha_emision + plazo_credito_dias`, `estado` `vigente | pagado`).
+  - El estado `en_mora` es **derivado** en dominio y consultas cuando `saldo > 0` y `fecha_vencimiento < hoy` (no depende de un job).
+  - Empresas con crédito previo a la migración sin obligaciones registradas en `creditos_b2b` se muestran sin cartera y sin inventar fechas.
+- **`abonos_credito_b2b`**: Pagos aplicados a un crédito (`credito_id`, `monto`, `fecha`, `registrado_por`, `aviso_id` opcional). Es **append-only**: cuenta con triggers SQL que impiden `UPDATE` y `DELETE`.
+- **`avisos_pago_credito_b2b`**: Reportes de pago emitidos por el Vendedor B2B (`credito_id`, `monto`, `referencia`, `nota`, `estado` `pendiente | confirmado | rechazado`, `avisado_por`, `fecha_aviso`, `revisado_por`, `fecha_revision`, `motivo_rechazo`).
+
+### 14.2 Reglas de Negocio y Separación de Funciones
+- **Ganancia por empresa**: `SUM((precio_unitario - precio_compra) * cantidad - descuento)` sobre facturas emitidas no anuladas, restando devoluciones. **Limitación conocida:** usa el `precio_compra` vigente del producto en `productos`. Rentabilidad sobre crédito = `ganancia / cupo_aprobado`.
+- **Solicitud de crédito ("Soltar crédito")**: el Vendedor B2B carga ganancia neta mensual, antigüedad y plazo, previsualiza el cupo sugerido con `EvaluadorCreditoB2B` y envía la solicitud a `pendiente_aprobacion`. La aprobación/rechazo sigue siendo exclusiva del flujo `PUT /ventas/clientes/:id/credito` (`facturacion:aprobar-credito-b2b`).
+- **Avisar pago (`facturacion:avisar-pago-credito`)**: exclusivo del Vendedor B2B. Exige `monto > 0`, `monto <= saldo`, referencia obligatoria y crédito no pagado. Impide dos avisos pendientes con la misma referencia sobre el mismo crédito. No modifica saldos.
+- **Confirmar aviso o registrar abono directo (`facturacion:registrar-abono-credito`)**: exclusivo de `admin-sucursal` y `super-admin`. Ejecución atómica mediante Unit of Work: inserta en `abonos_credito_b2b`, reduce `creditos_b2b.saldo` (pasa a `pagado` si queda en `0`) y libera `clientes.cupo_credito_utilizado` en el mismo monto.
+- **Rechazar aviso**: exige `motivo_rechazo` (mínimo 5 caracteres) y deja el aviso en `rechazado` sin alterar saldos.
+
+### 14.3 Casos de Uso y Pruebas de Cartera B2B
+- `ListarEmpresasB2BUseCase` (`listar-empresas-b2b.use-case.test.ts`)
+- `ObtenerEmpresaB2BDetalleUseCase` (`obtener-empresa-b2b-detalle.use-case.test.ts`)
+- `ListarCarteraUseCase` (`listar-cartera.use-case.test.ts`)
+- `ListarEmpresasEnMoraUseCase` (`listar-empresas-en-mora.use-case.test.ts`)
+- `SolicitarCreditoB2BUseCase` (`solicitar-credito-b2b.use-case.test.ts`)
+- `RegistrarAbonoCreditoUseCase` (`registrar-abono-credito.use-case.test.ts`)
+- `AvisarPagoCreditoUseCase` (`avisar-pago-credito.use-case.test.ts`)
+- `ResolverAvisoPagoUseCase` (`resolver-aviso-pago.use-case.test.ts`)
+- `ListarAvisosPagoUseCase` y `CrearFacturaUseCase` (registro en `creditos_b2b` al facturar a crédito)
+- Escenarios REST completos en [Http/32-mis-empresas-b2b.http](../../Http/32-mis-empresas-b2b.http).
+
+### 14.3 Errores de Dominio de Cartera
+- `CREDITO_NO_ENCONTRADO`: El crédito B2B consultado no existe.
+- `CREDITO_YA_PAGADO`: No se puede abonar ni avisar pago sobre un crédito con saldo en 0.
+- `MONTO_SUPERA_SALDO`: El monto del abono o aviso supera el saldo pendiente del crédito.
+- `AVISO_DUPLICADO_PENDIENTE`: Ya existe un aviso pendiente con la misma referencia para ese crédito.
+- `AVISO_NO_ENCONTRADO`: El aviso de pago no existe.
+- `AVISO_YA_RESUELTO`: El aviso ya fue confirmado o rechazado previamente.
+- `MOTIVO_RECHAZO_REQUERIDO`: El rechazo de un aviso requiere un motivo descriptivo.

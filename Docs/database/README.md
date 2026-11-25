@@ -16,6 +16,11 @@ Este directorio contiene los esquemas maestros, semillas y scripts incrementales
   - `005-logs-mcp-tools.sql`
   - `006-password-reset-otp.sql`
   - `007-cierre-administrativo-turnos.sql`
+  - `008-cotizaciones-b2b-y-credito.sql`
+  - `009-rebrand-warengine-a-inventa.sql`
+  - `010-creditos-b2b.sql` (tabla aditiva `creditos_b2b` para obligaciones de crédito corporativo)
+  - `011-abonos-credito-b2b.sql` (tabla aditiva `abonos_credito_b2b` append-only con triggers)
+  - `012-avisos-pago-credito-b2b.sql` (tabla aditiva `avisos_pago_credito_b2b` para avisos de pago B2B)
 
 ---
 

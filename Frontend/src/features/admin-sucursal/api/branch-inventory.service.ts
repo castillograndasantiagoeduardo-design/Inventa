@@ -145,10 +145,25 @@ export class BranchInventoryService implements IBranchInventoryService {
     if (data.stockMinimoSede !== undefined && sucursalId) {
       await this.configurarStockMinimo(productoId, sucursalId, Number(data.stockMinimoSede));
     }
+
+    this.notificarCambioCatalogo();
   }
 
   public async cambiarEstadoProducto(productoId: string, isActive: boolean): Promise<void> {
     await this.http.put(`/inventario/productos/${productoId}/estado`, { isActive });
+    this.notificarCambioCatalogo();
+  }
+
+  private notificarCambioCatalogo(): void {
+    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+      try {
+        const bc = new BroadcastChannel('warengine:catalogo-sync');
+        bc.postMessage({ type: 'CATALOGO_ACTUALIZADO', timestamp: Date.now() });
+        bc.close();
+      } catch {
+        // Ignorar si el navegador no soporta BroadcastChannel
+      }
+    }
   }
 
   public async configurarStockMinimo(

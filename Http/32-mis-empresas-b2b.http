@@ -1,0 +1,128 @@
+# ==============================================================================
+# MÓDULO: FACTURACIÓN — CARTERA B2B Y "MIS EMPRESAS" (Inventa v2.0)
+# Archivo: Http/32-mis-empresas-b2b.http
+#
+# Flujo y separación de funciones:
+#   - Vendedor B2B: consulta empresas, rentabilidad, cartera, mora, "Soltar crédito"
+#     y reportar avisos de pago (`facturacion:avisar-pago-credito`). No altera saldos.
+#   - Admin de Sucursal / Super Admin: bandeja de avisos, confirmar/rechazar avisos
+#     y abonos directos (`facturacion:registrar-abono-credito`).
+#   - Super Admin: aprueba cupos de crédito (`PUT /ventas/clientes/:id/credito`).
+#
+# API Base: http://localhost:8017
+# ==============================================================================
+
+@baseUrl = http://localhost:8017
+@clienteId = REEMPLAZAR_ID_CLIENTE_B2B
+@creditoId = REEMPLAZAR_ID_CREDITO_B2B
+@avisoId = REEMPLAZAR_ID_AVISO_PAGO
+
+### 1. Login Vendedor B2B
+# @name loginVendedor
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "vendedor.b2b@inventa.local",
+  "password": "REEMPLAZAR_PASSWORD"
+}
+
+###
+@tokenVendedor = {{loginVendedor.response.body.accessToken}}
+
+### 2. Login Admin de Sucursal
+# @name loginAdmin
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin.norte@inventa.local",
+  "password": "REEMPLAZAR_PASSWORD"
+}
+
+###
+@tokenAdmin = {{loginAdmin.response.body.accessToken}}
+
+### 3. Listar empresas B2B ("Mis empresas") con cupos, rentabilidad y KPIs
+GET {{baseUrl}}/ventas/empresas-b2b
+Authorization: Bearer {{tokenVendedor}}
+
+### 4. Filtrar empresas B2B solo en mora
+GET {{baseUrl}}/ventas/empresas-b2b?soloEnMora=true
+Authorization: Bearer {{tokenVendedor}}
+
+### 5. Obtener detalle completo de una empresa B2B (créditos, abonos y avisos)
+GET {{baseUrl}}/ventas/empresas-b2b/{{clienteId}}
+Authorization: Bearer {{tokenVendedor}}
+
+### 6. Listar cartera activa B2B (créditos vigentes, pagados y en mora + tiempo pagando)
+GET {{baseUrl}}/ventas/cartera-b2b?pagina=1&limite=20
+Authorization: Bearer {{tokenVendedor}}
+
+### 7. Listar empresas en mora
+GET {{baseUrl}}/ventas/mora-b2b
+Authorization: Bearer {{tokenVendedor}}
+
+### 8. "Soltar crédito" — Vendedor B2B envía solicitud con datos de ganancia (queda pendiente_aprobacion)
+POST {{baseUrl}}/ventas/clientes/{{clienteId}}/solicitar-credito
+Authorization: Bearer {{tokenVendedor}}
+Content-Type: application/json
+
+{
+  "gananciaNetaMensual": 22000000,
+  "antiguedadEmpresaMeses": 28,
+  "plazoCreditoDias": 30,
+  "observacionFinanciera": "Empresa con facturación sostenida los últimos 6 meses"
+}
+
+### 9. Vendedor B2B reporta aviso de pago ("Avisar pago", queda pendiente y NO altera saldo)
+POST {{baseUrl}}/ventas/creditos-b2b/{{creditoId}}/avisar-pago
+Authorization: Bearer {{tokenVendedor}}
+Content-Type: application/json
+
+{
+  "monto": 350000,
+  "referencia": "TRF-BANCOLOMBIA-88421",
+  "nota": "Transferencia recibida por WhatsApp de tesorería"
+}
+
+### 10. Vendedor B2B intenta registrar abono directo (DEBE FALLAR 403 Forbidden)
+POST {{baseUrl}}/ventas/creditos-b2b/{{creditoId}}/abonos
+Authorization: Bearer {{tokenVendedor}}
+Content-Type: application/json
+
+{
+  "monto": 350000
+}
+
+### 11. Admin de Sucursal consulta bandeja de avisos de pago pendientes
+GET {{baseUrl}}/ventas/avisos-pago?estado=pendiente&pagina=1&limite=20
+Authorization: Bearer {{tokenAdmin}}
+
+### 12. Admin de Sucursal confirma aviso de pago (crea abono atómico, baja saldo y libera cupo)
+PUT {{baseUrl}}/ventas/avisos-pago/{{avisoId}}/resolver
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{
+  "decision": "confirmar"
+}
+
+### 13. Admin de Sucursal rechaza un aviso de pago (requiere motivo mínimo 5 caracteres)
+PUT {{baseUrl}}/ventas/avisos-pago/{{avisoId}}/resolver
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{
+  "decision": "rechazar",
+  "motivoRechazo": "La referencia bancaria no registra en el extracto del día"
+}
+
+### 14. Admin de Sucursal registra un abono directo sobre el crédito B2B
+POST {{baseUrl}}/ventas/creditos-b2b/{{creditoId}}/abonos
+Authorization: Bearer {{tokenAdmin}}
+Content-Type: application/json
+
+{
+  "monto": 250000
+}

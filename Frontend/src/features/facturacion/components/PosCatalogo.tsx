@@ -4,12 +4,19 @@
  * PosCatalogo.tsx — Catálogo interactivo de productos y búsqueda rápida para el POS.
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { posService } from '../api';
 import type { ProductoPos } from '../types/pos.types';
 
+/** Intervalo de revalidación automática en segundo plano (25 segundos). */
+const INTERVALO_POLLING_MS = 25_000;
+
 interface PosCatalogoProps {
   onAgregarProducto: (producto: ProductoPos) => void;
+  /** Invocado cuando se detecta que un producto fue inactivado (para retirarlo también del carrito si estaba allí). */
+  onProductoInactivado?: (productoId: string, nombreProducto: string) => void;
+  /** Invocado tras cada sincronización completa del catálogo con los IDs activos. */
+  onCatalogoSincronizado?: (idsActivos: Set<string>) => void;
   inputBuscarRef?: React.RefObject<HTMLInputElement | null>;
   /** Sede de la sesión: el stock mostrado es el de esta sucursal. */
   sucursalId: number;
@@ -17,15 +24,41 @@ interface PosCatalogoProps {
   versionStock?: number;
 }
 
-export function PosCatalogo({ onAgregarProducto, inputBuscarRef, sucursalId, versionStock = 0 }: PosCatalogoProps) {
+export function PosCatalogo({
+  onAgregarProducto,
+  onProductoInactivado,
+  onCatalogoSincronizado,
+  inputBuscarRef,
+  sucursalId,
+  versionStock = 0,
+}: PosCatalogoProps) {
   const [query, setQuery] = useState<string>('');
   const [productos, setProductos] = useState<ProductoPos[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [errorCarga, setErrorCarga] = useState<string | null>(null);
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<string>('todas');
+  const [verificandoId, setVerificandoId] = useState<string | null>(null);
+  const [alertaInactivo, setAlertaInactivo] = useState<string | null>(null);
 
   const localInputRef = useRef<HTMLInputElement | null>(null);
   const searchRef = inputBuscarRef || localInputRef;
+  const queryRef = useRef<string>(query);
+  const onCatalogoSincronizadoRef = useRef(onCatalogoSincronizado);
+
+  useEffect(() => {
+    queryRef.current = query;
+  }, [query]);
+
+  useEffect(() => {
+    onCatalogoSincronizadoRef.current = onCatalogoSincronizado;
+  }, [onCatalogoSincronizado]);
+
+  // Auto-ocultar banner de producto inactivado tras 6 segundos
+  useEffect(() => {
+    if (!alertaInactivo) return;
+    const t = setTimeout(() => setAlertaInactivo(null), 6000);
+    return () => clearTimeout(t);
+  }, [alertaInactivo]);
 
   const formatoCOP = (monto: number) =>
     new Intl.NumberFormat('es-CO', {
@@ -34,19 +67,41 @@ export function PosCatalogo({ onAgregarProducto, inputBuscarRef, sucursalId, ver
       maximumFractionDigits: 0,
     }).format(monto);
 
-  // Carga inicial y búsqueda con debounce
+  /**
+   * Revalidación silenciosa en segundo plano:
+   * - No muestra spinner de carga ni bloquea la cuadrícula.
+   * - 100% tolerante a microcortes de Wi-Fi: si la red falla temporalmente, conserva los productos actuales.
+   */
+  const revalidarEnSegundoPlano = useCallback(async () => {
+    try {
+      const terminoActual = queryRef.current;
+      const data = await posService.buscarProductos(terminoActual, sucursalId);
+      setProductos(data);
+      setErrorCarga(null);
+      if (!terminoActual.trim() && onCatalogoSincronizadoRef.current) {
+        onCatalogoSincronizadoRef.current(new Set(data.map((p) => p.id)));
+      }
+    } catch {
+      // Tolerancia a microcortes: mantenemos el catálogo en memoria sin interrumpir al cajero
+    }
+  }, [sucursalId]);
+
+  // 1. Carga inicial y búsqueda con debounce
   useEffect(() => {
     let cancelado = false;
     const timer = setTimeout(async () => {
-      setIsLoading(true);
+      setIsLoading((prev) => (productos.length === 0 ? true : prev));
       setErrorCarga(null);
       try {
         const data = await posService.buscarProductos(query, sucursalId);
         if (!cancelado) {
           setProductos(data);
+          if (!query.trim() && onCatalogoSincronizadoRef.current) {
+            onCatalogoSincronizadoRef.current(new Set(data.map((p) => p.id)));
+          }
         }
       } catch (err: unknown) {
-        if (!cancelado) {
+        if (!cancelado && productos.length === 0) {
           setProductos([]);
           setErrorCarga(err instanceof Error ? err.message : 'No se pudo consultar el catálogo.');
         }
@@ -60,6 +115,86 @@ export function PosCatalogo({ onAgregarProducto, inputBuscarRef, sucursalId, ver
       clearTimeout(timer);
     };
   }, [query, sucursalId, versionStock]);
+
+  // 2. Polling automático cada 25 segundos en segundo plano
+  useEffect(() => {
+    const intervalo = setInterval(() => {
+      if (typeof document !== 'undefined' && document.visibilityState !== 'visible') {
+        return;
+      }
+      void revalidarEnSegundoPlano();
+    }, INTERVALO_POLLING_MS);
+
+    return () => clearInterval(intervalo);
+  }, [revalidarEnSegundoPlano]);
+
+  // 3. Revalidación al enfocar la ventana / volver a la pestaña + sincronización entre pestañas
+  useEffect(() => {
+    const handleFocus = () => {
+      void revalidarEnSegundoPlano();
+    };
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        void revalidarEnSegundoPlano();
+      }
+    };
+
+    window.addEventListener('focus', handleFocus);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    let bc: BroadcastChannel | null = null;
+    if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
+      try {
+        bc = new BroadcastChannel('warengine:catalogo-sync');
+        bc.onmessage = () => {
+          void revalidarEnSegundoPlano();
+        };
+      } catch {
+        bc = null;
+      }
+    }
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      if (bc) bc.close();
+    };
+  }, [revalidarEnSegundoPlano]);
+
+  /**
+   * 4. Verificación inmediata (Just-in-Time) al hacer clic o escanear un producto:
+   * Comprueba que el producto siga activo antes de agregarlo al carrito.
+   * Si fue inactivado, lo retira inmediatamente del catálogo (y del carrito) y avisa al cajero.
+   */
+  const handleSeleccionarProducto = useCallback(
+    async (prod: ProductoPos) => {
+      if (prod.stockActual <= 0 || verificandoId === prod.id) return;
+
+      setVerificandoId(prod.id);
+      try {
+        const verificacion = await posService.verificarProductoActivo(prod.id);
+        if (!verificacion.activo) {
+          setProductos((prev) => prev.filter((p) => p.id !== prod.id));
+          onProductoInactivado?.(prod.id, prod.nombre);
+          setAlertaInactivo(
+            `El producto "${prod.nombre}" (${prod.sku}) fue inactivado en inventario y ya no está disponible para la venta.`,
+          );
+          void revalidarEnSegundoPlano();
+          return;
+        }
+
+        setAlertaInactivo(null);
+        onAgregarProducto(
+          verificacion.precioVenta !== undefined && verificacion.precioVenta > 0
+            ? { ...prod, precioVenta: verificacion.precioVenta }
+            : prod,
+        );
+      } finally {
+        setVerificandoId(null);
+      }
+    },
+    [verificandoId, onAgregarProducto, onProductoInactivado, revalidarEnSegundoPlano],
+  );
 
   // Lista de categorías únicas extraídas de los productos
   const categorias = React.useMemo(() => {
@@ -95,14 +230,14 @@ export function PosCatalogo({ onAgregarProducto, inputBuscarRef, sucursalId, ver
         (p) => p.sku.toLowerCase() === limpio,
       );
       if (coincidenciaSku && coincidenciaSku.stockActual > 0) {
-        onAgregarProducto(coincidenciaSku);
+        void handleSeleccionarProducto(coincidenciaSku);
         setQuery('');
         return;
       }
 
       // O si hay solo 1 resultado visible, añadirlo
       if (productosFiltrados.length === 1 && productosFiltrados[0].stockActual > 0) {
-        onAgregarProducto(productosFiltrados[0]);
+        void handleSeleccionarProducto(productosFiltrados[0]);
         setQuery('');
       }
     }
@@ -110,6 +245,23 @@ export function PosCatalogo({ onAgregarProducto, inputBuscarRef, sucursalId, ver
 
   return (
     <div className="flex-1 flex flex-col h-full overflow-hidden p-4">
+      {/* Banner de aviso si el cajero seleccionó un producto que acaba de ser inactivado */}
+      {alertaInactivo && (
+        <div
+          role="alert"
+          className="mb-3 px-4 py-2.5 rounded-xl bg-red-500/12 border border-red-500/35 text-red-700 dark:text-rose-200 text-xs flex items-center justify-between gap-3 animate-in fade-in duration-150"
+        >
+          <span>⚠️ {alertaInactivo}</span>
+          <button
+            type="button"
+            onClick={() => setAlertaInactivo(null)}
+            className="text-red-700/70 hover:text-red-900 dark:text-rose-200/70 dark:hover:text-white font-bold cursor-pointer"
+            aria-label="Cerrar alerta"
+          >
+            &times;
+          </button>
+        </div>
+      )}
       {/* Barra de Búsqueda y Filtro de Categorías */}
       <div className="mb-3 space-y-2">
         <div className="relative">
@@ -197,16 +349,19 @@ export function PosCatalogo({ onAgregarProducto, inputBuscarRef, sucursalId, ver
           <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2.5">
             {productosFiltrados.map((prod) => {
               const agotado = prod.stockActual <= 0;
+              const estaVerificando = verificandoId === prod.id;
               return (
                 <div
                   key={prod.id}
-                  onClick={() => !agotado && onAgregarProducto(prod)}
-                  aria-disabled={agotado}
+                  onClick={() => !agotado && !estaVerificando && void handleSeleccionarProducto(prod)}
+                  aria-disabled={agotado || estaVerificando}
                   title={agotado ? 'Sin existencias en esta sede' : undefined}
                   className={`group vidrio p-3 flex flex-col justify-between select-none ${
                     agotado
                       ? 'opacity-45 cursor-not-allowed hover:translate-y-0'
-                      : 'hover:border-brand-500/50 cursor-pointer active:scale-[0.98]'
+                      : estaVerificando
+                        ? 'opacity-75 cursor-wait hover:translate-y-0'
+                        : 'hover:border-brand-500/50 cursor-pointer active:scale-[0.98]'
                   }`}
                 >
                   <div>

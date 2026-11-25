@@ -6,7 +6,27 @@ import type {
   ActualizarClienteInput,
   FiltrosClientesState,
 } from '../types/branch-clients.types';
-import type { FacturaDto } from '@inventa/contracts';
+import type {
+  AbonoCreditoDto,
+  AvisoPagoCreditoDto,
+  CreditoB2BDto,
+  EstadoAvisoPago,
+  FacturaDto,
+  RegistrarAbonoCreditoInput,
+  ResolverAvisoInput,
+} from '@inventa/contracts';
+
+export interface AvisosPagoPaginadosDto {
+  items: AvisoPagoCreditoDto[];
+  total: number;
+  pagina: number;
+  limite: number;
+}
+
+export interface CarteraB2BClienteDto {
+  items: CreditoB2BDto[];
+  total: number;
+}
 
 export interface IBranchClientsService {
   listarClientes(filtros: FiltrosClientesState): Promise<ClientesPaginadosDto>;
@@ -15,6 +35,21 @@ export interface IBranchClientsService {
   actualizarCliente(id: string, input: ActualizarClienteInput): Promise<ClienteDto>;
   gestionarCredito(id: string, creditoHabilitado: boolean): Promise<ClienteDto>;
   obtenerUltimasFacturas(clienteId: string, limite?: number): Promise<FacturaDto[]>;
+  listarAvisosPago(params?: {
+    estado?: EstadoAvisoPago;
+    clienteId?: string;
+    pagina?: number;
+    limite?: number;
+  }): Promise<AvisosPagoPaginadosDto>;
+  resolverAvisoPago(
+    avisoId: string,
+    payload: ResolverAvisoInput,
+  ): Promise<{ decision: 'confirmar' | 'rechazar'; aviso: AvisoPagoCreditoDto }>;
+  listarCarteraPendiente(clienteId?: string): Promise<CarteraB2BClienteDto>;
+  registrarAbonoCredito(
+    creditoId: string,
+    payload: RegistrarAbonoCreditoInput,
+  ): Promise<{ abono: AbonoCreditoDto; credito: CreditoB2BDto }>;
 }
 
 export class BranchClientsService implements IBranchClientsService {
@@ -81,6 +116,57 @@ export class BranchClientsService implements IBranchClientsService {
     } catch {
       return [];
     }
+  }
+
+  public async listarAvisosPago(params?: {
+    estado?: EstadoAvisoPago;
+    clienteId?: string;
+    pagina?: number;
+    limite?: number;
+  }): Promise<AvisosPagoPaginadosDto> {
+    const query: Record<string, string | number> = {
+      pagina: params?.pagina ?? 1,
+      limite: params?.limite ?? 20,
+    };
+    if (params?.estado) query.estado = params.estado;
+    if (params?.clienteId) query.clienteId = params.clienteId;
+    return await this.http.get<AvisosPagoPaginadosDto>('/ventas/avisos-pago', { params: query });
+  }
+
+  public async resolverAvisoPago(
+    avisoId: string,
+    payload: ResolverAvisoInput,
+  ): Promise<{ decision: 'confirmar' | 'rechazar'; aviso: AvisoPagoCreditoDto }> {
+    return await this.http.put<{ decision: 'confirmar' | 'rechazar'; aviso: AvisoPagoCreditoDto }>(
+      `/ventas/avisos-pago/${avisoId}/resolver`,
+      payload,
+    );
+  }
+
+  public async listarCarteraPendiente(clienteId?: string): Promise<CarteraB2BClienteDto> {
+    const params: Record<string, string | number> = {
+      pagina: 1,
+      limite: 50,
+    };
+    if (clienteId) params.clienteId = clienteId;
+    const res = await this.http.get<{ items: CreditoB2BDto[]; total: number }>(
+      '/ventas/cartera-b2b',
+      { params },
+    );
+    return {
+      items: (res.items ?? []).filter((c) => c.estado !== 'pagado' && c.saldo > 0),
+      total: res.total ?? 0,
+    };
+  }
+
+  public async registrarAbonoCredito(
+    creditoId: string,
+    payload: RegistrarAbonoCreditoInput,
+  ): Promise<{ abono: AbonoCreditoDto; credito: CreditoB2BDto }> {
+    return await this.http.post<{ abono: AbonoCreditoDto; credito: CreditoB2BDto }>(
+      `/ventas/creditos-b2b/${creditoId}/abonos`,
+      payload,
+    );
   }
 }
 

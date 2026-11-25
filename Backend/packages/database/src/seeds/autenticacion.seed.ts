@@ -139,6 +139,18 @@ export const PERMISOS = [
     modulo: 'facturacion',
     descripcion: 'Cierre forzado y administrativo de turnos de caja',
   },
+  {
+    id_permiso: 34,
+    codigo: 'facturacion:avisar-pago-credito',
+    modulo: 'facturacion',
+    descripcion: 'Reportar avisos de pago sobre obligaciones de crédito B2B (sin alterar saldos)',
+  },
+  {
+    id_permiso: 35,
+    codigo: 'facturacion:registrar-abono-credito',
+    modulo: 'facturacion',
+    descripcion: 'Confirmar o rechazar avisos de pago y registrar abonos directos de cartera B2B',
+  },
 
   // Módulo: Administración
   {
@@ -250,6 +262,7 @@ export const ASIGNACIONES: Record<string, string[]> = {
     'facturacion:cotizar-b2b',
     'facturacion:vender-b2b',
     'facturacion:alertar-admin',
+    'facturacion:avisar-pago-credito',
     'mcp:consultar',
   ],
   'admin-sucursal': [
@@ -265,6 +278,7 @@ export const ASIGNACIONES: Record<string, string[]> = {
     'facturacion:vender-b2b',
     'facturacion:consultar',
     'facturacion:gestionar-clientes',
+    'facturacion:registrar-abono-credito',
     'facturacion:anular',
     'facturacion:devolucion',
     'administracion:gestionar-personal',

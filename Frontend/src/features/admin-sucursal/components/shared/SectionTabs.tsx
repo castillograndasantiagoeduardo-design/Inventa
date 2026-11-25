@@ -10,7 +10,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import {
   isBranchRouteActive,
   type BranchTabItem,
@@ -20,14 +20,18 @@ export interface SectionTabsProps {
   tabs: readonly BranchTabItem[];
   ariaLabel?: string;
   className?: string;
+  preserveQuery?: boolean;
 }
 
 export function SectionTabs({
   tabs,
   ariaLabel = 'Secciones del módulo',
   className = '',
+  preserveQuery = false,
 }: SectionTabsProps) {
   const pathname = usePathname() || '';
+  const searchParams = useSearchParams();
+  const queryString = preserveQuery && searchParams ? searchParams.toString() : '';
 
   return (
     <nav
@@ -42,10 +46,12 @@ export function SectionTabs({
             Boolean(tab.exact),
           );
 
+          const targetHref = queryString ? `${tab.href}?${queryString}` : tab.href;
+
           return (
             <Link
               key={tab.id}
-              href={tab.href}
+              href={targetHref}
               aria-current={isActive ? 'page' : undefined}
               className={`
                 inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl

@@ -108,6 +108,8 @@ Backend/apps/api/
 | `PROVEEDOR_INACTIVO` | `422 Unprocessable Entity` | Asignación de proveedor inactivo |
 | `REFERENCIA_INVALIDA` | `422 Unprocessable Entity` | Clave foránea no válida en el payload |
 | `SKU_MODIFICACION_NO_PERMITIDA` | `422 Unprocessable Entity` | Intento de editar el SKU una vez creado el producto |
+| `CREDITO_YA_PAGADO` / `AVISO_DUPLICADO_PENDIENTE` / `AVISO_YA_RESUELTO` | `409 Conflict` | Conflicto de estado en cartera o avisos de pago B2B |
+| `MONTO_SUPERA_SALDO` / `MOTIVO_RECHAZO_REQUERIDO` | `422 Unprocessable Entity` | Validación de negocio en abonos o rechazo de avisos B2B |
 | *Cualquier otro código* | `400 Bad Request` | Error de validación o solicitud incorrecta |
 
 ---
@@ -201,3 +203,21 @@ alertas) devuelve el **arreglo completo** sin paginar.
 
 Todas las rutas de `/administracion` están documentadas en `openapi.doc.ts` (Swagger en
 `/swagger`) y tienen escenarios en `Http/` (verificado ruta por ruta).
+
+---
+
+## 7. Endpoints de Cartera Corporativa B2B (`/ventas`)
+
+| Método y Ruta | Permiso | Propósito |
+|---|---|---|
+| `GET /ventas/empresas-b2b` | `facturacion:consultar` | Lista empresas B2B con cupo, ganancia vs. crédito, mora y resumen KPI |
+| `GET /ventas/empresas-b2b/:id` | `facturacion:consultar` | Detalle de empresa B2B con créditos, abonos recientes y avisos |
+| `GET /ventas/cartera-b2b` | `facturacion:consultar` | Listado paginado de obligaciones (`vigente`, `pagado`, `en_mora`) y días transcurridos |
+| `GET /ventas/mora-b2b` | `facturacion:consultar` | Empresas con saldo vencido ordenadas por días de mora |
+| `POST /ventas/clientes/:id/solicitar-credito` | `facturacion:gestionar-clientes` | "Soltar crédito" con ganancia neta mensual; queda `pendiente_aprobacion` |
+| `POST /ventas/creditos-b2b/:id/avisar-pago` | `facturacion:avisar-pago-credito` | Vendedor B2B reporta pago (`pendiente`) sin alterar saldo |
+| `GET /ventas/avisos-pago` | `facturacion:consultar` | Bandeja paginada de avisos de pago |
+| `PUT /ventas/avisos-pago/:id/resolver` | `facturacion:registrar-abono-credito` | Admin confirma (abono atómico + libera cupo) o rechaza con motivo |
+| `POST /ventas/creditos-b2b/:id/abonos` | `facturacion:registrar-abono-credito` | Admin registra abono directo atómico en Unit of Work |
+
+Escenarios ejecutables en [Http/32-mis-empresas-b2b.http](../../Http/32-mis-empresas-b2b.http).
