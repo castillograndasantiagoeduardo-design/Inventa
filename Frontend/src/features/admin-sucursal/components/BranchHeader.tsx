@@ -202,7 +202,7 @@ export function BranchHeader({
             role="button"
             tabIndex={0}
           >
-            <AvatarMarca className="w-7 h-7 rounded-lg bg-brand-600 text-btn-primario-texto flex items-center justify-center font-titulos font-semibold text-xs shadow-sm">
+            <AvatarMarca className="w-8 h-8 rounded-lg bg-brand-600 text-btn-primario-texto flex items-center justify-center font-titulos font-semibold text-xs shadow-sm">
               {iniciales}
             </AvatarMarca>
             <div className="text-left hidden lg:block leading-tight">
