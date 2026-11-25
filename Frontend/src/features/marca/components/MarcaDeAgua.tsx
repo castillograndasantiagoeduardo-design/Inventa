@@ -14,7 +14,7 @@ export function MarcaDeAgua({ className = '-z-10' }: { className?: string }) {
   return (
     <div
       aria-hidden="true"
-      className={`pointer-events-none fixed inset-0 overflow-hidden flex items-center justify-center md:pl-56 ${className}`}
+      className={`pointer-events-none fixed inset-0 overflow-hidden flex items-center justify-center pt-16 pb-6 px-6 md:pl-64 ${className}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- URL de objeto del logo, no optimizable */}
       <img

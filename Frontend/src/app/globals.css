@@ -723,15 +723,15 @@ body {
   transition: border-color 300ms ease, background-color 80ms ease;
 }
 
-/* Marca de agua del logo corporativo: grande, nítida y visible a través del cristal. */
+/* Marca de agua del logo corporativo: con tope máximo estricto para que ningún formato desborde. */
 .marca-agua-img {
-  width: min(78vw, 1320px);
-  height: min(122vh, 1320px);
-  max-width: none;
-  max-height: none;
-  flex-shrink: 0;
-  opacity: 0.28;
-  filter: contrast(1.06) saturate(1.08) drop-shadow(0 0 14px rgba(255, 255, 255, 0.14));
+  width: min(50vmin, 420px);
+  height: min(54vh, 420px);
+  max-width: min(42vw, 420px);
+  max-height: min(54vh, 420px);
+  object-fit: contain;
+  opacity: 0.24;
+  filter: contrast(1.05) saturate(1.06) drop-shadow(0 0 12px rgba(255, 255, 255, 0.12));
 }
 
 .light .marca-agua-img {
