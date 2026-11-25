@@ -148,7 +148,7 @@ export default function VendedorB2BPage() {
       </div>
 
       {/* Banners de Notificación / Alertas como Tarjetas en Vidrio */}
-      {!isAuthLoading && sucursalId === null && (
+      {!isAuthLoading && usuario && sucursalId === null && (
         <div className="vidrio p-4 border border-red-500/30 bg-red-500/10 text-red-700 dark:text-red-300 rounded-xl flex items-center gap-3">
           <AlertTriangle className="w-5 h-5 text-red-500 shrink-0" />
           <p className="text-xs font-sans font-medium">

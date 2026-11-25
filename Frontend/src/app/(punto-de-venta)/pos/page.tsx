@@ -42,7 +42,7 @@ import {
 
 export default function PosTerminalPage() {
   const router = useRouter();
-  const { usuario, logout, isLoading: isAuthLoading } = useAuth();
+  const { usuario, isAuthenticated, logout, isLoading: isAuthLoading } = useAuth();
 
   // 1. Hooks de estado de la terminal
   const {
@@ -222,16 +222,24 @@ export default function PosTerminalPage() {
 
   const handleLogout = async () => {
     await logout();
-    router.push('/acceso');
+    router.replace('/acceso');
   };
 
-  if (isAuthLoading || isTurnoLoading) {
+  useEffect(() => {
+    if (!isAuthLoading && !isAuthenticated) {
+      router.replace('/acceso');
+    }
+  }, [isAuthLoading, isAuthenticated, router]);
+
+  if (isAuthLoading || isTurnoLoading || !isAuthenticated) {
     return (
       <div className="min-h-screen bg-bg text-text flex flex-col items-center justify-center gap-3 select-none relative isolate">
         <FondoAmbiental />
         <div className="w-10 h-10 border-3 border-brand-500 border-t-transparent rounded-full animate-spin" />
         <p className="font-sans text-sm text-text-muted tracking-wider uppercase">
-          Iniciando Terminal de Punto de Venta...
+          {!isAuthLoading && !isAuthenticated
+            ? 'Cerrando sesión...'
+            : 'Iniciando Terminal de Punto de Venta...'}
         </p>
       </div>
     );

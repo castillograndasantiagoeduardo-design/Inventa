@@ -61,7 +61,7 @@ export function VendedorB2BSidebar({
 
   const handleLogout = async () => {
     await logout();
-    router.push('/acceso');
+    router.replace('/acceso');
   };
 
   const handleItemClick = (item: VendedorB2BNavItemConfig, isMobileDrawer = false) => {

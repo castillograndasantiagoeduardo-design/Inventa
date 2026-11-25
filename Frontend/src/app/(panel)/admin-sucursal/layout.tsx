@@ -9,8 +9,10 @@
  * 3. Gestiona el modal de perfil de administrador (`AdminProfileModal`) desde la barra superior.
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useAuth, usePermissions } from '@/features/autenticacion';
+import { FondoAmbiental } from '@/components/FondoAmbiental';
 import {
   BranchLayout,
   BranchAccessDenied,
@@ -24,20 +26,29 @@ export default function AdminSucursalLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const { isLoading: isAuthLoading, logout } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+  const { isAuthenticated, isLoading: isAuthLoading, logout } = useAuth();
   const { usuario, esAdminSucursal, rolActual } = usePermissions();
 
-  // 1. Estado de carga inicial de autenticación
-  if (isAuthLoading) {
+  useEffect(() => {
+    if (!isAuthLoading && !isAuthenticated) {
+      router.replace('/acceso');
+    }
+  }, [isAuthLoading, isAuthenticated, router, pathname]);
+
+  // 1. Estado de carga inicial o cierre de sesión (redirigiendo a /acceso)
+  if (isAuthLoading || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-bg flex items-center justify-center text-brand-400 font-sans">
+      <div className="min-h-screen bg-bg flex items-center justify-center text-brand-400 font-sans relative isolate">
+        <FondoAmbiental />
         <div className="flex flex-col items-center gap-3">
           <span className="relative flex h-3 w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-500 opacity-75" />
             <span className="relative inline-flex rounded-full h-3 w-3 bg-brand-500" />
           </span>
           <span className="text-xs font-medium text-text-muted">
-            Iniciando sesión segura Inventa...
+            {isAuthLoading ? 'Iniciando sesión segura Inventa...' : 'Cerrando sesión...'}
           </span>
         </div>
       </div>
