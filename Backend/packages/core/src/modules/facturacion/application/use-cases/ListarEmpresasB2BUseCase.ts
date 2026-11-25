@@ -131,7 +131,10 @@ export class ListarEmpresasB2BUseCase {
         cupoCreditoAprobado: cliente.cupoCreditoAprobado,
         cupoCreditoUtilizado: cliente.cupoCreditoUtilizado,
         cupoCreditoDisponible: cliente.cupoCreditoDisponible,
-        saldoPendiente: cliente.saldoPendiente,
+        saldoPendiente:
+          creditos.length > 0
+            ? redondear(creditos.reduce((s, cred) => s + cred.saldo, 0))
+            : cliente.saldoPendiente,
         gananciaNetaMensual: cliente.gananciaNetaMensual,
         antiguedadEmpresaMeses: cliente.antiguedadEmpresaMeses,
         observacionFinanciera: cliente.observacionFinanciera,

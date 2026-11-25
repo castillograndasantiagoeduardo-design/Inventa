@@ -107,7 +107,10 @@ export class ObtenerEmpresaB2BDetalleUseCase {
       cupoCreditoAprobado: cliente.cupoCreditoAprobado,
       cupoCreditoUtilizado: cliente.cupoCreditoUtilizado,
       cupoCreditoDisponible: cliente.cupoCreditoDisponible,
-      saldoPendiente: cliente.saldoPendiente,
+      saldoPendiente:
+        creditos.length > 0
+          ? Math.round(creditos.reduce((s, c) => s + c.saldo, 0) * 100) / 100
+          : cliente.saldoPendiente,
       gananciaNetaMensual: cliente.gananciaNetaMensual,
       antiguedadEmpresaMeses: cliente.antiguedadEmpresaMeses,
       observacionFinanciera: cliente.observacionFinanciera,

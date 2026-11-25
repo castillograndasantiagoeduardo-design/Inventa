@@ -231,6 +231,7 @@ export * from './src/modules/facturacion/application/use-cases/SolicitarCreditoB
 export * from './src/modules/facturacion/application/use-cases/RegistrarAbonoCreditoUseCase.ts';
 export * from './src/modules/facturacion/application/use-cases/AvisarPagoCreditoUseCase.ts';
 export * from './src/modules/facturacion/application/use-cases/ResolverAvisoPagoUseCase.ts';
+export * from './src/modules/facturacion/application/use-cases/ListarAvisosPagoUseCase.ts';
 
 // ─── Módulo: MCP Server & Auditoría IA ───────────────────────────────────────
 export * from './src/modules/mcp-audit/domain/entities/LogMcpTool.ts';
