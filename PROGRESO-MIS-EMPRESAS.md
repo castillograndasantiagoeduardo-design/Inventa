@@ -90,12 +90,12 @@
 | Fase 5 | 39 | `3b0c803` | Panel `MoraPanel` de empresas en mora | `npm run build` + push origin |
 | Fase 5 | 40 | `3c6d803` | Modal `SoltarCreditoModal` con datos de ganancia y simulación | `npm run build` ok |
 | Fase 5 | 41 | `33d6b62` | Modal `AvisarPagoModal` y estados vacío/carga/error/403 | `npm run build` + push origin |
-| Fase 6 | 42 | `-` | Bandeja `AvisosPagoTab` y `AbonoCreditoDirectoModal` en `admin-sucursal` | `npm run build` ok |
+| Fase 6 | 42 | `9480c49` | Bandeja `AvisosPagoTab` y `AbonoCreditoDirectoModal` en `admin-sucursal` | `npm run build` ok |
+| Fase 6 | 43 | `-` | Revisión final de documentación (`GEMINI.md`, `Frontend/AGENTS.md`, `Docs/infraestructura/api.md`, `Docs/modulos/facturacion.md`) | `deno task test` + `npm run build` + `push` |
 
 ---
 
-## 5. Punto de Retoma
+## 5. Estado Final
 
-- **Último commit completado:** Paso 20 (`f8d7f04`) — Fase 3 (`ListarEmpresasEnMoraUseCase`).
-- **Próximo paso:** Paso 21 — `feat(core): SolicitarCreditoB2BUseCase con auditoría` (y continuar del 21 al 43).
-- **Rama actual:** `Actualizaciones` (sin merge a `main`).
+- **Estado:** Completado (43 / 43 pasos ejecutados en rama `Actualizaciones`, sin merge a `main`).
+- **Rama actual:** `Actualizaciones`.

@@ -30,6 +30,19 @@ El módulo del Vendedor B2B (`/vendedor-b2b`) se rige bajo el estándar visual d
 - `ModalVidrio.tsx`: Diálogo modal accesible renderizado en Portal con superficie `.vidrio-popover`, tecla Escape y bloqueo de scroll.
 - Modales del módulo: `MisCotizacionesB2BModal`, `HistorialVentasB2BModal`, `ComprobanteB2BModal` y `NuevoClienteB2BModal`.
 
+### Vendedor B2B — Mis empresas y Cartera B2B
+- **Rutas:** `/vendedor-b2b/empresas` (listado, KPIs, cartera y mora) y `/vendedor-b2b/empresas/[id]` (detalle financiero, rentabilidad frente al cupo, obligaciones, abonos y avisos de pago).
+- **Servicio y hooks:** `carteras.service.ts` (`ICarterasService`), `useEmpresasB2B`, `useCarteraB2B` y `useEmpresaB2BDetalle`.
+- **Componentes en `src/features/vendedor-b2b/components/`:**
+  - `CarteraKPIs.tsx`: tarjetas `.vidrio` de empresas B2B, cupo disponible, saldo/mora y ganancia generada.
+  - `EmpresaB2BTabla.tsx`: listado filtrable por búsqueda, estado de crédito, mora y cartera activa, con botón **"Soltar crédito"** y enlace al detalle.
+  - `EmpresaB2BDetalle.tsx` y `EmpresaB2BHistorial.tsx`: ficha completa con cupos, ganancia vs. crédito otorgado, créditos vigentes/pagados/en mora, abonos confirmados y avisos reportados.
+  - `CarteraPanel.tsx`: tabla paginada de obligaciones de crédito con antigüedad ("tiempo pagando") y botón **"Avisar pago"**.
+  - `MoraPanel.tsx`: empresas con obligaciones vencidas ordenadas por mayor atraso.
+  - `SoltarCreditoModal.tsx`: carga de ganancia neta mensual, antigüedad y plazo con simulación previa (`EvaluadorCreditoB2B`) y envío a `pendiente_aprobacion`.
+  - `AvisarPagoModal.tsx`: reporte de transferencia/recibo (`facturacion:avisar-pago-credito`) sin modificar saldos directamente.
+- **Separación de funciones en `/admin-sucursal/clientes`:** `AvisosPagoTab.tsx` (bandeja para confirmar o rechazar avisos) y `AbonoCreditoDirectoModal.tsx` (abono directo administrativo con `facturacion:registrar-abono-credito`).
+
 ### Reglas de Diseño Obligatorias
 - Cero colores hexadecimales sueltos: usar siempre tokens de Tailwind (`bg-bg`, `text-text`, `text-text-muted`, `border-border`, etc.).
 - Tipografía: títulos en `font-titulos`, cuerpo en `font-sans`, códigos/SKU/consecutivos en `font-mono`. Pesos limitados a `font-normal`, `font-medium` y `font-semibold` (prohibido `font-bold`).

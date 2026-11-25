@@ -51,6 +51,7 @@ Antes de implementar o modificar código en cualquier módulo, consulta los docu
 ### 🧪 Pruebas Funcionales (.http)
 En el directorio [Http/](Http/) se encuentran escenarios listos para ejecutar con REST Client:
 * `13-facturacion.http`: Flujo completo de turno de caja, stock, facturación mostrador y B2B.
+* `32-mis-empresas-b2b.http`: Cartera corporativa B2B ("Mis empresas"), "Soltar crédito", mora, avisos de pago y abonos.
 * `24-importacion-masiva-productos.http`: Pruebas de importación masiva por CSV.
 * `04-auditoria.http`, `07-usuario-sucursales.http`, `01-autenticacion.http`, etc.
 
@@ -120,3 +121,12 @@ deno task seed:dev
 # Limpiar datos de negocio conservando al super-admin y permisos
 deno task seed:clean
 ```
+
+---
+
+## 5. Cartera Corporativa B2B ("Mis empresas")
+
+- **Migraciones aditivas (`Docs/database/cambios/`):** `010-creditos-b2b.sql`, `011-abonos-credito-b2b.sql`, `012-avisos-pago-credito-b2b.sql` (registradas en `aprovisionador.ts`).
+- **Permisos nuevos:** `facturacion:avisar-pago-credito` (`vendedor-b2b`, `super-admin`) y `facturacion:registrar-abono-credito` (`admin-sucursal`, `super-admin`).
+- **Endpoints (`/ventas`):** `GET /empresas-b2b`, `GET /empresas-b2b/:id`, `GET /cartera-b2b`, `GET /mora-b2b`, `POST /clientes/:id/solicitar-credito`, `POST /creditos-b2b/:id/avisar-pago`, `GET /avisos-pago`, `PUT /avisos-pago/:id/resolver`, `POST /creditos-b2b/:id/abonos`.
+- **Pantallas Frontend:** `/vendedor-b2b/empresas`, `/vendedor-b2b/empresas/[id]`, y bandeja/abono directo en `/admin-sucursal/clientes`.
