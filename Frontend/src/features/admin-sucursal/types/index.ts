@@ -4,3 +4,4 @@ export * from './branch-staff.types';
 export * from './branch-invoicing.types';
 export * from './branch-clients.types';
 export * from './branch-assets.types';
+export * from './branch-reports.types';

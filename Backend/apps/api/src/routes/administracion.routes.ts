@@ -58,6 +58,12 @@ import {
   consultarResumenDashboardController,
   consultarTendenciasVentasController,
 } from '../controllers/administracion/dashboard.controller.ts';
+import {
+  exportarReporteCsvController,
+  generarReporteInventarioController,
+  generarReporteProductosController,
+  generarReporteVentasController,
+} from '../controllers/administracion/reportes.controller.ts';
 
 // Códigos tal como están en la tabla `permisos` (seed).
 const PERMISO_SUCURSALES = 'administracion:gestionar-sucursales';
@@ -122,6 +128,15 @@ export function createAdministracionRoutes(container: AppContainer): Hono {
   api.get('/dashboard/ranking', authMiddleware(container, [PERMISO_METRICAS, PERMISO_METRICAS_GLOBALES]), consultarRankingProductosController(container));
   api.get('/dashboard/inventario', authMiddleware(container, [PERMISO_METRICAS, PERMISO_METRICAS_GLOBALES]), consultarComparativoInventarioController(container));
   api.get('/dashboard/resumen', authMiddleware(container, PERMISO_METRICAS_GLOBALES), consultarResumenDashboardController(container));
+
+  // Reportes del Admin de Sucursal (Fase 6)
+  api.get('/reportes/ventas/exportar', authMiddleware(container, [PERMISO_METRICAS, PERMISO_METRICAS_GLOBALES]), exportarReporteCsvController(container));
+  api.get('/reportes/ventas', authMiddleware(container, [PERMISO_METRICAS, PERMISO_METRICAS_GLOBALES]), generarReporteVentasController(container));
+  api.get('/reportes/productos/exportar', authMiddleware(container, [PERMISO_METRICAS, PERMISO_METRICAS_GLOBALES]), exportarReporteCsvController(container));
+  api.get('/reportes/productos', authMiddleware(container, [PERMISO_METRICAS, PERMISO_METRICAS_GLOBALES]), generarReporteProductosController(container));
+  api.get('/reportes/inventario/exportar', authMiddleware(container, [PERMISO_METRICAS, PERMISO_METRICAS_GLOBALES]), exportarReporteCsvController(container));
+  api.get('/reportes/inventario', authMiddleware(container, [PERMISO_METRICAS, PERMISO_METRICAS_GLOBALES]), generarReporteInventarioController(container));
+  api.get('/reportes/exportar', authMiddleware(container, [PERMISO_METRICAS, PERMISO_METRICAS_GLOBALES]), exportarReporteCsvController(container));
 
   return api;
 }

@@ -88,6 +88,13 @@ export class RangoFechasInvalidoError extends DomainError {
   constructor() { super('La fecha inicial no puede ser posterior a la fecha final.'); }
 }
 
+export class RangoExcedeMaximoError extends DomainError {
+  public readonly code = 'RANGO_EXCEDE_MAXIMO';
+  constructor(maxDias: number = 366) {
+    super(`El rango de fechas no puede superar los ${maxDias} días.`);
+  }
+}
+
 export class SedePrincipalNoInactivableError extends DomainError {
   public readonly code = 'SEDE_PRINCIPAL_NO_INACTIVABLE';
   constructor() {

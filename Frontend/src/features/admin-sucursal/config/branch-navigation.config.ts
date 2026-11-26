@@ -247,4 +247,26 @@ export const ASSETS_SECTION_TABS: readonly BranchTabItem[] = [
   },
 ] as const;
 
+/**
+ * Pestañas de navegación del submódulo de Reportes (/admin-sucursal/reportes/**).
+ */
+export const REPORTS_SECTION_TABS: readonly BranchTabItem[] = [
+  {
+    id: 'ventas',
+    label: 'Ventas',
+    href: '/admin-sucursal/reportes',
+    exact: true,
+  },
+  {
+    id: 'productos',
+    label: 'Productos',
+    href: '/admin-sucursal/reportes/productos',
+  },
+  {
+    id: 'inventario',
+    label: 'Inventario',
+    href: '/admin-sucursal/reportes/inventario',
+  },
+] as const;
+
 export const DEFAULT_DASHBOARD_PERIODO: DashboardPeriodo = 'hoy';
