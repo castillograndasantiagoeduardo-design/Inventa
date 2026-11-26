@@ -10,3 +10,6 @@ export * from './useBranchClients';
 export * from './useBranchAssets';
 export * from './useAssetMaintenance';
 export * from './useAssetCategories';
+export * from './useSalesReport';
+export * from './useProductsReport';
+export * from './useInventoryReport';

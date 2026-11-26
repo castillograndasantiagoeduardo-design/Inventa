@@ -60,6 +60,8 @@ export * from './src/modules/administracion/domain/repositories/IGestionUsuarioR
 export * from './src/modules/administracion/domain/repositories/IUsuarioSucursalRepository.ts';
 export * from './src/modules/administracion/domain/repositories/IAlertaStockRepository.ts';
 export * from './src/modules/administracion/domain/repositories/IMetricasAdminRepository.ts';
+export * from './src/modules/administracion/domain/repositories/IReportesAdminRepository.ts';
+export * from './src/modules/administracion/domain/services/FechaBogotaUtils.ts';
 export * from './src/modules/administracion/domain/repositories/IRolCatalogoRepository.ts';
 export * from './src/modules/administracion/domain/repositories/IResumenOrganizacionRepository.ts';
 export * from './src/modules/administracion/application/use-cases/CrearSucursalUseCase.ts';
@@ -93,6 +95,10 @@ export * from './src/modules/administracion/application/use-cases/ConsultarRendi
 export * from './src/modules/administracion/application/use-cases/ConsultarRankingProductosUseCase.ts';
 export * from './src/modules/administracion/application/use-cases/ConsultarComparativoInventarioUseCase.ts';
 export * from './src/modules/administracion/application/use-cases/ConsultarResumenDashboardUseCase.ts';
+export * from './src/modules/administracion/application/use-cases/GenerarReporteVentasUseCase.ts';
+export * from './src/modules/administracion/application/use-cases/GenerarReporteProductosUseCase.ts';
+export * from './src/modules/administracion/application/use-cases/GenerarReporteInventarioUseCase.ts';
+export * from './src/modules/administracion/application/use-cases/ExportarReporteCsvUseCase.ts';
 
 
 
